@@ -1,0 +1,16 @@
+# Build folders
+[Bb]in/
+[Oo]bj/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userprefs
+
+# Generated traces
+trace_logs.jsonl
+trace_logs.txt
+
+# Generated source files
+Program_Instrumented.cs

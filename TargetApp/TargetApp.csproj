@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <!-- Define custom configurations -->
+    <Configurations>Debug;Release;Trace</Configurations>
+  </PropertyGroup>
+
+  <!-- Default (Debug/Release): Include original, exclude instrumented -->
+  <ItemGroup Condition="'$(Configuration)' != 'Trace'">
+    <Compile Remove="Program_Instrumented.cs" />
+  </ItemGroup>
+
+  <!-- Trace Configuration: Include instrumented, exclude original -->
+  <ItemGroup Condition="'$(Configuration)' == 'Trace'">
+    <Compile Remove="Program.cs" />
+  </ItemGroup>
+
+</Project>
