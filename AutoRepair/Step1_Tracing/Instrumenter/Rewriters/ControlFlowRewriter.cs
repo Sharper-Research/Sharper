@@ -62,7 +62,6 @@ namespace Instrumenter.Rewriters
         // 4. Do-While Loops
         public override SyntaxNode? VisitDoStatement(DoStatementSyntax node)
         {
-            
             var line = GetLineNumber(node);
             var updatedNode = base.VisitDoStatement(node) as DoStatementSyntax;
             if (updatedNode == null) return node;
@@ -72,13 +71,10 @@ namespace Instrumenter.Rewriters
             );
         }
 
-
-
         // 5. For Loops
         public override SyntaxNode? VisitForStatement(ForStatementSyntax node)
         {
             var line = GetLineNumber(node);
-
             var updatedNode = base.VisitForStatement(node) as ForStatementSyntax;
             if (updatedNode == null) return node;
 
@@ -87,14 +83,11 @@ namespace Instrumenter.Rewriters
             );
         }
 
-
-
         // 6. ForEach Loops
         public override SyntaxNode? VisitForEachStatement(ForEachStatementSyntax node)
         {
             var line = GetLineNumber(node);
             var updatedNode = base.VisitForEachStatement(node) as ForEachStatementSyntax;
-
             if (updatedNode == null) return node;
 
             return updatedNode.WithStatement(
@@ -102,7 +95,41 @@ namespace Instrumenter.Rewriters
             );
         }
 
+        // 7. Switch Cases
+        public override SyntaxNode? VisitSwitchSection(SwitchSectionSyntax node)
+        {
+            var line = GetLineNumber(node);
+            var labels = string.Join(", ", node.Labels.Select(l => l.ToString()));
+            var updatedNode = base.VisitSwitchSection(node) as SwitchSectionSyntax;
+            if (updatedNode == null) return node;
 
+            var log = CreateLogStatement($"Switch Case [{labels}]", line);
+            return updatedNode.WithStatements(updatedNode.Statements.Insert(0, log));
+        }
 
+        // 8. Break Statements
+        public override SyntaxNode? VisitBreakStatement(BreakStatementSyntax node)
+        {
+            var line = GetLineNumber(node);
+            var log = CreateLogStatement("Break", line);
+            return SyntaxFactory.Block(log, node);
+        }
+
+        // 9. Continue Statements
+        public override SyntaxNode? VisitContinueStatement(ContinueStatementSyntax node)
+        {
+            var line = GetLineNumber(node);
+            var log = CreateLogStatement("Continue", line);
+
+            return SyntaxFactory.Block(log, node);
+        }
+
+        // 10. Return Statements
+        public override SyntaxNode? VisitReturnStatement(ReturnStatementSyntax node)
+        {
+            var line = GetLineNumber(node);
+            var log = CreateLogStatement("Return", line);
+            return SyntaxFactory.Block(log, node);
+        }
     }
 }
