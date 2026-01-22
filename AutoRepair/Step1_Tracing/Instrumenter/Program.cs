@@ -14,15 +14,28 @@ namespace Instrumenter
         {
             try 
             {
-                // Hardcoded absolute path for reliability in this specific environment
-                // Updated to point to the shared TargetApp in the root folder
-                string targetPath = @"C:\Users\manis\Desktop\Patching\TargetApp\Program.cs";
+                string targetPath;
+                string outputPath;
+
+                if (args.Length >= 2)
+                {
+                    targetPath = args[0];
+                    outputPath = args[1];
+                }
+                else
+                {
+                     // Fallback for debugging or manual run
+                     // Assuming running from AutoRepair/Step1_Tracing
+                     targetPath = Path.GetFullPath(Path.Combine("..", "..", "TargetApp", "Program.cs"));
+                     outputPath = Path.GetFullPath(Path.Combine("..", "..", "TargetApp", "Program_Instrumented.cs"));
+                }
                 
                 Console.WriteLine($"Searching for file at: {targetPath}");
 
                 if (!File.Exists(targetPath))
                 {
-                    Console.WriteLine("Error: File not found!");
+                    Console.WriteLine($"Error: File not found at {targetPath}!");
+                    Console.WriteLine("Usage: Instrumenter <InputFilePath> <OutputFilePath>");
                     return;
                 }
 
@@ -120,7 +133,6 @@ namespace TargetApp
 ";
                 newCode += Environment.NewLine + traceLoggerCode;
                 
-                string outputPath = @"C:\Users\manis\Desktop\Patching\TargetApp\Program_Instrumented.cs";
                 File.WriteAllText(outputPath, newCode);
                 Console.WriteLine($"Intrumented File Saved to: {outputPath}");
             }
