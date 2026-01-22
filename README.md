@@ -62,7 +62,7 @@ Patching/
 │   │   ├── restore_project.ps1     # Cleanup script to revert changes
 │   │   └── Instrumenter/           # C# Tool that rewrites source code
 │   │       ├── Program.cs          # Entry point & directory scanner
-│   │       └── Rewriters/          # Roslyn SyntaxRewriters (ControlFlow, Variables)
+│   │       └── Rewriters/          # Roslyn SyntaxRewriters (ControlFlow, Variables, Heap State and Exceptions/Assertions)
 │   ├── Step2_Constraints/          # (Future) Constraint analysis logic
 │   └── Step3_Repair/               # (Future) Patch generation logic
 ├── TargetApp/                      # The application to be repaired
