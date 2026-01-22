@@ -47,6 +47,62 @@ namespace Instrumenter.Rewriters
             return updatedNode;
         }
 
-        
+        // 3. While Loops
+        public override SyntaxNode? VisitWhileStatement(WhileStatementSyntax node)
+        {
+            var line = GetLineNumber(node);
+            var updatedNode = base.VisitWhileStatement(node) as WhileStatementSyntax;
+            if (updatedNode == null) return node;
+
+            return updatedNode.WithStatement(
+                InstrumentStatement(updatedNode.Statement, "While Loop", line)
+            );
+        }
+
+        // 4. Do-While Loops
+        public override SyntaxNode? VisitDoStatement(DoStatementSyntax node)
+        {
+            
+            var line = GetLineNumber(node);
+            var updatedNode = base.VisitDoStatement(node) as DoStatementSyntax;
+            if (updatedNode == null) return node;
+
+            return updatedNode.WithStatement(
+                InstrumentStatement(updatedNode.Statement, "Do-While Loop", line)
+            );
+        }
+
+
+
+        // 5. For Loops
+        public override SyntaxNode? VisitForStatement(ForStatementSyntax node)
+        {
+            var line = GetLineNumber(node);
+
+            var updatedNode = base.VisitForStatement(node) as ForStatementSyntax;
+            if (updatedNode == null) return node;
+
+            return updatedNode.WithStatement(
+                InstrumentStatement(updatedNode.Statement, "For Loop", line)
+            );
+        }
+
+
+
+        // 6. ForEach Loops
+        public override SyntaxNode? VisitForEachStatement(ForEachStatementSyntax node)
+        {
+            var line = GetLineNumber(node);
+            var updatedNode = base.VisitForEachStatement(node) as ForEachStatementSyntax;
+
+            if (updatedNode == null) return node;
+
+            return updatedNode.WithStatement(
+                InstrumentStatement(updatedNode.Statement, "ForEach Loop", line)
+            );
+        }
+
+
+
     }
 }
