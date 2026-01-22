@@ -12,5 +12,14 @@
 trace_logs.jsonl
 trace_logs.txt
 
-# Generated source files
+# Generated source files (Artifacts from Instrumentation)
 Program_Instrumented.cs
+TraceLogger.cs
+*.bak
+
+# Temporary & System Files
+*.log
+*.tmp
+thumbs.db
+desktop.ini
+.DS_Store

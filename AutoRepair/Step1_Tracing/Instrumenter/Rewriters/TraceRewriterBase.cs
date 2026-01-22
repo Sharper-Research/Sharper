@@ -9,16 +9,21 @@ namespace Instrumenter.Rewriters
     // Base class
     public abstract class TraceRewriterBase : CSharpSyntaxRewriter
     {
+        public string TargetFileName { get; set; } = "UnknownFile.cs";
+
         protected StatementSyntax CreateLogStatement(string context, int line)
         {
             string uniqueId = Guid.NewGuid().ToString();
-            return SyntaxFactory.ParseStatement($"TraceLogger.Log(\"{uniqueId}\", \"Program.cs\", {line}, \"{context}\");\n");
+            // Escape backslashes for string literal
+            var escapedFileName = TargetFileName.Replace("\\", "\\\\");
+            return SyntaxFactory.ParseStatement($"global::AutoRepairTracing.TraceLogger.Log(\"{uniqueId}\", \"{escapedFileName}\", {line}, \"{context}\");\n");
         }
 
         protected StatementSyntax CreateVariableLogStatement(string varName, string valueExpr, int line)
         {
             string uniqueId = Guid.NewGuid().ToString();
-            var code = $"TraceLogger.Log(\"{uniqueId}\", \"Program.cs\", {line}, \"Variable Update\", {valueExpr}, \"{varName}\");";
+            var escapedFileName = TargetFileName.Replace("\\", "\\\\");
+            var code = $"global::AutoRepairTracing.TraceLogger.Log(\"{uniqueId}\", \"{escapedFileName}\", {line}, \"Variable Update\", {valueExpr}, \"{varName}\");";
             return SyntaxFactory.ParseStatement(code + "\n");
         }
 

@@ -12,69 +12,93 @@ namespace Instrumenter
     {
         static void Main(string[] args)
         {
-            try 
+            if (args.Length < 1)
             {
-                string targetPath;
-                string outputPath;
+                Console.WriteLine("Usage: Instrumenter <ProjectRootPath>");
+                return;
+            }
 
-                if (args.Length >= 2)
-                {
-                    targetPath = args[0];
-                    outputPath = args[1];
-                }
-                else
-                {
-                     // Fallback for debugging or manual run
-                     // Assuming running from AutoRepair/Step1_Tracing
-                     targetPath = Path.GetFullPath(Path.Combine("..", "..", "TargetApp", "Program.cs"));
-                     outputPath = Path.GetFullPath(Path.Combine("..", "..", "TargetApp", "Program_Instrumented.cs"));
-                }
-                
-                Console.WriteLine($"Searching for file at: {targetPath}");
+            string rootPath = Path.GetFullPath(args[0]);
+            Console.WriteLine($"Instrumenting project at: {rootPath}");
 
-                if (!File.Exists(targetPath))
+            if (!Directory.Exists(rootPath))
+            {
+                Console.WriteLine($"Error: Directory not found at {rootPath}!");
+                return;
+            }
+
+            // 1. Generate TraceLogger
+            GenerateTraceLogger(rootPath);
+
+            // 2. Find and Instrument Files
+            var files = Directory.GetFiles(rootPath, "*.cs", SearchOption.AllDirectories)
+                .Where(f => !f.Contains("\\obj\\") && !f.Contains("\\bin\\") && !f.EndsWith("TraceLogger.cs"))
+                .ToList();
+
+            Console.WriteLine($"Found {files.Count} C# files to instrument.");
+
+            foreach (var file in files)
+            {
+                InstrumentFile(file, rootPath);
+            }
+            
+            Console.WriteLine("Instrumentation Complete.");
+        }
+
+        static void InstrumentFile(string filePath, string rootPath)
+        {
+            Console.WriteLine($"Processing: {filePath}");
+            try
+            {
+                // Create Backup if not exists
+                string backupPath = filePath + ".bak";
+                if (!File.Exists(backupPath))
                 {
-                    Console.WriteLine($"Error: File not found at {targetPath}!");
-                    Console.WriteLine("Usage: Instrumenter <InputFilePath> <OutputFilePath>");
-                    return;
+                    File.Copy(filePath, backupPath);
                 }
 
-                string code = File.ReadAllText(targetPath);
-                
-                Console.WriteLine("File read successfully. Parsing...");
+                string code = File.ReadAllText(filePath);
                 SyntaxTree tree = CSharpSyntaxTree.ParseText(code);
                 var root = tree.GetRoot();
 
-
-                // 0. Annotate Original Lines
-                Console.WriteLine("=== 0. Annotating Lines ===");
+                // 0. Annotate
                 var root0 = LineNumberAnnotator.Annotate(root);
 
-                // 1. Control Flow Decision
-                Console.WriteLine("=== 1. Control Flow Decision ===");
-                var rewriter1 = new ControlFlowRewriter();
+                // 1. Control Flow
+                var rewriter1 = new ControlFlowRewriter { TargetFileName = GetRelativePath(filePath, rootPath) };
                 var root1 = rewriter1.Visit(root0);
-                
+
                 // 2. Variable Values
-                Console.WriteLine("=== 2. Variable Values ===");
-                var rewriter2 = new VariableRewriter();
+                var rewriter2 = new VariableRewriter { TargetFileName = GetRelativePath(filePath, rootPath) };
                 var root2 = rewriter2.Visit(root1);
 
                 // 3. Heap State
-                Console.WriteLine("=== 3. Heap State ===");
-                var rewriter3 = new HeapRewriter();
+                var rewriter3 = new HeapRewriter { TargetFileName = GetRelativePath(filePath, rootPath) };
                 var root3 = rewriter3.Visit(root2);
 
-                // 4. Safety & Error Handling
-                Console.WriteLine("=== 4. Safety & Error Handling ===");
-                var rewriter4 = new SafetyRewriter();
+                // 4. Safety
+                var rewriter4 = new SafetyRewriter { TargetFileName = GetRelativePath(filePath, rootPath) };
                 var root4 = rewriter4.Visit(root3);
 
                 string newCode = root4.ToFullString();
+                File.WriteAllText(filePath, newCode);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Failed to instrument {filePath}: {ex.Message}");
+            }
+        }
 
-                // Inject TraceLogger
-                string traceLoggerCode = @"
-namespace TargetApp
+        static string GetRelativePath(string fullPath, string rootPath)
+        {
+            return Path.GetRelativePath(rootPath, fullPath);
+        }
+
+        static void GenerateTraceLogger(string rootPath)
+        {
+            string traceLoggerPath = Path.Combine(rootPath, "TraceLogger.cs");
+            string code = @"
+namespace AutoRepairTracing
 {
     public static class TraceLogger
     {
@@ -82,13 +106,8 @@ namespace TargetApp
 
         static TraceLogger()
         {
-            // Use environment variable for path if available, otherwise default
             var envPath = System.Environment.GetEnvironmentVariable(""TRACE_LOG_JSON_PATH"");
             LogJsonPath = string.IsNullOrEmpty(envPath) ? ""trace_logs.jsonl"" : envPath;
-
-            try { 
-                if(System.IO.File.Exists(LogJsonPath)) System.IO.File.Delete(LogJsonPath);
-            } catch {}
         }
 
         public static void Log(string uniqueId, string file, int line, string message, object? variableValue = null, string? variableName = null)
@@ -98,49 +117,32 @@ namespace TargetApp
 
             try
             {
-               // 1. Write to TXT (Console Output, captured by script)
-               var txtLog = $""[{timestamp}] [Thread {threadId}] {message} at {file}:{line} (ID: {uniqueId})"";
-               if (variableName != null)
-               {
-                   txtLog += $"" [Var {variableName}: {variableValue}]"";
-               }
-               System.Console.WriteLine(txtLog);
-
-               // 2. Write to JSON
-               var jsonEntryObj = new 
-               {
+                // JSON Output
+                var jsonEntryObj = new 
+                {
                     id = uniqueId,
-                    timestamp = timestamp,
-                    threadId = threadId,
+                    ts = timestamp,
+                    tid = threadId,
                     file = file,
                     line = line,
-                    message = message,
-                    variable = variableName != null ? new { name = variableName, value = variableValue?.ToString() } : null
-               };
-               string jsonLine = System.Text.Json.JsonSerializer.Serialize(jsonEntryObj);
-
-               lock (LogJsonPath)
-               {
+                    msg = message,
+                    var = variableName != null ? new { name = variableName, val = variableValue?.ToString() } : null
+                };
+                
+                string jsonLine = System.Text.Json.JsonSerializer.Serialize(jsonEntryObj);
+                
+                lock (LogJsonPath) // Simple file lock
+                {
                    System.IO.File.AppendAllText(LogJsonPath, jsonLine + System.Environment.NewLine);
-               }
+                }
             }
-            catch (System.Exception) 
-            {
-            }
+            catch {}
         }
     }
 }
 ";
-                newCode += Environment.NewLine + traceLoggerCode;
-                
-                File.WriteAllText(outputPath, newCode);
-                Console.WriteLine($"Intrumented File Saved to: {outputPath}");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"ERROR: {ex.Message}");
-                Console.WriteLine(ex.StackTrace);
-            }
+            File.WriteAllText(traceLoggerPath, code);
+            Console.WriteLine($"Generated TraceLogger.cs at {traceLoggerPath}");
         }
     }
 }
