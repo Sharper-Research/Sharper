@@ -14,9 +14,12 @@ namespace Instrumenter.Rewriters
         // - Catch Blocks: Log exceptions.
         // - Loops: Watchdog counters.
 
+        // - NEW: "Add to Google Doc (Pseudocode_V2) to keep tasks updated, please." - I read an article that mentioned that Pointer Dereferences are common errors in code and important to keep in consideration for any static analysis detector.
+        // Pointer Checks: Dereferences and NullReferenceExceptions.
+
         public override SyntaxNode? VisitMethodDeclaration(MethodDeclarationSyntax node)
         {
-            // TODO: WRAP Main body in Try/Catch to log specific crash details.
+            // TODO: WRAP Main body in Try/Catch to log specific crash details and NullReferenceExceptions.
             return base.VisitMethodDeclaration(node);
         }
 

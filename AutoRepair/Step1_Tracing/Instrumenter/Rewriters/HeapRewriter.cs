@@ -14,6 +14,9 @@ namespace Instrumenter.Rewriters
         // - Lists/Collections
         // - Objects
 
+        // - NEW: "Add to Google Doc (Pseudocode_V2) to keep tasks updated, please." - I read it is a common error in code and important to keep in consideration for any static analysis detector.
+        // References (Watch for Null/Unassigned dereferences)
+
         public override SyntaxNode? VisitLocalDeclarationStatement(LocalDeclarationStatementSyntax node)
         {
             // TODO: Check if variable is Array, List, or Object.
