@@ -6,6 +6,7 @@ namespace TargetApp
     {
         static void Main(string[] args)
         {
+            string? data = null;
             // Simulate input
             int check = 11; 
             int i = 0;
