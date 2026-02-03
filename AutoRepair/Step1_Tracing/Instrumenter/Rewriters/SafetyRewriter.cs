@@ -55,7 +55,55 @@ namespace Instrumenter.Rewriters
 
         public override SyntaxNode? VisitMethodDeclaration(MethodDeclarationSyntax node)
         {
-            // TODO: WRAP Main body in Try/Catch to log specific crash details and NullReferenceExceptions.
+            // IMPLEMENT: WRAP Main body in Try/Catch to log specific crash details and NullReferenceExceptions.
+            if (node.Identifier.Text == "Main" && node.Body != null)
+            {
+                var body = node.Body;
+                string uniqueId = Guid.NewGuid().ToString();
+                var escapedFileName = TargetFileName.Replace("\\", "\\\\");
+                var lineNumber = GetLineNumber(node);
+                
+                // Create catch block code as a statement block with proper TraceLogger calls
+                var catchBlock = SyntaxFactory.Block(
+                    SyntaxFactory.ExpressionStatement(
+                        SyntaxFactory.ParseExpression(
+                            $"global::AutoRepairTracing.TraceLogger.Log(\"{uniqueId}\", \"{escapedFileName}\", {lineNumber}, \"Exception Caught: \" + ex.Message, ex.Message, \"ex\")"
+                        )
+                    ),
+                    SyntaxFactory.ExpressionStatement(
+                        SyntaxFactory.ParseExpression(
+                            $"global::AutoRepairTracing.TraceLogger.Log(\"{Guid.NewGuid()}\", \"{escapedFileName}\", {lineNumber}, \"Exception Type: \" + ex.GetType().Name, ex.GetType().Name, \"exType\")"
+                        )
+                    )
+                );
+                
+                // Parse the entire try-catch as one statement to avoid formatting issues
+                var tryStatement = SyntaxFactory.ParseStatement(
+                    "try { } catch (System.Exception ex) { }"
+                ) as TryStatementSyntax;
+                
+                if (tryStatement != null)
+                {
+                    // Replace the try block with actual body
+                    tryStatement = tryStatement.WithBlock(body);
+                    
+                    // Replace the catch block with our logging code
+                    var catchClauses = SyntaxFactory.SingletonList(
+                        tryStatement.Catches[0]
+                            .WithBlock(catchBlock)
+                    );
+                    
+                    tryStatement = tryStatement.WithCatches(catchClauses);
+                    
+                    // Create new method with try-catch wrapped body
+                    var newMethod = node.WithBody(
+                        SyntaxFactory.Block(tryStatement)
+                    );
+                    
+                    return base.VisitMethodDeclaration(newMethod);
+                }
+            }
+            
             return base.VisitMethodDeclaration(node);
         }
 
@@ -67,20 +115,182 @@ namespace Instrumenter.Rewriters
 
         public override SyntaxNode? VisitWhileStatement(WhileStatementSyntax node)
         {
-            // TODO: INJECT a counter. IF counter > LIMIT, LOG "Infinite Loop Warning".
-            return base.VisitWhileStatement(node);
+            // IMPLEMENT: INJECT a counter. IF counter > LIMIT, LOG "Infinite Loop Warning".
+            const int LOOP_LIMIT = 10000;
+            string uniqueId = Guid.NewGuid().ToString();
+            var escapedFileName = TargetFileName.Replace("\\", "\\\\");
+            var lineNumber = GetLineNumber(node);
+            
+            // Create counter variable declaration: int __loopCounter_guid = 0;
+            var counterVarName = $"__loopCounter_{uniqueId.Replace("-", "_").Substring(0, 8)}";
+            var counterDeclaration = SyntaxFactory.ParseStatement(
+                $"int {counterVarName} = 0;"
+            );
+            
+            // Create counter increment and check: __loopCounter++; if (__loopCounter > LIMIT) { Log warning; break; }
+            var body = node.Statement;
+            var incrementAndCheck = SyntaxFactory.Block(
+                SyntaxFactory.ExpressionStatement(
+                    SyntaxFactory.ParseExpression($"{counterVarName}++")
+                ),
+                SyntaxFactory.IfStatement(
+                    SyntaxFactory.ParseExpression($"{counterVarName} > {LOOP_LIMIT}"),
+                    SyntaxFactory.Block(
+                        SyntaxFactory.ExpressionStatement(
+                            SyntaxFactory.ParseExpression(
+                                $"global::AutoRepairTracing.TraceLogger.Log(\"{uniqueId}\", \"{escapedFileName}\", {lineNumber}, \"Infinite Loop Warning: exceeded {LOOP_LIMIT} iterations\", {counterVarName}, \"loopCounter\")"
+                            )
+                        ),
+                        SyntaxFactory.BreakStatement()
+                    )
+                )
+            );
+            
+            // Wrap the loop body with counter increment and check
+            BlockSyntax wrappedBody;
+            if (body is BlockSyntax blockBody)
+            {
+                wrappedBody = blockBody.WithStatements(
+                    incrementAndCheck.Statements.AddRange(blockBody.Statements)
+                );
+            }
+            else
+            {
+                wrappedBody = SyntaxFactory.Block(
+                    incrementAndCheck.Statements.Add(body)
+                );
+            }
+            
+            // Create the instrumented while loop
+            var newWhile = node.WithStatement(wrappedBody);
+            
+            // Wrap in a block with counter declaration
+            var block = SyntaxFactory.Block(
+                counterDeclaration,
+                newWhile
+            );
+            
+            return block;
         }
 
         public override SyntaxNode? VisitForStatement(ForStatementSyntax node)
         {
-            // TODO: INJECT a counter. IF counter > LIMIT, LOG "Infinite Loop Warning".
-            return base.VisitForStatement(node);
+            // IMPLEMENT: INJECT a counter. IF counter > LIMIT, LOG "Infinite Loop Warning".
+            const int LOOP_LIMIT = 10000;
+            string uniqueId = Guid.NewGuid().ToString();
+            var escapedFileName = TargetFileName.Replace("\\", "\\\\");
+            var lineNumber = GetLineNumber(node);
+            
+            // Create counter variable declaration: int __loopCounter_guid = 0;
+            var counterVarName = $"__loopCounter_{uniqueId.Replace("-", "_").Substring(0, 8)}";
+            var counterDeclaration = SyntaxFactory.ParseStatement(
+                $"int {counterVarName} = 0;"
+            );
+            
+            // Create counter increment and check
+            var body = node.Statement;
+            var incrementAndCheck = SyntaxFactory.Block(
+                SyntaxFactory.ExpressionStatement(
+                    SyntaxFactory.ParseExpression($"{counterVarName}++")
+                ),
+                SyntaxFactory.IfStatement(
+                    SyntaxFactory.ParseExpression($"{counterVarName} > {LOOP_LIMIT}"),
+                    SyntaxFactory.Block(
+                        SyntaxFactory.ExpressionStatement(
+                            SyntaxFactory.ParseExpression(
+                                $"global::AutoRepairTracing.TraceLogger.Log(\"{uniqueId}\", \"{escapedFileName}\", {lineNumber}, \"Infinite Loop Warning: exceeded {LOOP_LIMIT} iterations\", {counterVarName}, \"loopCounter\")"
+                            )
+                        ),
+                        SyntaxFactory.BreakStatement()
+                    )
+                )
+            );
+            
+            // Wrap the loop body
+            BlockSyntax wrappedBody;
+            if (body is BlockSyntax blockBody)
+            {
+                wrappedBody = blockBody.WithStatements(
+                    incrementAndCheck.Statements.AddRange(blockBody.Statements)
+                );
+            }
+            else
+            {
+                wrappedBody = SyntaxFactory.Block(
+                    incrementAndCheck.Statements.Add(body)
+                );
+            }
+            
+            // Create instrumented for loop
+            var newFor = node.WithStatement(wrappedBody);
+            
+            // Wrap in block with counter
+            var block = SyntaxFactory.Block(
+                counterDeclaration,
+                newFor
+            );
+            
+            return block;
         }
         
         public override SyntaxNode? VisitDoStatement(DoStatementSyntax node)
         {
-             // TODO: INJECT a counter. IF counter > LIMIT, LOG "Infinite Loop Warning".
-             return base.VisitDoStatement(node);
+            // IMPLEMENT: INJECT a counter. IF counter > LIMIT, LOG "Infinite Loop Warning".
+            const int LOOP_LIMIT = 10000;
+            string uniqueId = Guid.NewGuid().ToString();
+            var escapedFileName = TargetFileName.Replace("\\", "\\\\");
+            var lineNumber = GetLineNumber(node);
+            
+            // Create counter variable declaration: int __loopCounter_guid = 0;
+            var counterVarName = $"__loopCounter_{uniqueId.Replace("-", "_").Substring(0, 8)}";
+            var counterDeclaration = SyntaxFactory.ParseStatement(
+                $"int {counterVarName} = 0;"
+            );
+            
+            // Create counter increment and check
+            var body = node.Statement;
+            var incrementAndCheck = SyntaxFactory.Block(
+                SyntaxFactory.ExpressionStatement(
+                    SyntaxFactory.ParseExpression($"{counterVarName}++")
+                ),
+                SyntaxFactory.IfStatement(
+                    SyntaxFactory.ParseExpression($"{counterVarName} > {LOOP_LIMIT}"),
+                    SyntaxFactory.Block(
+                        SyntaxFactory.ExpressionStatement(
+                            SyntaxFactory.ParseExpression(
+                                $"global::AutoRepairTracing.TraceLogger.Log(\"{uniqueId}\", \"{escapedFileName}\", {lineNumber}, \"Infinite Loop Warning: exceeded {LOOP_LIMIT} iterations\", {counterVarName}, \"loopCounter\")"
+                            )
+                        ),
+                        SyntaxFactory.BreakStatement()
+                    )
+                )
+            );
+            
+            // Wrap the do-body
+            BlockSyntax wrappedBody;
+            if (body is BlockSyntax blockBody)
+            {
+                wrappedBody = blockBody.WithStatements(
+                    incrementAndCheck.Statements.AddRange(blockBody.Statements)
+                );
+            }
+            else
+            {
+                wrappedBody = SyntaxFactory.Block(
+                    incrementAndCheck.Statements.Add(body)
+                );
+            }
+            
+            // Create instrumented do statement
+            var newDo = node.WithStatement(wrappedBody);
+            
+            // Wrap in block with counter
+            var block = SyntaxFactory.Block(
+                counterDeclaration,
+                newDo
+            );
+            
+            return block;
         }
     }
 }
