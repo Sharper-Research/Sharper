@@ -138,6 +138,12 @@ namespace AutoRepairTracing
             }
             catch {}
         }
+
+        public static T LogValue<T>(string uniqueId, string file, int line, string message, T value, string? variableName = null)
+        {
+            Log(uniqueId, file, line, message, value, variableName);
+            return value;
+        }
     }
 }
 ";

@@ -9,6 +9,21 @@ namespace Instrumenter.Rewriters
     // Traces: method entry, if/else, loops, switch, break/continue/return.
     public class ControlFlowRewriter : TraceRewriterBase
     {
+        private BlockSyntax InjectEntryLog(BlockSyntax body, string name, int line)
+        {
+            var log = CreateLogStatement($"Enter Method '{name}'", line);
+            return body.WithStatements(body.Statements.Insert(0, log));
+        }
+
+        private BlockSyntax CreateBodyForExpression(ExpressionSyntax expression, bool returnsVoid, string name, int line)
+        {
+            var log = CreateLogStatement($"Enter Method '{name}'", line);
+            StatementSyntax tail = returnsVoid
+                ? SyntaxFactory.ExpressionStatement(expression)
+                : SyntaxFactory.ReturnStatement(expression);
+            return SyntaxFactory.Block(log, tail);
+        }
+
         // 1. Method Entry
         public override SyntaxNode? VisitMethodDeclaration(MethodDeclarationSyntax node)
         {
@@ -18,10 +33,70 @@ namespace Instrumenter.Rewriters
 
             if (updatedNode.Body != null)
             {
-                var log = CreateLogStatement($"Enter Method '{node.Identifier.Text}'", line);
-                var newBody = updatedNode.Body.WithStatements(updatedNode.Body.Statements.Insert(0, log));
+                var newBody = InjectEntryLog(updatedNode.Body, node.Identifier.Text, line);
                 return updatedNode.WithBody(newBody);
             }
+
+            if (updatedNode.ExpressionBody != null)
+            {
+                bool returnsVoid = updatedNode.ReturnType is PredefinedTypeSyntax predefined
+                    && predefined.Keyword.IsKind(SyntaxKind.VoidKeyword);
+                var newBody = CreateBodyForExpression(updatedNode.ExpressionBody.Expression, returnsVoid, node.Identifier.Text, line);
+                return updatedNode
+                    .WithExpressionBody(null)
+                    .WithSemicolonToken(default)
+                    .WithBody(newBody);
+            }
+            return updatedNode;
+        }
+
+        public override SyntaxNode? VisitConstructorDeclaration(ConstructorDeclarationSyntax node)
+        {
+            var line = GetLineNumber(node);
+            var updatedNode = base.VisitConstructorDeclaration(node) as ConstructorDeclarationSyntax;
+            if (updatedNode == null) return node;
+
+            if (updatedNode.Body != null)
+            {
+                var newBody = InjectEntryLog(updatedNode.Body, node.Identifier.Text, line);
+                return updatedNode.WithBody(newBody);
+            }
+
+            if (updatedNode.ExpressionBody != null)
+            {
+                var newBody = CreateBodyForExpression(updatedNode.ExpressionBody.Expression, true, node.Identifier.Text, line);
+                return updatedNode
+                    .WithExpressionBody(null)
+                    .WithSemicolonToken(default)
+                    .WithBody(newBody);
+            }
+
+            return updatedNode;
+        }
+
+        public override SyntaxNode? VisitLocalFunctionStatement(LocalFunctionStatementSyntax node)
+        {
+            var line = GetLineNumber(node);
+            var updatedNode = base.VisitLocalFunctionStatement(node) as LocalFunctionStatementSyntax;
+            if (updatedNode == null) return node;
+
+            if (updatedNode.Body != null)
+            {
+                var newBody = InjectEntryLog(updatedNode.Body, node.Identifier.Text, line);
+                return updatedNode.WithBody(newBody);
+            }
+
+            if (updatedNode.ExpressionBody != null)
+            {
+                bool returnsVoid = updatedNode.ReturnType is PredefinedTypeSyntax predefined
+                    && predefined.Keyword.IsKind(SyntaxKind.VoidKeyword);
+                var newBody = CreateBodyForExpression(updatedNode.ExpressionBody.Expression, returnsVoid, node.Identifier.Text, line);
+                return updatedNode
+                    .WithExpressionBody(null)
+                    .WithSemicolonToken(default)
+                    .WithBody(newBody);
+            }
+
             return updatedNode;
         }
 
