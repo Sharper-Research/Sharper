@@ -6,7 +6,7 @@ Automated C# program repair system using runtime tracing and constraint solving.
 
 | Step | Module | Status | Details |
 | :--- | :--- | :--- | :--- |
-| **1** | **Tracing** | In Progress | Infrastructure ready. **ControlFlow & Variables** started (needs polish). **Heap & Safety** pending. |
+| **1** | **Tracing** | In Review | Infrastructure ready. |
 | **2** | **Constraints** | Todo | Analyze trace logs to identify failure conditions. |
 | **3** | **Repair** | Todo | Generate patches using Static Analysis. |
 
@@ -40,8 +40,27 @@ The tracing module modifies source code in-place to inject logging statements be
 ### Outputs
 
 Located in `AutoRepair\Step1_Tracing\`:
-- **trace_logs.jsonl**: JSON Lines file. The machine-readable execution trace (Variables, Line numbers, Timestamps).
-- **trace_logs.txt**: The standard console output of the Target App.
+- **trace_logs.jsonl**: JSON Lines file. The machine-readable execution trace.
+- **trace_logs.txt**: The standard console output of the Target App (stdout).
+
+#### JSONL Schema (per line)
+
+Each line is a JSON object with these fields:
+
+- `id`: Unique event id (GUID).
+- `ts`: Timestamp string (`yyyy-MM-dd HH:mm:ss.fff`).
+- `tid`: Thread id.
+- `file`: Relative file name where the trace was injected.
+- `line`: Source line number.
+- `msg`: Event message (e.g., `Enter Method`, `Variable Update`, `While Loop`, `Heap State`).
+- `var`: Optional variable payload. When present, it contains:
+   - `name`: Variable name.
+   - `val`: Variable value (stringified).
+
+#### TXT Output Notes
+
+- `trace_logs.txt` captures **stdout only**. Unhandled exceptions are printed to **stderr**, so they appear in the terminal even if the text file is empty.
+- To pinpoint the crash using logs, look at the **last JSONL entry** and match its `file`/`line` to the stack trace shown in the terminal.
 
 ### How to Restore
 

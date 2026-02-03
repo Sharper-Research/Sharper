@@ -5,7 +5,8 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Instrumenter.Rewriters
 {
-    // Step 1: Control Flow Decision
+    // Control Flow Decision
+    // Traces: method entry, if/else, loops, switch, break/continue/return.
     public class ControlFlowRewriter : TraceRewriterBase
     {
         // 1. Method Entry

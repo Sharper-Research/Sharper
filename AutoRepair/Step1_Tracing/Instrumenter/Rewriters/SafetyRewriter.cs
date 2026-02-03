@@ -4,9 +4,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Instrumenter.Rewriters
 {
-    // Step 4: Safety and Error Handling (For Sahal)
-    // I just Inherited from TraceRewriterBase for consistency, as I also did it for my files.
-    // The TODOs are from the google doc that we have, you can add more types to watch out for and traces that you might come up with while reading some material or programming.
+    // Safety and Error Handling
     public class SafetyRewriter : TraceRewriterBase
     {
         // Types to Watch:
@@ -14,9 +12,17 @@ namespace Instrumenter.Rewriters
         // - Catch Blocks: Log exceptions.
         // - Loops: Watchdog counters.
         // - Null Dereferences: Check for null before accessing members
-
-        // - NEW: "Add to Google Doc (Pseudocode_V2) to keep tasks updated, please." - I read an article that mentioned that Pointer Dereferences are common errors in code and important to keep in consideration for any static analysis detector.
+        // - NEW: "Add to Google Doc (Pseudocode_V2)"
         // Pointer Checks: Dereferences and NullReferenceExceptions.
+
+        // Step 2 (for crash coverage) - TRACE IDEAS ONLY:
+        // - Exception type + message + file/line when an exception is thrown/caught.
+        // - Null checks (optional): log when a variable is null before a dereference.
+        // - Divide-by-zero checks: log denominator value before division.
+        // - Checked arithmetic overflow: log when overflow occurs.
+        // - ObjectDisposed: log when Dispose called; log usage after dispose.
+        // - File/Path errors: log file paths before IO calls.
+        // - Task cancellation/timeout: log cancellation tokens + timeouts.
 
         public override SyntaxNode? VisitLocalDeclarationStatement(LocalDeclarationStatementSyntax node)
         {

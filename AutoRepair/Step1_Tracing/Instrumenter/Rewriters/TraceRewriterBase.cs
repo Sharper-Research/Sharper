@@ -6,7 +6,8 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Instrumenter.Rewriters
 {
-    // Base class
+    // Base rewriter utilities for tracing.
+    // Provides consistent log/line helpers used by all rewriters.
     public abstract class TraceRewriterBase : CSharpSyntaxRewriter
     {
         public string TargetFileName { get; set; } = "UnknownFile.cs";
@@ -14,7 +15,6 @@ namespace Instrumenter.Rewriters
         protected StatementSyntax CreateLogStatement(string context, int line)
         {
             string uniqueId = Guid.NewGuid().ToString();
-            // Escape backslashes for string literal
             var escapedFileName = TargetFileName.Replace("\\", "\\\\");
             return SyntaxFactory.ParseStatement($"global::AutoRepairTracing.TraceLogger.Log(\"{uniqueId}\", \"{escapedFileName}\", {line}, \"{context}\");\n");
         }

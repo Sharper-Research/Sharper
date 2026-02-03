@@ -5,13 +5,14 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Instrumenter.Rewriters
 {
+    // Adds original line annotations for stable logging.
+    // Used before rewriting so logs map to source lines.
     public class LineNumberAnnotator
     {
         public static readonly string AnnotationKind = "OriginalLine";
 
         public static SyntaxNode Annotate(SyntaxNode root)
         {
-            // Find all statements and method declarations
             var nodesToAnnotate = root.DescendantNodes()
                 .Where(n => n is StatementSyntax || n is MethodDeclarationSyntax);
 

@@ -5,7 +5,8 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Instrumenter.Rewriters
 {
-    // Step 2: Variable Values
+    // Variable Values
+    // Traces: assignments, ++/--, locals, index access, denominators.
     public class VariableRewriter : TraceRewriterBase
     {
         public override SyntaxNode? VisitExpressionStatement(ExpressionStatementSyntax node)
@@ -15,6 +16,8 @@ namespace Instrumenter.Rewriters
             if (visitedNode == null) return node;
 
             string? varName = null;
+            var logsBefore = new List<StatementSyntax>();
+            var logsAfter = new List<StatementSyntax>();
 
             // 12. Assignments (x = 5;)
             // 14. Compound Assignments (+=)
@@ -37,8 +40,41 @@ namespace Instrumenter.Rewriters
 
             if (varName != null)
             {
-                var log = CreateVariableLogStatement(varName, varName, line);
-                return SyntaxFactory.Block(visitedNode, log);
+                logsAfter.Add(CreateVariableLogStatement(varName, varName, line));
+            }
+
+            // Index expressions (arr[i])
+            var elementAccesses = visitedNode.Expression
+                .DescendantNodes()
+                .OfType<ElementAccessExpressionSyntax>();
+
+            foreach (var elementAccess in elementAccesses)
+            {
+                foreach (var arg in elementAccess.ArgumentList.Arguments)
+                {
+                    string indexName = $"index:{elementAccess.Expression}";
+                    logsBefore.Add(CreateVariableLogStatement(indexName, arg.Expression.ToString(), line));
+                }
+            }
+
+            // Denominators before division
+            var divisions = visitedNode.Expression
+                .DescendantNodes()
+                .OfType<BinaryExpressionSyntax>()
+                .Where(b => b.IsKind(SyntaxKind.DivideExpression));
+
+            foreach (var division in divisions)
+            {
+                logsBefore.Add(CreateVariableLogStatement("denominator", division.Right.ToString(), line));
+            }
+
+            if (logsBefore.Count > 0 || logsAfter.Count > 0)
+            {
+                var statements = new List<StatementSyntax>();
+                statements.AddRange(logsBefore);
+                statements.Add(visitedNode);
+                statements.AddRange(logsAfter);
+                return SyntaxFactory.Block(statements);
             }
 
             return visitedNode;
@@ -82,6 +118,7 @@ namespace Instrumenter.Rewriters
                 {
                     newStatements.Add(visited);
 
+                    // 11. Local Declarations (int x = 5)
                     if (statement is LocalDeclarationStatementSyntax localDecl)
                     {
                         var line = GetLineNumber(localDecl);
