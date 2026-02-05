@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -22,54 +25,111 @@ namespace Instrumenter.Rewriters
 
         public override SyntaxNode? VisitBlock(BlockSyntax node)
         {
-            var newStatements = new System.Collections.Generic.List<StatementSyntax>();
-
+            var statements = new List<StatementSyntax>();
             foreach (var statement in node.Statements)
             {
-                newStatements.Add((StatementSyntax)Visit(statement));
+                var visited = Visit(statement) as StatementSyntax ?? statement;
+                statements.Add(visited);
 
-                // If it's a local declaration for array/list/object, add heap logging
-                if (statement is LocalDeclarationStatementSyntax localDecl)
+                if (visited is LocalDeclarationStatementSyntax localDecl)
                 {
-                    var heapLogStatement = CreateHeapLogStatement(localDecl);
-                    if (heapLogStatement != null)
-                    {
-                        newStatements.Add(heapLogStatement);
-                    }
+                    var line = GetLineNumber(statement);
+                    statements.AddRange(CreateHeapLogStatements(localDecl, line));
                 }
             }
 
-            return node.WithStatements(SyntaxFactory.List(newStatements));
+            return node.WithStatements(SyntaxFactory.List(statements));
         }
 
-        private StatementSyntax? CreateHeapLogStatement(LocalDeclarationStatementSyntax node)
+        public override SyntaxNode? VisitSwitchSection(SwitchSectionSyntax node)
         {
-            var variables = node.Declaration.Variables;
-            if (variables.Count == 0)
-                return null;
-
-            var variable = variables[0];
-            var typeInfo = node.Declaration.Type;
-
-            // Check if it's an array type
-            bool isArray = typeInfo is ArrayTypeSyntax;
-
-            // Check if it's a List or Collection
-            string typeString = typeInfo.ToString();
-            bool isList = typeString.Contains("List") || typeString.Contains("Collection") || typeString.Contains("IEnumerable");
-
-            if (isArray || isList)
+            var statements = new List<StatementSyntax>();
+            foreach (var statement in node.Statements)
             {
-                var lineNumber = GetLineNumber(node);
-                string varName = variable.Identifier.Text;
+                var visited = Visit(statement) as StatementSyntax ?? statement;
+                statements.Add(visited);
 
-                // Create unique log entry
-                string uniqueId = Guid.NewGuid().ToString();
-                var escapedFileName = TargetFileName.Replace("\\", "\\\\");
-                string heapInfo = $"Heap State: {varName} ({typeString})";
-                var logCode = $"global::AutoRepairTracing.TraceLogger.Log(\"{uniqueId}\", \"{escapedFileName}\", {lineNumber}, \"{heapInfo}\");";
+                if (visited is LocalDeclarationStatementSyntax localDecl)
+                {
+                    var line = GetLineNumber(statement);
+                    statements.AddRange(CreateHeapLogStatements(localDecl, line));
+                }
+            }
 
-                return SyntaxFactory.ParseStatement(logCode + "\n");
+            return node.WithStatements(SyntaxFactory.List(statements));
+        }
+
+        private IEnumerable<StatementSyntax> CreateHeapLogStatements(LocalDeclarationStatementSyntax node, int lineNumber)
+        {
+            var typeSyntax = node.Declaration.Type;
+            var typeString = typeSyntax.ToString();
+
+            bool isArray = typeSyntax is ArrayTypeSyntax;
+            bool isCollection = typeString.Contains("List") || typeString.Contains("Collection") || typeString.Contains("IEnumerable");
+
+            if (!isArray && !isCollection)
+            {
+                yield break;
+            }
+
+            var escapedFileName = TargetFileName.Replace("\\", "\\\\");
+
+            foreach (var variable in node.Declaration.Variables)
+            {
+                var varName = variable.Identifier.Text;
+                var descriptor = BuildDescriptor(typeString, variable.Initializer?.Value, isArray);
+                var logCode =
+                    $"global::AutoRepairTracing.TraceLogger.Log(\"{Guid.NewGuid()}\", \"{escapedFileName}\", {lineNumber}, \"Heap State: {varName} ({descriptor})\");";
+                yield return SyntaxFactory.ParseStatement(logCode);
+            }
+        }
+
+        private string BuildDescriptor(string typeString, ExpressionSyntax? initializer, bool isArray)
+        {
+            var details = typeString;
+            var capacity = ExtractCapacity(initializer, isArray);
+            if (!string.IsNullOrEmpty(capacity))
+            {
+                details += $" size={capacity}";
+            }
+
+            return details;
+        }
+
+        private string? ExtractCapacity(ExpressionSyntax? initializer, bool isArray)
+        {
+            if (initializer == null)
+            {
+                return null;
+            }
+
+            if (isArray)
+            {
+                if (initializer is ArrayCreationExpressionSyntax arrayCreation)
+                {
+                    var ranks = arrayCreation.Type.RankSpecifiers
+                        .Select(rs => string.Join("x", rs.Sizes.Where(size => !size.IsMissing).Select(size => size.ToString())))
+                        .Where(s => !string.IsNullOrWhiteSpace(s));
+                    var combined = string.Join("x", ranks);
+                    return string.IsNullOrWhiteSpace(combined) ? null : combined;
+                }
+
+                if (initializer is ImplicitArrayCreationExpressionSyntax implicitArray)
+                {
+                    var elements = implicitArray.Initializer?.Expressions.Count ?? 0;
+                    return elements > 0 ? elements.ToString() : null;
+                }
+            }
+            else
+            {
+                if (initializer is ObjectCreationExpressionSyntax objectCreation && objectCreation.ArgumentList != null)
+                {
+                    var args = objectCreation.ArgumentList.Arguments;
+                    if (args.Count > 0)
+                    {
+                        return string.Join(",", args.Select(a => a.ToString()));
+                    }
+                }
             }
 
             return null;

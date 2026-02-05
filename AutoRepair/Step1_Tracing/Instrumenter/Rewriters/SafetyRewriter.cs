@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -24,99 +27,70 @@ namespace Instrumenter.Rewriters
         // - File/Path errors: log file paths before IO calls.
         // - Task cancellation/timeout: log cancellation tokens + timeouts.
 
-        public override SyntaxNode? VisitLocalDeclarationStatement(LocalDeclarationStatementSyntax node)
+        public override SyntaxNode? VisitBlock(BlockSyntax node)
         {
-            // Check if variable is assigned null and log it
-            var variables = node.Declaration.Variables;
-            if (variables.Count > 0)
+            var statements = new List<StatementSyntax>();
+            foreach (var statement in node.Statements)
             {
-                var variable = variables[0];
-                if (variable.Initializer != null)
+                var visited = Visit(statement) as StatementSyntax ?? statement;
+                statements.Add(visited);
+
+                if (visited is LocalDeclarationStatementSyntax localDecl)
                 {
-                    var initValue = variable.Initializer.Value.ToString();
-                    if (initValue == "null")
-                    {
-                        var varName = variable.Identifier.Text;
-                        string uniqueId = Guid.NewGuid().ToString();
-                        var escapedFileName = TargetFileName.Replace("\\", "\\\\");
-                        var lineNumber = GetLineNumber(node);
-
-                        // Add a statement that logs null assignment
-                        var logStatement = SyntaxFactory.ParseStatement(
-                            $"global::AutoRepairTracing.TraceLogger.Log(\"{uniqueId}\", \"{escapedFileName}\", {lineNumber}, \"Null Assignment Warning\", \"null\", \"{varName}\");\n");
-
-                        // Return the original declaration
-                        return base.VisitLocalDeclarationStatement(node);
-                    }
+                    var line = GetLineNumber(statement);
+                    statements.AddRange(CreateNullAssignmentLogs(localDecl, line));
                 }
             }
-            return base.VisitLocalDeclarationStatement(node);
-        }
 
-        public override SyntaxNode? VisitMemberAccessExpression(MemberAccessExpressionSyntax node)
-        {
-            // Log member access for debugging - helps identify null reference patterns
-            return base.VisitMemberAccessExpression(node);
+            return node.WithStatements(SyntaxFactory.List(statements));
         }
 
         public override SyntaxNode? VisitMethodDeclaration(MethodDeclarationSyntax node)
         {
-            // IMPLEMENT: WRAP Main body in Try/Catch to log specific crash details and NullReferenceExceptions.
-            if (node.Identifier.Text == "Main" && node.Body != null)
+            var updatedNode = base.VisitMethodDeclaration(node) as MethodDeclarationSyntax;
+            if (updatedNode == null || updatedNode.Body == null)
             {
-                var body = node.Body;
-                string uniqueId = Guid.NewGuid().ToString();
-                var escapedFileName = TargetFileName.Replace("\\", "\\\\");
-                var lineNumber = GetLineNumber(node);
-                
-                // Create catch block code as a statement block with proper TraceLogger calls
-                var catchBlock = SyntaxFactory.Block(
-                    SyntaxFactory.ExpressionStatement(
-                        SyntaxFactory.ParseExpression(
-                            $"global::AutoRepairTracing.TraceLogger.Log(\"{uniqueId}\", \"{escapedFileName}\", {lineNumber}, \"Exception Caught: \" + ex.Message, ex.Message, \"ex\")"
-                        )
-                    ),
-                    SyntaxFactory.ExpressionStatement(
-                        SyntaxFactory.ParseExpression(
-                            $"global::AutoRepairTracing.TraceLogger.Log(\"{Guid.NewGuid()}\", \"{escapedFileName}\", {lineNumber}, \"Exception Type: \" + ex.GetType().Name, ex.GetType().Name, \"exType\")"
-                        )
-                    )
-                );
-                
-                // Parse the entire try-catch as one statement to avoid formatting issues
-                var tryStatement = SyntaxFactory.ParseStatement(
-                    "try { } catch (System.Exception ex) { }"
-                ) as TryStatementSyntax;
-                
-                if (tryStatement != null)
-                {
-                    // Replace the try block with actual body
-                    tryStatement = tryStatement.WithBlock(body);
-                    
-                    // Replace the catch block with our logging code
-                    var catchClauses = SyntaxFactory.SingletonList(
-                        tryStatement.Catches[0]
-                            .WithBlock(catchBlock)
-                    );
-                    
-                    tryStatement = tryStatement.WithCatches(catchClauses);
-                    
-                    // Create new method with try-catch wrapped body
-                    var newMethod = node.WithBody(
-                        SyntaxFactory.Block(tryStatement)
-                    );
-                    
-                    return base.VisitMethodDeclaration(newMethod);
-                }
+                return node;
             }
-            
-            return base.VisitMethodDeclaration(node);
+
+            if (IsAlreadyWrapped(updatedNode.Body))
+            {
+                return updatedNode;
+            }
+
+            var lineNumber = GetLineNumber(node);
+            var tryStatement = SyntaxFactory.TryStatement()
+                .WithBlock(updatedNode.Body)
+                .WithCatches(SyntaxFactory.SingletonList<CatchClauseSyntax>(CreateMethodCatchClause(lineNumber)));
+
+            return updatedNode.WithBody(SyntaxFactory.Block(tryStatement));
         }
 
         public override SyntaxNode? VisitCatchClause(CatchClauseSyntax node)
         {
-            // TODO: INJECT logging of the exception being caught.
-            return base.VisitCatchClause(node);
+            var updatedNode = base.VisitCatchClause(node) as CatchClauseSyntax;
+            if (updatedNode == null)
+            {
+                return node;
+            }
+
+            var declaration = updatedNode.Declaration ??
+                SyntaxFactory.CatchDeclaration(SyntaxFactory.ParseTypeName("System.Exception"), SyntaxFactory.Identifier("__autoRepairCaughtEx"));
+
+            updatedNode = updatedNode.WithDeclaration(declaration);
+
+            if (updatedNode.Block == null)
+            {
+                return updatedNode;
+            }
+
+            var exIdentifier = declaration.Identifier.Text;
+            var escapedFileName = TargetFileName.Replace("\\", "\\\\");
+            var lineNumber = GetLineNumber(node);
+
+            var logStatements = CreateExceptionCatchLogs(exIdentifier, escapedFileName, lineNumber);
+            var newStatements = updatedNode.Block.Statements.InsertRange(0, logStatements);
+            return updatedNode.WithBlock(updatedNode.Block.WithStatements(newStatements));
         }
 
         public override SyntaxNode? VisitWhileStatement(WhileStatementSyntax node)
@@ -297,6 +271,53 @@ namespace Instrumenter.Rewriters
             );
             
             return block;
+        }
+
+        private IEnumerable<StatementSyntax> CreateNullAssignmentLogs(LocalDeclarationStatementSyntax node, int lineNumber)
+        {
+            foreach (var variable in node.Declaration.Variables)
+            {
+                if (variable.Initializer != null && variable.Initializer.Value.IsKind(SyntaxKind.NullLiteralExpression))
+                {
+                    yield return CreateNullAssignmentLog(variable.Identifier.Text, lineNumber);
+                }
+            }
+        }
+
+        private StatementSyntax CreateNullAssignmentLog(string variableName, int lineNumber)
+        {
+            var escapedFileName = TargetFileName.Replace("\\", "\\\\");
+            return SyntaxFactory.ParseStatement(
+                $"global::AutoRepairTracing.TraceLogger.Log(\"{Guid.NewGuid()}\", \"{escapedFileName}\", {lineNumber}, \"Null Assignment Warning\", \"null\", \"{variableName}\");");
+        }
+
+        private bool IsAlreadyWrapped(BlockSyntax body)
+        {
+            return body.Statements.Count == 1 && body.Statements[0] is TryStatementSyntax;
+        }
+
+        private CatchClauseSyntax CreateMethodCatchClause(int lineNumber)
+        {
+            var template = SyntaxFactory.ParseStatement("try { } catch (System.Exception ex) { }") as TryStatementSyntax;
+            if (template == null || template.Catches.Count == 0)
+            {
+                throw new InvalidOperationException("Failed to create catch template.");
+            }
+
+            var escapedFileName = TargetFileName.Replace("\\", "\\\\");
+            var catchLogs = CreateExceptionCatchLogs("ex", escapedFileName, lineNumber);
+            var catchBlock = SyntaxFactory.Block(catchLogs);
+            return template.Catches[0].WithBlock(catchBlock);
+        }
+
+        private IEnumerable<StatementSyntax> CreateExceptionCatchLogs(string identifier, string escapedFileName, int lineNumber)
+        {
+            yield return SyntaxFactory.ParseStatement(
+                $"global::AutoRepairTracing.TraceLogger.Log(\"{Guid.NewGuid()}\", \"{escapedFileName}\", {lineNumber}, \"Exception Caught\", {identifier}.Message, \"{identifier}.Message\");");
+            yield return SyntaxFactory.ParseStatement(
+                $"global::AutoRepairTracing.TraceLogger.Log(\"{Guid.NewGuid()}\", \"{escapedFileName}\", {lineNumber}, \"Exception Type\", {identifier}.GetType().FullName, \"{identifier}.Type\");");
+            yield return SyntaxFactory.ParseStatement(
+                $"global::AutoRepairTracing.TraceLogger.Log(\"{Guid.NewGuid()}\", \"{escapedFileName}\", {lineNumber}, \"Exception Stack\", {identifier}.StackTrace ?? string.Empty, \"{identifier}.Stack\");");
         }
     }
 }
