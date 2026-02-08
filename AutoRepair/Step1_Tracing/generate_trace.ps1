@@ -5,8 +5,14 @@ $targetAppProject = Join-Path $targetAppDir "TargetApp.csproj"
 $instrumenterProject = Join-Path $PSScriptRoot "Instrumenter\Instrumenter.csproj"
 $logFileTxt = Join-Path $PSScriptRoot "trace_logs.txt"
 $logFileJson = Join-Path $PSScriptRoot "trace_logs.jsonl"
+$restoreScript = Join-Path $PSScriptRoot "restore_project.ps1"
 
 Write-Host "=== Step 1: Generating Trace Logs ===" -ForegroundColor Cyan
+
+if (Test-Path $restoreScript) {
+    Write-Host "0. Restoring TargetApp from backups..." -ForegroundColor Yellow
+    & $restoreScript $targetAppDir | Out-Null
+}
 
 # Clean previous logs
 if (Test-Path $logFileJson) { Remove-Item $logFileJson }
