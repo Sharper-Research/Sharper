@@ -1,0 +1,29 @@
+
+
+Hey Sahal, I was looking at the violations.json output and I noticed something.
+
+The BufferBoundsRule catches buf1 fine: it sees index:buf1 = 10 and knows
+buf1 is size 10, so it flags it, makes sense.
+
+But for buf2, there's no BufferBoundsRule hit at all. It only shows up as an
+ExceptionRule (the crash). Shouldn't the bounds rule also catch buf2?
+
+I think the isssue mightt be that
+  
+  In Program.cs we create buf2 = new int[8], so the heap logger records
+    "buf2 has size 8".
+  
+  But then we call Worker.RunLoop2(buf2, 11), and inside RunLoop2 the
+    parameter is called "buffer", not "buf2".
+  
+  So the trace logs "index:buffer = 11", and the BufferBoundsRule asks
+    "what's the size of buffer?", but StateTracker only knows about "buf2",
+    not "buffer". They're the same array but the names don't match.
+
+So basically the rule can't connect "buffer" (the parameter name inside the
+method) back to "buf2" (the original variable name where it was allocated).
+
+I don't think this we r handling this right now, but correct me if I am wrong. 
+The StateTracker doesn't do any kind of name aliasing or parameter-to-argument
+mapping. Is this something we need to fix, or is it fine for now since the
+ExceptionRule still catches it anyway?
