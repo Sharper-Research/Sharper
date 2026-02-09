@@ -12,16 +12,30 @@ namespace Instrumenter.Rewriters
     {
         private ExpressionSyntax CreateValueLogExpression(string varName, ExpressionSyntax valueExpr, int line)
         {
+            var literal = SyntaxFactory.LiteralExpression(
+                SyntaxKind.StringLiteralExpression,
+                SyntaxFactory.Literal(varName));
+            return CreateValueLogExpression(literal, valueExpr, line);
+        }
+
+        private ExpressionSyntax CreateValueLogExpression(ExpressionSyntax varNameExpression, ExpressionSyntax valueExpr, int line)
+        {
             string uniqueId = Guid.NewGuid().ToString();
             var escapedFileName = TargetFileName.Replace("\\", "\\\\");
             var valueCode = valueExpr.ToString();
-            var code = $"global::AutoRepairTracing.TraceLogger.LogValue(\"{uniqueId}\", \"{escapedFileName}\", {line}, \"Variable Update\", {valueCode}, \"{varName}\")";
+            var varNameCode = varNameExpression.ToString();
+            var code = $"global::AutoRepairTracing.TraceLogger.LogValue(\"{uniqueId}\", \"{escapedFileName}\", {line}, \"Variable Update\", {valueCode}, {varNameCode})";
             return SyntaxFactory.ParseExpression(code);
         }
 
         public override SyntaxNode? VisitExpressionStatement(ExpressionStatementSyntax node)
         {
             var line = GetLineNumber(node);
+            var shouldSnapshotArray = node.Expression is AssignmentExpressionSyntax originalAssignment &&
+                                      originalAssignment.Left is ElementAccessExpressionSyntax elementAccessOriginal
+                                          ? elementAccessOriginal.Expression.ToString()
+                                          : null;
+
             var visitedNode = base.VisitExpressionStatement(node) as ExpressionStatementSyntax;
             if (visitedNode == null) return node;
 
@@ -82,6 +96,11 @@ namespace Instrumenter.Rewriters
                 logsBefore.Add(CreateVariableLogStatement("denominator", division.Right.ToString(), line));
             }
 
+            if (shouldSnapshotArray != null)
+            {
+                logsAfter.Add(CreateArraySnapshotStatement(shouldSnapshotArray, line));
+            }
+
             if (logsBefore.Count > 0 || logsAfter.Count > 0)
             {
                 var statements = new List<StatementSyntax>();
@@ -99,6 +118,12 @@ namespace Instrumenter.Rewriters
             var line = GetLineNumber(node);
             var updatedNode = base.VisitAssignmentExpression(node) as AssignmentExpressionSyntax;
             if (updatedNode == null) return node;
+
+            if (updatedNode.Left is ElementAccessExpressionSyntax elementAccess)
+            {
+                var varNameExpr = BuildIndexedNameExpression(elementAccess);
+                return CreateValueLogExpression(varNameExpr, updatedNode, line);
+            }
 
             var varName = updatedNode.Left.ToString();
             return CreateValueLogExpression(varName, updatedNode, line);
@@ -188,6 +213,47 @@ namespace Instrumenter.Rewriters
                 }
             }
             return node.WithStatements(SyntaxFactory.List(newStatements));
+        }
+
+        private ExpressionSyntax BuildIndexedNameExpression(ElementAccessExpressionSyntax elementAccess)
+        {
+            var baseName = elementAccess.Expression.ToString();
+            var indexExpressions = elementAccess.ArgumentList.Arguments
+                .Select(arg => arg.Expression.ToString())
+                .ToList();
+
+            if (indexExpressions.Count == 0)
+            {
+                return SyntaxFactory.LiteralExpression(
+                    SyntaxKind.StringLiteralExpression,
+                    SyntaxFactory.Literal(baseName));
+            }
+
+            var concatArgs = new List<string>
+            {
+                $"\"{baseName}[\""
+            };
+
+            for (int i = 0; i < indexExpressions.Count; i++)
+            {
+                concatArgs.Add(indexExpressions[i]);
+                if (i < indexExpressions.Count - 1)
+                {
+                    concatArgs.Add("\",\""); // separator between indices
+                }
+            }
+
+            concatArgs.Add("\"]\"");
+            var expression = $"string.Concat({string.Join(", ", concatArgs)})";
+            return SyntaxFactory.ParseExpression(expression);
+        }
+
+        private StatementSyntax CreateArraySnapshotStatement(string arrayExpression, int line)
+        {
+            string uniqueId = Guid.NewGuid().ToString();
+            var escapedFileName = TargetFileName.Replace("\\", "\\\\");
+            var code = $"global::AutoRepairTracing.TraceLogger.LogArray(\"{uniqueId}\", \"{escapedFileName}\", {line}, \"Array Snapshot\", {arrayExpression}, \"{arrayExpression}\");";
+            return SyntaxFactory.ParseStatement(code + "\n");
         }
     }
 }

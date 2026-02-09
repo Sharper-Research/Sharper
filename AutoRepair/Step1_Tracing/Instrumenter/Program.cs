@@ -98,6 +98,8 @@ namespace Instrumenter
         {
             string traceLoggerPath = Path.Combine(rootPath, "TraceLogger.cs");
             string code = @"
+using System.Linq;
+
 namespace AutoRepairTracing
 {
     public static class TraceLogger
@@ -143,6 +145,18 @@ namespace AutoRepairTracing
         {
             Log(uniqueId, file, line, message, value, variableName);
             return value;
+        }
+
+        public static void LogArray(string uniqueId, string file, int line, string message, System.Array array, string? variableName = null)
+        {
+            object? snapshot = null;
+            if (array != null)
+            {
+                var values = array.Cast<object?>()
+                    .Select(v => v?.ToString() ?? ""null"");
+                snapshot = ""["" + string.Join("", "", values) + ""]"";
+            }
+            Log(uniqueId, file, line, message, snapshot, variableName);
         }
     }
 }
