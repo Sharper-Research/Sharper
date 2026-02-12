@@ -1,44 +1,140 @@
 [
   {
-    "rule": "BufferBoundsRule",
-    "message": "Index 10 is outside bounds of buffer (size 10).",
+    "predicate": "BufferInBounds(index:buffer, buffer)",
+    "assertion": "0 <= index:buffer AND index:buffer < heap.size(buffer)",
+    "bindings": {
+      "index:buffer": 10,
+      "heap.size(buffer)": 10,
+      "buffer.contents": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10"
+      ]
+    },
+    "result": false,
     "file": "Worker.cs",
     "line": 13,
-    "traceId": "e09abbe2-3e50-4e83-925a-211ebc0d9b61"
+    "traceId": "b8a7ff39-7f8b-454e-a0ea-a193e050a7a0"
   },
   {
-    "rule": "ExceptionRule",
-    "message": "Unhandled exception observed: System.IndexOutOfRangeException",
+    "predicate": "NoUnhandledException(event)",
+    "assertion": "event.exception == null",
+    "bindings": {
+      "event.exception.type": "System.IndexOutOfRangeException"
+    },
+    "result": false,
     "file": "Worker.cs",
     "line": 7,
-    "traceId": "51cf5cd9-c076-4a82-832f-9a106e9cd237"
+    "traceId": "dd87c2cc-b014-4210-98f3-2bda321c997b"
   },
   {
-    "rule": "BufferBoundsRule",
-    "message": "Index 11 is outside bounds of buffer (size 8).",
+    "predicate": "BufferInBounds(index:buffer, buffer)",
+    "assertion": "0 <= index:buffer AND index:buffer < heap.size(buffer)",
+    "bindings": {
+      "index:buffer": 11,
+      "heap.size(buffer)": 8,
+      "buffer.contents": [
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0"
+      ]
+    },
+    "result": false,
     "file": "Worker.cs",
     "line": 26,
-    "traceId": "5fef446b-6f64-4d24-bef9-62e32d3496e0"
+    "traceId": "6464aab7-f914-4db2-b603-8e7e0a3bea76"
   },
   {
-    "rule": "ExceptionRule",
-    "message": "Unhandled exception observed: System.IndexOutOfRangeException",
+    "predicate": "NoUnhandledException(event)",
+    "assertion": "event.exception == null",
+    "bindings": {
+      "event.exception.type": "System.IndexOutOfRangeException"
+    },
+    "result": false,
     "file": "Worker.cs",
     "line": 20,
-    "traceId": "3436f0f9-8f4c-4c52-a451-ce9ab13902d8"
+    "traceId": "aa939282-df3d-4077-86dc-181ce65a07ef"
   },
   {
-    "rule": "BufferBoundsRule",
-    "message": "Index 10 is outside bounds of buf1 (size 10).",
+    "predicate": "BufferInBounds(index:alias, alias)",
+    "assertion": "0 <= index:alias AND index:alias < heap.size(alias)",
+    "bindings": {
+      "index:alias": 10,
+      "heap.size(alias)": 10,
+      "alias.contents": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10"
+      ]
+    },
+    "result": false,
+    "file": "Worker.cs",
+    "line": 35,
+    "traceId": "7a374a35-852e-49be-9af1-81ddbc96aad8"
+  },
+  {
+    "predicate": "NoUnhandledException(event)",
+    "assertion": "event.exception == null",
+    "bindings": {
+      "event.exception.type": "System.IndexOutOfRangeException"
+    },
+    "result": false,
+    "file": "Worker.cs",
+    "line": 32,
+    "traceId": "03816de5-6c1b-475a-8100-ac659442dc73"
+  },
+  {
+    "predicate": "BufferInBounds(index:buf1, buf1)",
+    "assertion": "0 <= index:buf1 AND index:buf1 < heap.size(buf1)",
+    "bindings": {
+      "index:buf1": 10,
+      "heap.size(buf1)": 10,
+      "buf1.contents": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10"
+      ]
+    },
+    "result": false,
     "file": "Program.cs",
-    "line": 20,
-    "traceId": "228fb989-f457-4255-b290-9e626b8a3ab3"
+    "line": 23,
+    "traceId": "20f4959f-ed46-427d-9fb7-c174d04fdc34"
   },
   {
-    "rule": "ExceptionRule",
-    "message": "Unhandled exception observed: System.IndexOutOfRangeException",
+    "predicate": "NoUnhandledException(event)",
+    "assertion": "event.exception == null",
+    "bindings": {
+      "event.exception.type": "System.IndexOutOfRangeException"
+    },
+    "result": false,
     "file": "Program.cs",
     "line": 7,
-    "traceId": "8f482f59-29e9-4a74-9ca8-956970bf5480"
+    "traceId": "64920fec-b98d-496f-af57-0d7d1965d1d4"
   }
 ]

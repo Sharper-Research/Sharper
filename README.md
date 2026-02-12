@@ -7,7 +7,7 @@ Automated C# program repair system using runtime tracing and constraint solving.
 | Step | Module | Status | Details |
 | :--- | :--- | :--- | :--- |
 | **1** | **Tracing** | In Review | Infrastructure ready. |
-| **2** | **Constraints** | Todo | Analyze trace logs to identify failure conditions. |
+| **2** | **Constraints** | In Progress | Analyze trace logs to identify failure conditions. |
 | **3** | **Repair** | Todo | Generate patches using Static Analysis. |
 
 ## Architecture & Scalability
