@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -9,19 +10,28 @@ namespace Instrumenter.Rewriters
     // Traces: method entry, if/else, loops, switch, break/continue/return.
     public class ControlFlowRewriter : TraceRewriterBase
     {
-        private BlockSyntax InjectEntryLog(BlockSyntax body, string name, int line)
+        private BlockSyntax InjectEntryLog(BlockSyntax body, string name, int line, ParameterListSyntax? parameters = null)
         {
-            var log = CreateLogStatement($"Enter Method '{name}'", line);
-            return body.WithStatements(body.Statements.Insert(0, log));
+            var inserts = new List<StatementSyntax>
+            {
+                CreateLogStatement($"Enter Method '{name}'", line)
+            };
+            inserts.AddRange(CreateParameterArrayLogs(parameters, line, name));
+            return body.WithStatements(body.Statements.InsertRange(0, inserts));
         }
 
-        private BlockSyntax CreateBodyForExpression(ExpressionSyntax expression, bool returnsVoid, string name, int line)
+        private BlockSyntax CreateBodyForExpression(ExpressionSyntax expression, bool returnsVoid, string name, int line, ParameterListSyntax? parameters = null)
         {
-            var log = CreateLogStatement($"Enter Method '{name}'", line);
+            var statements = new List<StatementSyntax>
+            {
+                CreateLogStatement($"Enter Method '{name}'", line)
+            };
+            statements.AddRange(CreateParameterArrayLogs(parameters, line, name));
             StatementSyntax tail = returnsVoid
                 ? SyntaxFactory.ExpressionStatement(expression)
                 : SyntaxFactory.ReturnStatement(expression);
-            return SyntaxFactory.Block(log, tail);
+            statements.Add(tail);
+            return SyntaxFactory.Block(statements);
         }
 
         // 1. Method Entry
@@ -33,7 +43,7 @@ namespace Instrumenter.Rewriters
 
             if (updatedNode.Body != null)
             {
-                var newBody = InjectEntryLog(updatedNode.Body, node.Identifier.Text, line);
+                var newBody = InjectEntryLog(updatedNode.Body, node.Identifier.Text, line, updatedNode.ParameterList);
                 return updatedNode.WithBody(newBody);
             }
 
@@ -41,7 +51,7 @@ namespace Instrumenter.Rewriters
             {
                 bool returnsVoid = updatedNode.ReturnType is PredefinedTypeSyntax predefined
                     && predefined.Keyword.IsKind(SyntaxKind.VoidKeyword);
-                var newBody = CreateBodyForExpression(updatedNode.ExpressionBody.Expression, returnsVoid, node.Identifier.Text, line);
+                var newBody = CreateBodyForExpression(updatedNode.ExpressionBody.Expression, returnsVoid, node.Identifier.Text, line, updatedNode.ParameterList);
                 return updatedNode
                     .WithExpressionBody(null)
                     .WithSemicolonToken(default)
@@ -58,13 +68,13 @@ namespace Instrumenter.Rewriters
 
             if (updatedNode.Body != null)
             {
-                var newBody = InjectEntryLog(updatedNode.Body, node.Identifier.Text, line);
+                var newBody = InjectEntryLog(updatedNode.Body, node.Identifier.Text, line, updatedNode.ParameterList);
                 return updatedNode.WithBody(newBody);
             }
 
             if (updatedNode.ExpressionBody != null)
             {
-                var newBody = CreateBodyForExpression(updatedNode.ExpressionBody.Expression, true, node.Identifier.Text, line);
+                var newBody = CreateBodyForExpression(updatedNode.ExpressionBody.Expression, true, node.Identifier.Text, line, updatedNode.ParameterList);
                 return updatedNode
                     .WithExpressionBody(null)
                     .WithSemicolonToken(default)
@@ -82,7 +92,7 @@ namespace Instrumenter.Rewriters
 
             if (updatedNode.Body != null)
             {
-                var newBody = InjectEntryLog(updatedNode.Body, node.Identifier.Text, line);
+                var newBody = InjectEntryLog(updatedNode.Body, node.Identifier.Text, line, updatedNode.ParameterList);
                 return updatedNode.WithBody(newBody);
             }
 
@@ -90,7 +100,7 @@ namespace Instrumenter.Rewriters
             {
                 bool returnsVoid = updatedNode.ReturnType is PredefinedTypeSyntax predefined
                     && predefined.Keyword.IsKind(SyntaxKind.VoidKeyword);
-                var newBody = CreateBodyForExpression(updatedNode.ExpressionBody.Expression, returnsVoid, node.Identifier.Text, line);
+                var newBody = CreateBodyForExpression(updatedNode.ExpressionBody.Expression, returnsVoid, node.Identifier.Text, line, updatedNode.ParameterList);
                 return updatedNode
                     .WithExpressionBody(null)
                     .WithSemicolonToken(default)
@@ -200,12 +210,141 @@ namespace Instrumenter.Rewriters
             return SyntaxFactory.Block(log, node);
         }
 
+        public override SyntaxNode? VisitExpressionStatement(ExpressionStatementSyntax node)
+        {
+            var line = GetLineNumber(node);
+            var aliasLogs = new List<StatementSyntax>();
+            if (node.Expression is InvocationExpressionSyntax invocation)
+            {
+                aliasLogs.AddRange(CreateArrayArgumentLogs(invocation, line));
+            }
+
+            var updated = base.VisitExpressionStatement(node) as ExpressionStatementSyntax;
+            if (updated == null)
+            {
+                return node;
+            }
+
+            if (aliasLogs.Count > 0)
+            {
+                aliasLogs.Add(updated);
+                return SyntaxFactory.Block(aliasLogs);
+            }
+
+            return updated;
+        }
+
         // 10. Return Statements
         public override SyntaxNode? VisitReturnStatement(ReturnStatementSyntax node)
         {
             var line = GetLineNumber(node);
             var log = CreateLogStatement("Return", line);
             return SyntaxFactory.Block(log, node);
+        }
+        public override SyntaxNode? VisitInvocationExpression(InvocationExpressionSyntax node)
+        {
+            var line = GetLineNumber(node);
+            var visited = base.VisitInvocationExpression(node) as InvocationExpressionSyntax;
+            if (visited == null)
+            {
+                return node;
+            }
+
+            if (visited.Expression is IdentifierNameSyntax identifierName &&
+                identifierName.Parent is InvocationExpressionSyntax &&
+                identifierName.Parent.Parent is ExpressionStatementSyntax)
+            {
+                var methodSymbolName = identifierName.Identifier.Text;
+            }
+
+            if (visited.Expression is IdentifierNameSyntax methodIdentifier)
+            {
+                // Not enough info to resolve signature; skip.
+                return visited;
+            }
+
+            if (visited.Expression is MemberAccessExpressionSyntax memberAccess &&
+                memberAccess.Name is IdentifierNameSyntax memberName)
+            {
+                // Without semantic model we cannot resolve parameter types here.
+                return visited;
+            }
+
+            return visited;
+        }
+
+        private IEnumerable<StatementSyntax> CreateParameterArrayLogs(ParameterListSyntax? parameters, int line, string methodName)
+        {
+            if (parameters == null) yield break;
+
+            for (int i = 0; i < parameters.Parameters.Count; i++)
+            {
+                var parameter = parameters.Parameters[i];
+                if (parameter.Type is ArrayTypeSyntax)
+                {
+                    var paramName = parameter.Identifier.Text;
+                    if (string.IsNullOrWhiteSpace(paramName))
+                    {
+                        continue;
+                    }
+
+                    string uniqueId = Guid.NewGuid().ToString();
+                    var escapedFileName = TargetFileName.Replace("\\", "\\\\");
+                    var aliasLabel = $"{methodName}#arg{i}:{paramName}";
+                    var code = $"global::AutoRepairTracing.TraceLogger.LogArray(\"{uniqueId}\", \"{escapedFileName}\", {line}, \"Array Parameter\", {paramName}, \"{aliasLabel}\");";
+                    yield return SyntaxFactory.ParseStatement(code + "\n");
+                    string aliasId = Guid.NewGuid().ToString();
+                    var aliasCode = $"global::AutoRepairTracing.TraceLogger.LogArrayAliasParameter(\"{aliasId}\", \"{escapedFileName}\", {line}, \"{methodName}\", {i}, {paramName}, \"{paramName}\");";
+                    yield return SyntaxFactory.ParseStatement(aliasCode + "\n");
+                }
+            }
+        }
+
+        private IEnumerable<StatementSyntax> CreateArrayArgumentLogs(InvocationExpressionSyntax invocation, int line)
+        {
+            var expressionText = invocation.Expression.ToString();
+            if (expressionText.Contains("TraceLogger"))
+            {
+                yield break;
+            }
+
+            var argumentList = invocation.ArgumentList;
+            if (argumentList == null || argumentList.Arguments.Count == 0)
+            {
+                yield break;
+            }
+
+            var methodName = GetInvocationName(invocation);
+            for (int i = 0; i < argumentList.Arguments.Count; i++)
+            {
+                var arg = argumentList.Arguments[i];
+                var argExpr = arg.Expression.ToString();
+                var argLiteral = EscapeString(argExpr);
+                string uniqueId = Guid.NewGuid().ToString();
+                var escapedFileName = TargetFileName.Replace("\\", "\\\\");
+                var code = $"global::AutoRepairTracing.TraceLogger.LogArrayAliasArgument(\"{uniqueId}\", \"{escapedFileName}\", {line}, \"{methodName}\", {i}, {argExpr}, \"{argLiteral}\");";
+                yield return SyntaxFactory.ParseStatement(code + "\n");
+            }
+        }
+
+        private string GetInvocationName(InvocationExpressionSyntax invocation)
+        {
+            if (invocation.Expression is IdentifierNameSyntax identifier)
+            {
+                return identifier.Identifier.Text;
+            }
+
+            if (invocation.Expression is MemberAccessExpressionSyntax member && member.Name is IdentifierNameSyntax memberIdentifier)
+            {
+                return memberIdentifier.Identifier.Text;
+            }
+
+            return "UnknownMethod";
+        }
+
+        private string EscapeString(string text)
+        {
+            return text.Replace("\\", "\\\\").Replace("\"", "\\\"");
         }
     }
 }

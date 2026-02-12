@@ -158,6 +158,18 @@ namespace AutoRepairTracing
             }
             Log(uniqueId, file, line, message, snapshot, variableName);
         }
+
+        public static void LogArrayAliasParameter(string uniqueId, string file, int line, string methodName, int position, System.Array array, string parameterName)
+        {
+            var aliasLabel = $""{methodName}#arg{position}"";
+            Log(uniqueId, file, line, ""Array Parameter Alias"", parameterName, aliasLabel);
+        }
+
+        public static void LogArrayAliasArgument(string uniqueId, string file, int line, string methodName, int position, object argumentValue, string argumentExpression)
+        {
+            var aliasLabel = $""{methodName}#arg{position}"";
+            Log(uniqueId, file, line, ""Array Argument Alias"", argumentExpression, aliasLabel);
+        }
     }
 }
 ";
