@@ -40,9 +40,25 @@ public sealed class BufferBoundsRule : IRule
 
         if (index < 0 || index >= size)
         {
+            var bindings = new Dictionary<string, object?>
+            {
+                [$"index:{bufferName}"] = index,
+                [$"heap.size({bufferName})"] = size
+            };
+
+            // Only include value at index if it actually exists in the buffer
+            if (state.TryGetValueAt(bufferName, index, out var valAtIndex))
+                bindings[$"{bufferName}[{index}]"] = valAtIndex;
+
+            var contents = state.GetBufferContents(bufferName);
+            if (contents is not null)
+                bindings[$"{bufferName}.contents"] = contents.OrderBy(kv => kv.Key).Select(kv => kv.Value).ToList();
+
             violation = new ConstraintViolation(
-                Rule: "BufferBoundsRule",
-                Message: $"Index {index} is outside bounds of {bufferName} (size {size}).",
+                Predicate: $"BufferInBounds(index:{bufferName}, {bufferName})",
+                Assertion: $"0 <= index:{bufferName} AND index:{bufferName} < heap.size({bufferName})",
+                Bindings: bindings,
+                Result: false,
                 File: evt.File,
                 Line: evt.Line,
                 TraceId: evt.Id);
