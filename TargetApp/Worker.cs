@@ -27,5 +27,12 @@ namespace TargetApp
                 i--;
             }
         }
+
+        // Intra-method aliasing test: alias references the same buffer
+        public static void RunLoop3(int[] data)
+        {
+            int[] alias = data;
+            alias[data.Length] = 99; // OOB via alias
+        }
     }
 }

@@ -17,6 +17,9 @@ namespace TargetApp
             Worker.RunLoop1(check, buf1);
             Worker.RunLoop2(buf2, check);
 
+            // Intra-method alias test
+            Worker.RunLoop3(buf1);
+
             buf1[buf1.Length] = 42;
         }
     }
