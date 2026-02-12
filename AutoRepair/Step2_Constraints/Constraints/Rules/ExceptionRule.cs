@@ -16,8 +16,13 @@ public sealed class ExceptionRule : IRule
         }
 
         violation = new ConstraintViolation(
-            Rule: "ExceptionRule",
-            Message: $"Unhandled exception observed: {value}",
+            Predicate: "NoUnhandledException(event)",
+            Assertion: "event.exception == null",
+            Bindings: new Dictionary<string, object?>
+            {
+                ["event.exception.type"] = value
+            },
+            Result: false,
             File: evt.File,
             Line: evt.Line,
             TraceId: evt.Id);
