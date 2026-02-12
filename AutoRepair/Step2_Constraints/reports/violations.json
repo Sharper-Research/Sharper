@@ -1,30 +1,44 @@
 [
   {
-    "rule": "ExceptionRule",
-    "message": "Unhandled exception observed: System.IndexOutOfRangeException",
+    "rule": "BufferBoundsRule",
+    "message": "Index 10 is outside bounds of buffer (size 10).",
     "file": "Worker.cs",
-    "line": 7,
-    "traceId": "f199ce0a-9b13-4a7c-ac98-583641bebd58"
+    "line": 13,
+    "traceId": "e09abbe2-3e50-4e83-925a-211ebc0d9b61"
   },
   {
     "rule": "ExceptionRule",
     "message": "Unhandled exception observed: System.IndexOutOfRangeException",
     "file": "Worker.cs",
-    "line": 21,
-    "traceId": "bca3dca8-9d4a-4462-b973-fce0079aaf92"
+    "line": 7,
+    "traceId": "51cf5cd9-c076-4a82-832f-9a106e9cd237"
+  },
+  {
+    "rule": "BufferBoundsRule",
+    "message": "Index 11 is outside bounds of buffer (size 8).",
+    "file": "Worker.cs",
+    "line": 26,
+    "traceId": "5fef446b-6f64-4d24-bef9-62e32d3496e0"
+  },
+  {
+    "rule": "ExceptionRule",
+    "message": "Unhandled exception observed: System.IndexOutOfRangeException",
+    "file": "Worker.cs",
+    "line": 20,
+    "traceId": "3436f0f9-8f4c-4c52-a451-ce9ab13902d8"
   },
   {
     "rule": "BufferBoundsRule",
     "message": "Index 10 is outside bounds of buf1 (size 10).",
     "file": "Program.cs",
-    "line": 21,
-    "traceId": "9a289514-9b77-4821-9ded-d20dd810de09"
+    "line": 20,
+    "traceId": "228fb989-f457-4255-b290-9e626b8a3ab3"
   },
   {
     "rule": "ExceptionRule",
     "message": "Unhandled exception observed: System.IndexOutOfRangeException",
     "file": "Program.cs",
     "line": 7,
-    "traceId": "eb8d503a-dab0-4ec2-9e5e-95873cfe24d7"
+    "traceId": "8f482f59-29e9-4a74-9ca8-956970bf5480"
   }
 ]

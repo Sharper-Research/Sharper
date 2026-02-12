@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -319,9 +318,6 @@ namespace Instrumenter.Rewriters
                 $"global::AutoRepairTracing.TraceLogger.Log(\"{Guid.NewGuid()}\", \"{escapedFileName}\", {lineNumber}, \"Exception Type\", {identifier}.GetType().FullName, \"{identifier}.Type\");");
             yield return SyntaxFactory.ParseStatement(
                 $"global::AutoRepairTracing.TraceLogger.Log(\"{Guid.NewGuid()}\", \"{escapedFileName}\", {lineNumber}, \"Exception Stack\", {identifier}.StackTrace ?? string.Empty, \"{identifier}.Stack\");");
-            yield return SyntaxFactory.ParseStatement(
-                $"System.Diagnostics.Debug.Fail(\"Unhandled exception\", {identifier}.ToString());");
-            yield return SyntaxFactory.ParseStatement("throw;\n");
         }
     }
 }

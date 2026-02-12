@@ -241,37 +241,7 @@ namespace Instrumenter.Rewriters
             var log = CreateLogStatement("Return", line);
             return SyntaxFactory.Block(log, node);
         }
-        public override SyntaxNode? VisitInvocationExpression(InvocationExpressionSyntax node)
-        {
-            var line = GetLineNumber(node);
-            var visited = base.VisitInvocationExpression(node) as InvocationExpressionSyntax;
-            if (visited == null)
-            {
-                return node;
-            }
 
-            if (visited.Expression is IdentifierNameSyntax identifierName &&
-                identifierName.Parent is InvocationExpressionSyntax &&
-                identifierName.Parent.Parent is ExpressionStatementSyntax)
-            {
-                var methodSymbolName = identifierName.Identifier.Text;
-            }
-
-            if (visited.Expression is IdentifierNameSyntax methodIdentifier)
-            {
-                // Not enough info to resolve signature; skip.
-                return visited;
-            }
-
-            if (visited.Expression is MemberAccessExpressionSyntax memberAccess &&
-                memberAccess.Name is IdentifierNameSyntax memberName)
-            {
-                // Without semantic model we cannot resolve parameter types here.
-                return visited;
-            }
-
-            return visited;
-        }
 
         private IEnumerable<StatementSyntax> CreateParameterArrayLogs(ParameterListSyntax? parameters, int line, string methodName)
         {
@@ -303,7 +273,7 @@ namespace Instrumenter.Rewriters
         private IEnumerable<StatementSyntax> CreateArrayArgumentLogs(InvocationExpressionSyntax invocation, int line)
         {
             var expressionText = invocation.Expression.ToString();
-            if (expressionText.Contains("TraceLogger"))
+            if (expressionText.Contains("TraceLogger") || expressionText.Contains("Debug."))
             {
                 yield break;
             }
