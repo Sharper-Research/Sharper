@@ -1,4 +1,5 @@
 using System.CommandLine;
+using System.Text.Encodings.Web;
 using System.Text.Json;
 using AutoRepair.Step2Constraints.Models;
 using AutoRepair.Step2Constraints.Runtime;
@@ -11,7 +12,8 @@ internal static class Program
     private static readonly JsonSerializerOptions JsonOptions = new()
     {
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-        WriteIndented = true
+        WriteIndented = true,
+        Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
     };
 
     private static async Task<int> Main(string[] args)

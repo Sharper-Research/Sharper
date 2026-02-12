@@ -67,7 +67,10 @@ namespace Instrumenter.Rewriters
             bool isArray = typeSyntax is ArrayTypeSyntax;
             bool isCollection = typeString.Contains("List") || typeString.Contains("Collection") || typeString.Contains("IEnumerable");
 
-            if (!isArray && !isCollection)
+            // Also detect 'var' declarations initialized from an existing array variable
+            bool isVarDecl = typeSyntax is IdentifierNameSyntax id && id.Identifier.Text == "var";
+
+            if (!isArray && !isCollection && !isVarDecl)
             {
                 yield break;
             }
@@ -77,10 +80,29 @@ namespace Instrumenter.Rewriters
             foreach (var variable in node.Declaration.Variables)
             {
                 var varName = variable.Identifier.Text;
-                var descriptor = BuildDescriptor(typeString, variable.Initializer?.Value, isArray);
-                var logCode =
-                    $"global::AutoRepairTracing.TraceLogger.Log(\"{Guid.NewGuid()}\", \"{escapedFileName}\", {lineNumber}, \"Heap State: {varName} ({descriptor})\");";
-                yield return SyntaxFactory.ParseStatement(logCode);
+                var initializer = variable.Initializer?.Value;
+
+                // Detect intra-method aliasing: int[] alias = existingVar; or var alias = existingVar;
+                // The initializer is a simple identifier (not new[], not a method call, etc.)
+                if (initializer is IdentifierNameSyntax sourceVar)
+                {
+                    var sourceName = sourceVar.Identifier.Text;
+                    var aliasCode =
+                        $"global::AutoRepairTracing.TraceLogger.Log(\"{Guid.NewGuid()}\", \"{escapedFileName}\", {lineNumber}, \"Array Local Alias\", \"{sourceName}\", \"{varName}\");";
+                    yield return SyntaxFactory.ParseStatement(aliasCode);
+
+                    // For var decls that are aliases, don't also emit Heap State
+                    if (isVarDecl)
+                        continue;
+                }
+
+                if (isArray || isCollection)
+                {
+                    var descriptor = BuildDescriptor(typeString, initializer, isArray);
+                    var logCode =
+                        $"global::AutoRepairTracing.TraceLogger.Log(\"{Guid.NewGuid()}\", \"{escapedFileName}\", {lineNumber}, \"Heap State: {varName} ({descriptor})\");";
+                    yield return SyntaxFactory.ParseStatement(logCode);
+                }
             }
         }
 
