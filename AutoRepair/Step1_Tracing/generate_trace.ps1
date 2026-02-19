@@ -36,6 +36,10 @@ if (-not $SkipRestore -and (Test-Path $restoreScript)) {
 if (Test-Path $logFileJson) { Remove-Item $logFileJson }
 if (Test-Path $logFileTxt) { Remove-Item $logFileTxt }
 
+# Ensure log files exist even when test execution fails early.
+New-Item -ItemType File -Path $logFileJson -Force | Out-Null
+New-Item -ItemType File -Path $logFileTxt -Force | Out-Null
+
 Write-Host "1. Running Instrumenter on Directory: $TargetSourceDir" -ForegroundColor Yellow
 dotnet run --project $instrumenterProject -- "$TargetSourceDir"
 if ($LASTEXITCODE -ne 0) { Write-Error "Instrumenter failed!"; exit 1 }
@@ -52,7 +56,42 @@ if (-not [string]::IsNullOrWhiteSpace($TestFilter)) {
 }
 
 & dotnet @testArgs *> $logFileTxt
-if ($LASTEXITCODE -ne 0) { Write-Error "Test driver failed!"; exit 1 }
+$testExitCode = $LASTEXITCODE
+
+if ($testExitCode -ne 0) {
+    Write-Host "=== Test driver failed ===" -ForegroundColor Red
+
+    $failedTest = $null
+    $failedTestLine = Select-String -Path $logFileTxt -Pattern '^\s*Failed\s+(.+?)\s+\[' | Select-Object -First 1
+    if ($failedTestLine) {
+        $failedTest = [regex]::Match($failedTestLine.Line, '^\s*Failed\s+(.+?)\s+\[').Groups[1].Value
+    }
+
+    $failedLocation = $null
+    $failedLocationLine = Select-String -Path $logFileTxt -Pattern ' in .+?:line \d+' | Select-Object -First 1
+    if ($failedLocationLine) {
+        $failedLocationMatch = [regex]::Match($failedLocationLine.Line, ' in (.+?):line (\d+)')
+        if ($failedLocationMatch.Success) {
+            $failedLocation = "$($failedLocationMatch.Groups[1].Value):$($failedLocationMatch.Groups[2].Value)"
+        }
+    }
+
+    if (-not [string]::IsNullOrWhiteSpace($failedTest)) {
+        Write-Host "First failed test: $failedTest" -ForegroundColor Yellow
+    }
+    if (-not [string]::IsNullOrWhiteSpace($failedLocation)) {
+        Write-Host "Failure location: $failedLocation" -ForegroundColor Yellow
+    }
+
+    if (-not (Test-Path $logFileJson)) {
+        New-Item -ItemType File -Path $logFileJson -Force | Out-Null
+    }
+
+    Write-Host "Trace logs available:" -ForegroundColor Yellow
+    Write-Host "  $logFileTxt"
+    Write-Host "  $logFileJson"
+    exit 1
+}
 
 Write-Host "=== Success! ===" -ForegroundColor Green
 Write-Host "Trace logs available:"

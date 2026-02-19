@@ -56,6 +56,7 @@ namespace Checkout
 
         public decimal GetSumOfAllNormalItemsPrices(IBasket basket)
         {
+            int[] numbers = new int[5];
             var localSum = 0M;
             var specialPrices = GetCurrentSpecialPrices();
 
@@ -66,6 +67,12 @@ namespace Checkout
                                     .Contains(x.Sku)))
             {
                 localSum += item.SalesPrice;
+            }
+            
+            // This will throw IndexOutOfRangeException
+            for (int i = 0; i <= numbers.Length; i++)
+            {
+                numbers[i] = i;
             }
 
             return localSum;
