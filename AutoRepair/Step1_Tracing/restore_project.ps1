@@ -3,8 +3,19 @@ param([string]$targetDir)
 $ErrorActionPreference = "Stop"
 
 if ([string]::IsNullOrEmpty($targetDir)) {
-    # Default to the relative TargetApp folder if not provided
-    $targetDir = Join-Path $PSScriptRoot "..\..\TargetApp"
+    # Default to Checkout source folder; fallback to NodaTime, then TargetApp.
+    $checkoutDefault = Join-Path $PSScriptRoot "..\..\BrightHrKata\Checkout"
+    $nodaDefault = Join-Path $PSScriptRoot "..\..\nodatime\src\NodaTime"
+    $targetAppDefault = Join-Path $PSScriptRoot "..\..\TargetApp"
+    if (Test-Path $checkoutDefault) {
+        $targetDir = $checkoutDefault
+    }
+    elseif (Test-Path $nodaDefault) {
+        $targetDir = $nodaDefault
+    }
+    else {
+        $targetDir = $targetAppDefault
+    }
 }
 
 if (!(Test-Path $targetDir)) {
