@@ -11,6 +11,7 @@
 # Generated traces
 trace_logs.jsonl
 trace_logs.txt
+violations.json
 
 # Generated source files (Artifacts from Instrumentation)
 Program_Instrumented.cs
