@@ -84,7 +84,11 @@ namespace Instrumenter
                 var rewriter5 = new CastingRewriter { TargetFileName = GetRelativePath(filePath, rootPath) };
                 var root5 = rewriter5.Visit(root4);
 
-                string newCode = root5.ToFullString();
+                // 6. Overflow
+                var rewriter6 = new OverflowRewriter { TargetFileName = GetRelativePath(filePath, rootPath) };
+                var root6 = rewriter6.Visit(root5);
+
+                string newCode = root6.ToFullString();
                 File.WriteAllText(filePath, newCode);
             }
             catch (Exception ex)
@@ -202,6 +206,66 @@ namespace AutoRepairTracing
                 Log(uniqueId, file, line, ""Cast Attempt"", sourceType, ""cast:"" + targetType);
             }
             return result;
+        }
+
+        /// <summary>
+        /// Evaluates a binary arithmetic operation inside a checked context.
+        /// If overflow occurs, logs an ""Overflow"" event with operand values and returns
+        /// the unchecked result so execution can continue for further tracing.
+        /// </summary>
+        public static long LogCheckedBinary(string uniqueId, string file, int line, long left, long right, string op)
+        {
+            try
+            {
+                long result = op switch
+                {
+                    ""+"" => checked(left + right),
+                    ""-"" => checked(left - right),
+                    ""*"" => checked(left * right),
+                    _ => left
+                };
+                return result;
+            }
+            catch (System.OverflowException)
+            {
+                var payload = $""{left}|{right}|Int64"";
+                Log(uniqueId, file, line, ""Overflow"", payload, ""overflow:"" + op);
+                return op switch
+                {
+                    ""+"" => unchecked(left + right),
+                    ""-"" => unchecked(left - right),
+                    ""*"" => unchecked(left * right),
+                    _ => left
+                };
+            }
+        }
+
+        /// <summary>int overload - promotes to long for range checking then casts back.</summary>
+        public static int LogCheckedBinary(string uniqueId, string file, int line, int left, int right, string op)
+        {
+            try
+            {
+                int result = op switch
+                {
+                    ""+"" => checked(left + right),
+                    ""-"" => checked(left - right),
+                    ""*"" => checked(left * right),
+                    _ => left
+                };
+                return result;
+            }
+            catch (System.OverflowException)
+            {
+                var payload = $""{left}|{right}|Int32"";
+                Log(uniqueId, file, line, ""Overflow"", payload, ""overflow:"" + op);
+                return op switch
+                {
+                    ""+"" => unchecked(left + right),
+                    ""-"" => unchecked(left - right),
+                    ""*"" => unchecked(left * right),
+                    _ => left
+                };
+            }
         }
     }
 }

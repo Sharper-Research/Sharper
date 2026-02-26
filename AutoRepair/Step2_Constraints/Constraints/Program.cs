@@ -54,7 +54,8 @@ internal static class Program
         {
             new BufferBoundsRule(),
             new ExceptionRule(),
-            new InvalidCastingRule()
+            new InvalidCastingRule(),
+            new IntegerOverflowRule()
         };
 
         var violations = new List<ConstraintViolation>();
