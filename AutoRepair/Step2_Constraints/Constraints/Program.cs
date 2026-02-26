@@ -53,7 +53,8 @@ internal static class Program
         var rules = new List<IRule>
         {
             new BufferBoundsRule(),
-            new ExceptionRule()
+            new ExceptionRule(),
+            new InvalidCastingRule()
         };
 
         var violations = new List<ConstraintViolation>();

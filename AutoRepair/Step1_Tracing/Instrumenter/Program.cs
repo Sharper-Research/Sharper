@@ -80,7 +80,11 @@ namespace Instrumenter
                 var rewriter4 = new HeapRewriter { TargetFileName = GetRelativePath(filePath, rootPath) };
                 var root4 = rewriter4.Visit(root3);
 
-                string newCode = root4.ToFullString();
+                // 5. Casting
+                var rewriter5 = new CastingRewriter { TargetFileName = GetRelativePath(filePath, rootPath) };
+                var root5 = rewriter5.Visit(root4);
+
+                string newCode = root5.ToFullString();
                 File.WriteAllText(filePath, newCode);
             }
             catch (Exception ex)
@@ -169,6 +173,35 @@ namespace AutoRepairTracing
         {
             var aliasLabel = $""{methodName}#arg{position}"";
             Log(uniqueId, file, line, ""Array Argument Alias"", argumentExpression, aliasLabel);
+        }
+
+        /// <summary>
+        /// Logs the source runtime type before an explicit cast and returns the source unchanged.
+        /// The outer (T) cast in the instrumented code performs the real conversion.
+        /// </summary>
+        public static object LogCastSource(string uniqueId, string file, int line, object source, string targetType)
+        {
+            var sourceType = source?.GetType()?.FullName ?? ""null"";
+            Log(uniqueId, file, line, ""Cast Attempt"", sourceType, ""cast:"" + targetType);
+            return source;
+        }
+
+        /// <summary>
+        /// Performs an 'as' cast, logging ""Invalid Cast"" when the result is null but the source was non-null.
+        /// </summary>
+        public static T LogAsCast<T>(string uniqueId, string file, int line, object source, string targetType) where T : class
+        {
+            var result = source as T;
+            var sourceType = source?.GetType()?.FullName ?? ""null"";
+            if (result == null && source != null)
+            {
+                Log(uniqueId, file, line, ""Invalid Cast"", sourceType, ""cast:"" + targetType);
+            }
+            else
+            {
+                Log(uniqueId, file, line, ""Cast Attempt"", sourceType, ""cast:"" + targetType);
+            }
+            return result;
         }
     }
 }
