@@ -3,6 +3,13 @@ using AutoRepair.Step2Constraints.Runtime;
 
 namespace AutoRepair.Step2Constraints.Rules;
 
+// ── FUTURE WORK: Narrowing-conversion (truncation) overflow ─────────────
+//
+// If a NarrowingOverflow path is added to the Instrumenter in the future,
+// handle those events here (or in a dedicated NarrowingOverflowRule) with
+// msg = "NarrowingOverflow" and bindings for source value, source type,
+// and target type.
+// ─────────────────────────────────────────────────────────────────────────
 public sealed class IntegerOverflowRule : IRule
 {
     private TraceEvent? _lastOverflowEvent;

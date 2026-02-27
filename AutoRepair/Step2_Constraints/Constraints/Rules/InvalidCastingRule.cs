@@ -3,6 +3,26 @@ using AutoRepair.Step2Constraints.Runtime;
 
 namespace AutoRepair.Step2Constraints.Rules;
 
+// ── FUTURE WORK: Unboxing-failure detection ─────────────────────────────
+// Currently this rule catches:
+//   Path 0 – Cast Attempt: tracks the source type before an explicit cast.
+//   Path 1 – Failed 'as' cast: LogAsCast detects null result from non-null source.
+//   Path 2 – InvalidCastException: correlates with the last Cast Attempt event.
+//
+// NOT yet covered:
+//   - Unboxing failures:  (int)(object)"hi"  throws InvalidCastException but
+//     the CastingRewriter currently skips value-type target casts, so Path 0
+//     never fires and Path 2 falls back to the generic "ValidCast(event)"
+//     violation (no source-type / target-type bindings).
+//
+// When the Instrumenter gains unboxing instrumentation (check CastingRewriter
+// FUTURE WORK for more info), add a new path here to handle events with
+// msg = "Unbox Failure" (or a cast.kind = "unbox" flag) and emit a richer
+// ConstraintViolation with source-type, target-type, and cast-kind bindings.
+//
+// Jyoti note: "Unboxing failure will be good to catch! But I am not
+// sure if the current methodology will be sufficient."
+// ─────────────────────────────────────────────────────────────────────────
 public sealed class InvalidCastingRule : IRule
 {
     private TraceEvent? _lastCastAttempt;

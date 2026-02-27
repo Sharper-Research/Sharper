@@ -8,6 +8,27 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 namespace Instrumenter.Rewriters
 {
 
+    // ── FUTURE WORK: Narrowing-conversion overflow ──────────────────────────
+    // This rewriter currently covers arithmetic overflow (+, -, *, +=, -=, *=)
+    // by wrapping operations in checked() blocks.
+    //
+    // NOT covered: narrowing / truncation conversions such as:
+    //   long bigValue = long.MaxValue;  int x = (int)bigValue;
+    // These do not throw OverflowException in an unchecked context and silently
+    // truncate.  
+    // 
+    // Jyoti mentioned this is intentional:
+    //   "For assignment truncation, we are likely to run into many false
+    //    positives as this is an intended developer behaviour."
+    //
+    // If we ever need to detect truncation (e.g. opt-in mode):
+    //   1. In VisitCastExpression, detect narrowing numeric casts (e.g. long→int,
+    //      int→short, double→float) using the semantic model.
+    //   2. Replace them with a TraceLogger.LogNarrowingCast(id, file, line,
+    //      sourceValue, targetType) that wraps the cast in checked() and logs
+    //      when OverflowException is thrown.
+    //   3. Add a corresponding NarrowingOverflowRule in Step2_Constraints.
+    // ─────────────────────────────────────────────────────────────────────────
     public class OverflowRewriter : TraceRewriterBase
     {
         public override SyntaxNode? VisitBinaryExpression(BinaryExpressionSyntax node)
