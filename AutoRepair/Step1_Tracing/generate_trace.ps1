@@ -55,7 +55,8 @@ if (-not [string]::IsNullOrWhiteSpace($TestFilter)) {
     $testArgs += @("--filter", $TestFilter)
 }
 
-& dotnet @testArgs *> $logFileTxt
+Write-Host "   Streaming dotnet test output (also saved to $logFileTxt)..." -ForegroundColor DarkGray
+& dotnet @testArgs *>&1 | Tee-Object -FilePath $logFileTxt
 $testExitCode = $LASTEXITCODE
 
 if ($testExitCode -ne 0) {
