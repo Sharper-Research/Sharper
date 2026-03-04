@@ -1,45 +1,100 @@
-# Step 1 – Tracing
+﻿# Step 1: Tracing
 
-This module injects runtime logging into the **TargetApp** source tree so we can capture detailed execution traces (control flow, variable updates, heap activity, and exceptions) while the program runs.
+> **Status: Complete.** The instrumenter works end-to-end. Outputs feed into [Step 2 (Constraints)](../Step2_Constraints/README.md).
 
-## How it works
+This module injects runtime logging into a target C# project's source tree so we can capture a detailed execution trace (control flow, variable updates, heap activity, type casts, arithmetic overflows, and exceptions) while the program runs.
 
-1. **Instrumenter** (a Roslyn tool) scans every `*.cs` file under `TargetApp/`, skipping `bin/`, `obj/`, and previously generated artifacts.
-2. Each file is backed up as `*.cs.bak`, then rewritten in-place with tracing statements that call a generated `TraceLogger` helper.
-3. After instrumentation, `generate_trace.ps1` runs `dotnet run --project TargetApp/TargetApp.csproj` so the *instrumented* app executes.
-4. Every injected `TraceLogger.Log(...)` appends structured JSON to `trace_logs.jsonl` (plus stdout mirroring in `trace_logs.txt`), giving us a chronological view of the program’s behavior.
-5. `restore_project.ps1` removes `TraceLogger.cs` and copies every `*.bak` file back over the instrumented file so the TargetApp codebase returns to its original state.
+---
 
-## Key files
+## How It Works
 
-| File/Folder | Purpose |
-| --- | --- |
-| `generate_trace.ps1` | Orchestrates Step 1: cleans old logs, builds & runs the Instrumenter against `TargetApp/`, sets `TRACE_LOG_JSON_PATH`, and executes the instrumented app. |
-| `restore_project.ps1` | Cleans up after tracing by deleting `TraceLogger.cs` and restoring `*.cs.bak` backups throughout `TargetApp/`. |
-| `trace_logs.jsonl` | Structured trace output (JSON Lines). Each line captures GUID id, timestamp, thread id, file, line, message, and optional `{ name, val }` for variables. |
-| `trace_logs.txt` | Raw stdout captured from the TargetApp run; stderr still prints to the console so crashes remain visible. |
-| `Instrumenter/Instrumenter.csproj` | Build project for the Roslyn-based instrumentation tool. |
-| `Instrumenter/Program.cs` | Entry point: generates `TraceLogger.cs`, discovers target files, and runs the rewriter pipeline (Line annotations → Safety → ControlFlow → Variable → Heap). |
-| `Instrumenter/Rewriters/LineNumberAnnotator.cs` | Adds stable line annotations before rewriting so injected logs report the original source line numbers. |
-| `Instrumenter/Rewriters/TraceRewriterBase.cs` | Shared helpers for all rewriters (builds `TraceLogger` statements, wraps single statements in blocks, retrieves annotated line numbers). |
-| `Instrumenter/Rewriters/SafetyRewriter.cs` | Adds global try/catch wrappers, logs exceptions, emits infinite-loop watchdogs, and warns on null assignments. |
-| `Instrumenter/Rewriters/ControlFlowRewriter.cs` | Logs method entries, branch selections, loop bodies, switch cases, and jump statements (break/continue/return). |
-| `Instrumenter/Rewriters/VariableRewriter.cs` | Logs assignments, increments/decrements, denominators before division, array index expressions, and initial local values. |
-| `Instrumenter/Rewriters/HeapRewriter.cs` | Logs allocations of arrays/collections inside blocks & switch sections, including inferred sizes (e.g., `Heap State: buf1 (int[] size=10)`). |
+1. **Instrument**: The Instrumenter (a Roslyn `CSharpSyntaxRewriter` tool) scans every `*.cs` file under the target directory, skipping `bin/`, `obj/`, and previously generated artifacts.
+2. **Backup**: Each file is backed up as `*.cs.bak`, then rewritten in-place with tracing statements that call a generated `TraceLogger` helper.
+3. **Execute**: `generate_trace.ps1` runs the target's test suite (or executable) so the *instrumented* code executes.
+4. **Collect**: Every injected `TraceLogger.Log(...)` appends structured JSON to `trace_logs.jsonl`. Console output is also captured in `trace_logs.txt`.
+5. **Restore**: `restore_project.ps1` copies every `*.bak` back and removes `TraceLogger.cs`, returning the target to its original state.
 
-## Running Step 1
+<!-- SCREENSHOT SUGGESTION: terminal output of generate_trace.ps1 running successfully -->
+
+---
+
+## Running Step 1
 
 ```powershell
 # From repo root (Patching/)
 .\AutoRepair\Step1_Tracing\generate_trace.ps1
 ```
 
-Outputs are written to `AutoRepair\Step1_Tracing\trace_logs.jsonl` and `trace_logs.txt`. Inspect the JSONL file to correlate events with source locations.
+By default, this targets `BrightHrKata/Checkout` and runs its MSTest suite. You can override:
 
-## Restoring the target project
+```powershell
+.\AutoRepair\Step1_Tracing\generate_trace.ps1 `
+    -TargetSourceDir "path\to\source" `
+    -DriverProject   "path\to\tests.csproj"
+```
+
+### Restoring the Target
 
 ```powershell
 .\AutoRepair\Step1_Tracing\restore_project.ps1
 ```
 
-This deletes the generated `TraceLogger.cs` and restores every `*.cs` file from its `.bak`, returning `TargetApp/` to a pre-instrumented state. Always run this before committing or rerunning instrumentation to avoid stacking modifications.
+Always run this before committing or re-running instrumentation to avoid stacking modifications.
+
+---
+
+## Outputs
+
+| File | Description |
+| :--- | :--- |
+| `trace_logs.jsonl` | Structured trace (JSON Lines). Each line is one event, see schema below. |
+| `trace_logs.txt` | Raw stdout/stderr captured from the target run. |
+
+### JSONL Schema (per line)
+
+```jsonc
+{
+  "id":   "GUID",                        // unique event id
+  "ts":   "yyyy-MM-dd HH:mm:ss.fff",     // timestamp
+  "tid":  1,                              // thread id
+  "file": "Worker.cs",                    // source file (relative)
+  "line": 42,                             // original source line number
+  "msg":  "Variable Update",              // event category (see below)
+  "var":  { "name": "i", "val": "10" }   // optional payload
+}
+```
+
+**Event categories** (`msg` values): `Enter Method`, `Variable Update`, `While Loop`, `If Branch`, `Switch Case`, `Break`, `Continue`, `Return`, `Heap State`, `Array Parameter`, `Array Argument Alias`, `Overflow`, `Cast Attempt`, `Invalid Cast`, `Exception Caught`, `Exception Type`, `Exception Stack`, and more.
+
+> **Tip:** `trace_logs.txt` captures stdout. Unhandled exceptions print to stderr and appear in the terminal. To pinpoint a crash, match the **last JSONL entry's** `file`/`line` to the stack trace.
+
+<!-- SCREENSHOT SUGGESTION: a few lines of trace_logs.jsonl in an editor or terminal -->
+
+---
+
+## Rewriter Pipeline
+
+The Instrumenter applies rewriters **in order**. Each one is a Roslyn `CSharpSyntaxRewriter`:
+
+| # | Rewriter | What It Injects |
+| :-: | :--- | :--- |
+| 1 | `LineNumberAnnotator` | Annotates every node with its original line number so subsequent rewriters report correct locations. |
+| 2 | `SafetyRewriter` | Global try/catch wrappers, infinite-loop watchdogs, null-assignment warnings. |
+| 3 | `ControlFlowRewriter` | Logs method entries, branch selections (`if`/`else`), loop bodies, `switch` cases, jump statements (`break`/`continue`/`return`). |
+| 4 | `VariableRewriter` | Logs assignments, increments/decrements, denominators before division, array index expressions, initial local values. |
+| 5 | `HeapRewriter` | Logs allocations of arrays/collections, including inferred sizes (e.g., `Heap State: buf1 (int[] size=10)`). |
+| 6 | `CastingRewriter` | Logs explicit and `as` cast attempts; flags type mismatches. |
+| 7 | `OverflowRewriter` | Logs arithmetic operations on boundary values that would silently overflow. |
+
+---
+
+## Key Files
+
+| File / Folder | Purpose |
+| :--- | :--- |
+| `generate_trace.ps1` | Orchestrates Step 1: restores any previous instrumentation, builds the Instrumenter, instruments the target, runs the driver, and collects logs. |
+| `restore_project.ps1` | Deletes `TraceLogger.cs` and restores every `*.bak` throughout the target directory. |
+| `Instrumenter/Instrumenter.csproj` | Build project for the Roslyn-based tool. |
+| `Instrumenter/Program.cs` | Entry point: generates `TraceLogger.cs`, discovers target files, runs the rewriter pipeline. |
+| `Instrumenter/Rewriters/TraceRewriterBase.cs` | Shared helpers for all rewriters (build `TraceLogger` statements, wrap single statements in blocks, retrieve annotated line numbers). |
+| `Instrumenter/Rewriters/*.cs` | The seven rewriters listed in the table above. |
