@@ -50,12 +50,12 @@ Each step has its own detailed README. See the links in the Status table above.
 ## Pipeline Overview
 
 ```
-┌─────────────────┐      ┌────────────────────┐      ┌─────────────────┐
-│  Step 1: Trace  │ ───▶ │ Step 2: Constraints│ ───▶ │  Step 3: Repair │
-│  (Instrumenter) │      │  (Rule Engine)     │      │  (Patch Gen)    │
-└─────────────────┘      └────────────────────┘      └─────────────────┘
-        │                         │                          │
-   trace_logs.jsonl         violations.json            patches (TBD)
+┌─────────────────┐      ┌──────────────────────┐       ┌─────────────────┐
+│  Step 1: Trace  │ ───▶ │ Step 2: Constraints │ ───▶  │  Step 3: Repair │
+│  (Instrumenter) │      │  (Rule Engine)       │       │  (Patch Gen)    │
+└─────────────────┘      └──────────────────────┘       └─────────────────┘
+        │                         │                            │
+   trace_logs.jsonl         violations.json              patches (TBD)
 ```
 
 <!-- SCREENSHOT SUGGESTION: terminal showing the full pipeline run (Steps 1 → 2) -->
