@@ -267,6 +267,30 @@ namespace AutoRepairTracing
                 };
             }
         }
+
+        /// <summary>decimal overload for financial arithmetic.</summary>
+        public static decimal LogCheckedBinary(string uniqueId, string file, int line, decimal left, decimal right, string op)
+        {
+            try
+            {
+                decimal result = op switch
+                {
+                    ""+"" => checked(left + right),
+                    ""-"" => checked(left - right),
+                    ""*"" => checked(left * right),
+                    _ => left
+                };
+                return result;
+            }
+            catch (System.OverflowException)
+            {
+                var payload = $""{left}|{right}|Decimal"";
+                Log(uniqueId, file, line, ""Overflow"", payload, ""overflow:"" + op);
+
+                // Decimal arithmetic cannot provide a wrapped unchecked result.
+                return left;
+            }
+        }
     }
 }
 ";

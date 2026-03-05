@@ -103,6 +103,21 @@ namespace Checkout.Tests
             var result = _cut.GetSumOfAllSpecialPriceItems(_basket);
             Assert.AreEqual(100, result);
         }
+
+        [TestMethod]
+        public void GIVEN_null_basket_WHEN_GetSumOfAllSpecialPriceItems_is_called_THEN_null_dereference_is_observed()
+        {
+            try
+            {
+                _cut.GetSumOfAllSpecialPriceItems(null!);
+                Assert.Fail("Expected an exception for null basket.");
+            }
+            catch (Exception ex)
+            {
+                // Works for both plain NullReferenceException and instrumented DebugAssertException wrappers.
+                StringAssert.Contains(ex.ToString(), "NullReferenceException");
+            }
+        }
         #endregion
     }
 }

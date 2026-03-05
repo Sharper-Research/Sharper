@@ -53,6 +53,7 @@ internal static class Program
         var rules = new List<IRule>
         {
             new BufferBoundsRule(),
+            new NullDereferenceRule(),
             new ExceptionRule(),
             new InvalidCastingRule(),
             new IntegerOverflowRule()

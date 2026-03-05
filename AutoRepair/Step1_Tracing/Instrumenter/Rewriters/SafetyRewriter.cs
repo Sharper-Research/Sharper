@@ -316,6 +316,8 @@ namespace Instrumenter.Rewriters
             yield return SyntaxFactory.ParseStatement(
                 $"global::AutoRepairTracing.TraceLogger.Log(\"{Guid.NewGuid()}\", \"{escapedFileName}\", {lineNumber}, \"Exception Caught\", {identifier}.Message, \"{identifier}.Message\");");
             yield return SyntaxFactory.ParseStatement(
+                $"if ({identifier} is System.NullReferenceException) {{ global::AutoRepairTracing.TraceLogger.Log(\"{Guid.NewGuid()}\", \"{escapedFileName}\", {lineNumber}, \"Null Dereference\", {identifier}.Message, \"null.dereference\"); }}");
+            yield return SyntaxFactory.ParseStatement(
                 $"global::AutoRepairTracing.TraceLogger.Log(\"{Guid.NewGuid()}\", \"{escapedFileName}\", {lineNumber}, \"Exception Type\", {identifier}.GetType().FullName, \"{identifier}.Type\");");
             yield return SyntaxFactory.ParseStatement(
                 $"global::AutoRepairTracing.TraceLogger.Log(\"{Guid.NewGuid()}\", \"{escapedFileName}\", {lineNumber}, \"Exception Stack\", {identifier}.StackTrace ?? string.Empty, \"{identifier}.Stack\");");
