@@ -1,0 +1,15 @@
+﻿<!-- this is the project file that tells dotnet how to build our GUI app -->
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>                 <!-- WinExe means it builds as a windows app not a console app -->
+    <TargetFramework>net10.0-windows</TargetFramework> <!-- targeting .NET 10 with windows-specific stuff enabled -->
+    <Nullable>enable</Nullable>                     <!-- turns on nullable reference type warnings so we catch null bugs -->
+    <ImplicitUsings>enable</ImplicitUsings>         <!-- auto-imports common namespaces so we dont have to write them all -->
+    <UseWPF>true</UseWPF>                           <!-- this is what lets us use WPF (windows presentation foundation) for the UI -->
+    <RootNamespace>AutoRepairGUI</RootNamespace>    <!-- all our classes go under this namespace -->
+    <AssemblyName>AutoRepairGUI</AssemblyName>      <!-- the name of the .exe file that gets built -->
+    <ApplicationIcon></ApplicationIcon>             <!-- no custom icon set yet, it just uses the default one -->
+  </PropertyGroup>
+
+</Project>

@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoRepair GUI — Implementation Walkthrough</title>
+    <style>
+        :root {
+            --bg:       #1e1e2e;
+            --surface:  #313244;
+            --surface2: #45475a;
+            --text:     #cdd6f4;
+            --subtext:  #a6adc8;
+            --accent:   #89b4fa;
+            --green:    #a6e3a1;
+            --red:      #f38ba8;
+            --yellow:   #f9e2af;
+            --mauve:    #cba6f7;
+            --peach:    #fab387;
+            --code-bg:  #181825;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 2rem;
+            color: var(--accent);
+            margin-bottom: 8px;
+        }
+
+        h1 span { font-size: 1.6rem; }
+
+        .subtitle {
+            color: var(--subtext);
+            font-size: 1rem;
+            margin-bottom: 40px;
+        }
+
+        h2 {
+            font-size: 1.4rem;
+            color: var(--mauve);
+            margin-top: 48px;
+            margin-bottom: 16px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid var(--surface2);
+        }
+
+        h3 {
+            font-size: 1.1rem;
+            color: var(--peach);
+            margin-top: 28px;
+            margin-bottom: 10px;
+        }
+
+        p { margin-bottom: 14px; }
+
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+
+        code {
+            font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+            background: var(--code-bg);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--green);
+        }
+
+        pre {
+            background: var(--code-bg);
+            border: 1px solid var(--surface2);
+            border-radius: 8px;
+            padding: 16px 20px;
+            overflow-x: auto;
+            margin: 14px 0 20px;
+            font-size: 0.85em;
+            line-height: 1.6;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: var(--text);
+        }
+
+        .keyword  { color: var(--mauve); }
+        .type     { color: var(--yellow); }
+        .string   { color: var(--green); }
+        .comment  { color: var(--subtext); font-style: italic; }
+        .attr     { color: var(--peach); }
+        .tag      { color: var(--red); }
+        .prop     { color: var(--accent); }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--surface2);
+            border-radius: 10px;
+            padding: 20px 24px;
+            margin: 16px 0;
+        }
+
+        .card-header {
+            font-weight: 600;
+            font-size: 1.05rem;
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+
+        .file-tree {
+            background: var(--code-bg);
+            border: 1px solid var(--surface2);
+            border-radius: 8px;
+            padding: 16px 20px;
+            font-family: 'Cascadia Code', monospace;
+            font-size: 0.88em;
+            line-height: 1.8;
+            color: var(--subtext);
+        }
+
+        .file-tree .folder { color: var(--accent); font-weight: 600; }
+        .file-tree .file   { color: var(--text); }
+        .file-tree .desc   { color: var(--subtext); font-style: italic; }
+
+        .diagram {
+            background: var(--code-bg);
+            border: 1px solid var(--surface2);
+            border-radius: 10px;
+            padding: 24px;
+            margin: 20px 0;
+            text-align: center;
+            font-family: 'Cascadia Code', monospace;
+            font-size: 0.85em;
+            line-height: 2;
+            color: var(--text);
+            overflow-x: auto;
+        }
+
+        .diagram .box {
+            display: inline-block;
+            border: 2px solid var(--accent);
+            border-radius: 8px;
+            padding: 8px 16px;
+            margin: 4px;
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .diagram .arrow {
+            color: var(--subtext);
+            margin: 0 8px;
+            font-size: 1.2em;
+        }
+
+        .highlight-box {
+            border-left: 4px solid var(--accent);
+            background: rgba(137, 180, 250, 0.08);
+            padding: 14px 18px;
+            border-radius: 0 8px 8px 0;
+            margin: 16px 0;
+        }
+
+        .highlight-box.warn {
+            border-left-color: var(--yellow);
+            background: rgba(249, 226, 175, 0.08);
+        }
+
+        .highlight-box.success {
+            border-left-color: var(--green);
+            background: rgba(166, 227, 161, 0.08);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 14px 0 20px;
+        }
+
+        th {
+            text-align: left;
+            padding: 10px 14px;
+            background: var(--surface2);
+            color: var(--accent);
+            font-size: 0.9em;
+            border-bottom: 2px solid var(--accent);
+        }
+
+        td {
+            padding: 10px 14px;
+            border-bottom: 1px solid var(--surface2);
+            font-size: 0.9em;
+        }
+
+        tr:hover td { background: rgba(137, 180, 250, 0.05); }
+
+        ol, ul {
+            margin: 10px 0 14px 24px;
+        }
+
+        li { margin-bottom: 6px; }
+
+        .toc {
+            background: var(--surface);
+            border: 1px solid var(--surface2);
+            border-radius: 10px;
+            padding: 20px 28px;
+            margin: 24px 0 40px;
+        }
+
+        .toc-title {
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 12px;
+            font-size: 1.05rem;
+        }
+
+        .toc ol { margin: 0; padding-left: 20px; }
+        .toc li { margin-bottom: 4px; }
+        .toc a { color: var(--text); }
+        .toc a:hover { color: var(--accent); }
+
+        .badge {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 600;
+        }
+
+        .badge-wpf   { background: var(--accent); color: var(--bg); }
+        .badge-cs     { background: var(--mauve); color: var(--bg); }
+        .badge-xaml   { background: var(--peach); color: var(--bg); }
+        .badge-ps     { background: var(--green); color: var(--bg); }
+
+        hr {
+            border: none;
+            border-top: 1px solid var(--surface2);
+            margin: 32px 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- TITLE                                                      -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <h1><span>⚙️</span> AutoRepair GUI — Implementation Walkthrough</h1>
+    <p class="subtitle">
+        A deep dive into how the WPF desktop application is architected, how each component works,
+        and how the three-step pipeline is orchestrated from the user interface.
+    </p>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- TABLE OF CONTENTS                                          -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <div class="toc">
+        <div class="toc-title">📑 Table of Contents</div>
+        <ol>
+            <li><a href="#overview">High-Level Overview</a></li>
+            <li><a href="#project-structure">Project Structure</a></li>
+            <li><a href="#technology">Technology Stack</a></li>
+            <li><a href="#xaml-layout">XAML Layout &amp; Theming</a></li>
+            <li><a href="#mainwindow-cs">MainWindow Code-Behind</a></li>
+            <li><a href="#pipeline-runner">PipelineRunner — Process Orchestration</a></li>
+            <li><a href="#two-phase">Two-Phase Workflow (Dry-Run → Apply)</a></li>
+            <li><a href="#data-flow">End-to-End Data Flow</a></li>
+            <li><a href="#key-patterns">Key Design Patterns &amp; Techniques</a></li>
+            <li><a href="#summary">Summary</a></li>
+        </ol>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- 1. OVERVIEW                                                -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <h2 id="overview">1. High-Level Overview</h2>
+
+    <p>
+        The AutoRepair GUI is a <strong>WPF (Windows Presentation Foundation)</strong> desktop application
+        that provides a visual front-end for the AutoRepair pipeline. Rather than running PowerShell scripts
+        manually from the command line, users can:
+    </p>
+    <ol>
+        <li><strong>Drag &amp; drop</strong> (or browse to) a C# project folder.</li>
+        <li>Click <strong>▶ Run Pipeline</strong> to execute all three pipeline steps automatically.</li>
+        <li><strong>Review generated patches</strong> in a visual diff-card interface.</li>
+        <li><strong>Apply</strong> or <strong>Reject</strong> patches with a single click, with full test verification.</li>
+    </ol>
+
+    <div class="diagram">
+        <div class="box">User drops project</div>
+        <span class="arrow">→</span>
+        <div class="box">Step 1: Tracing</div>
+        <span class="arrow">→</span>
+        <div class="box">Step 2: Constraints</div>
+        <span class="arrow">→</span>
+        <div class="box">Step 3: Repair</div>
+        <span class="arrow">→</span>
+        <div class="box">Review &amp; Apply</div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- 2. PROJECT STRUCTURE                                        -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <h2 id="project-structure">2. Project Structure</h2>
+
+    <div class="file-tree">
+        <span class="folder">AutoRepair/GUI/GUI/</span><br>
+        ├── <span class="file">GUI.csproj</span>         <span class="desc">— .NET 10 WPF project file</span><br>
+        ├── <span class="file">App.xaml</span>           <span class="desc">— Application entry point (sets StartupUri)</span><br>
+        ├── <span class="file">App.xaml.cs</span>        <span class="desc">— Application code-behind (empty)</span><br>
+        ├── <span class="file">AssemblyInfo.cs</span>    <span class="desc">— Assembly metadata</span><br>
+        ├── <span class="file">MainWindow.xaml</span>    <span class="desc">— UI layout: all visual elements (~259 lines)</span><br>
+        ├── <span class="file">MainWindow.xaml.cs</span> <span class="desc">— UI logic: event handlers, state management (~581 lines)</span><br>
+        └── <span class="file">PipelineRunner.cs</span>  <span class="desc">— Process orchestration: runs PowerShell scripts (~336 lines)</span><br>
+    </div>
+
+    <p style="margin-top: 14px;">
+        The application consists of just <strong>three meaningful source files</strong> — the XAML layout,
+        the code-behind, and the pipeline runner — keeping the architecture intentionally simple.
+    </p>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- 3. TECHNOLOGY                                               -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <h2 id="technology">3. Technology Stack</h2>
+
+    <table>
+        <tr>
+            <th>Component</th>
+            <th>Technology</th>
+            <th>Purpose</th>
+        </tr>
+        <tr>
+            <td>UI Framework</td>
+            <td><span class="badge badge-wpf">WPF</span></td>
+            <td>Desktop GUI with XAML-defined layout and data binding</td>
+        </tr>
+        <tr>
+            <td>Runtime</td>
+            <td><span class="badge badge-cs">.NET 10</span></td>
+            <td>Target framework (<code>net10.0-windows</code>)</td>
+        </tr>
+        <tr>
+            <td>Layout</td>
+            <td><span class="badge badge-xaml">XAML</span></td>
+            <td>Declarative UI definition with resource dictionaries and data templates</td>
+        </tr>
+        <tr>
+            <td>Pipeline Scripts</td>
+            <td><span class="badge badge-ps">PowerShell</span></td>
+            <td>Each pipeline step is a .ps1 script invoked as a child process</td>
+        </tr>
+        <tr>
+            <td>Data Format</td>
+            <td><code>System.Text.Json</code></td>
+            <td>Parsing the generated <code>patches.json</code> for the review UI</td>
+        </tr>
+    </table>
+
+    <div class="highlight-box">
+        <strong>Why WPF?</strong> — The project targets Windows and needs rich UI features like
+        drag-and-drop, data templating for patch cards, and real-time log output — all of which WPF
+        provides natively. The XAML/code-behind pattern keeps layout separate from logic.
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- 4. XAML LAYOUT                                              -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <h2 id="xaml-layout">4. XAML Layout &amp; Theming</h2>
+
+    <p>
+        The entire UI is defined in <code>MainWindow.xaml</code> (~259 lines). The window uses a
+        <strong>Catppuccin Mocha</strong>-inspired dark theme, with all colours defined as
+        <code>SolidColorBrush</code> resources in <code>Window.Resources</code>.
+    </p>
+
+    <h3>4.1 Colour Resources</h3>
+    <pre><code><span class="tag">&lt;Window.Resources&gt;</span>
+    <span class="tag">&lt;SolidColorBrush</span> <span class="attr">x:Key</span>=<span class="string">"AccentBrush"</span>   <span class="attr">Color</span>=<span class="string">"#89b4fa"</span><span class="tag">/&gt;</span>   <span class="comment">&lt;!-- Blue  --&gt;</span>
+    <span class="tag">&lt;SolidColorBrush</span> <span class="attr">x:Key</span>=<span class="string">"GreenBrush"</span>    <span class="attr">Color</span>=<span class="string">"#a6e3a1"</span><span class="tag">/&gt;</span>   <span class="comment">&lt;!-- Green --&gt;</span>
+    <span class="tag">&lt;SolidColorBrush</span> <span class="attr">x:Key</span>=<span class="string">"RedBrush"</span>      <span class="attr">Color</span>=<span class="string">"#f38ba8"</span><span class="tag">/&gt;</span>   <span class="comment">&lt;!-- Red   --&gt;</span>
+    <span class="tag">&lt;SolidColorBrush</span> <span class="attr">x:Key</span>=<span class="string">"YellowBrush"</span>   <span class="attr">Color</span>=<span class="string">"#f9e2af"</span><span class="tag">/&gt;</span>   <span class="comment">&lt;!-- Warn  --&gt;</span>
+    <span class="tag">&lt;SolidColorBrush</span> <span class="attr">x:Key</span>=<span class="string">"SurfaceBrush"</span>  <span class="attr">Color</span>=<span class="string">"#313244"</span><span class="tag">/&gt;</span>   <span class="comment">&lt;!-- Cards --&gt;</span>
+    <span class="tag">&lt;SolidColorBrush</span> <span class="attr">x:Key</span>=<span class="string">"Surface2Brush"</span> <span class="attr">Color</span>=<span class="string">"#45475a"</span><span class="tag">/&gt;</span>   <span class="comment">&lt;!-- Borders --&gt;</span>
+    ...
+<span class="tag">&lt;/Window.Resources&gt;</span></code></pre>
+
+    <p>
+        These resources are referenced throughout the XAML via <code>{StaticResource BrushName}</code>,
+        making the theme easy to customise from a single location.
+    </p>
+
+    <h3>4.2 Layout Grid (6 Rows)</h3>
+    <p>The window body is a single <code>Grid</code> with six rows:</p>
+
+    <table>
+        <tr><th>Row</th><th>Height</th><th>Content</th></tr>
+        <tr><td>0</td><td>Auto</td><td><strong>Title bar</strong> — "⚙ AutoRepair Pipeline" heading and subtitle</td></tr>
+        <tr><td>1</td><td>Auto</td><td><strong>Drop zone</strong> — drag-and-drop area / click-to-browse</td></tr>
+        <tr><td>2</td><td>Auto</td><td><strong>Project info panel</strong> — shows detected source &amp; test project paths (initially collapsed)</td></tr>
+        <tr><td>3</td><td>Auto</td><td><strong>Step indicators</strong> — three horizontal cards showing Step 1/2/3 status</td></tr>
+        <tr><td>4</td><td>*</td><td><strong>Main content</strong> — <code>TabControl</code> with "Output Log" and "Patch Review" tabs</td></tr>
+        <tr><td>5</td><td>Auto</td><td><strong>Action buttons</strong> — Clear Log, Cancel, Reject, Apply, Run Pipeline</td></tr>
+    </table>
+
+    <h3>4.3 Step Indicator Cards</h3>
+    <p>
+        Three step cards are laid out in a <code>UniformGrid</code> with <code>Columns="3"</code>.
+        Each card is a <code>Border</code> containing a status icon (<code>○ / ⏳ / ✔ / ✘</code>)
+        and a status label ("Waiting" / "Running…" / "Complete" / "Failed"). The code-behind
+        updates these dynamically by changing their <code>Text</code>, <code>Foreground</code>, and <code>BorderBrush</code>.
+    </p>
+
+    <h3>4.4 The TabControl — Log &amp; Patch Review</h3>
+    <p>
+        The main content area uses a <code>TabControl</code> with custom-styled tab headers
+        (rounded top corners, colour change on selection):
+    </p>
+    <ul>
+        <li><strong>📋 Output Log</strong> — A read-only <code>TextBox</code> inside a <code>ScrollViewer</code>,
+            displaying real-time output from the pipeline processes.</li>
+        <li><strong>🔍 Patch Review</strong> — An <code>ItemsControl</code> bound to a list of
+            <code>PatchDisplayItem</code> objects. Each patch renders as a card showing the file name,
+            line number, rule, description, and a colour-coded original/patched diff.</li>
+    </ul>
+
+    <h3>4.5 Patch Diff Cards (DataTemplate)</h3>
+    <p>
+        The patch review tab uses a <code>DataTemplate</code> to render each patch as a visual card.
+        This is a key XAML technique — each <code>PatchDisplayItem</code> object is automatically
+        rendered into a styled card:
+    </p>
+    <pre><code><span class="tag">&lt;DataTemplate&gt;</span>
+    <span class="tag">&lt;Border</span> <span class="attr">CornerRadius</span>=<span class="string">"8"</span> <span class="attr">Background</span>=<span class="string">"{StaticResource SurfaceBrush}"</span> ...&gt;
+        <span class="tag">&lt;StackPanel&gt;</span>
+            <span class="comment">&lt;!-- Header: file name, line, rule --&gt;</span>
+            <span class="tag">&lt;TextBlock</span> <span class="attr">Text</span>=<span class="string">"{Binding File}"</span> ... /&gt;
+            <span class="tag">&lt;TextBlock</span> <span class="attr">Text</span>=<span class="string">"{Binding LineLabel}"</span> ... /&gt;
+            <span class="tag">&lt;TextBlock</span> <span class="attr">Text</span>=<span class="string">"{Binding RuleName}"</span> ... /&gt;
+
+            <span class="comment">&lt;!-- Description --&gt;</span>
+            <span class="tag">&lt;TextBlock</span> <span class="attr">Text</span>=<span class="string">"{Binding Description}"</span> ... /&gt;
+
+            <span class="comment">&lt;!-- Diff: red background for original --&gt;</span>
+            <span class="tag">&lt;Border</span> <span class="attr">Background</span>=<span class="string">"#2d1517"</span>&gt;
+                <span class="tag">&lt;TextBlock</span> <span class="attr">Text</span>=<span class="string">"{Binding OriginalCode}"</span> <span class="attr">Foreground</span>=<span class="string">"#f5c2c7"</span> /&gt;
+            <span class="tag">&lt;/Border&gt;</span>
+
+            <span class="comment">&lt;!-- Diff: green background for patched --&gt;</span>
+            <span class="tag">&lt;Border</span> <span class="attr">Background</span>=<span class="string">"#152d1d"</span>&gt;
+                <span class="tag">&lt;TextBlock</span> <span class="attr">Text</span>=<span class="string">"{Binding PatchedCode}"</span> <span class="attr">Foreground</span>=<span class="string">"#c7f5d5"</span> /&gt;
+            <span class="tag">&lt;/Border&gt;</span>
+        <span class="tag">&lt;/StackPanel&gt;</span>
+    <span class="tag">&lt;/Border&gt;</span>
+<span class="tag">&lt;/DataTemplate&gt;</span></code></pre>
+
+    <div class="highlight-box success">
+        <strong>Design choice:</strong> Using WPF data binding and <code>DataTemplate</code> means
+        the UI automatically generates one card per patch — no manual loop code needed. Just set
+        <code>PatchList.ItemsSource = patches;</code> and WPF does the rest.
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- 5. MAINWINDOW CODE-BEHIND                                   -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <h2 id="mainwindow-cs">5. MainWindow Code-Behind</h2>
+
+    <p>
+        <code>MainWindow.xaml.cs</code> (~581 lines) handles all UI events and state management.
+        It can be broken into five logical areas:
+    </p>
+
+    <h3>5.1 Drag &amp; Drop / Browse Input</h3>
+    <div class="card">
+        <div class="card-header">How project input works</div>
+        <p>The window has <code>AllowDrop="True"</code> with two event handlers:</p>
+        <ul>
+            <li><code>Window_DragOver</code> — highlights the drop zone border in blue when a valid file is dragged over.</li>
+            <li><code>Window_Drop</code> — extracts the file path and calls <code>AcceptPath()</code>.</li>
+        </ul>
+        <p>Alternatively, clicking the drop zone opens a file dialog (<code>DropZone_Click</code>) for manual browsing.</p>
+    </div>
+
+    <h3>5.2 Path Resolution &amp; Project Detection</h3>
+    <div class="card">
+        <div class="card-header">AcceptPath() → ResolveProjectLayout()</div>
+        <p>When a path is received (drop or browse), the code resolves the project structure:</p>
+        <ol>
+            <li>Determines if the path is a directory, <code>.csproj</code>, <code>.sln</code>, or another file.</li>
+            <li>Calls <code>ResolveProjectLayout()</code> which scans for <code>.csproj</code> files in the folder and sub-folders.</li>
+            <li>Separates source projects from test projects using <code>IsTestProject()</code>.</li>
+            <li>Auto-detects the test project via <code>DetectTestProject()</code> using naming conventions
+                (<code>*.Tests</code>, <code>*Test*</code>) and NuGet package references (xUnit, NUnit, MSTest).</li>
+        </ol>
+        <p>
+            If no test project is found, the user is warned and can manually browse to one.
+            The <strong>▶ Run Pipeline</strong> button remains disabled until a test project is set.
+        </p>
+    </div>
+
+    <pre><code><span class="keyword">private static</span> <span class="type">bool</span> <span class="prop">IsTestProject</span>(<span class="type">string</span> csprojPath)
+{
+    <span class="keyword">var</span> name = Path.GetFileNameWithoutExtension(csprojPath);
+
+    <span class="comment">// Check naming convention</span>
+    <span class="keyword">if</span> (name.EndsWith(<span class="string">".Tests"</span>) || name.EndsWith(<span class="string">".Test"</span>) || ...)
+        <span class="keyword">return true</span>;
+
+    <span class="comment">// Check for test framework NuGet references in the .csproj</span>
+    <span class="keyword">var</span> content = File.ReadAllText(csprojPath);
+    <span class="keyword">if</span> (content.Contains(<span class="string">"Microsoft.NET.Test.Sdk"</span>) ||
+        content.Contains(<span class="string">"xunit"</span>) || content.Contains(<span class="string">"NUnit"</span>) || ...)
+        <span class="keyword">return true</span>;
+
+    <span class="keyword">return false</span>;
+}</code></pre>
+
+    <h3>5.3 Pipeline Execution (BtnRun_Click)</h3>
+    <div class="card">
+        <div class="card-header">The Run Pipeline button handler</div>
+        <p>When the user clicks <strong>▶ Run Pipeline</strong>, the <code>async</code> handler:</p>
+        <ol>
+            <li>Disables buttons and resets all step indicators.</li>
+            <li>Creates a <code>CancellationTokenSource</code> for cancellation support.</li>
+            <li>Locates the <code>AutoRepair</code> root directory by walking up parent directories.</li>
+            <li>Creates a <code>PipelineRunner</code> instance, wiring up its events:
+                <ul>
+                    <li><code>OutputReceived</code> → appends text to the log via <code>Dispatcher.Invoke()</code></li>
+                    <li><code>StepChanged</code> → updates the step indicator cards</li>
+                </ul>
+            </li>
+            <li>Calls <code>runner.RunAnalysisAsync()</code> — the dry-run phase.</li>
+            <li>On success, parses <code>patches.json</code> and populates the Patch Review tab.</li>
+            <li>Shows the <strong>✔ Apply</strong> and <strong>✘ Reject</strong> buttons.</li>
+        </ol>
+    </div>
+
+    <h3>5.4 Patch Loading &amp; Display</h3>
+    <div class="card">
+        <div class="card-header">LoadPatches() and PatchDisplayItem</div>
+        <p>
+            <code>LoadPatches()</code> reads the <code>patches.json</code> file generated by Step 3
+            and deserialises it into a list of <code>PatchDisplayItem</code> objects using
+            <code>System.Text.Json</code>:
+        </p>
+        <pre><code><span class="keyword">public class</span> <span class="type">PatchDisplayItem</span>
+{
+    <span class="keyword">public string</span> <span class="prop">File</span> { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    <span class="keyword">public int</span>    <span class="prop">Line</span> { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    <span class="keyword">public string</span> <span class="prop">RuleName</span> { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    <span class="keyword">public string</span> <span class="prop">Description</span> { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    <span class="keyword">public string</span> <span class="prop">OriginalCode</span> { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    <span class="keyword">public string</span> <span class="prop">PatchedCode</span> { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    <span class="keyword">public string</span> <span class="prop">LineLabel</span> => <span class="string">$"Line {Line}"</span>;
+}</code></pre>
+        <p>
+            Setting <code>PatchList.ItemsSource = patches;</code> triggers the XAML <code>DataTemplate</code>
+            to render a diff card for each patch automatically.
+        </p>
+    </div>
+
+    <h3>5.5 Apply / Reject / Cancel</h3>
+    <table>
+        <tr><th>Button</th><th>Handler</th><th>Action</th></tr>
+        <tr>
+            <td>✔ Apply Patches</td>
+            <td><code>BtnApply_Click</code></td>
+            <td>Calls <code>runner.ApplyPatchesAndVerifyAsync()</code> — re-runs Step 3 with <code>-Apply</code> flag, then runs <code>dotnet test</code> to verify.</td>
+        </tr>
+        <tr>
+            <td>✘ Reject Patches</td>
+            <td><code>BtnReject_Click</code></td>
+            <td>Runs <code>restore_project.ps1</code> to revert source files from <code>.bak</code> backups.</td>
+        </tr>
+        <tr>
+            <td>Cancel</td>
+            <td><code>BtnCancel_Click</code></td>
+            <td>Cancels the <code>CancellationTokenSource</code> and kills the active child process.</td>
+        </tr>
+        <tr>
+            <td>Clear Log</td>
+            <td><code>BtnClear_Click</code></td>
+            <td>Clears the output log text and resets all step indicators.</td>
+        </tr>
+    </table>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- 6. PIPELINE RUNNER                                          -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <h2 id="pipeline-runner">6. PipelineRunner — Process Orchestration</h2>
+
+    <p>
+        <code>PipelineRunner.cs</code> (~336 lines) is the engine that actually runs the pipeline.
+        It has <strong>no UI dependencies</strong> — it communicates with the window purely through events.
+    </p>
+
+    <h3>6.1 Architecture</h3>
+    <div class="card">
+        <div class="card-header">Clean separation of concerns</div>
+        <ul>
+            <li><strong>Two events</strong> are exposed:
+                <ul>
+                    <li><code>OutputReceived</code> — fires whenever a line of stdout/stderr is captured.</li>
+                    <li><code>StepChanged</code> — fires when a step transitions (Running / Success / Failed).</li>
+                </ul>
+            </li>
+            <li>The runner holds a reference to the currently active <code>Process</code> so it can be killed on cancellation.</li>
+            <li>It caches the <code>_violationsFile</code> path from Step 2 so Step 3 (apply phase) can find it later.</li>
+        </ul>
+    </div>
+
+    <h3>6.2 Running PowerShell Processes</h3>
+    <p>
+        Each pipeline step is a PowerShell script. The runner launches them as child processes
+        with <code>System.Diagnostics.Process</code>:
+    </p>
+
+    <pre><code><span class="keyword">private</span> <span class="type">Task&lt;int&gt;</span> <span class="prop">RunPowerShellAsync</span>(<span class="type">string</span> arguments, <span class="type">CancellationToken</span> ct)
+{
+    <span class="keyword">var</span> psi = <span class="keyword">new</span> <span class="type">ProcessStartInfo</span>
+    {
+        FileName      = <span class="string">"powershell.exe"</span>,
+        Arguments     = <span class="string">$"-NoProfile -ExecutionPolicy Bypass {arguments}"</span>,
+        UseShellExecute      = <span class="keyword">false</span>,
+        RedirectStandardOutput = <span class="keyword">true</span>,
+        RedirectStandardError  = <span class="keyword">true</span>,
+        CreateNoWindow = <span class="keyword">true</span>,
+        WorkingDirectory = _autoRepairRoot,
+    };
+    <span class="keyword">return</span> RunProcessAsync(psi, ct);
+}</code></pre>
+
+    <div class="highlight-box">
+        <strong>Key detail:</strong> The runner prepends the local .NET SDK path to the <code>PATH</code>
+        environment variable. This ensures that the PowerShell scripts can find <code>dotnet.exe</code>
+        even if it's installed in the per-user location rather than system-wide.
+    </div>
+
+    <h3>6.3 Real-Time Output Streaming</h3>
+    <p>
+        Output is streamed in real time using asynchronous line-by-line reading:
+    </p>
+
+    <pre><code><span class="keyword">private async</span> <span class="type">Task&lt;int&gt;</span> <span class="prop">RunProcessAsync</span>(<span class="type">ProcessStartInfo</span> psi, <span class="type">CancellationToken</span> ct)
+{
+    <span class="keyword">var</span> process = <span class="keyword">new</span> <span class="type">Process</span> { StartInfo = psi, EnableRaisingEvents = <span class="keyword">true</span> };
+    <span class="keyword">var</span> tcs = <span class="keyword">new</span> <span class="type">TaskCompletionSource&lt;int&gt;</span>();
+
+    process.OutputDataReceived += (_, e) => {
+        <span class="keyword">if</span> (e.Data != <span class="keyword">null</span>) Emit(e.Data + <span class="string">"\n"</span>);  <span class="comment">// → fires OutputReceived event</span>
+    };
+    process.Exited += (_, _) => { tcs.TrySetResult(process.ExitCode); };
+
+    process.Start();
+    process.BeginOutputReadLine();
+    process.BeginErrorReadLine();
+
+    <span class="comment">// Cancellation kills the entire process tree</span>
+    <span class="keyword">using var</span> reg = ct.Register(() => {
+        process.Kill(entireProcessTree: <span class="keyword">true</span>);
+        tcs.TrySetCanceled(ct);
+    });
+
+    <span class="keyword">return await</span> tcs.Task;
+}</code></pre>
+
+    <p>
+        The <code>TaskCompletionSource</code> pattern bridges the event-based <code>Process</code> API
+        into an <code>async/await</code>-friendly task. The method returns only when the process exits
+        (or is cancelled).
+    </p>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- 7. TWO-PHASE WORKFLOW                                       -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <h2 id="two-phase">7. Two-Phase Workflow (Dry-Run → Apply)</h2>
+
+    <p>
+        A critical design decision is the <strong>two-phase execution model</strong>. Rather than
+        applying patches immediately, the pipeline runs in a "dry-run" first, then waits for user approval.
+    </p>
+
+    <h3>Phase 1 — Analysis (<code>RunAnalysisAsync</code>)</h3>
+    <div class="card">
+        <div class="card-header">Steps 1 → 2 → 3 (dry-run)</div>
+        <ol>
+            <li><strong>Pre-clean:</strong> Runs <code>restore_project.ps1</code> to undo any leftover
+                instrumentation from previous runs.</li>
+            <li><strong>Step 1 — Tracing:</strong> Runs <code>generate_trace.ps1</code> with the source
+                directory and test project as arguments. Produces <code>trace_logs.jsonl</code>.</li>
+            <li><strong>Step 2 — Constraints:</strong> Runs <code>analyze_trace.ps1</code>, which reads the
+                trace logs and produces <code>violations.json</code>.</li>
+            <li><strong>Step 3 — Repair (dry-run):</strong> Runs <code>generate_patches.ps1</code>
+                <em>without</em> the <code>-Apply</code> flag, producing <code>patches.json</code> only.</li>
+        </ol>
+    </div>
+
+    <h3>Phase 2a — Apply (<code>ApplyPatchesAndVerifyAsync</code>)</h3>
+    <div class="card">
+        <div class="card-header">User clicks ✔ Apply Patches</div>
+        <ol>
+            <li><strong>Restore first:</strong> Runs <code>restore_project.ps1</code> to get clean source files
+                (removes any instrumentation artefacts).</li>
+            <li><strong>Apply:</strong> Re-runs <code>generate_patches.ps1</code> with the <code>-Apply</code>
+                flag, which modifies the actual source files.</li>
+            <li><strong>Verify:</strong> Runs <code>dotnet test</code> against the patched code to confirm
+                the repairs pass all tests.</li>
+        </ol>
+    </div>
+
+    <div class="highlight-box warn">
+        <strong>Why restore before applying?</strong> — Step 1 instruments the source files (adds tracing code).
+        If patches were applied to the instrumented files and then a restore ran, the <code>.bak</code> files
+        would overwrite the patches with the original code. So the flow is:
+        restore → apply patches to clean originals → verify.
+    </div>
+
+    <h3>Phase 2b — Reject (<code>RestoreSourceAsync</code>)</h3>
+    <p>
+        If the user clicks <strong>✘ Reject</strong>, the runner simply restores all <code>.bak</code>
+        files, reverting the source to its original state with no patches applied.
+    </p>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- 8. DATA FLOW                                                -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <h2 id="data-flow">8. End-to-End Data Flow</h2>
+
+    <div class="diagram" style="text-align: left; line-height: 2.2;">
+        <strong style="color: var(--accent);">User Input</strong><br>
+        &nbsp;&nbsp;📂 C# project path (drag/drop or browse)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+        <strong style="color: var(--mauve);">MainWindow.AcceptPath()</strong><br>
+        &nbsp;&nbsp;Resolves source dir + auto-detects test project<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+        <strong style="color: var(--mauve);">MainWindow.BtnRun_Click()</strong><br>
+        &nbsp;&nbsp;Creates PipelineRunner, wires events<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+        <strong style="color: var(--peach);">PipelineRunner.RunAnalysisAsync()</strong><br>
+        &nbsp;&nbsp;├─ <span style="color: var(--yellow);">Step 1:</span> powershell → generate_trace.ps1 → trace_logs.jsonl<br>
+        &nbsp;&nbsp;├─ <span style="color: var(--yellow);">Step 2:</span> powershell → analyze_trace.ps1 → violations.json<br>
+        &nbsp;&nbsp;└─ <span style="color: var(--yellow);">Step 3:</span> powershell → generate_patches.ps1 → patches.json<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+        <strong style="color: var(--mauve);">MainWindow.LoadPatches()</strong><br>
+        &nbsp;&nbsp;Parses patches.json → List&lt;PatchDisplayItem&gt;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+        <strong style="color: var(--mauve);">MainWindow.ShowPatchReview()</strong><br>
+        &nbsp;&nbsp;Sets ItemsSource → XAML DataTemplate renders diff cards<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+        <strong style="color: var(--accent);">User Decision</strong><br>
+        &nbsp;&nbsp;✔ Apply → <span style="color: var(--green);">ApplyPatchesAndVerifyAsync()</span> → restore, patch, test<br>
+        &nbsp;&nbsp;✘ Reject → <span style="color: var(--red);">RestoreSourceAsync()</span> → revert to backups
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- 9. KEY PATTERNS                                             -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <h2 id="key-patterns">9. Key Design Patterns &amp; Techniques</h2>
+
+    <div class="card">
+        <div class="card-header">🔧 Event-Based Decoupling</div>
+        <p>
+            <code>PipelineRunner</code> has zero references to WPF classes. It communicates through
+            <code>OutputReceived</code> and <code>StepChanged</code> events. The <code>MainWindow</code>
+            subscribes to these and uses <code>Dispatcher.Invoke()</code> to marshal updates to the UI thread.
+            This keeps the pipeline logic testable and UI-independent.
+        </p>
+    </div>
+
+    <div class="card">
+        <div class="card-header">🔧 TaskCompletionSource for Process Lifecycle</div>
+        <p>
+            The <code>RunProcessAsync</code> method wraps <code>System.Diagnostics.Process</code>
+            (which is event-based) into an <code>async Task&lt;int&gt;</code> using <code>TaskCompletionSource</code>.
+            This allows the caller to simply <code>await</code> process completion while still receiving
+            real-time output via events.
+        </p>
+    </div>
+
+    <div class="card">
+        <div class="card-header">🔧 CancellationToken Integration</div>
+        <p>
+            Every async method accepts a <code>CancellationToken</code>. When the user clicks Cancel,
+            the token is triggered, which registers a callback that kills the entire process tree
+            (<code>process.Kill(entireProcessTree: true)</code>) and cancels the task.
+        </p>
+    </div>
+
+    <div class="card">
+        <div class="card-header">🔧 WPF Data Binding + DataTemplate</div>
+        <p>
+            The patch review UI uses WPF's data binding system. Each <code>PatchDisplayItem</code> is
+            automatically rendered into a styled card via the XAML <code>DataTemplate</code>.
+            No imperative UI code is needed to create or populate the cards — just
+            <code>PatchList.ItemsSource = patches;</code>.
+        </p>
+    </div>
+
+    <div class="card">
+        <div class="card-header">🔧 Smart Project Detection</div>
+        <p>
+            The <code>AcceptPath</code> → <code>ResolveProjectLayout</code> → <code>DetectTestProject</code>
+            chain uses a multi-strategy approach to find the test project: naming conventions first
+            (e.g., sibling <code>*.Tests</code> directory), then falls back to scanning <code>.csproj</code>
+            contents for test framework NuGet package references.
+        </p>
+    </div>
+
+    <div class="card">
+        <div class="card-header">🔧 Catppuccin Mocha Theming via Resource Dictionaries</div>
+        <p>
+            All colours are defined as named <code>SolidColorBrush</code> resources in
+            <code>Window.Resources</code>. Changing the theme requires editing only the colour hex values
+            in one place. The diff cards use distinct background colours — dark red (<code>#2d1517</code>)
+            for original code and dark green (<code>#152d1d</code>) for patched code — mimicking a
+            standard git diff view.
+        </p>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- 10. SUMMARY                                                 -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <h2 id="summary">10. Summary</h2>
+
+    <table>
+        <tr><th>File</th><th>Lines</th><th>Responsibility</th></tr>
+        <tr><td>GUI.csproj</td><td>15</td><td>Project configuration — targets .NET 10, enables WPF</td></tr>
+        <tr><td>App.xaml / .cs</td><td>19</td><td>Application entry point — sets MainWindow as startup</td></tr>
+        <tr><td>MainWindow.xaml</td><td>~259</td><td>Full UI layout — drop zone, step cards, tabs, buttons, diff templates</td></tr>
+        <tr><td>MainWindow.xaml.cs</td><td>~581</td><td>Event handlers, project detection, pipeline orchestration, state management</td></tr>
+        <tr><td>PipelineRunner.cs</td><td>~336</td><td>Spawns PowerShell/dotnet processes, streams output, manages pipeline phases</td></tr>
+    </table>
+
+    <div class="highlight-box success">
+        <strong>In summary:</strong> The GUI wraps the three-step AutoRepair pipeline into a polished
+        WPF desktop experience. It uses drag-and-drop input, three visual step indicators, a tabbed
+        log/patch-review interface, and a two-phase dry-run-then-apply workflow with full cancellation
+        support. The architecture cleanly separates the UI layer (MainWindow) from the process
+        orchestration layer (PipelineRunner) using events.
+    </div>
+
+    <hr>
+    <p style="color: var(--subtext); font-size: 0.85em; text-align: center;">
+        AutoRepair GUI Walkthrough — Generated for the Patching workspace
+    </p>
+
+</div>
+
+</body>
+</html>

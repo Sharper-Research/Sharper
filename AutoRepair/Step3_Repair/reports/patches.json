@@ -1,0 +1,75 @@
+{
+  "generatedAt": "2026-03-09T09:39:53Z",
+  "violationsFile": "C:\\Users\\jimda\\Desktop\\work_project\\Patching\\AutoRepair\\Step2_Constraints\\reports\\violations.json",
+  "targetRoot": "C:\\Users\\jimda\\Downloads\\Patching-main\\Patching-main\\BrightHrKata\\Checkout",
+  "totalViolations": 4,
+  "patchesApplied": 3,
+  "patchesSkipped": 0,
+  "patches": [
+    {
+      "file": "PricingEngine.cs",
+      "line": 63,
+      "ruleName": "ExceptionRepair",
+      "description": "Wrapped in try-catch for IndexOutOfRangeException",
+      "originalCode": "\n            foreach (var item in basket.Items\n                        .Where(x => !specialPrices\n                                    .Select(y => y.Sku)\n                                    .Distinct()\n                                    .Contains(x.Sku)))\n            {\n                localSum += item.SalesPrice;\n            }",
+      "patchedCode": "            try\n            {\n                foreach (var item in basket.Items\n                        .Where(x => !specialPrices\n                                    .Select(y => y.Sku)\n                                    .Distinct()\n                                    .Contains(x.Sku)))\n            {\n                localSum += item.SalesPrice;\n            }\n            }\n            catch (IndexOutOfRangeException ex)\n            {\n                // AutoRepair: caught IndexOutOfRangeException at line 63\n                System.Diagnostics.Debug.WriteLine($\"AutoRepair: {ex.GetType().Name} at PricingEngine.cs:63: {ex.Message}\");\n            }",
+      "violation": {
+        "predicate": "NoUnhandledException(event)",
+        "assertion": "event.exception == null",
+        "bindings": {
+          "event.exception.type": "System.IndexOutOfRangeException"
+        },
+        "result": false,
+        "file": "PricingEngine.cs",
+        "line": 57,
+        "traceId": "33537c9e-5bef-4b77-b781-1c7f605234bf"
+      }
+    },
+    {
+      "file": "PricingEngine.cs",
+      "line": 75,
+      "ruleName": "BufferBoundsRepair",
+      "description": "Added bounds check guard for array access",
+      "originalCode": "                numbers[i] = i;",
+      "patchedCode": "                if (i >= 0 && i < numbers.Length)\n                {\n                    numbers[i] = i;\n                }",
+      "violation": {
+        "predicate": "BufferInBounds(index:numbers, numbers)",
+        "assertion": "0 <= index:numbers AND index:numbers < heap.size(numbers)",
+        "bindings": {
+          "index:numbers": 5,
+          "heap.size(numbers)": 5,
+          "numbers.contents": [
+            "0",
+            "1",
+            "2",
+            "3",
+            "4"
+          ]
+        },
+        "result": false,
+        "file": "PricingEngine.cs",
+        "line": 75,
+        "traceId": "b1e499b5-8acd-4025-afc9-8b17a12e0b67"
+      }
+    },
+    {
+      "file": "Checkout.cs",
+      "line": 13,
+      "ruleName": "ExceptionRepair",
+      "description": "Wrapped in try-catch for DebugAssertException",
+      "originalCode": "            return _pricingEngine.GetSumOfAllNormalItemsPrices(_basket) + _pricingEngine.GetSumOfAllSpecialPriceItems(_basket);",
+      "patchedCode": "            try\n            {\n                return _pricingEngine.GetSumOfAllNormalItemsPrices(_basket) + _pricingEngine.GetSumOfAllSpecialPriceItems(_basket);\n            }\n            catch (DebugAssertException ex)\n            {\n                // AutoRepair: caught DebugAssertException at line 13\n                System.Diagnostics.Debug.WriteLine($\"AutoRepair: {ex.GetType().Name} at Checkout.cs:13: {ex.Message}\");\n            }",
+      "violation": {
+        "predicate": "NoUnhandledException(event)",
+        "assertion": "event.exception == null",
+        "bindings": {
+          "event.exception.type": "Microsoft.VisualStudio.TestPlatform.TestHost.DebugAssertException"
+        },
+        "result": false,
+        "file": "Checkout.cs",
+        "line": 11,
+        "traceId": "cc6f3ec9-74df-49bd-876f-96803ef12626"
+      }
+    }
+  ]
+}

@@ -15,7 +15,11 @@ namespace RuntimeCode
                 BindingFlags.Public | BindingFlags.NonPublic
                 | BindingFlags.Instance | BindingFlags.Static
                 | BindingFlags.DeclaredOnly)!;
-            bool shouldPersist = (bool)method.Invoke(o, Array.Empty<object>())!;
+            bool shouldPersist = false;
+            if (method is not null)
+            {
+                shouldPersist = (bool)method.Invoke(o, Array.Empty<object>())!;
+            }
             return shouldPersist;
         }
     }

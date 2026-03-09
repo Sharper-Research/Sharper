@@ -1,0 +1,1189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AutoRepair Step 3 — Repair Engine Deep Dive</title>
+<style>
+  :root {
+    --bg: #0d1117; --surface: #161b22; --border: #30363d;
+    --text: #c9d1d9; --muted: #8b949e;
+    --accent: #58a6ff; --green: #3fb950; --red: #f85149;
+    --orange: #d29922; --purple: #bc8cff; --cyan: #39d2c0; --pink: #f778ba;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.65}
+
+  /* ── Hero ── */
+  .hero{background:linear-gradient(135deg,#13201a 0%,#0d1117 50%,#0f1a25 100%);border-bottom:1px solid var(--border);padding:56px 40px 48px;text-align:center}
+  .hero h1{font-size:2.3rem;color:#fff;margin-bottom:10px}
+  .hero .sub{font-size:1.05rem;color:var(--muted);max-width:680px;margin:0 auto}
+  .badge{display:inline-block;padding:3px 12px;border-radius:18px;font-size:.8rem;font-weight:600;margin:0 3px}
+  .badge-green{background:rgba(63,185,80,.12);color:var(--green);border:1px solid rgba(63,185,80,.25)}
+  .badge-blue{background:rgba(88,166,255,.12);color:var(--accent);border:1px solid rgba(88,166,255,.25)}
+  .badge-purple{background:rgba(188,140,255,.12);color:var(--purple);border:1px solid rgba(188,140,255,.25)}
+
+  .container{max-width:1100px;margin:0 auto;padding:40px 24px}
+
+  /* ── TOC ── */
+  .toc{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px 28px;margin-bottom:44px}
+  .toc h3{color:#fff;margin-bottom:10px;font-size:1rem}
+  .toc ol{padding-left:20px}
+  .toc li{margin-bottom:5px}
+  .toc a{color:var(--accent);text-decoration:none;font-size:.92rem}
+  .toc a:hover{text-decoration:underline}
+
+  /* ── Sections ── */
+  .section{margin-bottom:52px}
+  .section-label{font-size:.72rem;text-transform:uppercase;letter-spacing:2px;color:var(--green);margin-bottom:6px}
+  .section h2{font-size:1.55rem;color:#fff;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+  .section p,.section li{margin-bottom:9px}
+
+  /* ── Card ── */
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:22px;margin-bottom:18px}
+  .card h3{color:#fff;margin-bottom:10px;font-size:1.12rem}
+  .card h4{color:var(--accent);margin:14px 0 6px;font-size:.93rem}
+
+  /* ── Code ── */
+  pre{background:#0d1117;border:1px solid var(--border);border-radius:6px;padding:14px 18px;overflow-x:auto;font-family:'Cascadia Code','Fira Code',Consolas,monospace;font-size:.83rem;line-height:1.55;margin:10px 0}
+  code{font-family:'Cascadia Code','Fira Code',Consolas,monospace;font-size:.86em}
+  .ic{background:rgba(110,118,129,.2);padding:2px 6px;border-radius:4px;font-size:.86em}
+  .kw{color:#ff7b72} .ty{color:var(--cyan)} .str{color:#a5d6ff}
+  .cm{color:var(--muted);font-style:italic} .vr{color:#ffa657}
+  .num{color:#79c0ff} .fn{color:#d2a8ff}
+  .hi-add{background:rgba(63,185,80,.12)} .hi-del{background:rgba(248,81,73,.12);text-decoration:line-through}
+
+  /* ── Annotation ── */
+  .ann{border-left:3px solid var(--accent);background:rgba(88,166,255,.05);padding:12px 16px;margin:14px 0;border-radius:0 6px 6px 0;font-size:.9rem}
+  .ann.warn{border-left-color:var(--orange);background:rgba(210,153,34,.05)}
+  .ann.ok{border-left-color:var(--green);background:rgba(63,185,80,.05)}
+  .ann.err{border-left-color:var(--red);background:rgba(248,81,73,.05)}
+  .ann strong{color:#fff}
+
+  /* ── Flow ── */
+  .flow{display:flex;flex-direction:column;align-items:center;gap:0;margin:20px 0}
+  .flow-node{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px 24px;min-width:360px;text-align:center}
+  .flow-node.input{border-left:3px solid var(--accent)}
+  .flow-node.proc{border-left:3px solid var(--orange)}
+  .flow-node.out{border-left:3px solid var(--green)}
+  .flow-arrow{color:var(--muted);font-size:1.3rem;line-height:1;padding:5px 0}
+
+  /* ── Tables ── */
+  .info-table{width:100%;border-collapse:collapse;margin:10px 0}
+  .info-table th{text-align:left;padding:8px 12px;color:var(--muted);font-weight:600;font-size:.82rem;border-bottom:1px solid var(--border);width:200px}
+  .info-table td{padding:8px 12px;border-bottom:1px solid var(--border)}
+
+  .data-table{width:100%;border-collapse:collapse;font-size:.82rem;margin:12px 0}
+  .data-table th{background:rgba(88,166,255,.08);color:var(--accent);text-align:left;padding:10px 12px;border-bottom:2px solid var(--border);font-weight:600;text-transform:uppercase;font-size:.72rem;letter-spacing:1px}
+  .data-table td{padding:8px 12px;border-bottom:1px solid var(--border);vertical-align:top}
+  .data-table tr:hover{background:rgba(88,166,255,.03)}
+
+  /* ── Grid ── */
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  @media(max-width:768px){.cols{grid-template-columns:1fr}}
+
+  /* ── File tree ── */
+  .ft{font-family:'Cascadia Code','Fira Code',Consolas,monospace;font-size:.83rem;line-height:1.8}
+  .ft .dir{color:var(--accent);font-weight:600}
+  .ft .file{color:var(--text)}
+  .ft .desc{color:var(--muted);font-family:-apple-system,sans-serif;font-size:.8rem}
+
+  /* ── Strategy cards ── */
+  .strat-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px;margin-bottom:16px;border-left:3px solid var(--border)}
+  .strat-card.s-null{border-left-color:var(--red)}
+  .strat-card.s-exc{border-left-color:var(--orange)}
+  .strat-card.s-buf{border-left-color:var(--accent)}
+  .strat-card.s-obo{border-left-color:var(--purple)}
+  .strat-card.s-cast{border-left-color:var(--pink)}
+  .strat-card.s-ovf{border-left-color:var(--cyan)}
+  .strat-card h3{color:#fff;font-size:1.05rem;margin-bottom:8px}
+  .strat-card .trigger{font-size:.82rem;color:var(--muted);margin-bottom:10px}
+
+  /* ── Diff ── */
+  .diff{margin:14px 0;overflow:hidden;border-radius:6px;border:1px solid var(--border)}
+  .diff-hdr{background:rgba(110,118,129,.08);padding:6px 14px;font-size:.8rem;color:var(--muted);border-bottom:1px solid var(--border)}
+  .diff pre{margin:0;border:none;border-radius:0}
+  .d-del{background:rgba(248,81,73,.08);color:#ffa198}
+  .d-add{background:rgba(63,185,80,.08);color:#aff5b4}
+  .d-ctx{color:var(--muted)}
+
+  /* ── Numbered list ── */
+  .num-steps{counter-reset:step;list-style:none;padding:0}
+  .num-steps li{counter-increment:step;padding:10px 0 10px 48px;position:relative;border-left:2px solid var(--border);margin-left:16px}
+  .num-steps li::before{content:counter(step);position:absolute;left:-14px;top:8px;width:26px;height:26px;line-height:26px;text-align:center;border-radius:50%;font-size:.78rem;font-weight:700;background:var(--surface);border:2px solid var(--accent);color:var(--accent)}
+  .num-steps li:last-child{border-left-color:transparent}
+  .num-steps li strong{color:#fff}
+
+  /* ── Tabs ── */
+  .tabs{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:0}
+  .tab{padding:8px 18px;font-size:.85rem;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:.15s}
+  .tab:hover{color:var(--text)}
+  .tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+  .tab-panels .tab-panel{display:none}
+  .tab-panels .tab-panel.active{display:block}
+
+  footer{text-align:center;padding:28px;color:var(--muted);font-size:.8rem;border-top:1px solid var(--border)}
+</style>
+</head>
+<body>
+
+<!-- ═══  HERO  ═══ -->
+<div class="hero">
+  <h1>Step 3 — Repair Engine Deep Dive</h1>
+  <p class="sub">An analytical walkthrough of every file, class, and method that executes when AutoRepair generates patches for constraint violations.</p>
+  <div style="margin-top:14px">
+    <span class="badge badge-green">Roslyn-Based</span>
+    <span class="badge badge-blue">6 Strategies</span>
+    <span class="badge badge-purple">AST → Patch</span>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- ═══  TOC  ═══ -->
+<nav class="toc">
+  <h3>Table of Contents</h3>
+  <ol>
+    <li><a href="#overview">High-Level Architecture</a></li>
+    <li><a href="#files">File &amp; Class Map</a></li>
+    <li><a href="#models">Data Models (ConstraintViolation, PatchResult, PatchReport)</a></li>
+    <li><a href="#script">The Orchestrator Script (generate_patches.ps1)</a></li>
+    <li><a href="#cli">The CLI Entry Point (Program.cs)</a></li>
+    <li><a href="#engine">The Patch Engine (PatchEngine.cs) — Line by Line</a></li>
+    <li><a href="#interface">The Strategy Interface (IRepairStrategy)</a></li>
+    <li><a href="#strategies">All 6 Repair Strategies — Code Analysis</a></li>
+    <li><a href="#execution">Full Execution Trace (MicrosoftBugDemo)</a></li>
+    <li><a href="#output">Output Artifacts</a></li>
+  </ol>
+</nav>
+
+<!-- ═══════════════════  1. OVERVIEW  ═══════════════════ -->
+<div class="section" id="overview">
+  <div class="section-label">Section 1</div>
+  <h2>High-Level Architecture</h2>
+  <p>Step 3 is the final phase of the AutoRepair pipeline. It reads the violations discovered in Step 2, parses the <em>original</em> (un-instrumented) C# source code using Roslyn, locates the exact AST node at each violation line, dispatches the violation to a chain of <strong>repair strategies</strong> (ordered by specificity), and applies the first successful patch to the source file.</p>
+
+  <div class="flow" style="margin:28px 0">
+    <div class="flow-node input"><strong>violations.json</strong><br><span style="font-size:.82rem;color:var(--muted)">From Step 2 — list of ConstraintViolation objects</span></div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-node input"><strong>Original .cs source</strong><br><span style="font-size:.82rem;color:var(--muted)">.bak files from Step 1, or live files</span></div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-node proc"><strong>PatchEngine</strong><br><span style="font-size:.82rem;color:var(--muted)">Groups by file → de-duplicates by line → dispatches to strategies</span></div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-node proc">
+      <strong>6 Repair Strategies</strong> (tried in priority order)<br>
+      <span style="font-size:.78rem;color:var(--muted)">OffByOne → BufferBounds → NullDeref → InvalidCast → IntOverflow → Exception</span>
+    </div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-node out"><strong>Patched source file</strong> + <strong>patches.json</strong> report</div>
+  </div>
+
+  <div class="ann">
+    <strong>Key design principle:</strong> Strategies are ordered from most specific to least specific.
+    <code class="ic">OffByOneRepairStrategy</code> only fires for <code class="ic">OffByOne(...)</code> predicates,
+    while <code class="ic">ExceptionRepairStrategy</code> is the generic fallback that handles any
+    <code class="ic">NoUnhandledException(...)</code>. The engine tries each strategy in order and uses
+    the <em>first</em> one that returns a non-null patch.
+  </div>
+</div>
+
+<!-- ═══════════════════  2. FILE MAP  ═══════════════════ -->
+<div class="section" id="files">
+  <div class="section-label">Section 2</div>
+  <h2>File &amp; Class Map</h2>
+
+  <div class="card">
+    <div class="ft">
+      <span class="dir">AutoRepair/Step3_Repair/</span><br>
+      ├── <span class="file">generate_patches.ps1</span> <span class="desc">— PowerShell orchestrator (builds, runs CLI)</span><br>
+      └── <span class="dir">Repair/</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;├── <span class="file">Repair.csproj</span> <span class="desc">— .NET 10, Roslyn 4.13.0, System.CommandLine</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;├── <span class="file">Program.cs</span> <span class="desc">— CLI entry point, wires options &amp; strategies</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;├── <span class="dir">Models/</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├── <span class="file">ConstraintViolation.cs</span> <span class="desc">— record: violation from Step 2</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├── <span class="file">PatchResult.cs</span> <span class="desc">— record: one patch (original + patched code)</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;└── <span class="file">PatchReport.cs</span> <span class="desc">— record: final JSON report</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;├── <span class="dir">Core/</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;└── <span class="file">PatchEngine.cs</span> <span class="desc">— orchestration: read → group → dispatch → apply</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;└── <span class="dir">Strategies/</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── <span class="file">IRepairStrategy.cs</span> <span class="desc">— interface: CanHandle + TryRepair</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── <span class="file">OffByOneRepairStrategy.cs</span> <span class="desc">— fixes &lt;= → &lt; in loop conditions</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── <span class="file">BufferBoundsRepairStrategy.cs</span> <span class="desc">— adds array bounds guards</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── <span class="file">NullDereferenceRepairStrategy.cs</span> <span class="desc">— inserts null guards</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── <span class="file">InvalidCastRepairStrategy.cs</span> <span class="desc">— replaces casts with 'is' patterns</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── <span class="file">IntegerOverflowRepairStrategy.cs</span> <span class="desc">— wraps in checked{}</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── <span class="file">ExceptionRepairStrategy.cs</span> <span class="desc">— wraps in try-catch (fallback)</span><br>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Dependencies (Repair.csproj)</h3>
+    <table class="info-table">
+      <tr><th>Target Framework</th><td><code class="ic">net10.0</code></td></tr>
+      <tr><th>Microsoft.CodeAnalysis.CSharp</th><td><code class="ic">4.13.0</code> — Roslyn: parses C# into syntax trees, provides AST node types</td></tr>
+      <tr><th>System.CommandLine</th><td><code class="ic">2.0.0-beta4.22272.1</code> — typed CLI argument parsing</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════════════  3. MODELS  ═══════════════════ -->
+<div class="section" id="models">
+  <div class="section-label">Section 3</div>
+  <h2>Data Models</h2>
+  <p>Three C# records define the data flowing through Step 3. All are immutable records with positional constructors.</p>
+
+  <div class="card">
+    <h3>ConstraintViolation (input)</h3>
+    <p>Mirrors one entry from Step 2's <code class="ic">violations.json</code>. This is the input signal that tells the engine <em>what</em> is broken and <em>where</em>.</p>
+    <pre><span class="kw">public sealed record</span> <span class="ty">ConstraintViolation</span>(
+    <span class="ty">string</span>  <span class="vr">Predicate</span>,   <span class="cm">// "NotNull(dereference.receiver)" — which rule fired</span>
+    <span class="ty">string</span>  <span class="vr">Assertion</span>,   <span class="cm">// human-readable assertion text</span>
+    <span class="ty">Dictionary&lt;string, object?&gt;</span> <span class="vr">Bindings</span>,  <span class="cm">// rule-specific data (exception type, etc.)</span>
+    <span class="ty">bool</span>    <span class="vr">Result</span>,      <span class="cm">// always false (a passed assertion wouldn't be a violation)</span>
+    <span class="ty">string</span>  <span class="vr">File</span>,        <span class="cm">// "MemberMethodResolver.cs" — relative filename</span>
+    <span class="ty">int</span>     <span class="vr">Line</span>,        <span class="cm">// 10 — source line number from the trace</span>
+    <span class="ty">string</span>  <span class="vr">TraceId</span>);    <span class="cm">// GUID linking back to the exact trace event</span></pre>
+
+    <div class="ann">
+      <strong>The <code class="ic">Predicate</code> field is critical:</strong> it determines which strategy gets to handle this violation.
+      Each strategy's <code class="ic">CanHandle()</code> checks whether the predicate starts with a specific prefix
+      (e.g., <code class="ic">"NotNull("</code> → NullDereferenceRepairStrategy).
+    </div>
+  </div>
+
+  <div class="cols">
+    <div class="card">
+      <h3>PatchResult (per-patch output)</h3>
+      <pre><span class="kw">public sealed record</span> <span class="ty">PatchResult</span>(
+  <span class="ty">string</span> <span class="vr">File</span>,
+  <span class="ty">int</span>    <span class="vr">Line</span>,
+  <span class="ty">string</span> <span class="vr">RuleName</span>,
+  <span class="ty">string</span> <span class="vr">Description</span>,
+  <span class="ty">string</span> <span class="vr">OriginalCode</span>,
+  <span class="ty">string</span> <span class="vr">PatchedCode</span>,
+  <span class="ty">ConstraintViolation</span> <span class="vr">Violation</span>);</pre>
+      <p style="font-size:.88rem;margin-top:8px">Contains both the original code snippet and its patched replacement — this is what gets string-replaced into the source file.</p>
+    </div>
+    <div class="card">
+      <h3>PatchReport (final output)</h3>
+      <pre><span class="kw">public sealed record</span> <span class="ty">PatchReport</span>(
+  <span class="ty">string</span> <span class="vr">GeneratedAt</span>,
+  <span class="ty">string</span> <span class="vr">ViolationsFile</span>,
+  <span class="ty">string</span> <span class="vr">TargetRoot</span>,
+  <span class="ty">int</span>    <span class="vr">TotalViolations</span>,
+  <span class="ty">int</span>    <span class="vr">PatchesApplied</span>,
+  <span class="ty">int</span>    <span class="vr">PatchesSkipped</span>,
+  <span class="ty">List&lt;PatchResult&gt;</span> <span class="vr">Patches</span>);</pre>
+      <p style="font-size:.88rem;margin-top:8px">Serialized to <code class="ic">patches.json</code> — the full audit trail of what was changed and why.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════  4. SCRIPT  ═══════════════════ -->
+<div class="section" id="script">
+  <div class="section-label">Section 4</div>
+  <h2>The Orchestrator Script — <code class="ic">generate_patches.ps1</code></h2>
+  <p>This PowerShell script is the user-facing entry point. It handles default paths, builds the project, and calls the compiled CLI with the right arguments.</p>
+
+  <div class="card">
+    <h3>Execution Flow</h3>
+    <ol class="num-steps">
+      <li>
+        <strong>Resolve paths</strong> — defaults to Step 2's <code class="ic">violations.json</code> and BrightHrKata as the target. These can be overridden via <code class="ic">-ViolationsPath</code> and <code class="ic">-TargetSourceDir</code> parameters.
+      </li>
+      <li>
+        <strong>Validate inputs</strong> — checks that the violations file exists (Step 2 must have been run first).
+      </li>
+      <li>
+        <strong>Build the Repair project</strong> — runs <code class="ic">dotnet build Repair/Repair.csproj --nologo</code>. Exits on failure.
+      </li>
+      <li>
+        <strong>Call the CLI</strong> — runs <code class="ic">dotnet run --project Repair.csproj --no-build -- --violations ... --target ... --report ...</code>.<br>
+        If the <code class="ic">-Apply</code> switch is set, adds <code class="ic">--apply</code> which writes patched code back to the source files.
+        Otherwise, runs in dry-run mode (generates the report only).
+      </li>
+      <li>
+        <strong>Report result</strong> — prints a summary and suggests re-running with <code class="ic">-Apply</code> if in dry-run mode.
+      </li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <h3>Key Code Sections</h3>
+    <pre><span class="cm"># Default violations path: Step 2 output</span>
+<span class="kw">if</span> ([string]::IsNullOrWhiteSpace($ViolationsPath)) {
+    $ViolationsPath = Join-Path $scriptRoot <span class="str">"..\Step2_Constraints\reports\violations.json"</span>
+}
+
+<span class="cm"># Default target: BrightHrKata/Checkout</span>
+<span class="kw">if</span> ([string]::IsNullOrWhiteSpace($TargetSourceDir)) {
+    $TargetSourceDir = Join-Path $repoRoot <span class="str">"BrightHrKata\Checkout"</span>
+}
+
+<span class="cm"># Build</span>
+dotnet build $repairProject --nologo
+<span class="kw">if</span> ($LASTEXITCODE -ne <span class="num">0</span>) { Write-Error <span class="str">"Build failed!"</span>; exit <span class="num">1</span> }
+
+<span class="cm"># Run the CLI</span>
+$runArgs = @(
+    <span class="str">"--violations"</span>, <span class="str">"$ViolationsPath"</span>,
+    <span class="str">"--target"</span>,     <span class="str">"$TargetSourceDir"</span>,
+    <span class="str">"--report"</span>,     <span class="str">"$reportPath"</span>
+)
+<span class="kw">if</span> ($Apply) { $runArgs += <span class="str">"--apply"</span> }
+
+dotnet run --project $repairProject --no-build -- @runArgs</pre>
+  </div>
+</div>
+
+<!-- ═══════════════════  5. CLI  ═══════════════════ -->
+<div class="section" id="cli">
+  <div class="section-label">Section 5</div>
+  <h2>The CLI Entry Point — <code class="ic">Program.cs</code></h2>
+  <p>The CLI is built with <code class="ic">System.CommandLine</code>. It defines 4 options, wires up the <code class="ic">PatchEngine</code> with all 6 strategies in priority order, runs the engine, and serializes the report.</p>
+
+  <div class="card">
+    <h3>CLI Options</h3>
+    <table class="data-table">
+      <thead><tr><th>Flag</th><th>Type</th><th>Required</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><code class="ic">--violations</code></td><td><code class="ic">FileInfo</code></td><td>Yes</td><td>Path to violations.json from Step 2</td></tr>
+        <tr><td><code class="ic">--target</code></td><td><code class="ic">DirectoryInfo</code></td><td>Yes</td><td>Root directory of the target source project</td></tr>
+        <tr><td><code class="ic">--report</code></td><td><code class="ic">FileInfo</code></td><td>Yes</td><td>Destination JSON file for the patch report</td></tr>
+        <tr><td><code class="ic">--apply</code></td><td><code class="ic">bool</code></td><td>No (default: false)</td><td>If true, writes patched code to source files</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>Strategy Registration (the priority chain)</h3>
+    <p>This is the most important code in Program.cs — it defines the order in which strategies are tried:</p>
+    <pre><span class="kw">var</span> <span class="vr">engine</span> = <span class="kw">new</span> <span class="ty">PatchEngine</span>(<span class="kw">new</span> <span class="ty">IRepairStrategy</span>[]
+{
+    <span class="kw">new</span> <span class="ty">OffByOneRepairStrategy</span>(),         <span class="cm">// Priority 1 — most specific</span>
+    <span class="kw">new</span> <span class="ty">BufferBoundsRepairStrategy</span>(),      <span class="cm">// Priority 2</span>
+    <span class="kw">new</span> <span class="ty">NullDereferenceRepairStrategy</span>(),   <span class="cm">// Priority 3</span>
+    <span class="kw">new</span> <span class="ty">InvalidCastRepairStrategy</span>(),       <span class="cm">// Priority 4</span>
+    <span class="kw">new</span> <span class="ty">IntegerOverflowRepairStrategy</span>(),   <span class="cm">// Priority 5</span>
+    <span class="kw">new</span> <span class="ty">ExceptionRepairStrategy</span>()           <span class="cm">// Priority 6 — generic fallback</span>
+});</pre>
+
+    <div class="ann">
+      <strong>Why order matters:</strong> For the MicrosoftBugDemo, both violations have predicates
+      <code class="ic">"NotNull(...)"</code> and <code class="ic">"NoUnhandledException(...)"</code>.
+      The NullDereferenceRepairStrategy (priority 3) matches the first predicate and generates a precise
+      null guard. The ExceptionRepairStrategy (priority 6) <em>could</em> handle it with a generic try-catch,
+      but we never reach it because a higher-priority strategy succeeds first.
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>After the Engine Runs</h3>
+    <pre><span class="cm">// Serialize the patch report to JSON</span>
+<span class="vr">report</span>.Directory?.Create();
+<span class="kw">await using var</span> <span class="vr">stream</span> = <span class="vr">report</span>.Create();
+<span class="kw">await</span> <span class="ty">JsonSerializer</span>.<span class="fn">SerializeAsync</span>(stream, patchReport, JsonOptions);
+
+<span class="cm">// Print summary</span>
+Console.WriteLine($<span class="str">"  Total violations:  {patchReport.TotalViolations}"</span>);   <span class="cm">// 2</span>
+Console.WriteLine($<span class="str">"  Patches generated: {patchReport.PatchesApplied}"</span>);    <span class="cm">// 1</span>
+Console.WriteLine($<span class="str">"  Skipped:           {patchReport.PatchesSkipped}"</span>);     <span class="cm">// 0</span></pre>
+  </div>
+</div>
+
+<!-- ═══════════════════  6. PATCH ENGINE  ═══════════════════ -->
+<div class="section" id="engine">
+  <div class="section-label">Section 6</div>
+  <h2>The Patch Engine — <code class="ic">PatchEngine.cs</code></h2>
+  <p>This is the heart of Step 3. The <code class="ic">PatchEngine</code> class orchestrates the entire workflow: reading violations, resolving source files, dispatching to strategies, and applying patches. Let's walk through every method.</p>
+
+  <div class="card">
+    <h3>Class Structure</h3>
+    <pre><span class="kw">public sealed class</span> <span class="ty">PatchEngine</span>
+{
+    <span class="kw">private readonly</span> <span class="ty">List&lt;IRepairStrategy&gt;</span> <span class="vr">_strategies</span>;  <span class="cm">// injected via constructor</span>
+
+    <span class="cm">// Methods:</span>
+    <span class="cm">//   RunAsync()           — main pipeline</span>
+    <span class="cm">//   ReadViolationsAsync() — deserialize violations.json</span>
+    <span class="cm">//   ResolveSourceFile()   — find original .cs/.bak file</span>
+    <span class="cm">//   ApplyPatchesAsync()   — string-replace patches into source</span>
+}</pre>
+  </div>
+
+  <div class="card">
+    <h3>Method 1: <code class="ic">RunAsync()</code> — The Main Pipeline</h3>
+    <p>This is the method called by the CLI. Here it is broken down into its 5 phases:</p>
+
+    <h4>Phase 1 — Read Violations</h4>
+    <pre><span class="kw">var</span> <span class="vr">violations</span> = <span class="kw">await</span> <span class="fn">ReadViolationsAsync</span>(violationsPath);
+<span class="cm">// Deserializes violations.json → List&lt;ConstraintViolation&gt;</span>
+<span class="cm">// For MicrosoftBugDemo: 2 violations loaded</span></pre>
+
+    <h4>Phase 2 — Group by File</h4>
+    <pre><span class="kw">var</span> <span class="vr">grouped</span> = violations.<span class="fn">GroupBy</span>(v => v.File).<span class="fn">ToList</span>();
+<span class="cm">// Groups violations by their File field</span>
+<span class="cm">// For MicrosoftBugDemo: 1 group ("MemberMethodResolver.cs" → 2 violations)</span></pre>
+
+    <h4>Phase 3 — Process Each File</h4>
+    <pre><span class="kw">foreach</span> (<span class="kw">var</span> <span class="vr">fileGroup</span> <span class="kw">in</span> grouped)
+{
+    <span class="cm">// 3a. Resolve the actual source file path</span>
+    <span class="kw">var</span> <span class="vr">sourceFile</span> = <span class="fn">ResolveSourceFile</span>(targetRoot, relativePath);
+    <span class="cm">// Checks: MemberMethodResolver.cs.bak → MemberMethodResolver.cs → filename search</span>
+
+    <span class="cm">// 3b. Parse with Roslyn</span>
+    <span class="kw">var</span> <span class="vr">sourceCode</span> = <span class="kw">await</span> File.<span class="fn">ReadAllTextAsync</span>(sourceFile);
+    <span class="kw">var</span> <span class="vr">tree</span> = (<span class="ty">CSharpSyntaxTree</span>)<span class="ty">CSharpSyntaxTree</span>.<span class="fn">ParseText</span>(sourceCode, path: sourceFile);
+    <span class="cm">// Now we have a full AST of the C# source file</span>
+
+    <span class="cm">// 3c. De-duplicate by line</span>
+    <span class="kw">var</span> <span class="vr">byLine</span> = fileGroup.<span class="fn">GroupBy</span>(v => v.Line).<span class="fn">OrderBy</span>(g => g.Key);
+    <span class="cm">// For MicrosoftBugDemo: 1 group (line 10 → 2 violations)</span>
+    <span class="cm">// Both violations point to line 10 because SafetyRewriter reports there</span></pre>
+
+    <div class="ann warn">
+      <strong>Why de-duplicate?</strong> Multiple violations can point to the same line. Without de-duplication,
+      we'd generate conflicting patches for the same code. By grouping violations by line and taking only the
+      first successful patch, we ensure each line is patched exactly once.
+    </div>
+
+    <h4>Phase 4 — Strategy Dispatch Loop</h4>
+    <pre><span class="kw">foreach</span> (<span class="kw">var</span> <span class="vr">lineGroup</span> <span class="kw">in</span> byLine)
+{
+    <span class="ty">PatchResult</span>? patch = <span class="kw">null</span>;
+    <span class="kw">foreach</span> (<span class="kw">var</span> <span class="vr">violation</span> <span class="kw">in</span> lineGroup)       <span class="cm">// each violation at this line</span>
+    {
+        <span class="kw">foreach</span> (<span class="kw">var</span> <span class="vr">strategy</span> <span class="kw">in</span> _strategies)   <span class="cm">// in priority order</span>
+        {
+            <span class="kw">if</span> (strategy.<span class="fn">CanHandle</span>(violation))      <span class="cm">// predicate match?</span>
+            {
+                patch = strategy.<span class="fn">TryRepair</span>(violation, sourceCode, tree);
+                <span class="kw">if</span> (patch <span class="kw">is not null</span>) <span class="kw">break</span>;  <span class="cm">// first success wins</span>
+            }
+        }
+        <span class="kw">if</span> (patch <span class="kw">is not null</span>) <span class="kw">break</span>;          <span class="cm">// done with this line</span>
+    }
+}</pre>
+
+    <div class="ann">
+      <strong>Double break pattern:</strong> The inner loop iterates strategies for a single violation. The outer loop iterates violations
+      at the same line. As soon as <em>any</em> strategy returns a non-null patch for <em>any</em> violation at this line, both loops exit.
+      This is why the 2nd violation at line 10 (<code class="ic">NoUnhandledException</code>) is never processed —
+      the 1st violation (<code class="ic">NotNull</code>) already yielded a patch via NullDereferenceRepairStrategy.
+    </div>
+
+    <h4>Phase 5 — Apply Patches</h4>
+    <pre><span class="kw">if</span> (applyPatches && filePatches.Count > <span class="num">0</span>)
+{
+    <span class="kw">await</span> <span class="fn">ApplyPatchesAsync</span>(sourceFile, sourceCode, filePatches);
+}
+<span class="cm">// String-replaces each patch's OriginalCode with PatchedCode</span>
+<span class="cm">// Patches are applied in reverse line order to preserve line numbers</span></pre>
+  </div>
+
+  <div class="card">
+    <h3>Method 2: <code class="ic">ResolveSourceFile()</code> — Finding the Right Source</h3>
+    <p>This method resolves a relative file name (from violations.json) to an absolute path. The resolution order is critical:</p>
+
+    <ol class="num-steps">
+      <li><strong>Try <code class="ic">.bak</code> file first</strong> — <code class="ic">targetRoot/MemberMethodResolver.cs.bak</code><br>
+        Step 1 backs up original files before instrumenting. The <code class="ic">.bak</code> is the clean, un-instrumented source — this is what we want to patch.</li>
+      <li><strong>Try live file</strong> — <code class="ic">targetRoot/MemberMethodResolver.cs</code><br>
+        Falls back to the current file if no backup exists (e.g., when running Step 3 independently).</li>
+      <li><strong>Filename search</strong> — <code class="ic">Directory.GetFiles(targetRoot, fileName, SearchOption.AllDirectories)</code><br>
+        If the relative path doesn't match the directory structure, search recursively by filename.</li>
+      <li><strong>Check candidates for <code class="ic">.bak</code></strong> — among search results, prefer candidates that have a <code class="ic">.bak</code> version.</li>
+    </ol>
+
+    <div class="ann warn">
+      <strong>Why .bak first?</strong> After Step 1, the live <code class="ic">.cs</code> file is <em>instrumented</em> — full of
+      <code class="ic">TraceLogger.Log()</code> calls. We need to patch the <em>original</em> code, not the instrumented version.
+      Step 1's <code class="ic">restore_project.ps1</code> restores from <code class="ic">.bak</code>, but Step 3 can also
+      read the backup directly.
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Method 3: <code class="ic">ApplyPatchesAsync()</code> — Writing Patches</h3>
+    <pre><span class="kw">private static async</span> <span class="ty">Task</span> <span class="fn">ApplyPatchesAsync</span>(
+    <span class="ty">string</span> filePath, <span class="ty">string</span> sourceCode, <span class="ty">List&lt;PatchResult&gt;</span> patches)
+{
+    <span class="cm">// 1. Target the live .cs file, not the .bak</span>
+    <span class="kw">var</span> <span class="vr">targetPath</span> = filePath.EndsWith(<span class="str">".bak"</span>) ? filePath[..^<span class="num">4</span>] : filePath;
+
+    <span class="cm">// 2. If live file doesn't exist, copy from .bak</span>
+    <span class="kw">if</span> (!File.Exists(targetPath) && filePath.EndsWith(<span class="str">".bak"</span>))
+        File.Copy(filePath, targetPath);
+
+    <span class="kw">var</span> <span class="vr">currentSource</span> = <span class="kw">await</span> File.<span class="fn">ReadAllTextAsync</span>(targetPath);
+
+    <span class="cm">// 3. Apply patches in REVERSE line order</span>
+    <span class="kw">foreach</span> (<span class="kw">var</span> patch <span class="kw">in</span> patches.<span class="fn">OrderByDescending</span>(p => p.Line))
+    {
+        <span class="kw">if</span> (currentSource.<span class="fn">Contains</span>(patch.OriginalCode.Trim()))
+        {
+            currentSource = currentSource.<span class="fn">Replace</span>(
+                patch.OriginalCode.Trim(),
+                patch.PatchedCode.Trim());
+        }
+    }
+
+    <span class="kw">await</span> File.<span class="fn">WriteAllTextAsync</span>(targetPath, currentSource);
+}</pre>
+
+    <div class="ann">
+      <strong>Reverse-order application:</strong> Patches higher in the file don't shift the line numbers of
+      code below them. By applying bottom-up, each patch's <code class="ic">OriginalCode</code> string is still
+      present in the file when we try to replace it. This avoids the classic "cascading line offset" bug.
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════  7. INTERFACE  ═══════════════════ -->
+<div class="section" id="interface">
+  <div class="section-label">Section 7</div>
+  <h2>The Strategy Interface — <code class="ic">IRepairStrategy</code></h2>
+
+  <div class="card">
+    <pre><span class="kw">public interface</span> <span class="ty">IRepairStrategy</span>
+{
+    <span class="cm">/// Returns true if this strategy can handle the given violation.</span>
+    <span class="ty">bool</span> <span class="fn">CanHandle</span>(<span class="ty">ConstraintViolation</span> violation);
+
+    <span class="cm">/// Attempts to produce a patched version of the source at the violation location.</span>
+    <span class="cm">/// Returns the patch result, or null if no actionable repair can be derived.</span>
+    <span class="ty">PatchResult</span>? <span class="fn">TryRepair</span>(
+        <span class="ty">ConstraintViolation</span> violation,
+        <span class="ty">string</span> sourceCode,
+        <span class="ty">CSharpSyntaxTree</span> tree);
+}</pre>
+
+    <p style="margin-top:12px">Every strategy implements exactly two methods:</p>
+    <table class="info-table">
+      <tr>
+        <th><code class="ic">CanHandle()</code></th>
+        <td>A fast predicate check — typically a <code class="ic">StartsWith()</code> on the violation's <code class="ic">Predicate</code> field. No Roslyn parsing happens here.</td>
+      </tr>
+      <tr>
+        <th><code class="ic">TryRepair()</code></th>
+        <td>The heavy work — uses Roslyn to find the AST node at the violation line, determines if a repair is possible, and constructs the patched code string. Returns <code class="ic">null</code> if the strategy can't produce a valid fix.</td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════════════  8. STRATEGIES  ═══════════════════ -->
+<div class="section" id="strategies">
+  <div class="section-label">Section 8</div>
+  <h2>All 6 Repair Strategies — Code Analysis</h2>
+  <p>Each strategy follows a common pattern: <strong>find node → analyze AST → generate patched string</strong>. But they differ significantly in <em>what</em> they look for and <em>how</em> they transform the code.</p>
+
+  <!-- ── Strategy 1: OffByOne ── -->
+  <div class="strat-card s-obo">
+    <h3>1. OffByOneRepairStrategy <span style="float:right;font-size:.78rem;color:var(--purple)">Priority 1</span></h3>
+    <div class="trigger">Trigger: <code class="ic">violation.Predicate.StartsWith("OffByOne(")</code></div>
+
+    <p>Handles off-by-one errors where a loop iterates one element past the end of an array (e.g., <code class="ic">i &lt;= arr.Length</code> instead of <code class="ic">i &lt; arr.Length</code>).</p>
+
+    <h4>Two Sub-Strategies</h4>
+    <table class="info-table">
+      <tr>
+        <th>Strategy 1: Fix Loop Condition</th>
+        <td>Searches for <code class="ic">for</code>/<code class="ic">while</code> loops enclosing the violation line. If the loop condition contains a
+        <code class="ic">&lt;=</code> comparison, rewrites it to <code class="ic">&lt;</code>. This is the best fix because
+        it addresses the root cause.<br><br>
+        <strong>Roslyn approach:</strong> Finds <code class="ic">BinaryExpressionSyntax</code> with kind
+        <code class="ic">LessThanOrEqualExpression</code>, replaces with <code class="ic">{left} &lt; {right}</code>.
+        </td>
+      </tr>
+      <tr>
+        <th>Strategy 2: Bounds Guard</th>
+        <td>Fallback — wraps the violating statement in <code class="ic">if (index >= 0 && index < arr.Length)</code>.
+        Same approach as BufferBoundsRepairStrategy.</td>
+      </tr>
+    </table>
+
+    <h4>Example Transform</h4>
+    <div class="diff">
+      <div class="diff-hdr">Loop condition fix</div>
+      <pre><span class="d-del">  for (int i = 0; i <= arr.Length; i++)</span>
+<span class="d-add">  for (int i = 0; i < arr.Length; i++)</span></pre>
+    </div>
+  </div>
+
+  <!-- ── Strategy 2: BufferBounds ── -->
+  <div class="strat-card s-buf">
+    <h3>2. BufferBoundsRepairStrategy <span style="float:right;font-size:.78rem;color:var(--accent)">Priority 2</span></h3>
+    <div class="trigger">Trigger: <code class="ic">violation.Predicate.StartsWith("BufferInBounds(")</code></div>
+
+    <p>Handles array index-out-of-bounds access by inserting a bounds-check guard around the statement.</p>
+
+    <h4>Algorithm</h4>
+    <ol class="num-steps">
+      <li><strong>Find node at line</strong> — Roslyn: find the deepest node at the violation line number</li>
+      <li><strong>Find enclosing statement</strong> — walk up the AST via <code class="ic">.AncestorsAndSelf().OfType&lt;StatementSyntax&gt;()</code></li>
+      <li><strong>Find <code class="ic">ElementAccessExpressionSyntax</code></strong> — these are <code class="ic">arr[i]</code> expressions</li>
+      <li><strong>Build guard</strong> — for each <code class="ic">arr[i]</code>, generate <code class="ic">i >= 0 && i < arr.Length</code></li>
+      <li><strong>Wrap statement</strong> — <code class="ic">if (guards) { original statement }</code></li>
+    </ol>
+
+    <h4>Example Transform</h4>
+    <div class="diff">
+      <div class="diff-hdr">Bounds guard insertion</div>
+      <pre><span class="d-del">  result = items[index];</span>
+<span class="d-add">  if (index >= 0 && index < items.Length)</span>
+<span class="d-add">  {</span>
+<span class="d-add">      result = items[index];</span>
+<span class="d-add">  }</span></pre>
+    </div>
+  </div>
+
+  <!-- ── Strategy 3: NullDereference ── -->
+  <div class="strat-card s-null">
+    <h3>3. NullDereferenceRepairStrategy <span style="float:right;font-size:.78rem;color:var(--red)">Priority 3 — handles MicrosoftBugDemo</span></h3>
+    <div class="trigger">Trigger: <code class="ic">violation.Predicate.StartsWith("NotNull(")</code></div>
+
+    <p>The most sophisticated strategy. Inserts null guards around member accesses on potentially-null local variables. Has special handling for method-level violations and variable scoping.</p>
+
+    <h4>The Core Challenge</h4>
+    <div class="ann err">
+      Step 1's SafetyRewriter wraps method bodies in try-catch and reports exceptions at the <strong>method declaration line</strong>
+      (e.g., line 10), not at the actual crashing statement (e.g., line 18). The strategy must find the real offending
+      statement by scanning the entire method body.
+    </div>
+
+    <h4>Algorithm — Two Paths</h4>
+    <pre><span class="kw">public</span> <span class="ty">PatchResult</span>? <span class="fn">TryRepair</span>(violation, sourceCode, tree)
+{
+    <span class="kw">var</span> <span class="vr">node</span> = <span class="fn">FindNodeAtLine</span>(root, violation.Line);
+    <span class="kw">var</span> <span class="vr">statement</span> = node.AncestorsAndSelf().OfType&lt;<span class="ty">StatementSyntax</span>&gt;().FirstOrDefault();
+
+    <span class="kw">if</span> (statement <span class="kw">is null</span>)
+    {
+        <span class="cm">// PATH A: Violation line is a method declaration → scan method body</span>
+        <span class="kw">var</span> <span class="vr">method</span> = node.AncestorsAndSelf().OfType&lt;<span class="ty">MethodDeclarationSyntax</span>&gt;()...;
+        <span class="kw">return</span> <span class="fn">RepairMethodBody</span>(violation, method, targetLine);
+    }
+
+    <span class="cm">// PATH B: Direct statement → repair it directly</span>
+    <span class="kw">return</span> <span class="fn">RepairStatement</span>(violation, statement, targetLine);
+}</pre>
+
+    <h4>Path A: <code class="ic">RepairMethodBody()</code> — Method-Level Scanning</h4>
+    <p>This is the path taken for the MicrosoftBugDemo (violation at line 10 = method declaration):</p>
+
+    <ol class="num-steps">
+      <li><strong>Gather parameter names</strong> — <code class="ic">{"o", "memberName"}</code> from the method signature, used to filter out parameters as receivers.</li>
+      <li><strong>Iterate each statement</strong> in the method body, looking for <code class="ic">MemberAccessExpressionSyntax</code> nodes.</li>
+      <li><strong>Walk to root receiver</strong> via <code class="ic">GetRootReceiver()</code>:
+        <pre><span class="cm">// Walks leftward through the expression tree:</span>
+<span class="cm">//   o.GetType().GetMethod(...)  →  o       (parameter — filtered out)</span>
+<span class="cm">//   method.Invoke(...)          →  method  (local var — MATCH!)</span>
+<span class="cm">//   Array.Empty&lt;object&gt;()       →  Array   (type name — filtered out)</span></pre>
+      </li>
+      <li><strong>Filter receivers</strong> — skip parameters, type names (<code class="ic">char.IsUpper(expr[0])</code>), literals (<code class="ic">"this"</code>, <code class="ic">"base"</code>), and namespaces.</li>
+      <li><strong>First match wins</strong> — the first statement with a non-filtered local variable receiver triggers the patch.</li>
+    </ol>
+
+    <h4><code class="ic">GetRootReceiver()</code> — Expression Tree Walker</h4>
+    <pre><span class="kw">private static</span> <span class="ty">string</span>? <span class="fn">GetRootReceiver</span>(<span class="ty">ExpressionSyntax</span> expr)
+{
+    <span class="kw">while</span> (<span class="kw">true</span>)
+    {
+        <span class="kw">switch</span> (expr)
+        {
+            <span class="kw">case</span> <span class="ty">MemberAccessExpressionSyntax</span> ma: expr = ma.Expression; <span class="kw">continue</span>;
+            <span class="kw">case</span> <span class="ty">InvocationExpressionSyntax</span> inv:  expr = inv.Expression; <span class="kw">continue</span>;
+            <span class="kw">case</span> <span class="ty">IdentifierNameSyntax</span> id:         <span class="kw">return</span> id.Identifier.Text;
+            <span class="kw">default</span>:                              <span class="kw">return</span> expr.ToString();
+        }
+    }
+}
+<span class="cm">// For: (bool)method.Invoke(o, Array.Empty&lt;object&gt;())!</span>
+<span class="cm">//   → InvocationExpression → MemberAccess(method.Invoke)</span>
+<span class="cm">//     → MemberAccess expression = "method"</span>
+<span class="cm">//       → IdentifierName "method" → returns "method"</span></pre>
+
+    <h4><code class="ic">BuildNullGuard()</code> — Scope-Safe Code Generation</h4>
+    <p>The key innovation: when wrapping a <code class="ic">LocalDeclarationStatementSyntax</code> in an if-guard,
+    the variable must remain visible to subsequent statements. The strategy splits the declaration:</p>
+
+    <div class="diff">
+      <div class="diff-hdr">LocalDeclarationStatementSyntax handling</div>
+      <pre><span class="d-ctx">// Original:</span>
+<span class="d-del">  bool shouldPersist = (bool)method.Invoke(o, Array.Empty&lt;object&gt;())!;</span>
+
+<span class="d-ctx">// What a naive guard would produce (BROKEN — shouldPersist out of scope):</span>
+<span class="d-del">  if (method is not null)</span>
+<span class="d-del">  {</span>
+<span class="d-del">      bool shouldPersist = (bool)method.Invoke(o, Array.Empty&lt;object&gt;())!;</span>
+<span class="d-del">  }</span>
+<span class="d-del">  return shouldPersist;  // ← ERROR: 'shouldPersist' does not exist here</span>
+
+<span class="d-ctx">// What BuildNullGuard actually produces (CORRECT):</span>
+<span class="d-add">  bool shouldPersist = false;          // declare with safe default</span>
+<span class="d-add">  if (method is not null)</span>
+<span class="d-add">  {</span>
+<span class="d-add">      shouldPersist = (bool)method.Invoke(o, Array.Empty&lt;object&gt;())!;</span>
+<span class="d-add">  }</span>
+<span class="d-add">  return shouldPersist;  // ← OK: shouldPersist is in scope</span></pre>
+    </div>
+
+    <pre><span class="kw">private static</span> <span class="ty">string</span> <span class="fn">BuildNullGuard</span>(<span class="ty">StatementSyntax</span> stmt, <span class="ty">string</span> indent, <span class="ty">string</span> condition)
+{
+    <span class="kw">if</span> (stmt <span class="kw">is</span> <span class="ty">LocalDeclarationStatementSyntax</span> localDecl)
+    {
+        <span class="kw">var</span> <span class="vr">typeName</span>    = localDecl.Declaration.Type.ToString();      <span class="cm">// "bool"</span>
+        <span class="kw">var</span> <span class="vr">varName</span>     = variable.Identifier.Text;                   <span class="cm">// "shouldPersist"</span>
+        <span class="kw">var</span> <span class="vr">initializer</span> = variable.Initializer?.Value.ToString();      <span class="cm">// "(bool)method.Invoke(...)!"</span>
+        <span class="kw">var</span> <span class="vr">defaultVal</span>  = typeName <span class="kw">switch</span> {
+            <span class="str">"bool"</span>  => <span class="str">"false"</span>,
+            <span class="str">"int"</span>   => <span class="str">"0"</span>,
+            _       => <span class="str">"default"</span>
+        };
+
+        <span class="kw">return</span>
+            $<span class="str">"{indent}{typeName} {varName} = {defaultVal};\n"</span> +    <span class="cm">// bool shouldPersist = false;</span>
+            $<span class="str">"{indent}if ({condition})\n"</span> +                         <span class="cm">// if (method is not null)</span>
+            $<span class="str">"{indent}{{\n"</span> +                                       <span class="cm">// {</span>
+            $<span class="str">"{indent}    {varName} = {initializer};\n"</span> +             <span class="cm">//     shouldPersist = (bool)method...</span>
+            $<span class="str">"{indent}}}"</span>;                                            <span class="cm">// }</span>
+    }
+
+    <span class="cm">// Non-declaration statements: just wrap directly</span>
+    <span class="kw">return</span>
+        $<span class="str">"{indent}if ({condition})\n"</span> +
+        $<span class="str">"{indent}{{\n"</span> +
+        $<span class="str">"{indent}    {stmt.ToString().Trim()}\n"</span> +
+        $<span class="str">"{indent}}}"</span>;
+}</pre>
+  </div>
+
+  <!-- ── Strategy 4: InvalidCast ── -->
+  <div class="strat-card s-cast">
+    <h3>4. InvalidCastRepairStrategy <span style="float:right;font-size:.78rem;color:var(--pink)">Priority 4</span></h3>
+    <div class="trigger">Trigger: <code class="ic">violation.Predicate.StartsWith("ValidCast(")</code></div>
+
+    <p>Handles <code class="ic">InvalidCastException</code> by replacing unsafe direct casts with type-safe alternatives.</p>
+
+    <h4>Three Sub-Strategies</h4>
+    <table class="info-table">
+      <tr>
+        <th>1. Explicit Cast → <code class="ic">is</code> Pattern</th>
+        <td>Finds <code class="ic">CastExpressionSyntax</code> like <code class="ic">(TargetType)source</code>.
+        Replaces with a pattern match: <code class="ic">if (source is TargetType __castResult) { ...use __castResult... }</code>.
+        Uses <code class="ic">ReplaceNode()</code> on the Roslyn AST to substitute the cast expression with the pattern variable.
+        </td>
+      </tr>
+      <tr>
+        <th>2. <code class="ic">as</code> Cast → null check</th>
+        <td>Finds <code class="ic">BinaryExpressionSyntax</code> with <code class="ic">AsExpression</code> kind.
+        Flags it with a comment for manual review (the <code class="ic">as</code> pattern naturally returns null, so a guard may already exist).</td>
+      </tr>
+      <tr>
+        <th>3. Generic fallback</th>
+        <td>If the violation has a target type in its bindings but no recognizable cast in the AST, adds an annotation comment.</td>
+      </tr>
+    </table>
+
+    <h4>Example Transform (Explicit Cast)</h4>
+    <div class="diff">
+      <div class="diff-hdr">Direct cast → is pattern</div>
+      <pre><span class="d-del">  var count = (int)obj;</span>
+<span class="d-add">  if (obj is int __castResult)</span>
+<span class="d-add">  {</span>
+<span class="d-add">      var count = __castResult;</span>
+<span class="d-add">  }</span></pre>
+    </div>
+  </div>
+
+  <!-- ── Strategy 5: IntegerOverflow ── -->
+  <div class="strat-card s-ovf">
+    <h3>5. IntegerOverflowRepairStrategy <span style="float:right;font-size:.78rem;color:var(--cyan)">Priority 5</span></h3>
+    <div class="trigger">Trigger: <code class="ic">violation.Predicate.StartsWith("NoOverflow(")</code></div>
+
+    <p>Handles integer overflow by wrapping arithmetic in <code class="ic">checked { }</code> blocks, which makes C# throw
+    <code class="ic">OverflowException</code> instead of silently wrapping around.</p>
+
+    <h4>Two Sub-Strategies</h4>
+    <table class="info-table">
+      <tr>
+        <th>Int32 → promote/checked</th>
+        <td>For <code class="ic">Int32</code> overflow: finds <code class="ic">BinaryExpressionSyntax</code> with
+        the specific operator (+, -, *, /) from the violation bindings.</td>
+      </tr>
+      <tr>
+        <th>Other types → checked block</th>
+        <td>Wraps the entire statement in <code class="ic">checked { ... }</code>. Works for any numeric type.</td>
+      </tr>
+    </table>
+
+    <h4>Example Transform</h4>
+    <div class="diff">
+      <div class="diff-hdr">Arithmetic → checked block</div>
+      <pre><span class="d-del">  total = a * b + c;</span>
+<span class="d-add">  checked</span>
+<span class="d-add">  {</span>
+<span class="d-add">      total = a * b + c;</span>
+<span class="d-add">  }</span></pre>
+    </div>
+  </div>
+
+  <!-- ── Strategy 6: Exception ── -->
+  <div class="strat-card s-exc">
+    <h3>6. ExceptionRepairStrategy <span style="float:right;font-size:.78rem;color:var(--orange)">Priority 6 — Fallback</span></h3>
+    <div class="trigger">Trigger: <code class="ic">violation.Predicate.StartsWith("NoUnhandledException(")</code></div>
+
+    <p>The generic last-resort strategy. Wraps the offending statement in a try-catch for the specific exception type
+    reported in the violation's bindings.</p>
+
+    <h4>Features</h4>
+    <table class="info-table">
+      <tr>
+        <th>Specific exception type</th>
+        <td>Extracts the exception type from <code class="ic">violation.Bindings["event.exception.type"]</code>
+        (e.g., <code class="ic">"System.NullReferenceException"</code> → catches <code class="ic">NullReferenceException</code>).
+        Falls back to <code class="ic">Exception</code> if not available.</td>
+      </tr>
+      <tr>
+        <th>Method body scanning</th>
+        <td>Like NullDereferenceRepairStrategy, handles method-level violations by scanning the method body for
+        statements with <code class="ic">InvocationExpressionSyntax</code> on member accesses.</td>
+      </tr>
+      <tr>
+        <th>Double-wrap prevention</th>
+        <td>Checks <code class="ic">statement.Ancestors().OfType&lt;TryStatementSyntax&gt;().Any()</code> — if the statement
+        is already inside a try-catch, returns null.</td>
+      </tr>
+    </table>
+
+    <h4>Example Transform</h4>
+    <div class="diff">
+      <div class="diff-hdr">Statement → try-catch</div>
+      <pre><span class="d-del">  result = service.Process(input);</span>
+<span class="d-add">  try</span>
+<span class="d-add">  {</span>
+<span class="d-add">      result = service.Process(input);</span>
+<span class="d-add">  }</span>
+<span class="d-add">  catch (NullReferenceException ex)</span>
+<span class="d-add">  {</span>
+<span class="d-add">      System.Diagnostics.Debug.WriteLine($"AutoRepair: {ex.GetType().Name}...");</span>
+<span class="d-add">  }</span></pre>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════  9. EXECUTION TRACE  ═══════════════════ -->
+<div class="section" id="execution">
+  <div class="section-label">Section 9</div>
+  <h2>Full Execution Trace — MicrosoftBugDemo</h2>
+  <p>Here is exactly what happens, method call by method call, when Step 3 runs against the MicrosoftBugDemo violations.</p>
+
+  <div class="card">
+    <h3>Input Violations (from Step 2)</h3>
+    <pre>[
+  {
+    <span class="str">"predicate"</span>: <span class="str">"NotNull(dereference.receiver)"</span>,
+    <span class="str">"file"</span>: <span class="str">"MemberMethodResolver.cs"</span>,
+    <span class="str">"line"</span>: <span class="num">10</span>
+  },
+  {
+    <span class="str">"predicate"</span>: <span class="str">"NoUnhandledException(event)"</span>,
+    <span class="str">"file"</span>: <span class="str">"MemberMethodResolver.cs"</span>,
+    <span class="str">"line"</span>: <span class="num">10</span>
+  }
+]</pre>
+  </div>
+
+  <div class="card">
+    <h3>Step-by-Step Execution</h3>
+    <table class="data-table">
+      <thead><tr><th>#</th><th>Method</th><th>What Happens</th><th>Result</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td><code class="ic">RunAsync()</code></td>
+          <td>Deserializes violations.json → 2 <code class="ic">ConstraintViolation</code> objects</td>
+          <td style="color:var(--green)">2 violations loaded</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td><code class="ic">GroupBy(v => v.File)</code></td>
+          <td>Both violations have file = "MemberMethodResolver.cs" → 1 file group</td>
+          <td>1 file group</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td><code class="ic">ResolveSourceFile()</code></td>
+          <td>Looks for <code class="ic">MemberMethodResolver.cs.bak</code> → found! Uses the original un-instrumented source.</td>
+          <td style="color:var(--green)">.bak resolved</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td><code class="ic">CSharpSyntaxTree.ParseText()</code></td>
+          <td>Roslyn parses the 20-line source file into a full syntax tree with all AST nodes.</td>
+          <td>AST ready</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td><code class="ic">GroupBy(v => v.Line)</code></td>
+          <td>Both violations have line = 10 → 1 line group with 2 violations</td>
+          <td>1 line group</td>
+        </tr>
+        <tr style="background:rgba(88,166,255,.04)">
+          <td>6</td>
+          <td><code class="ic">CanHandle()</code> × 3</td>
+          <td>
+            Violation 1: <code class="ic">"NotNull(...)"</code><br>
+            → OffByOneRepairStrategy.CanHandle() → <code class="ic">"OffByOne("</code> → <span style="color:var(--red)">false</span><br>
+            → BufferBoundsRepairStrategy.CanHandle() → <code class="ic">"BufferInBounds("</code> → <span style="color:var(--red)">false</span><br>
+            → NullDereferenceRepairStrategy.CanHandle() → <code class="ic">"NotNull("</code> → <span style="color:var(--green)"><strong>true!</strong></span>
+          </td>
+          <td style="color:var(--green)">Strategy 3 matched</td>
+        </tr>
+        <tr style="background:rgba(88,166,255,.04)">
+          <td>7</td>
+          <td><code class="ic">FindNodeAtLine(root, 10)</code></td>
+          <td>Traverses all AST nodes, finds node at line 10. Orders by span length descending — returns <code class="ic">MethodDeclarationSyntax</code> for <code class="ic">CheckShouldPersist</code>.</td>
+          <td>MethodDeclarationSyntax</td>
+        </tr>
+        <tr style="background:rgba(248,81,73,.04)">
+          <td>8</td>
+          <td><code class="ic">.OfType&lt;StatementSyntax&gt;()</code></td>
+          <td>A method declaration is NOT a statement → <code class="ic">statement = null</code> → takes Path A</td>
+          <td style="color:var(--orange)">null → Path A</td>
+        </tr>
+        <tr style="background:rgba(63,185,80,.04)">
+          <td>9</td>
+          <td><code class="ic">RepairMethodBody()</code></td>
+          <td>
+            Gathers parameters: <code class="ic">{"o", "memberName"}</code><br>
+            Iterates 4 statements in the method body...
+          </td>
+          <td>Scanning body...</td>
+        </tr>
+        <tr>
+          <td>10</td>
+          <td>Statement 1 analysis</td>
+          <td>
+            <code class="ic">string methodInvoke = $"ShouldSerialize{memberName}";</code><br>
+            MemberAccess nodes → none with a dereferenceable receiver. No match.
+          </td>
+          <td style="color:var(--muted)">Skipped</td>
+        </tr>
+        <tr>
+          <td>11</td>
+          <td>Statement 2 analysis</td>
+          <td>
+            <code class="ic">MethodInfo method = o.GetType().GetMethod(...);</code><br>
+            GetRootReceiver: <code class="ic">o.GetType().GetMethod(...)</code> → <code class="ic">o</code><br>
+            <code class="ic">"o"</code> is in paramNames → <span style="color:var(--orange)">filtered out</span>
+          </td>
+          <td style="color:var(--muted)">Filtered (param)</td>
+        </tr>
+        <tr style="background:rgba(63,185,80,.06)">
+          <td>12</td>
+          <td>Statement 3 analysis</td>
+          <td>
+            <code class="ic">bool shouldPersist = (bool)method.Invoke(o, Array.Empty&lt;object&gt;())!;</code><br>
+            MemberAccess: <code class="ic">method.Invoke(...)</code><br>
+            GetRootReceiver → <code class="ic">"method"</code><br>
+            ✓ Not in paramNames<br>
+            ✓ Not a literal<br>
+            ✓ <code class="ic">char.IsUpper('m')</code> is false → not a type name<br>
+            <strong>→ MATCH!</strong> receivers = <code class="ic">["method"]</code>
+          </td>
+          <td style="color:var(--green)"><strong>Match!</strong></td>
+        </tr>
+        <tr style="background:rgba(63,185,80,.06)">
+          <td>13</td>
+          <td><code class="ic">BuildNullGuard()</code></td>
+          <td>
+            Statement is <code class="ic">LocalDeclarationStatementSyntax</code> → special path:<br>
+            • type = <code class="ic">"bool"</code> → default = <code class="ic">"false"</code><br>
+            • varName = <code class="ic">"shouldPersist"</code><br>
+            • initializer = <code class="ic">"(bool)method.Invoke(o, Array.Empty&lt;object&gt;())!"</code><br>
+            • condition = <code class="ic">"method is not null"</code><br>
+            Generates declaration + guarded assignment.
+          </td>
+          <td style="color:var(--green)"><strong>Patch generated!</strong></td>
+        </tr>
+        <tr>
+          <td>14</td>
+          <td>Inner loop break</td>
+          <td><code class="ic">patch is not null</code> → breaks out of both strategy and violation loops. Violation 2 is never processed.</td>
+          <td>1 patch for line 10</td>
+        </tr>
+        <tr>
+          <td>15</td>
+          <td><code class="ic">ApplyPatchesAsync()</code></td>
+          <td>
+            Targets live .cs file (strips <code class="ic">.bak</code> suffix).<br>
+            Finds <code class="ic">OriginalCode.Trim()</code> in file → replaces with <code class="ic">PatchedCode.Trim()</code>.<br>
+            Writes updated content back to <code class="ic">MemberMethodResolver.cs</code>.
+          </td>
+          <td style="color:var(--green)">File patched!</td>
+        </tr>
+        <tr>
+          <td>16</td>
+          <td>Report generation</td>
+          <td>Creates <code class="ic">PatchReport</code> record, serializes to <code class="ic">patches.json</code> via <code class="ic">JsonSerializer</code>.</td>
+          <td>patches.json written</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>Why Only 1 Patch for 2 Violations?</h3>
+    <div class="cols">
+      <div style="padding:12px">
+        <strong>Violation 1:</strong> <code class="ic">NotNull(dereference.receiver)</code> at line 10<br>
+        → NullDereferenceRepairStrategy.CanHandle → <span style="color:var(--green)">true</span><br>
+        → TryRepair → <span style="color:var(--green)">PatchResult (null guard)</span><br>
+        → <strong>breaks both loops</strong>
+      </div>
+      <div style="padding:12px">
+        <strong>Violation 2:</strong> <code class="ic">NoUnhandledException(event)</code> at line 10<br>
+        → <span style="color:var(--muted)">Never reached</span> — same line already has a patch<br>
+        → <span style="color:var(--muted)">Would have matched ExceptionRepairStrategy (priority 6)</span><br>
+        → <span style="color:var(--muted)">Would have generated try-catch (less precise than null guard)</span>
+      </div>
+    </div>
+    <div class="ann ok">
+      <strong>The priority system works:</strong> NullDereferenceRepairStrategy (priority 3) generates a more precise fix than
+      ExceptionRepairStrategy (priority 6) would. The null guard addresses the root cause; a try-catch would only mask the symptom.
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════  10. OUTPUT  ═══════════════════ -->
+<div class="section" id="output">
+  <div class="section-label">Section 10</div>
+  <h2>Output Artifacts</h2>
+
+  <div class="card">
+    <h3>patches.json (the full report)</h3>
+    <pre>{
+  <span class="str">"generatedAt"</span>: <span class="str">"2026-03-08T..."</span>,
+  <span class="str">"violationsFile"</span>: <span class="str">"...\\violations.json"</span>,
+  <span class="str">"targetRoot"</span>: <span class="str">"...\\MicrosoftBugDemo\\RuntimeCode"</span>,
+  <span class="str">"totalViolations"</span>: <span class="num">2</span>,
+  <span class="str">"patchesApplied"</span>: <span class="num">1</span>,
+  <span class="str">"patchesSkipped"</span>: <span class="num">0</span>,
+  <span class="str">"patches"</span>: [
+    {
+      <span class="str">"file"</span>: <span class="str">"MemberMethodResolver.cs"</span>,
+      <span class="str">"line"</span>: <span class="num">18</span>,
+      <span class="str">"ruleName"</span>: <span class="str">"NullDereferenceRepair"</span>,
+      <span class="str">"description"</span>: <span class="str">"Added null check for: method"</span>,
+      <span class="str">"originalCode"</span>: <span class="str">"bool shouldPersist = (bool)method.Invoke(o, Array.Empty&lt;object&gt;())!;"</span>,
+      <span class="str">"patchedCode"</span>: <span class="str">"bool shouldPersist = false;\n            if (method is not null)\n            {\n                shouldPersist = (bool)method.Invoke(o, Array.Empty&lt;object&gt;())!;\n            }"</span>
+    }
+  ]
+}</pre>
+  </div>
+
+  <div class="card">
+    <h3>The Patched Source File</h3>
+    <div class="diff">
+      <div class="diff-hdr">MemberMethodResolver.cs — before vs after</div>
+      <pre><span class="d-ctx">     MethodInfo method = o.GetType().GetMethod(</span>
+<span class="d-ctx">         methodInvoke,</span>
+<span class="d-ctx">         BindingFlags.Public | BindingFlags.NonPublic</span>
+<span class="d-ctx">         | BindingFlags.Instance | BindingFlags.Static</span>
+<span class="d-ctx">         | BindingFlags.DeclaredOnly)!;</span>
+<span class="d-del">-    bool shouldPersist = (bool)method.Invoke(o, Array.Empty&lt;object&gt;())!;</span>
+<span class="d-add">+    bool shouldPersist = false;</span>
+<span class="d-add">+    if (method is not null)</span>
+<span class="d-add">+    {</span>
+<span class="d-add">+        shouldPersist = (bool)method.Invoke(o, Array.Empty&lt;object&gt;())!;</span>
+<span class="d-add">+    }</span>
+<span class="d-ctx">     return shouldPersist;</span></pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Test Verification</h3>
+    <pre style="color:var(--text)"><span style="color:var(--green)">✅ CheckShouldPersist_MethodOnSameClass_ReturnsValue</span>           — PASS
+<span style="color:var(--green)">✅ CheckShouldPersist_MethodOnBaseClassViaBaseInstance_Works</span>    — PASS
+<span style="color:var(--green)">✅ CheckShouldPersist_MethodOnBaseClass_NullDereference</span>         — PASS
+
+Total: 3, Failed: 0, <span style="color:var(--green)">Succeeded: 3</span></pre>
+
+    <div class="ann ok">
+      <strong>All tests pass.</strong> The null guard returns <code class="ic">false</code> when
+      <code class="ic">GetMethod()</code> returns null (base class method not found via DeclaredOnly),
+      which is a safe default. Tests 1 &amp; 2 continue to work because <code class="ic">method</code>
+      is non-null in those cases — the guard passes through to the original <code class="ic">Invoke()</code> call.
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════  SUMMARY DIAGRAM  ═══════════════════ -->
+<div class="section">
+  <div class="section-label">Summary</div>
+  <h2>Complete Call Graph</h2>
+  <div class="card" style="text-align:center">
+    <pre style="text-align:left;display:inline-block;font-size:.78rem">
+<span style="color:var(--muted)">generate_patches.ps1</span>
+  │
+  ├── dotnet build Repair.csproj
+  │
+  └── dotnet run → <span style="color:var(--accent)">Program.Main(args)</span>
+        │
+        ├── Parse CLI: --violations, --target, --report, --apply
+        │
+        ├── Create <span style="color:var(--orange)">PatchEngine</span>([6 strategies])
+        │
+        └── <span style="color:var(--orange)">engine.RunAsync()</span>
+              │
+              ├── <span style="color:var(--muted)">ReadViolationsAsync()</span> → List&lt;ConstraintViolation&gt;
+              │
+              ├── <span style="color:var(--muted)">GroupBy(File)</span> → 1 file group
+              │
+              ├── <span style="color:var(--muted)">ResolveSourceFile()</span> → .bak found
+              │
+              ├── <span style="color:var(--purple)">CSharpSyntaxTree.ParseText()</span> → AST
+              │
+              ├── <span style="color:var(--muted)">GroupBy(Line)</span> → 1 line group
+              │
+              ├── For violation "NotNull(...)":
+              │   ├── OffByOne.<span style="color:var(--red)">CanHandle()</span> → false
+              │   ├── BufferBounds.<span style="color:var(--red)">CanHandle()</span> → false
+              │   └── <span style="color:var(--green)">NullDeref.CanHandle()</span> → true
+              │       └── <span style="color:var(--green)">NullDeref.TryRepair()</span>
+              │           ├── FindNodeAtLine(10) → MethodDeclarationSyntax
+              │           ├── StatementSyntax? → null (method decl isn't a statement)
+              │           └── <span style="color:var(--green)">RepairMethodBody()</span>
+              │               ├── Params: {o, memberName}
+              │               ├── Stmt 1: methodInvoke = ... → no local receiver
+              │               ├── Stmt 2: method = o.GetType()... → root "o" is param
+              │               └── Stmt 3: shouldPersist = method.Invoke(...)
+              │                   ├── <span style="color:var(--green)">GetRootReceiver()</span> → "method" ✓
+              │                   └── <span style="color:var(--green)">BuildNullGuard()</span>
+              │                       ├── LocalDeclarationStatement detected
+              │                       ├── bool shouldPersist = false;
+              │                       └── if (method is not null) { shouldPersist = ... }
+              │
+              ├── <span style="color:var(--muted)">(Violation 2 skipped — same line already patched)</span>
+              │
+              ├── <span style="color:var(--green)">ApplyPatchesAsync()</span>
+              │   ├── Target: .cs (strip .bak suffix)
+              │   ├── OrderByDescending(Line) → bottom-up
+              │   └── String.Replace(original, patched)
+              │
+              └── Return <span style="color:var(--green)">PatchReport</span> → serialize to patches.json
+</pre>
+  </div>
+</div>
+
+</div><!-- /container -->
+
+<footer>
+  AutoRepair Step 3 — Repair Engine Deep Dive &middot; Generated March 2026
+</footer>
+
+</body>
+</html>

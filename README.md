@@ -2,8 +2,7 @@
 
 Automated C# program repair system using runtime tracing, constraint solving, and patch generation.
 
-> **📍 Current focus: Step 2, Constraint Analysis.**
-> Step 1 (Tracing) is complete. Step 3 (Repair) has not been started.
+> **All three steps are complete.** The full pipeline — trace, analyze, repair — is functional.
 
 ---
 
@@ -12,8 +11,8 @@ Automated C# program repair system using runtime tracing, constraint solving, an
 | Step | Module | Status | Description |
 | :--: | :--- | :--- | :--- |
 | **1** | [Tracing](AutoRepair/Step1_Tracing/README.md) | **Done** | Roslyn-based instrumenter injects logging into any C# project; produces a structured JSONL execution trace. |
-| **2** | [Constraints](AutoRepair/Step2_Constraints/README.md) | **In Progress** | Rule engine reads the trace and emits `violations.json` (buffer-bounds, exceptions, invalid casts, integer overflow). |
-| **3** | Repair | Not Started | Will generate source-level patches from the constraint violations. |
+| **2** | [Constraints](AutoRepair/Step2_Constraints/README.md) | **Done** | Rule engine reads the trace and emits `violations.json` (buffer-bounds, off-by-one, null dereferences, exceptions, invalid casts, integer overflow). |
+| **3** | [Repair](AutoRepair/Step3_Repair/README.md) | **Done** | Roslyn-based patch generator reads violations and produces source-level fixes (bounds guards, null checks, checked arithmetic, safe casts, try-catch wrapping). |
 
 ---
 
@@ -39,7 +38,13 @@ The system is designed to **work with any open-source C# project**, not just one
 # 2. Analyze the trace for constraint violations
 .\AutoRepair\Step2_Constraints\analyze_trace.ps1
 
-# 3. Restore the target project to its original state
+# 3. Generate patches from violations (dry-run)
+.\AutoRepair\Step3_Repair\generate_patches.ps1
+
+# 3b. Apply patches to source files
+.\AutoRepair\Step3_Repair\generate_patches.ps1 -Apply
+
+# 4. Restore the target project to its original state
 .\AutoRepair\Step1_Tracing\restore_project.ps1
 ```
 
@@ -55,7 +60,7 @@ Each step has its own detailed README. See the links in the Status table above.
 │  (Instrumenter) │      │  (Rule Engine)       │       │  (Patch Gen)    │
 └─────────────────┘      └──────────────────────┘       └─────────────────┘
         │                         │                            │
-   trace_logs.jsonl         violations.json              patches (TBD)
+   trace_logs.jsonl         violations.json              patches.json
 ```
 
 <!-- SCREENSHOT SUGGESTION: terminal showing the full pipeline run (Steps 1 → 2) -->
@@ -85,7 +90,14 @@ Patching/
 │   │       ├── Runtime/                # TraceReader, StateTracker
 │   │       └── Rules/                  # IRule + 4 rule implementations
 │   │
-│   └── Step3_Repair/                   # (Not started) Patch generation
+│   └── Step3_Repair/                   # Patch generation
+│       ├── generate_patches.ps1        # Build & run the patch generator
+│       ├── reports/patches.json        # (Generated) patch report
+│       └── Repair/                     # C# Roslyn-based patch generator
+│           ├── Program.cs
+│           ├── Models/                 # ConstraintViolation, PatchResult, PatchReport
+│           ├── Core/                   # PatchEngine orchestrator
+│           └── Strategies/             # 6 IRepairStrategy implementations
 │
 ├── BrightHrKata/                       # Primary target app (checkout kata)
 │   ├── Checkout/                       # Source code under test

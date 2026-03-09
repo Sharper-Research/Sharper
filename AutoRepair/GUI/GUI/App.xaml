@@ -1,0 +1,12 @@
+﻿<!-- this is the app entry point, WPF reads this first when the program starts -->
+<!-- xmlns is the default WPF namespace, xmlns:x gives us x:Class and x:Key -->
+<!-- StartupUri tells WPF which window to open first when app launches -->
+<Application x:Class="AutoRepairGUI.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:AutoRepairGUI"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <!-- we could put global styles or brushes here but we put them in MainWindow instead -->
+    </Application.Resources>
+</Application>

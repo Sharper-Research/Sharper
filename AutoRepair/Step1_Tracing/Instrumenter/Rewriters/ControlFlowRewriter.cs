@@ -29,7 +29,7 @@ namespace Instrumenter.Rewriters
             statements.AddRange(CreateParameterArrayLogs(parameters, line, name));
             StatementSyntax tail = returnsVoid
                 ? SyntaxFactory.ExpressionStatement(expression)
-                : SyntaxFactory.ReturnStatement(expression);
+                : SyntaxFactory.ReturnStatement(expression.WithLeadingTrivia(SyntaxFactory.Space));
             statements.Add(tail);
             return SyntaxFactory.Block(statements);
         }

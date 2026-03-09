@@ -1,6 +1,6 @@
 ﻿# Step 2: Constraint Analysis  <-- WE ARE CURRENTLY HERE
 
-> **Status: In Progress.** The rule engine is functional with 4 rules. We are refining rules and expanding coverage.
+> **Status: Done.** The rule engine is fully functional with 6 rules covering buffer bounds, off-by-one errors, null dereferences, unhandled exceptions, invalid casts, and integer overflows.
 
 This step reads the Step 1 trace (`trace_logs.jsonl`), applies predefined safety rules, and emits a report of every violation (buffer overflows, invalid casts, integer overflows, unhandled exceptions, Off-by-one-errors and Null Dereferences) rerun the target app; it only reasons over the captured execution log.
 
@@ -24,6 +24,7 @@ This step reads the Step 1 trace (`trace_logs.jsonl`), applies predefined safety
 | `BufferBoundsRule` | `index < len(buffer)` | Array/buffer index-out-of-range (uses heap metadata from Step 1). |
 | `ExceptionRule` | `event.exception == null` | Any `Exception Type` event logged by the SafetyRewriter. |
 | `InvalidCastingRule` | `typeof(source) is targetType` | `as`-cast nulls and explicit-cast `InvalidCastException` events. |
+| `OffByOneRule` | `index < len(buffer)` (boundary) | Index equals buffer length exactly (`<=` vs `<` boundary mistake). |
 | `IntegerOverflowRule` | `a op b fits in ResultType` | Arithmetic operations (`+`, `*`, `+=`) that silently overflow `Int32`/`Int64`. |
 
 ### Example Violation (from `violations.json`)
@@ -87,5 +88,6 @@ AutoRepair/Step2_Constraints/
         +-- BufferBoundsRule.cs     # index < buffer.Length
         +-- ExceptionRule.cs        # Flags logged exceptions
         +-- InvalidCastingRule.cs   # Flags failed casts
+        +-- OffByOneRule.cs         # Flags index == array.Length boundary errors
         +-- IntegerOverflowRule.cs  # Flags silent integer overflow
 ```
