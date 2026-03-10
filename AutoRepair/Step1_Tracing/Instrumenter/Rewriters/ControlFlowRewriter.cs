@@ -288,6 +288,14 @@ namespace Instrumenter.Rewriters
             for (int i = 0; i < argumentList.Arguments.Count; i++)
             {
                 var arg = argumentList.Arguments[i];
+
+                // Skip out/ref arguments — declaration expressions are not valid standalone expressions.
+                if (arg.RefKindKeyword.IsKind(SyntaxKind.OutKeyword) ||
+                    arg.RefKindKeyword.IsKind(SyntaxKind.RefKeyword) ||
+                    arg.RefKindKeyword.IsKind(SyntaxKind.InKeyword) ||
+                    arg.Expression is DeclarationExpressionSyntax)
+                    continue;
+
                 var argExpr = arg.Expression.ToString();
                 var argLiteral = EscapeString(argExpr);
                 string uniqueId = Guid.NewGuid().ToString();
@@ -314,7 +322,7 @@ namespace Instrumenter.Rewriters
 
         private string EscapeString(string text)
         {
-            return text.Replace("\\", "\\\\").Replace("\"", "\\\"");
+            return text.Replace("\\", "\\\\").Replace("\"", "\\\"").Replace("\r", "").Replace("\n", " ");
         }
     }
 }

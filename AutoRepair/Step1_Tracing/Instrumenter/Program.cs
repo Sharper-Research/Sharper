@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -14,52 +16,216 @@ namespace Instrumenter
         {
             if (args.Length < 1)
             {
-                Console.WriteLine("Usage: Instrumenter <ProjectRootPath>");
+                Console.WriteLine("Usage:");
+                Console.WriteLine("  Instrumenter <ProjectRootPath>");
+                Console.WriteLine("  Instrumenter --test-project <TestProject.csproj>");
+                Console.WriteLine("  Instrumenter --diagnose <file.cs>");
                 return;
             }
 
-            string rootPath = Path.GetFullPath(args[0]);
+            if (args[0] == "--diagnose")
+            {
+                if (args.Length < 2 || !File.Exists(args[1]))
+                {
+                    Console.WriteLine("Error: --diagnose requires a valid .cs file path.");
+                    return;
+                }
+                DiagnoseFile(Path.GetFullPath(args[1]));
+                return;
+            }
+
+            List<string> sourceDirectories;
+            string rootPath;
+
+            if (args[0] == "--test-project")
+            {
+                if (args.Length < 2)
+                {
+                    Console.WriteLine("Error: --test-project requires a .csproj path.");
+                    return;
+                }
+
+                string testProject = Path.GetFullPath(args[1]);
+                if (!File.Exists(testProject))
+                {
+                    Console.WriteLine($"Error: Test project not found at {testProject}!");
+                    return;
+                }
+
+                Console.WriteLine($"Resolving project graph from: {testProject}");
+                sourceDirectories = ProjectGraphResolver.ResolveSourceDirectories(testProject);
+
+                if (sourceDirectories.Count == 0)
+                {
+                    Console.WriteLine("Error: No source project references found in the test project.");
+                    return;
+                }
+
+                // Use the first source directory as rootPath for TraceLogger placement
+                // and relative-path computation.
+                rootPath = sourceDirectories[0];
+            }
+            else
+            {
+                rootPath = Path.GetFullPath(args[0]);
+                if (!Directory.Exists(rootPath))
+                {
+                    Console.WriteLine($"Error: Directory not found at {rootPath}!");
+                    return;
+                }
+                sourceDirectories = new List<string> { rootPath };
+            }
+
             Console.WriteLine($"Instrumenting project at: {rootPath}");
 
-            if (!Directory.Exists(rootPath))
+            // 1. Generate TraceLogger in each source directory
+            foreach (var dir in sourceDirectories)
             {
-                Console.WriteLine($"Error: Directory not found at {rootPath}!");
-                return;
+                GenerateTraceLogger(dir);
             }
 
-            // 1. Generate TraceLogger
-            GenerateTraceLogger(rootPath);
-
-            // 2. Find and Instrument Files
-            var files = Directory.GetFiles(rootPath, "*.cs", SearchOption.AllDirectories)
-                .Where(f => !f.Contains("\\obj\\") && !f.Contains("\\bin\\") && !f.EndsWith("TraceLogger.cs"))
-                .ToList();
+            // 2. Find files across all source directories
+            var files = new List<string>();
+            foreach (var dir in sourceDirectories)
+            {
+                var dirFiles = Directory.GetFiles(dir, "*.cs", SearchOption.AllDirectories)
+                    .Where(f => !f.Contains($"{Path.DirectorySeparatorChar}obj{Path.DirectorySeparatorChar}")
+                             && !f.Contains($"{Path.DirectorySeparatorChar}bin{Path.DirectorySeparatorChar}")
+                             && !f.EndsWith("TraceLogger.cs")
+                             && !f.EndsWith(".g.cs")
+                             && !f.EndsWith(".designer.cs", StringComparison.OrdinalIgnoreCase));
+                files.AddRange(dirFiles);
+            }
 
             Console.WriteLine($"Found {files.Count} C# files to instrument.");
 
-            foreach (var file in files)
-            {
-                InstrumentFile(file, rootPath);
-            }
-            
-            Console.WriteLine("Instrumentation Complete.");
+            // 3. Instrument files in parallel for large repos
+            int succeeded = 0;
+            int failed = 0;
+            Parallel.ForEach(files, new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount },
+                file =>
+                {
+                    bool ok = InstrumentFile(file, rootPath);
+                    if (ok)
+                        Interlocked.Increment(ref succeeded);
+                    else
+                        Interlocked.Increment(ref failed);
+                });
+
+            Console.WriteLine($"Instrumentation Complete. Succeeded: {succeeded}, Failed: {failed}");
         }
 
-        static void InstrumentFile(string filePath, string rootPath)
+        static void DiagnoseFile(string filePath)
+        {
+            string code = File.ReadAllText(filePath);
+            SyntaxTree tree = CSharpSyntaxTree.ParseText(code);
+            var root = tree.GetRoot();
+            int originalErrors = tree.GetDiagnostics().Count(d => d.Severity == DiagnosticSeverity.Error);
+            Console.WriteLine($"Original parse errors: {originalErrors}");
+
+            string relPath = Path.GetFileName(filePath);
+
+            // Step 0: Annotate
+            var annotated = LineNumberAnnotator.Annotate(root);
+            ReportStep("LineNumberAnnotator", annotated, originalErrors);
+
+            // Test each rewriter individually (applied on top of annotated root only)
+            var rewriters = new (string Name, Func<SyntaxNode, SyntaxNode> Apply)[]
+            {
+                ("SafetyRewriter", node => new SafetyRewriter { TargetFileName = relPath }.Visit(node)),
+                ("ControlFlowRewriter", node => new ControlFlowRewriter { TargetFileName = relPath }.Visit(node)),
+                ("VariableRewriter", node => new VariableRewriter { TargetFileName = relPath }.Visit(node)),
+                ("HeapRewriter", node => new HeapRewriter { TargetFileName = relPath }.Visit(node)),
+                ("CastingRewriter", node => new CastingRewriter { TargetFileName = relPath }.Visit(node)),
+                ("OverflowRewriter", node => new OverflowRewriter { TargetFileName = relPath }.Visit(node)),
+            };
+
+            foreach (var (name, apply) in rewriters)
+            {
+                try
+                {
+                    var result = apply(annotated);
+                    int errs = ReportStep(name + " (solo)", result, originalErrors);
+                    if (errs > originalErrors)
+                    {
+                        // Dump the broken output to a temp file for inspection
+                        string dumpPath = Path.Combine(Path.GetTempPath(), $"diagnose_{name}.cs");
+                        File.WriteAllText(dumpPath, result.ToFullString());
+                        Console.WriteLine($"    Dumped to: {dumpPath}");
+                        var newTree2 = CSharpSyntaxTree.ParseText(result.ToFullString());
+                        foreach (var diag in newTree2.GetDiagnostics()
+                            .Where(d => d.Severity == DiagnosticSeverity.Error))
+                        {
+                            var span = diag.Location.GetLineSpan();
+                            Console.WriteLine($"    Error at line {span.StartLinePosition.Line + 1}: {diag.GetMessage()}");
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"  {name} (solo): EXCEPTION — {ex.Message}");
+                }
+            }
+
+            // Now test cumulative pipeline
+            Console.WriteLine("\n--- Cumulative pipeline ---");
+            SyntaxNode current = annotated;
+            foreach (var (name, apply) in rewriters)
+            {
+                try
+                {
+                    current = apply(current);
+                    int errs = ReportStep(name, current, originalErrors);
+                    if (errs > originalErrors)
+                    {
+                        // Dump first few errors
+                        var newTree2 = CSharpSyntaxTree.ParseText(current.ToFullString());
+                        foreach (var diag in newTree2.GetDiagnostics()
+                            .Where(d => d.Severity == DiagnosticSeverity.Error)
+                            .Take(5))
+                        {
+                            var span = diag.Location.GetLineSpan();
+                            Console.WriteLine($"    Error at line {span.StartLinePosition.Line + 1}: {diag.GetMessage()}");
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"  {name}: EXCEPTION — {ex.Message}");
+                    break;
+                }
+            }
+        }
+
+        static int ReportStep(string stepName, SyntaxNode node, int originalErrors)
+        {
+            var newTree = CSharpSyntaxTree.ParseText(node.ToFullString());
+            int newErrors = newTree.GetDiagnostics().Count(d => d.Severity == DiagnosticSeverity.Error);
+            int delta = newErrors - originalErrors;
+            string status = delta == 0 ? "OK" : $"+{delta} error(s)";
+            Console.WriteLine($"  {stepName}: {status} (total: {newErrors})");
+            return newErrors;
+        }
+
+        static bool InstrumentFile(string filePath, string rootPath)
         {
             Console.WriteLine($"Processing: {filePath}");
             try
             {
-                // Create Backup if not exists
+                // Create Backup if not exists (atomic check-and-copy)
                 string backupPath = filePath + ".bak";
                 if (!File.Exists(backupPath))
                 {
-                    File.Copy(filePath, backupPath);
+                    try { File.Copy(filePath, backupPath, overwrite: false); }
+                    catch (IOException) { /* another thread created it first */ }
                 }
 
                 string code = File.ReadAllText(filePath);
                 SyntaxTree tree = CSharpSyntaxTree.ParseText(code);
                 var root = tree.GetRoot();
+
+                // Count pre-existing parse errors so we only flag new ones.
+                int originalErrors = tree.GetDiagnostics().Count(d => d.Severity == DiagnosticSeverity.Error);
 
                 // 0. Annotate
                 var root0 = LineNumberAnnotator.Annotate(root);
@@ -89,11 +255,29 @@ namespace Instrumenter
                 var root6 = rewriter6.Visit(root5);
 
                 string newCode = root6.ToFullString();
+
+                // Validate: re-parse and check for NEW syntax errors introduced by rewriting.
+                var newTree = CSharpSyntaxTree.ParseText(newCode);
+                int newErrors = newTree.GetDiagnostics().Count(d => d.Severity == DiagnosticSeverity.Error);
+                if (newErrors > originalErrors)
+                {
+                    // Instrumentation introduced syntax errors — restore original and skip.
+                    Console.WriteLine($"  [skip] Instrumentation introduced {newErrors - originalErrors} syntax error(s) — keeping original: {filePath}");
+                    // Restore from backup (backup is always the clean original).
+                    if (File.Exists(backupPath))
+                    {
+                        File.Copy(backupPath, filePath, overwrite: true);
+                    }
+                    return false;
+                }
+
                 File.WriteAllText(filePath, newCode);
+                return true;
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Failed to instrument {filePath}: {ex.Message}");
+                return false;
             }
         }
 

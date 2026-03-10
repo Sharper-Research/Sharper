@@ -51,6 +51,10 @@ namespace Instrumenter.Rewriters
             if (ShouldSkipCast(updatedNode.Type))
                 return updatedNode;
 
+            // Skip casts inside interpolated string holes — replacing them breaks the interpolation.
+            if (IsInsideInterpolation(node))
+                return updatedNode;
+
             var line = GetLineNumber(node);
             var targetType = updatedNode.Type.ToString();
             var sourceExpr = updatedNode.Expression.ToString();
@@ -80,6 +84,10 @@ namespace Instrumenter.Rewriters
 
 
             if (updatedNode.Right is NullableTypeSyntax)
+                return updatedNode;
+
+            // Skip as-casts inside interpolated string holes.
+            if (IsInsideInterpolation(node))
                 return updatedNode;
 
             var line = GetLineNumber(node);
@@ -114,6 +122,18 @@ namespace Instrumenter.Rewriters
                 return true;
             }
 
+            return false;
+        }
+
+        private static bool IsInsideInterpolation(SyntaxNode node)
+        {
+            var parent = node.Parent;
+            while (parent != null)
+            {
+                if (parent is InterpolationSyntax)
+                    return true;
+                parent = parent.Parent;
+            }
             return false;
         }
 

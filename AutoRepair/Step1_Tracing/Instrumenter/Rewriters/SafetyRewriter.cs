@@ -78,6 +78,13 @@ namespace Instrumenter.Rewriters
             var declaration = updatedNode.Declaration ??
                 SyntaxFactory.CatchDeclaration(SyntaxFactory.ParseTypeName("System.Exception"), SyntaxFactory.Identifier("__autoRepairCaughtEx"));
 
+            // If the catch has a type but no variable name (e.g. catch (FormatException)),
+            // add a generated identifier so we can reference the exception.
+            if (declaration.Identifier.IsMissing || string.IsNullOrEmpty(declaration.Identifier.Text))
+            {
+                declaration = declaration.WithIdentifier(SyntaxFactory.Identifier("__autoRepairCaughtEx"));
+            }
+
             updatedNode = updatedNode.WithDeclaration(declaration);
 
             if (updatedNode.Block == null)
