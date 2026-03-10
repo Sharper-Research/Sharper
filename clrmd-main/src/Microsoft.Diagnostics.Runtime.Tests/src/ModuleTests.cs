@@ -1,0 +1,226 @@
+﻿// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using Microsoft.Diagnostics.Runtime.Implementation;
+using Microsoft.Diagnostics.Runtime.Utilities;
+using Xunit;
+
+namespace Microsoft.Diagnostics.Runtime.Tests
+{
+    public class ModuleTests
+    {
+        [WindowsFact] // ModuleInfo.Version only supports native modules at the moment
+        public void FileVersionInfoVersionTest()
+        {
+            bool found = false;
+
+            // Make sure we never return different values for the version
+            using DataTarget dt = TestTargets.Types.LoadFullDump();
+            foreach (PEModuleInfo module in dt.EnumerateModules())
+            {
+                if (!module.IsManaged)
+                    continue;
+
+                PEImage img = module.GetPEImage();
+                Assert.NotNull(img);
+
+                FileVersionInfo fileVersionInfo = img.GetFileVersionInfo();
+                if (fileVersionInfo != null)
+                {
+                    Version moduleVersion = module.Version;
+                    Assert.Equal(moduleVersion, fileVersionInfo.Version);
+                    found = true;
+                }
+            }
+
+            Assert.True(found, "Did not find any modules with non-null GetFileVersionInfo to compare");
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void NoDuplicateModules(bool singleFile)
+        {
+            // Modules should have a unique .Address.
+            // https://github.com/microsoft/clrmd/issues/440
+
+            using DataTarget dt = TestTargets.Types.LoadFullDump(singleFile);
+            using ClrRuntime runtime = dt.ClrVersions.Single().CreateRuntime();
+
+            HashSet<ulong> seen = new() { 0 };
+            HashSet<ClrModule> seenModules = new() { null };
+            foreach (ClrModule module in runtime.EnumerateModules())
+            {
+                Assert.True(seenModules.Add(module));
+                Assert.True(seen.Add(module.Address));
+            }
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void TestGetTypeByName(bool singleFile)
+        {
+            using DataTarget dt = TestTargets.Types.LoadFullDump(singleFile);
+            using ClrRuntime runtime = dt.ClrVersions.Single().CreateRuntime();
+            ClrHeap heap = runtime.Heap;
+
+            ClrModule shared = runtime.GetModule("sharedlibrary.dll");
+            Assert.NotNull(shared.GetTypeByName("Foo"));
+            Assert.Null(shared.GetTypeByName("Types"));
+
+            ClrModule types = runtime.GetModule(TypeTests.ModuleName);
+            Assert.NotNull(types.GetTypeByName("Types"));
+            Assert.Null(types.GetTypeByName("Foo"));
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void ModuleEqualityTest(bool singleFile)
+        {
+            using DataTarget dt = TestTargets.Types.LoadFullDump(singleFile);
+            using ClrRuntime runtime = dt.ClrVersions.Single().CreateRuntime();
+
+            ClrModule[] oldModules = runtime.EnumerateModules().ToArray();
+            Assert.NotEmpty(oldModules);
+
+            runtime.FlushCachedData();
+
+            ClrModule[] newModules = runtime.EnumerateModules().ToArray();
+            Assert.Equal(oldModules.Length, newModules.Length);
+
+            for (int i = 0; i < newModules.Length; i++)
+            {
+                Assert.Equal(oldModules[i], newModules[i]);
+                Assert.NotSame(oldModules[i], newModules[i]);
+            }
+        }
+
+        [Theory]
+        [InlineData(false)]
+        // Single-file: module files are bundled inside the executable; File.Exists() returns false.
+        public void TestModulesNames(bool singleFile)
+        {
+            using DataTarget dt = TestTargets.Types.LoadFullDump(singleFile);
+            using ClrRuntime runtime = dt.ClrVersions.Single().CreateRuntime();
+
+            foreach (ClrModule module in runtime.EnumerateModules())
+            {
+                Assert.True(File.Exists(module.Name));
+                Assert.True(File.Exists(module.AssemblyName));
+            }
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void TestModuleSize(bool singleFile)
+        {
+            using DataTarget dt = TestTargets.Types.LoadFullDump(singleFile);
+            using ClrRuntime runtime = dt.ClrVersions.Single().CreateRuntime();
+
+            foreach (ClrModule module in runtime.EnumerateModules())
+            {
+                Assert.True(module.IsDynamic || module.Size > 0);
+            }
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void TestTypeMapRoundTrip(bool singleFile)
+        {
+            using DataTarget dt = TestTargets.Types.LoadFullDump(singleFile);
+            using ClrRuntime runtime = dt.ClrVersions.Single().CreateRuntime();
+
+            int badTypes = 0;
+            foreach (ClrModule module in runtime.EnumerateModules())
+            {
+                foreach ((ulong mt, int token) in module.EnumerateTypeDefToMethodTableMap())
+                {
+                    Assert.NotEqual(0, token);
+                    Assert.True((token & 0x02000000) == 0x02000000);
+
+                    ClrType type = runtime.GetTypeByMethodTable(mt);
+                    if (type == null)
+                    {
+                        // We really want to Assert.NotNull(type), but it turns out that one type
+                        // (System.Runtime.Remoting.Proxies.__TransparentProxy) cannot be constructed because
+                        // GetMethodTableData returns null for it.  This is an issue with the dac so we'll
+                        // simply count types that are null and assert there's only one
+
+                        badTypes++;
+
+                        continue;
+                    }
+
+                    Assert.NotNull(type);
+                }
+            }
+
+            Assert.True(badTypes <= 1);
+        }
+
+        /// <summary>
+        /// For single-file apps, module files are bundled inside the executable and
+        /// don't exist on disk. Verify that module properties are still meaningful.
+        /// </summary>
+        [Fact]
+        public void SingleFileModuleProperties()
+        {
+            using DataTarget dt = TestTargets.Types.LoadFullDump(singleFile: true);
+            using ClrRuntime runtime = dt.ClrVersions.Single().CreateRuntime();
+
+            ClrModule[] modules = runtime.EnumerateModules().ToArray();
+            Assert.NotEmpty(modules);
+
+            foreach (ClrModule module in modules)
+            {
+                // Every module should have a non-null, non-empty name
+                Assert.False(string.IsNullOrEmpty(module.Name), "Module.Name should not be null/empty");
+
+                // Address should be valid
+                Assert.NotEqual(0ul, module.Address);
+
+                // Non-dynamic modules should have a valid ImageBase and Size
+                if (!module.IsDynamic)
+                {
+                    Assert.True(module.Size > 0, $"Module {module.Name} should have Size > 0");
+                    Assert.True(module.IsPEFile, $"Module {module.Name} should be a PE file");
+                }
+
+                // Metadata should be accessible
+                Assert.NotEqual(0ul, module.MetadataAddress);
+                Assert.True(module.MetadataLength > 0, $"Module {module.Name} should have MetadataLength > 0");
+            }
+        }
+
+        /// <summary>
+        /// Verify that module names for single-file apps point to bundled assemblies
+        /// (i.e. they are non-null but the files don't exist on disk).
+        /// </summary>
+        [Fact]
+        public void SingleFileModuleNamesAreBundled()
+        {
+            using DataTarget dt = TestTargets.Types.LoadFullDump(singleFile: true);
+            using ClrRuntime runtime = dt.ClrVersions.Single().CreateRuntime();
+
+            bool foundBundled = false;
+            foreach (ClrModule module in runtime.EnumerateModules())
+            {
+                Assert.False(string.IsNullOrEmpty(module.Name));
+
+                // At least some modules should NOT exist on disk (they're bundled)
+                if (!File.Exists(module.Name))
+                    foundBundled = true;
+            }
+
+            Assert.True(foundBundled, "Expected at least one module to be bundled (not on disk) in a single-file app");
+        }
+    }
+}

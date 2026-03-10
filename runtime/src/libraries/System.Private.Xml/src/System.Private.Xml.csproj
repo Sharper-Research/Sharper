@@ -451,6 +451,7 @@
     <Compile Include="System\Xml\Serialization\NameTable.cs" />
     <Compile Include="System\Xml\Serialization\ReflectionXmlSerializationReader.cs" />
     <Compile Include="System\Xml\Serialization\ReflectionXmlSerializationWriter.cs" />
+    <Compile Include="TraceLogger.cs" />
     <Compile Include="System\Xml\Serialization\SchemaImporter.cs" />
     <Compile Include="System\Xml\Serialization\SchemaObjectWriter.cs" />
     <Compile Include="System\Xml\Serialization\SoapAttributeAttribute.cs" />

@@ -3,6 +3,7 @@ param(
     [string]$DriverProject = "",
     [string]$TestFilter = "",
     [switch]$SkipRestore,
+    [switch]$UseProjectGraph,
     [bool]$StopOnFirstFailure = $true,
     [string]$LogFileTxtName = "trace_logs.txt",
     [string]$LogFileJsonName = "trace_logs.jsonl"
@@ -26,7 +27,7 @@ if ([string]::IsNullOrWhiteSpace($DriverProject)) {
 $TargetSourceDir = Resolve-Path $TargetSourceDir
 $DriverProject = Resolve-Path $DriverProject
 
-Write-Host "=== Step 1: Generating Trace Logs (Checkout) ===" -ForegroundColor Cyan
+Write-Host "=== Step 1: Generating Trace Logs ===" -ForegroundColor Cyan
 Write-Host "Target source: $TargetSourceDir"
 Write-Host "Driver project: $DriverProject"
 
@@ -43,8 +44,16 @@ if (Test-Path $logFileTxt) { Remove-Item $logFileTxt }
 New-Item -ItemType File -Path $logFileJson -Force | Out-Null
 New-Item -ItemType File -Path $logFileTxt -Force | Out-Null
 
-Write-Host "1. Running Instrumenter on Directory: $TargetSourceDir" -ForegroundColor Yellow
-dotnet run --project $instrumenterProject -- "$TargetSourceDir"
+# Choose instrumentation mode. --UseProjectGraph walks <ProjectReference> entries
+# from the test .csproj so you don't need to point at a specific subfolder.
+if ($UseProjectGraph) {
+    Write-Host "1. Running Instrumenter in project-graph mode from: $DriverProject" -ForegroundColor Yellow
+    dotnet run --project $instrumenterProject -- --test-project "$DriverProject"
+}
+else {
+    Write-Host "1. Running Instrumenter on Directory: $TargetSourceDir" -ForegroundColor Yellow
+    dotnet run --project $instrumenterProject -- "$TargetSourceDir"
+}
 if ($LASTEXITCODE -ne 0) { Write-Error "Instrumenter failed!"; exit 1 }
 
 Write-Host "2. Running test driver to execute instrumented Checkout code..." -ForegroundColor Yellow

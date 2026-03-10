@@ -17,7 +17,8 @@ namespace Instrumenter.Rewriters
         {
             string uniqueId = Guid.NewGuid().ToString();
             var escapedFileName = TargetFileName.Replace("\\", "\\\\");
-            return SyntaxFactory.ParseStatement($"global::AutoRepairTracing.TraceLogger.Log(\"{uniqueId}\", \"{escapedFileName}\", {line}, \"{context}\");\n");
+            var escapedContext = context.Replace("\\", "\\\\").Replace("\"", "\\\"").Replace("\r", "").Replace("\n", " ");
+            return SyntaxFactory.ParseStatement($"global::AutoRepairTracing.TraceLogger.Log(\"{uniqueId}\", \"{escapedFileName}\", {line}, \"{escapedContext}\");\n");
         }
 
         protected StatementSyntax CreateVariableLogStatement(string varName, string valueExpr, int line)
