@@ -29,6 +29,7 @@ namespace SerializationTypes
 
         public TypeWithDateTimeStringProperty() { }
     }
+
     public class SimpleType
     {
         public string P1 { get; set; }

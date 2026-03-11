@@ -73,6 +73,8 @@ public static partial class XmlSerializerTests
         Assert.StrictEqual(utcTimeObject.Value, utcTimeRoundTrip.Value);
     }
 
+
+
     [Fact]
     public static void Xml_NamespaceTypeNameClashTest()
     {
