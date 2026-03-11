@@ -29,6 +29,16 @@ namespace SerializationTypes
 
         public TypeWithDateTimeStringProperty() { }
     }
+    public class BaseClassWithShouldSerialize
+    {
+        public string BaseProp { get; set; }
+        public bool ShouldSerializeBaseProp() => false; // always skip
+    }
+
+    public class DerivedFromBaseWithShouldSerialize : BaseClassWithShouldSerialize
+    {
+        public string DerivedProp { get; set; }
+    }
 
     public class SimpleType
     {

@@ -73,6 +73,19 @@ public static partial class XmlSerializerTests
         Assert.StrictEqual(utcTimeObject.Value, utcTimeRoundTrip.Value);
     }
 
+    [Fact]
+    public static void Xml_DerivedType_InheritsBaseClass_ShouldSerializeMethod()
+    {
+        // This CRASHES in ReflectionOnly mode due to BindingFlags.DeclaredOnly bug
+        var value = new DerivedFromBaseWithShouldSerialize
+        {
+            BaseProp = "base",
+            DerivedProp = "derived"
+        };
+        // ShouldSerializeBaseProp() returns false → BaseProp should NOT appear in XML
+        var actual = SerializeAndDeserialize(value,WithXmlHeader(@"<DerivedFromBaseWithShouldSerialize xmlns:xsi=""..."" xmlns:xsd=""...""><DerivedProp>derived</DerivedProp></DerivedFromBaseWithShouldSerialize>"));
+        Assert.Equal("derived", actual.DerivedProp);
+    }
 
 
     [Fact]
