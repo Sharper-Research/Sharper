@@ -221,6 +221,18 @@ namespace Instrumenter
                 }
 
                 string code = File.ReadAllText(filePath);
+
+                // Skip files that use #if/#else/#endif preprocessor directives inside
+                // method bodies — the Instrumenter's trivia handling can displace these
+                // directives into the wrong position, producing compiler errors that
+                // Roslyn's lenient parser does not catch during validation.
+                if (code.Contains("#if ") || code.Contains("#if\t") ||
+                    code.Contains("#else") || code.Contains("#elif "))
+                {
+                    Console.WriteLine($"  [skip-preprocessor] {Path.GetFileName(filePath)}");
+                    return true;
+                }
+
                 SyntaxTree tree = CSharpSyntaxTree.ParseText(code);
                 var root = tree.GetRoot();
 
@@ -339,14 +351,18 @@ namespace AutoRepairTracing
             return value;
         }
 
-        public static void LogArray(string uniqueId, string file, int line, string message, System.Array array, string? variableName = null)
+        public static void LogArray(string uniqueId, string file, int line, string message, object? collection, string? variableName = null)
         {
             object? snapshot = null;
-            if (array != null)
+            if (collection is System.Array array)
             {
                 var values = array.Cast<object?>()
                     .Select(v => v?.ToString() ?? ""null"");
                 snapshot = ""["" + string.Join("", "", values) + ""]"";
+            }
+            else if (collection != null)
+            {
+                snapshot = collection.ToString();
             }
             Log(uniqueId, file, line, message, snapshot, variableName);
         }

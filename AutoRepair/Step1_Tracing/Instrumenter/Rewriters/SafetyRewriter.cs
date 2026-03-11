@@ -59,6 +59,13 @@ namespace Instrumenter.Rewriters
                 return updatedNode;
             }
 
+            // C# forbids 'yield return/break' inside a try block with a catch clause.
+            // Skip wrapping iterator methods entirely.
+            if (updatedNode.Body.DescendantNodes().OfType<YieldStatementSyntax>().Any())
+            {
+                return updatedNode;
+            }
+
             var lineNumber = GetLineNumber(node);
             var tryStatement = SyntaxFactory.TryStatement()
                 .WithBlock(updatedNode.Body)
@@ -82,7 +89,11 @@ namespace Instrumenter.Rewriters
             // add a generated identifier so we can reference the exception.
             if (declaration.Identifier.IsMissing || string.IsNullOrEmpty(declaration.Identifier.Text))
             {
-                declaration = declaration.WithIdentifier(SyntaxFactory.Identifier("__autoRepairCaughtEx"));
+                // Add a leading space so the type and identifier don't get concatenated
+                // (e.g. 'ExceptionFoo' instead of 'Exception Foo').
+                declaration = declaration.WithIdentifier(
+                    SyntaxFactory.Identifier("__autoRepairCaughtEx")
+                        .WithLeadingTrivia(SyntaxFactory.Space));
             }
 
             updatedNode = updatedNode.WithDeclaration(declaration);

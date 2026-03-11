@@ -189,6 +189,17 @@ namespace System.CommandLine.Suggest.Tests
             provider.FindAllRegistrations().Should().HaveCount(1);
         }
 
+        [Fact]
+        public async Task SuggestionDispatcher_Get_ShouldNotThrowNullReferenceException()
+        {
+            var dispatcher = new SuggestionDispatcher(new TestSuggestionRegistration());
+
+            // This triggers the NullReferenceException at SuggestionDispatcher.cs:141
+            var result = await dispatcher.InvokeAsync(new[] { "get", "dotnet-suggest" });
+
+            Assert.Equal(0, result); // never reaches — NullReferenceException thrown
+        }
+
         private static async Task<string> InvokeAsync(
             string[] args,
             ISuggestionRegistration suggestionProvider,

@@ -13,6 +13,8 @@ trace_logs.jsonl
 trace_logs.txt
 trace_logs_full_test_run.jsonl
 trace_logs_full_test_run.txt
+trace_logs_command_line_api.jsonl
+trace_logs_command_line_api.txt
 violations.json
 violations_full_test_run.json
 

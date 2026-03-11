@@ -58,6 +58,11 @@ namespace Instrumenter.Rewriters
             if (IsInsideCheckedOrUnchecked(node))
                 return updatedNode;
 
+            // Attribute arguments are always constant expressions (strings, enums, etc.)
+            // — never numeric arithmetic worth instrumenting.
+            if (IsInsideAttributeArgument(node))
+                return updatedNode;
+
             var line = GetLineNumber(node);
             var uniqueId = Guid.NewGuid().ToString();
             var escapedFileName = TargetFileName.Replace("\\", "\\\\");
@@ -110,13 +115,24 @@ namespace Instrumenter.Rewriters
 
         private static bool IsLikelyStringExpression(ExpressionSyntax expr)
         {
-            // String literals: "hello Manish"
+            // String literals: "hello"
             if (expr is LiteralExpressionSyntax literal &&
                 literal.IsKind(SyntaxKind.StringLiteralExpression))
                 return true;
 
+            // Char literals: 'x' — commonly used with string += ' '
+            if (expr is LiteralExpressionSyntax charLit &&
+                charLit.IsKind(SyntaxKind.CharacterLiteralExpression))
+                return true;
+
             // Interpolated strings: $"..."
             if (expr is InterpolatedStringExpressionSyntax)
+                return true;
+
+            // nameof(...) always produces a string constant
+            if (expr is InvocationExpressionSyntax invoc &&
+                invoc.Expression is IdentifierNameSyntax nameofId &&
+                nameofId.Identifier.Text == "nameof")
                 return true;
 
             // String.Concat, string.Format, ..
@@ -125,6 +141,27 @@ namespace Instrumenter.Rewriters
                 text.StartsWith("String.", StringComparison.Ordinal))
                 return true;
 
+            // Common string-producing method chains: .Split(...), .Substring(...), etc.
+            if (text.Contains(".Split(") ||
+                text.Contains(".Substring(") ||
+                text.Contains(".Replace(") ||
+                text.Contains(".Trim(") ||
+                text.Contains(".ToLower(") ||
+                text.Contains(".ToUpper("))
+                return true;
+
+            return false;
+        }
+
+        private static bool IsInsideAttributeArgument(SyntaxNode node)
+        {
+            var parent = node.Parent;
+            while (parent != null)
+            {
+                if (parent is AttributeArgumentSyntax || parent is AttributeSyntax)
+                    return true;
+                parent = parent.Parent;
+            }
             return false;
         }
 

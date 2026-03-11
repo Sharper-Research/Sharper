@@ -1,4 +1,5 @@
 using System.CommandLine;
+using System.Globalization;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using AutoRepair.Step2Constraints.Models;
@@ -54,12 +55,14 @@ internal static class Program
         {
             new BufferBoundsRule(),
             new NullDereferenceRule(),
+            new InvocationFailureRule(),
             new ExceptionRule(),
             new InvalidCastingRule(),
             new IntegerOverflowRule()
         };
 
         var violations = new List<ConstraintViolation>();
+        var seenViolationKeys = new HashSet<string>(StringComparer.Ordinal);
 
         await foreach (var evt in TraceReader.ReadAsync(traceFile.FullName))
         {
@@ -69,7 +72,11 @@ internal static class Program
             {
                 if (rule.TryEvaluate(evt, tracker, out var violation))
                 {
-                    violations.Add(violation);
+                    var key = BuildViolationKey(violation);
+                    if (seenViolationKeys.Add(key))
+                    {
+                        violations.Add(violation);
+                    }
                 }
             }
         }
@@ -79,4 +86,12 @@ internal static class Program
 
         return violations;
     }
+
+    private static string BuildViolationKey(ConstraintViolation violation) =>
+        string.Join("|",
+            violation.Predicate,
+            violation.Assertion,
+            violation.File,
+            violation.Line.ToString(CultureInfo.InvariantCulture),
+            violation.TraceId);
 }

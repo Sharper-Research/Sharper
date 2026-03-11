@@ -31,45 +31,10 @@ namespace Instrumenter.Rewriters
         public override SyntaxNode? VisitExpressionStatement(ExpressionStatementSyntax node)
         {
             var line = GetLineNumber(node);
-            var shouldSnapshotArray = node.Expression is AssignmentExpressionSyntax originalAssignment &&
-                                      originalAssignment.Left is ElementAccessExpressionSyntax elementAccessOriginal
-                                          ? elementAccessOriginal.Expression.ToString()
-                                          : null;
-
             var visitedNode = base.VisitExpressionStatement(node) as ExpressionStatementSyntax;
             if (visitedNode == null) return node;
 
-            string? varName = null;
-            bool isDirectUpdate = false;
             var logsBefore = new List<StatementSyntax>();
-            var logsAfter = new List<StatementSyntax>();
-
-            // 12. Assignments (x = 5;)
-            // 14. Compound Assignments (+=)
-            if (visitedNode.Expression is AssignmentExpressionSyntax assignment)
-            {
-                varName = assignment.Left.ToString();
-                isDirectUpdate = true;
-            }
-            // 13. Post/Pre Increment/Decrement (i++)
-            else if (visitedNode.Expression is PostfixUnaryExpressionSyntax postfix)
-            {
-                varName = postfix.Operand.ToString();
-                isDirectUpdate = true;
-            }
-            else if (visitedNode.Expression is PrefixUnaryExpressionSyntax prefix)
-            {
-                if (prefix.Kind() == SyntaxKind.PreIncrementExpression || prefix.Kind() == SyntaxKind.PreDecrementExpression)
-                {
-                    varName = prefix.Operand.ToString();
-                    isDirectUpdate = true;
-                }
-            }
-
-            if (varName != null && !isDirectUpdate)
-            {
-                logsAfter.Add(CreateVariableLogStatement(varName, varName, line));
-            }
 
             // Index expressions (arr[i])
             var elementAccesses = visitedNode.Expression
@@ -96,17 +61,11 @@ namespace Instrumenter.Rewriters
                 logsBefore.Add(CreateVariableLogStatement("denominator", division.Right.ToString(), line));
             }
 
-            if (shouldSnapshotArray != null)
-            {
-                logsAfter.Add(CreateArraySnapshotStatement(shouldSnapshotArray, line));
-            }
-
-            if (logsBefore.Count > 0 || logsAfter.Count > 0)
+            if (logsBefore.Count > 0)
             {
                 var statements = new List<StatementSyntax>();
                 statements.AddRange(logsBefore);
                 statements.Add(visitedNode);
-                statements.AddRange(logsAfter);
                 return SyntaxFactory.Block(statements);
             }
 
@@ -115,9 +74,21 @@ namespace Instrumenter.Rewriters
 
         public override SyntaxNode? VisitAssignmentExpression(AssignmentExpressionSyntax node)
         {
+            // Don't wrap assignments that are members of object/collection initializers.
+            // e.g. new Option { Description = "..." } — instrumenting those turns a
+            // valid object initializer into broken collection-initializer syntax.
+            if (node.Parent is InitializerExpressionSyntax)
+                return base.VisitAssignmentExpression(node);
+
             var line = GetLineNumber(node);
             var updatedNode = base.VisitAssignmentExpression(node) as AssignmentExpressionSyntax;
             if (updatedNode == null) return node;
+
+            // Skip destructuring assignments: var (_, distance) = tuple
+            // The left side is a DeclarationExpressionSyntax which is not a valid
+            // standalone expression — wrapping it in LogValue() causes CS8185.
+            if (updatedNode.Left is DeclarationExpressionSyntax)
+                return updatedNode;
 
             if (updatedNode.Left is ElementAccessExpressionSyntax elementAccess)
             {
@@ -170,7 +141,8 @@ namespace Instrumenter.Rewriters
                     newStatements.Add(visited);
 
                     // 11. Local Declarations (int x = 5)
-                    if (statement is LocalDeclarationStatementSyntax localDecl)
+                    if (statement is LocalDeclarationStatementSyntax localDecl &&
+                        !IsRefStructType(localDecl.Declaration.Type))
                     {
                         var line = GetLineNumber(localDecl);
                         foreach (var variable in localDecl.Declaration.Variables)
@@ -198,7 +170,8 @@ namespace Instrumenter.Rewriters
                     newStatements.Add(visited);
 
                     // 11. Local Declarations (int x = 5)
-                    if (statement is LocalDeclarationStatementSyntax localDecl)
+                    if (statement is LocalDeclarationStatementSyntax localDecl &&
+                        !IsRefStructType(localDecl.Declaration.Type))
                     {
                         var line = GetLineNumber(localDecl);
                         foreach (var variable in localDecl.Declaration.Variables)
@@ -248,12 +221,15 @@ namespace Instrumenter.Rewriters
             return SyntaxFactory.ParseExpression(expression);
         }
 
-        private StatementSyntax CreateArraySnapshotStatement(string arrayExpression, int line)
+        // Ref structs (e.g. Span<T>, ReadOnlySpan<T>) cannot be boxed to object?
+        // for logging. Detect them by name heuristic.
+        private static bool IsRefStructType(TypeSyntax type)
         {
-            string uniqueId = Guid.NewGuid().ToString();
-            var escapedFileName = TargetFileName.Replace("\\", "\\\\");
-            var code = $"global::AutoRepairTracing.TraceLogger.LogArray(\"{uniqueId}\", \"{escapedFileName}\", {line}, \"Array Snapshot\", {arrayExpression}, \"{arrayExpression}\");";
-            return SyntaxFactory.ParseStatement(code + "\n");
+            var name = type.ToString();
+            return name.StartsWith("Span<") ||
+                   name.StartsWith("ReadOnlySpan<") ||
+                   name == "Span" ||
+                   name == "ReadOnlySpan";
         }
     }
 }

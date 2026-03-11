@@ -27,9 +27,17 @@ namespace Instrumenter.Rewriters
                 CreateLogStatement($"Enter Method '{name}'", line)
             };
             statements.AddRange(CreateParameterArrayLogs(parameters, line, name));
+            // Ensure a space between 'return' keyword and the expression.
+            // The space goes on the return *token* (not the expression) because
+            // subsequent rewriters (e.g. VariableRewriter) may replace the
+            // expression entirely, stripping any trivia added to it.
             StatementSyntax tail = returnsVoid
                 ? SyntaxFactory.ExpressionStatement(expression)
-                : SyntaxFactory.ReturnStatement(expression);
+                : SyntaxFactory.ReturnStatement(
+                    SyntaxFactory.Token(SyntaxKind.ReturnKeyword)
+                        .WithTrailingTrivia(SyntaxFactory.Space),
+                    expression,
+                    SyntaxFactory.Token(SyntaxKind.SemicolonToken));
             statements.Add(tail);
             return SyntaxFactory.Block(statements);
         }
@@ -216,7 +224,16 @@ namespace Instrumenter.Rewriters
             var aliasLogs = new List<StatementSyntax>();
             if (node.Expression is InvocationExpressionSyntax invocation)
             {
-                aliasLogs.AddRange(CreateArrayArgumentLogs(invocation, line));
+                // If the invocation declares out variables, wrapping the statement
+                // in a block would put those declared variables out of scope.
+                bool hasOutDeclaration = invocation.ArgumentList.Arguments.Any(arg =>
+                    arg.RefKindKeyword.IsKind(SyntaxKind.OutKeyword) &&
+                    arg.Expression is DeclarationExpressionSyntax);
+
+                if (!hasOutDeclaration)
+                {
+                    aliasLogs.AddRange(CreateArrayArgumentLogs(invocation, line));
+                }
             }
 
             var updated = base.VisitExpressionStatement(node) as ExpressionStatementSyntax;
@@ -294,6 +311,12 @@ namespace Instrumenter.Rewriters
                     arg.RefKindKeyword.IsKind(SyntaxKind.RefKeyword) ||
                     arg.RefKindKeyword.IsKind(SyntaxKind.InKeyword) ||
                     arg.Expression is DeclarationExpressionSyntax)
+                    continue;
+
+                // Skip lambdas and anonymous methods — wrapping them in LogArrayAliasArgument
+                // passes the lambda as 'object', destroying delegate type inference.
+                if (arg.Expression is LambdaExpressionSyntax ||
+                    arg.Expression is AnonymousMethodExpressionSyntax)
                     continue;
 
                 var argExpr = arg.Expression.ToString();
