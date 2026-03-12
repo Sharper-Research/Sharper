@@ -61,8 +61,18 @@ namespace Instrumenter.Rewriters
             }
             else
             {
-                return SyntaxFactory.Block(logNode, statement);
+                // Add trailing newline to closing brace so that any #if preprocessor
+                // directive on the next token starts on its own line (avoids CS1040).
+                var newBlock = SyntaxFactory.Block(logNode, statement);
+                return newBlock.WithCloseBraceToken(
+                    newBlock.CloseBraceToken.WithTrailingTrivia(SyntaxFactory.EndOfLine("\r\n")));
             }
+        }
+
+        protected static bool HasPreprocessorDirectiveTrivia(SyntaxNode node)
+        {
+            return node.GetLeadingTrivia().Any(t =>
+                t.IsDirective || t.IsKind(SyntaxKind.DisabledTextTrivia));
         }
 
         protected int GetLineNumber(SyntaxNode node)

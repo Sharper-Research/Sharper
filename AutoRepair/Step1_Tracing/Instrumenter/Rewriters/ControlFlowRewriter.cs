@@ -196,18 +196,21 @@ namespace Instrumenter.Rewriters
         // 8. Break Statements
         public override SyntaxNode? VisitBreakStatement(BreakStatementSyntax node)
         {
+            if (HasPreprocessorDirectiveTrivia(node)) return node;
             var line = GetLineNumber(node);
             var log = CreateLogStatement("Break", line);
-            return SyntaxFactory.Block(log, node);
+            var b = SyntaxFactory.Block(log, node);
+            return b.WithCloseBraceToken(b.CloseBraceToken.WithTrailingTrivia(SyntaxFactory.EndOfLine("\r\n")));
         }
 
         // 9. Continue Statements
         public override SyntaxNode? VisitContinueStatement(ContinueStatementSyntax node)
         {
+            if (HasPreprocessorDirectiveTrivia(node)) return node;
             var line = GetLineNumber(node);
             var log = CreateLogStatement("Continue", line);
-
-            return SyntaxFactory.Block(log, node);
+            var b = SyntaxFactory.Block(log, node);
+            return b.WithCloseBraceToken(b.CloseBraceToken.WithTrailingTrivia(SyntaxFactory.EndOfLine("\r\n")));
         }
 
         public override SyntaxNode? VisitExpressionStatement(ExpressionStatementSyntax node)
@@ -237,9 +240,11 @@ namespace Instrumenter.Rewriters
         // 10. Return Statements
         public override SyntaxNode? VisitReturnStatement(ReturnStatementSyntax node)
         {
+            if (HasPreprocessorDirectiveTrivia(node)) return node;
             var line = GetLineNumber(node);
             var log = CreateLogStatement("Return", line);
-            return SyntaxFactory.Block(log, node);
+            var b = SyntaxFactory.Block(log, node);
+            return b.WithCloseBraceToken(b.CloseBraceToken.WithTrailingTrivia(SyntaxFactory.EndOfLine("\r\n")));
         }
 
 

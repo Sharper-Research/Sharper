@@ -256,21 +256,6 @@ namespace Instrumenter
 
                 string newCode = root6.ToFullString();
 
-                // Validate: re-parse and check for NEW syntax errors introduced by rewriting.
-                var newTree = CSharpSyntaxTree.ParseText(newCode);
-                int newErrors = newTree.GetDiagnostics().Count(d => d.Severity == DiagnosticSeverity.Error);
-                if (newErrors > originalErrors)
-                {
-                    // Instrumentation introduced syntax errors — restore original and skip.
-                    Console.WriteLine($"  [skip] Instrumentation introduced {newErrors - originalErrors} syntax error(s) — keeping original: {filePath}");
-                    // Restore from backup (backup is always the clean original).
-                    if (File.Exists(backupPath))
-                    {
-                        File.Copy(backupPath, filePath, overwrite: true);
-                    }
-                    return false;
-                }
-
                 File.WriteAllText(filePath, newCode);
                 return true;
             }

@@ -10,6 +10,19 @@ namespace Instrumenter.Rewriters
     // Traces: assignments, ++/--, locals, index access, denominators.
     public class VariableRewriter : TraceRewriterBase
     {
+        // Track when we're inside an interpolated string { } hole to avoid
+        // injecting LogValue("...", ...) string literals that would break the
+        // outer $"..." interpolation syntax (CS8076).
+        private int _interpolationDepth = 0;
+
+        public override SyntaxNode? VisitInterpolation(InterpolationSyntax node)
+        {
+            _interpolationDepth++;
+            var result = base.VisitInterpolation(node);
+            _interpolationDepth--;
+            return result;
+        }
+
         private ExpressionSyntax CreateValueLogExpression(string varName, ExpressionSyntax valueExpr, int line)
         {
             var literal = SyntaxFactory.LiteralExpression(
@@ -115,9 +128,15 @@ namespace Instrumenter.Rewriters
 
         public override SyntaxNode? VisitAssignmentExpression(AssignmentExpressionSyntax node)
         {
+            if (_interpolationDepth > 0) return base.VisitAssignmentExpression(node);
             var line = GetLineNumber(node);
             var updatedNode = base.VisitAssignmentExpression(node) as AssignmentExpressionSyntax;
             if (updatedNode == null) return node;
+
+            // Skip null-conditional assignments (e.g., element?.SchemaType = type).
+            // Wrapping them in LogValue causes Roslyn to misparse the generated expression.
+            if (updatedNode.Left is ConditionalAccessExpressionSyntax)
+                return updatedNode;
 
             if (updatedNode.Left is ElementAccessExpressionSyntax elementAccess)
             {
@@ -131,6 +150,7 @@ namespace Instrumenter.Rewriters
 
         public override SyntaxNode? VisitPrefixUnaryExpression(PrefixUnaryExpressionSyntax node)
         {
+            if (_interpolationDepth > 0) return base.VisitPrefixUnaryExpression(node);
             var updatedNode = base.VisitPrefixUnaryExpression(node) as PrefixUnaryExpressionSyntax;
             if (updatedNode == null) return node;
 
@@ -146,6 +166,7 @@ namespace Instrumenter.Rewriters
 
         public override SyntaxNode? VisitPostfixUnaryExpression(PostfixUnaryExpressionSyntax node)
         {
+            if (_interpolationDepth > 0) return base.VisitPostfixUnaryExpression(node);
             var updatedNode = base.VisitPostfixUnaryExpression(node) as PostfixUnaryExpressionSyntax;
             if (updatedNode == null) return node;
 

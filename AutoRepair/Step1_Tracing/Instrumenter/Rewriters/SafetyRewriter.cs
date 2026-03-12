@@ -117,23 +117,26 @@ namespace Instrumenter.Rewriters
             
             // Create counter increment and check: __loopCounter++; if (__loopCounter > LIMIT) { Log warning; break; }
             var body = node.Statement;
+            var ifCheck = SyntaxFactory.IfStatement(
+                SyntaxFactory.ParseExpression($"{counterVarName} > {LOOP_LIMIT}"),
+                SyntaxFactory.Block(
+                    SyntaxFactory.ExpressionStatement(
+                        SyntaxFactory.ParseExpression(
+                            $"global::AutoRepairTracing.TraceLogger.Log(\"{uniqueId}\", \"{escapedFileName}\", {lineNumber}, \"Infinite Loop Warning: exceeded {LOOP_LIMIT} iterations\", {counterVarName}, \"loopCounter\")"
+                        )
+                    ),
+                    SyntaxFactory.BreakStatement()
+                )
+            );
+            // SA1000: ensure space after 'if' keyword
+            ifCheck = ifCheck.WithIfKeyword(ifCheck.IfKeyword.WithTrailingTrivia(SyntaxFactory.Whitespace(" ")));
             var incrementAndCheck = SyntaxFactory.Block(
                 SyntaxFactory.ExpressionStatement(
                     SyntaxFactory.ParseExpression($"{counterVarName}++")
                 ),
-                SyntaxFactory.IfStatement(
-                    SyntaxFactory.ParseExpression($"{counterVarName} > {LOOP_LIMIT}"),
-                    SyntaxFactory.Block(
-                        SyntaxFactory.ExpressionStatement(
-                            SyntaxFactory.ParseExpression(
-                                $"global::AutoRepairTracing.TraceLogger.Log(\"{uniqueId}\", \"{escapedFileName}\", {lineNumber}, \"Infinite Loop Warning: exceeded {LOOP_LIMIT} iterations\", {counterVarName}, \"loopCounter\")"
-                            )
-                        ),
-                        SyntaxFactory.BreakStatement()
-                    )
-                )
+                ifCheck
             );
-            
+
             // Wrap the loop body with counter increment and check
             BlockSyntax wrappedBody;
             if (body is BlockSyntax blockBody)
@@ -151,13 +154,12 @@ namespace Instrumenter.Rewriters
             
             // Create the instrumented while loop
             var newWhile = node.WithStatement(wrappedBody);
-            
+
             // Wrap in a block with counter declaration
-            var block = SyntaxFactory.Block(
-                counterDeclaration,
-                newWhile
-            );
-            
+            var block = SyntaxFactory.Block(counterDeclaration, newWhile);
+            // Ensure trailing newline so that any #if directive on the next token starts on its own line (avoids CS1040).
+            block = block.WithCloseBraceToken(block.CloseBraceToken.WithTrailingTrivia(SyntaxFactory.EndOfLine("\r\n")));
+
             return block;
         }
 
@@ -177,23 +179,26 @@ namespace Instrumenter.Rewriters
             
             // Create counter increment and check
             var body = node.Statement;
+            var ifCheckFor = SyntaxFactory.IfStatement(
+                SyntaxFactory.ParseExpression($"{counterVarName} > {LOOP_LIMIT}"),
+                SyntaxFactory.Block(
+                    SyntaxFactory.ExpressionStatement(
+                        SyntaxFactory.ParseExpression(
+                            $"global::AutoRepairTracing.TraceLogger.Log(\"{uniqueId}\", \"{escapedFileName}\", {lineNumber}, \"Infinite Loop Warning: exceeded {LOOP_LIMIT} iterations\", {counterVarName}, \"loopCounter\")"
+                        )
+                    ),
+                    SyntaxFactory.BreakStatement()
+                )
+            );
+            // SA1000: ensure space after 'if' keyword
+            ifCheckFor = ifCheckFor.WithIfKeyword(ifCheckFor.IfKeyword.WithTrailingTrivia(SyntaxFactory.Whitespace(" ")));
             var incrementAndCheck = SyntaxFactory.Block(
                 SyntaxFactory.ExpressionStatement(
                     SyntaxFactory.ParseExpression($"{counterVarName}++")
                 ),
-                SyntaxFactory.IfStatement(
-                    SyntaxFactory.ParseExpression($"{counterVarName} > {LOOP_LIMIT}"),
-                    SyntaxFactory.Block(
-                        SyntaxFactory.ExpressionStatement(
-                            SyntaxFactory.ParseExpression(
-                                $"global::AutoRepairTracing.TraceLogger.Log(\"{uniqueId}\", \"{escapedFileName}\", {lineNumber}, \"Infinite Loop Warning: exceeded {LOOP_LIMIT} iterations\", {counterVarName}, \"loopCounter\")"
-                            )
-                        ),
-                        SyntaxFactory.BreakStatement()
-                    )
-                )
+                ifCheckFor
             );
-            
+
             // Wrap the loop body
             BlockSyntax wrappedBody;
             if (body is BlockSyntax blockBody)
@@ -208,16 +213,15 @@ namespace Instrumenter.Rewriters
                     incrementAndCheck.Statements.Add(body)
                 );
             }
-            
+
             // Create instrumented for loop
             var newFor = node.WithStatement(wrappedBody);
-            
+
             // Wrap in block with counter
-            var block = SyntaxFactory.Block(
-                counterDeclaration,
-                newFor
-            );
-            
+            var block = SyntaxFactory.Block(counterDeclaration, newFor);
+            // Ensure trailing newline so that any #if directive on the next token starts on its own line (avoids CS1040).
+            block = block.WithCloseBraceToken(block.CloseBraceToken.WithTrailingTrivia(SyntaxFactory.EndOfLine("\r\n")));
+
             return block;
         }
         
@@ -237,23 +241,26 @@ namespace Instrumenter.Rewriters
             
             // Create counter increment and check
             var body = node.Statement;
+            var ifCheckDo = SyntaxFactory.IfStatement(
+                SyntaxFactory.ParseExpression($"{counterVarName} > {LOOP_LIMIT}"),
+                SyntaxFactory.Block(
+                    SyntaxFactory.ExpressionStatement(
+                        SyntaxFactory.ParseExpression(
+                            $"global::AutoRepairTracing.TraceLogger.Log(\"{uniqueId}\", \"{escapedFileName}\", {lineNumber}, \"Infinite Loop Warning: exceeded {LOOP_LIMIT} iterations\", {counterVarName}, \"loopCounter\")"
+                        )
+                    ),
+                    SyntaxFactory.BreakStatement()
+                )
+            );
+            // SA1000: ensure space after 'if' keyword
+            ifCheckDo = ifCheckDo.WithIfKeyword(ifCheckDo.IfKeyword.WithTrailingTrivia(SyntaxFactory.Whitespace(" ")));
             var incrementAndCheck = SyntaxFactory.Block(
                 SyntaxFactory.ExpressionStatement(
                     SyntaxFactory.ParseExpression($"{counterVarName}++")
                 ),
-                SyntaxFactory.IfStatement(
-                    SyntaxFactory.ParseExpression($"{counterVarName} > {LOOP_LIMIT}"),
-                    SyntaxFactory.Block(
-                        SyntaxFactory.ExpressionStatement(
-                            SyntaxFactory.ParseExpression(
-                                $"global::AutoRepairTracing.TraceLogger.Log(\"{uniqueId}\", \"{escapedFileName}\", {lineNumber}, \"Infinite Loop Warning: exceeded {LOOP_LIMIT} iterations\", {counterVarName}, \"loopCounter\")"
-                            )
-                        ),
-                        SyntaxFactory.BreakStatement()
-                    )
-                )
+                ifCheckDo
             );
-            
+
             // Wrap the do-body
             BlockSyntax wrappedBody;
             if (body is BlockSyntax blockBody)
@@ -271,13 +278,12 @@ namespace Instrumenter.Rewriters
             
             // Create instrumented do statement
             var newDo = node.WithStatement(wrappedBody);
-            
+
             // Wrap in block with counter
-            var block = SyntaxFactory.Block(
-                counterDeclaration,
-                newDo
-            );
-            
+            var block = SyntaxFactory.Block(counterDeclaration, newDo);
+            // Ensure trailing newline so that any #if directive on the next token starts on its own line (avoids CS1040).
+            block = block.WithCloseBraceToken(block.CloseBraceToken.WithTrailingTrivia(SyntaxFactory.EndOfLine("\r\n")));
+
             return block;
         }
 
