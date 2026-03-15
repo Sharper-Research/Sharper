@@ -1,6 +1,0 @@
-<Project>
-  <!--
-    - This file exists so that the build tools don't pick up the
-    - common targets from the root.
-    -->
-</Project>
