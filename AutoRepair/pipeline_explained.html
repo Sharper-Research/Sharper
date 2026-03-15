@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AutoRepair Pipeline — Explained Simply</title>
+  <style>
+    :root {
+      --bg: #f8f9fa;
+      --surface: #ffffff;
+      --border: #dee2e6;
+      --text: #212529;
+      --muted: #6c757d;
+      --accent: #0d6efd;
+      --red: #dc3545;
+      --green: #198754;
+      --orange: #fd7e14;
+      --purple: #6f42c1;
+      --teal: #20c997;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    .container {
+      max-width: 880px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+    }
+
+    /* ---- Header ---- */
+    header {
+      text-align: center;
+      padding: 2.5rem 0 2rem;
+      margin-bottom: 2rem;
+    }
+
+    header .microsoft-logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      margin-bottom: 1.5rem;
+    }
+
+    header .microsoft-logo .squares {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      width: 20px; height: 20px;
+    }
+
+    header .microsoft-logo .squares div:nth-child(1) { background: #f25022; }
+    header .microsoft-logo .squares div:nth-child(2) { background: #7fba00; }
+    header .microsoft-logo .squares div:nth-child(3) { background: #00a4ef; }
+    header .microsoft-logo .squares div:nth-child(4) { background: #ffb900; }
+
+    header .microsoft-logo span {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    header h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    header p {
+      color: var(--muted);
+      font-size: 1.05rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* ---- Overview ---- */
+    .overview {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.75rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .overview h2 {
+      font-size: 1.3rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .overview p {
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    /* ---- Pipeline flow ---- */
+    .pipeline {
+      position: relative;
+    }
+
+    /* The vertical green arrow line */
+    .pipeline::before {
+      content: '';
+      position: absolute;
+      right: -40px;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: linear-gradient(to bottom, var(--green), var(--teal));
+      border-radius: 2px;
+    }
+
+    .pipeline::after {
+      content: '▼';
+      position: absolute;
+      right: -48px;
+      bottom: -10px;
+      color: var(--teal);
+      font-size: 1.2rem;
+    }
+
+    /* ---- Stage cards ---- */
+    .stage {
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 1.75rem;
+      margin-bottom: 1rem;
+      position: relative;
+    }
+
+    .stage.bug-context { border-color: var(--red); background: #fff5f5; }
+    .stage.step1 { border-color: #b8d4b8; }
+    .stage.step2 { border-color: #b8d4b8; }
+    .stage.step3 { border-color: #b8d4b8; }
+    .stage.value { border-color: var(--accent); background: #f0f6ff; }
+
+    .stage-label {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 0.2rem 0.7rem;
+      border-radius: 4px;
+      margin-bottom: 0.75rem;
+    }
+
+    .stage.bug-context .stage-label { background: rgba(220,53,69,0.1); color: var(--red); }
+    .stage.step1 .stage-label { background: rgba(25,135,84,0.1); color: var(--green); }
+    .stage.step2 .stage-label { background: rgba(253,126,20,0.1); color: var(--orange); }
+    .stage.step3 .stage-label { background: rgba(111,66,193,0.1); color: var(--purple); }
+    .stage.value .stage-label { background: rgba(13,110,253,0.1); color: var(--accent); }
+
+    .stage h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .stage .explain {
+      color: var(--muted);
+      margin-bottom: 1rem;
+      font-size: 0.95rem;
+    }
+
+    /* Mini cards inside each stage */
+    .mini-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+    }
+
+    .mini-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.9rem;
+      text-align: center;
+    }
+
+    .stage.bug-context .mini-card { background: #fff0f0; border-color: #f5c2c7; }
+    .stage.step1 .mini-card { background: #f0f8f0; border-color: #c3dfc3; }
+    .stage.step2 .mini-card { background: #f0f8f0; border-color: #c3dfc3; }
+    .stage.step3 .mini-card { background: #f0f8f0; border-color: #c3dfc3; }
+    .stage.value .mini-card { background: #e8f0fe; border-color: #b6d4fe; }
+
+    .mini-card .icon {
+      font-size: 1.5rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .mini-card .label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      line-height: 1.3;
+    }
+
+    .mini-card .sublabel {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 0.25rem;
+    }
+
+    /* Arrow connectors between stages */
+    .arrow-down {
+      text-align: center;
+      padding: 0.25rem 0;
+      color: var(--muted);
+      font-size: 0.85rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.1rem;
+    }
+
+    .arrow-down .arrow-icon {
+      font-size: 1.2rem;
+      color: var(--green);
+    }
+
+    .arrow-down .arrow-text {
+      font-style: italic;
+      font-size: 0.82rem;
+    }
+
+    /* ---- Analogy section ---- */
+    .analogy {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.75rem;
+      margin-top: 2.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .analogy h2 {
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+    }
+
+    .analogy-steps {
+      list-style: none;
+      counter-reset: analogy;
+    }
+
+    .analogy-steps li {
+      counter-increment: analogy;
+      padding: 1rem 1rem 1rem 3.25rem;
+      margin-bottom: 0.6rem;
+      background: var(--bg);
+      border-radius: 8px;
+      position: relative;
+      font-size: 0.95rem;
+    }
+
+    .analogy-steps li::before {
+      content: counter(analogy);
+      position: absolute;
+      left: 0.9rem;
+      top: 1rem;
+      width: 1.6rem;
+      height: 1.6rem;
+      border-radius: 50%;
+      background: var(--accent);
+      color: white;
+      font-weight: 700;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .analogy-steps li strong { color: var(--text); }
+
+    /* ---- Glossary ---- */
+    .glossary {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.75rem;
+      margin-bottom: 2rem;
+    }
+
+    .glossary h2 {
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+    }
+
+    .glossary dl {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.4rem 1.25rem;
+    }
+
+    .glossary dt {
+      font-weight: 700;
+      font-size: 0.9rem;
+      padding: 0.3rem 0;
+    }
+
+    .glossary dd {
+      color: var(--muted);
+      font-size: 0.9rem;
+      padding: 0.3rem 0;
+      border-bottom: 1px solid var(--bg);
+    }
+
+    /* ---- Footer ---- */
+    footer {
+      text-align: center;
+      padding: 1.5rem 0;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    /* ---- Responsive ---- */
+    @media (max-width: 700px) {
+      .mini-cards {
+        grid-template-columns: 1fr;
+      }
+      .pipeline::before, .pipeline::after {
+        display: none;
+      }
+      .glossary dl {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- Header -->
+    <header>
+      <div class="microsoft-logo">
+        <div class="squares"><div></div><div></div><div></div><div></div></div>
+        <span>Microsoft</span>
+      </div>
+      <h1>AutoRepair Pipeline — Explained Simply</h1>
+      <p>
+        This is a tool that <strong>automatically finds and fixes bugs</strong> in Microsoft's .NET code.
+        Here's how each step works, in plain English.
+      </p>
+    </header>
+
+    <!-- Big picture overview -->
+    <div class="overview">
+      <h2>&#x1F4A1; The Big Picture</h2>
+      <p>
+        Imagine you have a huge codebase (millions of lines of code) and somewhere inside it there's a bug.
+        Finding and fixing it by hand could take days. This pipeline does it <strong>automatically in 3 steps</strong>:
+        first it <strong>records</strong> what the code does when it runs, then it <strong>checks</strong> those recordings for
+        anything suspicious, and finally it <strong>suggests a fix</strong>. Think of it like a doctor visit:
+        run some tests, read the results, prescribe medicine.
+      </p>
+    </div>
+
+    <!-- Pipeline -->
+    <div class="pipeline">
+
+      <!-- Bug Context -->
+      <div class="stage bug-context">
+        <div class="stage-label">Bug Context</div>
+        <h3>&#x1F41B; The Problem We're Trying to Fix</h3>
+        <p class="explain">
+          This is the starting point — basically saying <strong>"Hey, there's a bug!"</strong>.
+          In our case, the bug is in Microsoft's .NET code. When the program tries to look up a method
+          that was inherited from a parent class, it can't find it and crashes with a
+          <strong>NullReferenceException</strong> (a fancy way of saying "I tried to use something that doesn't exist").
+        </p>
+        <div class="mini-cards">
+          <div class="mini-card">
+            <div class="icon">&#x1F4E6;</div>
+            <div class="label">Microsoft .NET Runtime Issue</div>
+            <div class="sublabel">The codebase where the bug lives</div>
+          </div>
+          <div class="mini-card">
+            <div class="icon">&#x1F50D;</div>
+            <div class="label">Inherited Method Lookup Failure</div>
+            <div class="sublabel">What goes wrong — it can't find a method on a parent class</div>
+          </div>
+          <div class="mini-card">
+            <div class="icon">&#x1F4A5;</div>
+            <div class="label">NullReference-Exception Thrown</div>
+            <div class="sublabel">The crash that happens because of the bug</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="arrow-down">
+        <span class="arrow-icon">&#x2B07;&#xFE0F;</span>
+        <span class="arrow-text">Analyze the bug</span>
+      </div>
+
+      <!-- Step 1 -->
+      <div class="stage step1">
+        <div class="stage-label">Step 1 — Runtime Tracing</div>
+        <h3>&#x1F3AC; Record Everything the Code Does</h3>
+        <p class="explain">
+          Think of this like putting a <strong>security camera</strong> inside the code. We add tiny
+          "recording sensors" throughout the program, then run it. Every time a variable changes,
+          a method is called, or a loop runs, it gets written down in a log file. This gives us a
+          <strong>complete diary</strong> of what happened when the code ran — including the moment it broke.
+        </p>
+        <div class="mini-cards">
+          <div class="mini-card">
+            <div class="icon">&#x1F4E5;</div>
+            <div class="label">Input Target App and Tests</div>
+            <div class="sublabel">Give it the code and its tests to run</div>
+          </div>
+          <div class="mini-card">
+            <div class="icon">&#x25B6;&#xFE0F;</div>
+            <div class="label">Run Instrumented Execution</div>
+            <div class="sublabel">Run the code with all the "sensors" turned on</div>
+          </div>
+          <div class="mini-card">
+            <div class="icon">&#x1F4DD;</div>
+            <div class="label">Output Trace Logs</div>
+            <div class="sublabel">Get a detailed diary of everything that happened</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="arrow-down">
+        <span class="arrow-icon">&#x2B07;&#xFE0F;</span>
+        <span class="arrow-text">Trace logs flow into analysis</span>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="stage step2">
+        <div class="stage-label">Step 2 — Constraint Analysis</div>
+        <h3>&#x1F50E; Look for the Suspicious Stuff</h3>
+        <p class="explain">
+          Now we have the diary. This step reads through it like a <strong>detective reviewing evidence</strong>.
+          It applies a set of rules — like "an array index should never be negative" or "a type cast
+          should never fail silently." When something in the logs breaks one of these rules, it gets
+          flagged as a <strong>violation</strong>. At the end, you get a report of every suspicious spot in the code.
+        </p>
+        <div class="mini-cards">
+          <div class="mini-card">
+            <div class="icon">&#x1F4CF;</div>
+            <div class="label">Evaluate Safety and Behavior Rules</div>
+            <div class="sublabel">Check the diary against a list of known "bad patterns"</div>
+          </div>
+          <div class="mini-card">
+            <div class="icon">&#x1F525;</div>
+            <div class="label">Identify Violation Hotspots</div>
+            <div class="sublabel">Find the exact lines of code causing problems</div>
+          </div>
+          <div class="mini-card">
+            <div class="icon">&#x1F4CB;</div>
+            <div class="label">Output Violation Report</div>
+            <div class="sublabel">Create a summary of everything that went wrong</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="arrow-down">
+        <span class="arrow-icon">&#x2B07;&#xFE0F;</span>
+        <span class="arrow-text">Violations flow into repair</span>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="stage step3">
+        <div class="stage-label">Step 3 — Repair Recommendation</div>
+        <h3>&#x1F527; Suggest and Test a Fix</h3>
+        <p class="explain">
+          This is the <strong>"prescribe medicine"</strong> step. Based on the violations found, the system
+          proposes one or more code changes that could fix the problem. It then <strong>runs the tests again</strong>
+          to make sure the fix actually works and doesn't break anything else. The final output is a
+          <strong>patch</strong> — a ready-to-apply code change.
+        </p>
+        <div class="mini-cards">
+          <div class="mini-card">
+            <div class="icon">&#x1F4A1;</div>
+            <div class="label">Propose Fix Candidates</div>
+            <div class="sublabel">Come up with possible code changes to fix the bug</div>
+          </div>
+          <div class="mini-card">
+            <div class="icon">&#x2705;</div>
+            <div class="label">Validate with Tests</div>
+            <div class="sublabel">Run the tests again to make sure the fix works</div>
+          </div>
+          <div class="mini-card">
+            <div class="icon">&#x1F4E4;</div>
+            <div class="label">Output Patch Recommendation</div>
+            <div class="sublabel">Deliver the finished fix, ready to apply</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="arrow-down">
+        <span class="arrow-icon">&#x2B07;&#xFE0F;</span>
+        <span class="arrow-text">Measurable impact</span>
+      </div>
+
+      <!-- Value -->
+      <div class="stage value">
+        <div class="stage-label">Value</div>
+        <h3>&#x1F4C8; Why This Matters</h3>
+        <p class="explain">
+          All of this automation adds up to real benefits. Instead of a developer spending hours or days
+          finding and fixing a single bug, this pipeline can do the heavy lifting automatically.
+        </p>
+        <div class="mini-cards">
+          <div class="mini-card">
+            <div class="icon">&#x26A1;</div>
+            <div class="label">Faster Bug Detection</div>
+            <div class="sublabel">Find bugs in minutes instead of days</div>
+          </div>
+          <div class="mini-card">
+            <div class="icon">&#x1F9D1;&#x200D;&#x1F4BB;</div>
+            <div class="label">Lower Manual Debugging Effort</div>
+            <div class="sublabel">Developers spend less time hunting for problems</div>
+          </div>
+          <div class="mini-card">
+            <div class="icon">&#x1F3AF;</div>
+            <div class="label">Higher Release Reliability</div>
+            <div class="sublabel">Software ships with fewer bugs</div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /pipeline -->
+
+    <!-- Analogy -->
+    <div class="analogy">
+      <h2>&#x1F3E5; Think of It Like a Doctor Visit</h2>
+      <ol class="analogy-steps">
+        <li>
+          <strong>The patient arrives with symptoms</strong> — the code crashes with a NullReferenceException.
+          That's the <strong>Bug Context</strong>.
+        </li>
+        <li>
+          <strong>The doctor runs tests</strong> (blood work, X-rays) — we add sensors to the code and run it
+          to collect a detailed trace log. That's <strong>Step 1: Runtime Tracing</strong>.
+        </li>
+        <li>
+          <strong>The doctor reads the test results</strong> and circles anything abnormal — we scan the
+          logs for rule violations and flag the trouble spots. That's <strong>Step 2: Constraint Analysis</strong>.
+        </li>
+        <li>
+          <strong>The doctor prescribes treatment</strong> and checks if it works — we propose a code fix,
+          run the tests to confirm it solves the problem, and deliver the patch.
+          That's <strong>Step 3: Repair Recommendation</strong>.
+        </li>
+        <li>
+          <strong>The patient gets better</strong> — the software is more reliable, bugs are found faster,
+          and developers can focus on building new things. That's the <strong>Value</strong>.
+        </li>
+      </ol>
+    </div>
+
+    <!-- Glossary -->
+    <div class="glossary">
+      <h2>&#x1F4D6; Glossary — Words You Might Not Know</h2>
+      <dl>
+        <dt>Runtime</dt>
+        <dd>The engine that runs your program. Think of it like the engine in a car — you don't see it, but everything depends on it.</dd>
+
+        <dt>Tracing</dt>
+        <dd>Recording what a program does step by step, like a flight recorder ("black box") in an airplane.</dd>
+
+        <dt>Instrumentation</dt>
+        <dd>Adding those recording sensors into the code so we can capture what happens when it runs.</dd>
+
+        <dt>Constraint</dt>
+        <dd>A rule that should always be true. For example: "you should never access item #10 in a list that only has 5 items."</dd>
+
+        <dt>Violation</dt>
+        <dd>When a constraint/rule is broken. This usually means something went wrong.</dd>
+
+        <dt>NullReferenceException</dt>
+        <dd>An error that happens when code tries to use something that doesn't exist (is "null" — empty/nothing).</dd>
+
+        <dt>Patch</dt>
+        <dd>A small code change that fixes a specific bug, like putting a band-aid on a wound.</dd>
+
+        <dt>Inheritance</dt>
+        <dd>When one class (blueprint) borrows features from another. Like how a "SportsCar" class might inherit features from a general "Car" class.</dd>
+      </dl>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <p>AutoRepair Pipeline for <strong>dotnet/runtime#120561</strong> — Microsoft .NET Bug Demo</p>
+    </footer>
+
+  </div>
+</body>
+</html>

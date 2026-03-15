@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Microsoft Bug Demo — NullReferenceException in XML Serialization</title>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --surface: #161b22;
+      --border: #30363d;
+      --text: #e6edf3;
+      --muted: #8b949e;
+      --accent: #58a6ff;
+      --green: #3fb950;
+      --red: #f85149;
+      --yellow: #d29922;
+      --purple: #bc8cff;
+      --code-bg: #0d1117;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+    }
+
+    /* Header */
+    header {
+      text-align: center;
+      padding: 3rem 0 2rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 2.5rem;
+    }
+
+    header h1 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    header h1 .highlight {
+      color: var(--red);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 2rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin: 0.25rem;
+    }
+
+    .badge-bug { background: rgba(248,81,73,0.15); color: var(--red); border: 1px solid rgba(248,81,73,0.3); }
+    .badge-open { background: rgba(63,185,80,0.15); color: var(--green); border: 1px solid rgba(63,185,80,0.3); }
+    .badge-runtime { background: rgba(88,166,255,0.15); color: var(--accent); border: 1px solid rgba(88,166,255,0.3); }
+
+    .issue-link {
+      display: inline-block;
+      margin-top: 1rem;
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .issue-link:hover { text-decoration: underline; }
+
+    /* Sections */
+    section {
+      margin-bottom: 3rem;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    h2 .icon { font-size: 1.3rem; }
+
+    h3 {
+      font-size: 1.1rem;
+      margin: 1.5rem 0 0.75rem;
+      color: var(--accent);
+    }
+
+    p {
+      margin-bottom: 1rem;
+      color: var(--muted);
+    }
+
+    p strong { color: var(--text); }
+
+    /* Code blocks */
+    pre {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem;
+      overflow-x: auto;
+      margin: 1rem 0 1.5rem;
+      font-size: 0.875rem;
+      line-height: 1.7;
+    }
+
+    code {
+      font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+    }
+
+    .inline-code {
+      background: rgba(110,118,129,0.2);
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      font-size: 0.9em;
+    }
+
+    /* Syntax highlighting */
+    .kw { color: #ff7b72; }
+    .type { color: #79c0ff; }
+    .str { color: #a5d6ff; }
+    .cm { color: #8b949e; font-style: italic; }
+    .fn { color: #d2a8ff; }
+    .num { color: #79c0ff; }
+    .bug-line { background: rgba(248,81,73,0.12); display: block; margin: 0 -1.25rem; padding: 0 1.25rem; border-left: 3px solid var(--red); }
+    .ok-line { background: rgba(63,185,80,0.08); display: block; margin: 0 -1.25rem; padding: 0 1.25rem; border-left: 3px solid var(--green); }
+
+    /* Diagram */
+    .diagram {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 2rem;
+      margin: 1.5rem 0;
+      text-align: center;
+    }
+
+    .diagram svg {
+      max-width: 100%;
+    }
+
+    /* Cards */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem;
+    }
+
+    .card h4 {
+      margin-bottom: 0.5rem;
+      font-size: 1rem;
+    }
+
+    .card p { font-size: 0.9rem; margin-bottom: 0; }
+
+    /* Test results */
+    .test-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+      font-size: 0.9rem;
+    }
+
+    .test-table th, .test-table td {
+      padding: 0.75rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .test-table th {
+      background: var(--surface);
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+    }
+
+    .pass { color: var(--green); font-weight: 600; }
+    .fail { color: var(--red); font-weight: 600; }
+
+    /* Steps */
+    .steps {
+      list-style: none;
+      counter-reset: step;
+    }
+
+    .steps li {
+      counter-increment: step;
+      padding: 1rem 1rem 1rem 3.5rem;
+      position: relative;
+      margin-bottom: 0.5rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+
+    .steps li::before {
+      content: counter(step);
+      position: absolute;
+      left: 1rem;
+      top: 1rem;
+      width: 1.75rem;
+      height: 1.75rem;
+      border-radius: 50%;
+      background: rgba(88,166,255,0.15);
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .steps li strong { color: var(--text); }
+    .steps li span { color: var(--muted); font-size: 0.9rem; }
+
+    /* Callout */
+    .callout {
+      border-radius: 8px;
+      padding: 1.25rem;
+      margin: 1.5rem 0;
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .callout-bug {
+      background: rgba(248,81,73,0.08);
+      border: 1px solid rgba(248,81,73,0.25);
+    }
+
+    .callout-fix {
+      background: rgba(63,185,80,0.08);
+      border: 1px solid rgba(63,185,80,0.25);
+    }
+
+    .callout-icon { font-size: 1.3rem; flex-shrink: 0; }
+    .callout-body { flex: 1; }
+    .callout-body p { color: var(--text); margin-bottom: 0; }
+    .callout-body p:not(:last-child) { margin-bottom: 0.5rem; }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 2rem 0;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    footer a { color: var(--accent); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    /* Animations */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    section {
+      animation: fadeUp 0.5s ease-out both;
+    }
+
+    section:nth-child(2) { animation-delay: 0.1s; }
+    section:nth-child(3) { animation-delay: 0.15s; }
+    section:nth-child(4) { animation-delay: 0.2s; }
+    section:nth-child(5) { animation-delay: 0.25s; }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- Header -->
+    <header>
+      <h1>Microsoft Bug Demo — <span class="highlight">Null Dereference</span></h1>
+      <div>
+        <span class="badge badge-bug">NullReferenceException</span>
+        <span class="badge badge-open">Open</span>
+        <span class="badge badge-runtime">System.Xml.Serialization</span>
+      </div>
+      <a class="issue-link" href="https://github.com/dotnet/runtime/issues/120561" target="_blank" rel="noopener">
+        dotnet/runtime#120561 &rarr;
+      </a>
+    </header>
+
+    <!-- TL;DR -->
+    <section>
+      <h2><span class="icon">&#x1F4A5;</span> What's the Bug?</h2>
+      <p>
+        In the .NET runtime's <strong>XML serialization</strong> code, reflection is used to look up
+        <code class="inline-code">ShouldSerialize{PropertyName}()</code> methods on objects. The lookup uses
+        <code class="inline-code">BindingFlags.DeclaredOnly</code>, which <strong>only searches the exact runtime type</strong>
+        — it does not walk up the inheritance chain. When the method is defined on a <strong>base class</strong>
+        and a <strong>derived class instance</strong> is being serialized, <code class="inline-code">GetMethod()</code>
+        returns <code class="inline-code">null</code> and the subsequent <code class="inline-code">.Invoke()</code>
+        call throws a <strong>NullReferenceException</strong>.
+      </p>
+    </section>
+
+    <!-- Root Cause -->
+    <section>
+      <h2><span class="icon">&#x1F50D;</span> Root Cause</h2>
+
+      <p>Here's the buggy code, distilled into a minimal reproducer:</p>
+
+      <pre><code><span class="kw">public static</span> <span class="type">bool</span> <span class="fn">CheckShouldPersist</span>(<span class="type">object</span> o, <span class="type">string</span> memberName)
+{
+    <span class="type">string</span> methodInvoke = <span class="str">$"ShouldSerialize{memberName}"</span>;
+
+    <span class="type">MethodInfo</span> method = o.GetType().<span class="fn">GetMethod</span>(
+        methodInvoke,
+        <span class="type">BindingFlags</span>.Public | <span class="type">BindingFlags</span>.NonPublic
+        | <span class="type">BindingFlags</span>.Instance | <span class="type">BindingFlags</span>.Static
+<span class="bug-line">        | <span class="type">BindingFlags</span>.DeclaredOnly)!;  <span class="cm">// ← BUG: skips base class methods</span></span>
+<span class="bug-line">    <span class="type">bool</span> shouldPersist = (<span class="type">bool</span>)method.<span class="fn">Invoke</span>(o, Array.Empty&lt;<span class="type">object</span>&gt;())!;  <span class="cm">// ← NullReferenceException!</span></span>
+
+    <span class="kw">return</span> shouldPersist;
+}</code></pre>
+
+      <div class="callout callout-bug">
+        <div class="callout-icon">&#x26A0;&#xFE0F;</div>
+        <div class="callout-body">
+          <p><strong>BindingFlags.DeclaredOnly</strong> restricts reflection to methods declared <em>directly</em> on the queried type. Inherited methods from base classes are invisible. When the method lives on a parent class, <code class="inline-code">GetMethod()</code> returns <code class="inline-code">null</code>.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Inheritance Diagram -->
+    <section>
+      <h2><span class="icon">&#x1F3D7;&#xFE0F;</span> How Inheritance Breaks It</h2>
+
+      <div class="diagram">
+        <svg width="560" height="320" viewBox="0 0 560 320" xmlns="http://www.w3.org/2000/svg">
+          <!-- Base class box -->
+          <rect x="170" y="20" width="220" height="100" rx="8" fill="#161b22" stroke="#30363d" stroke-width="1.5"/>
+          <text x="280" y="50" text-anchor="middle" fill="#79c0ff" font-family="monospace" font-size="14" font-weight="bold">TestBase</text>
+          <line x1="185" y1="62" x2="375" y2="62" stroke="#30363d" stroke-width="1"/>
+          <text x="195" y="82" fill="#a5d6ff" font-family="monospace" font-size="12">BaseProp { get; set; }</text>
+          <text x="195" y="102" fill="#3fb950" font-family="monospace" font-size="12">ShouldSerializeBaseProp()</text>
+
+          <!-- Arrow -->
+          <line x1="280" y1="120" x2="280" y2="170" stroke="#58a6ff" stroke-width="2" marker-end="url(#arrowhead)"/>
+          <text x="295" y="150" fill="#8b949e" font-family="sans-serif" font-size="11">inherits</text>
+
+          <!-- Derived class box -->
+          <rect x="170" y="170" width="220" height="100" rx="8" fill="#161b22" stroke="#30363d" stroke-width="1.5"/>
+          <text x="280" y="200" text-anchor="middle" fill="#79c0ff" font-family="monospace" font-size="14" font-weight="bold">Test</text>
+          <line x1="185" y1="212" x2="375" y2="212" stroke="#30363d" stroke-width="1"/>
+          <text x="195" y="232" fill="#a5d6ff" font-family="monospace" font-size="12">TestProp { get; set; }</text>
+          <text x="195" y="252" fill="#3fb950" font-family="monospace" font-size="12">ShouldSerializeTestProp()</text>
+
+          <!-- GetMethod call -->
+          <rect x="410" y="185" width="140" height="70" rx="8" fill="rgba(248,81,73,0.1)" stroke="#f85149" stroke-width="1.5"/>
+          <text x="480" y="210" text-anchor="middle" fill="#f85149" font-family="monospace" font-size="11" font-weight="bold">GetMethod()</text>
+          <text x="480" y="228" text-anchor="middle" fill="#f85149" font-family="monospace" font-size="11">DeclaredOnly</text>
+          <text x="480" y="246" text-anchor="middle" fill="#f85149" font-family="monospace" font-size="12" font-weight="bold">→ null !</text>
+
+          <line x1="390" y1="220" x2="410" y2="220" stroke="#f85149" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+          <!-- Search annotation -->
+          <text x="280" y="305" text-anchor="middle" fill="#8b949e" font-family="sans-serif" font-size="12">
+            Searching for "ShouldSerializeBaseProp" on type Test
+          </text>
+          <text x="280" y="318" text-anchor="middle" fill="#f85149" font-family="sans-serif" font-size="11" font-weight="bold">
+            ✗ Not found — it's declared on TestBase, not Test
+          </text>
+
+          <!-- Arrowhead marker -->
+          <defs>
+            <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+              <polygon points="0 0, 10 3.5, 0 7" fill="#58a6ff"/>
+            </marker>
+          </defs>
+        </svg>
+      </div>
+    </section>
+
+    <!-- Test Results -->
+    <section>
+      <h2><span class="icon">&#x1F9EA;</span> Test Results</h2>
+
+      <p>Three tests demonstrate the exact failure boundary:</p>
+
+      <table class="test-table">
+        <thead>
+          <tr>
+            <th>Test</th>
+            <th>Object Type</th>
+            <th>Looking For</th>
+            <th>Method Defined On</th>
+            <th>Result</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Same class method</td>
+            <td><code class="inline-code">Test</code></td>
+            <td><code class="inline-code">ShouldSerializeTestProp</code></td>
+            <td><code class="inline-code">Test</code></td>
+            <td><span class="pass">&#x2713; Pass</span></td>
+          </tr>
+          <tr>
+            <td>Base instance, base method</td>
+            <td><code class="inline-code">TestBase</code></td>
+            <td><code class="inline-code">ShouldSerializeBaseProp</code></td>
+            <td><code class="inline-code">TestBase</code></td>
+            <td><span class="pass">&#x2713; Pass</span></td>
+          </tr>
+          <tr>
+            <td>Derived instance, base method</td>
+            <td><code class="inline-code">Test</code></td>
+            <td><code class="inline-code">ShouldSerializeBaseProp</code></td>
+            <td><code class="inline-code">TestBase</code></td>
+            <td><span class="fail">&#x2717; NullReferenceException</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>
+        The first two pass because the method happens to be on the <strong>exact type</strong> queried.
+        The third fails because the method is <strong>inherited</strong> from a base class, and
+        <code class="inline-code">DeclaredOnly</code> refuses to look there.
+      </p>
+    </section>
+
+    <!-- Step-by-step failure -->
+    <section>
+      <h2><span class="icon">&#x1F4CB;</span> Step-by-Step Failure</h2>
+
+      <ol class="steps">
+        <li>
+          <strong>Serializer encounters a derived object</strong><br>
+          <span>An object of type <code class="inline-code">Test</code> (which extends <code class="inline-code">TestBase</code>) is being serialized.</span>
+        </li>
+        <li>
+          <strong>Checks for ShouldSerialize method</strong><br>
+          <span>For the property <code class="inline-code">BaseProp</code>, it constructs the method name <code class="inline-code">"ShouldSerializeBaseProp"</code>.</span>
+        </li>
+        <li>
+          <strong>Reflection lookup with DeclaredOnly</strong><br>
+          <span><code class="inline-code">typeof(Test).GetMethod("ShouldSerializeBaseProp", ... | DeclaredOnly)</code> only searches methods declared directly on <code class="inline-code">Test</code>.</span>
+        </li>
+        <li>
+          <strong>GetMethod returns null</strong><br>
+          <span>The method is defined on <code class="inline-code">TestBase</code>, not on <code class="inline-code">Test</code>. The search finds nothing.</span>
+        </li>
+        <li>
+          <strong>NullReferenceException on .Invoke()</strong><br>
+          <span>The code calls <code class="inline-code">method.Invoke(o, ...)</code> on a null reference — crash.</span>
+        </li>
+      </ol>
+    </section>
+
+    <!-- The Fix -->
+    <section>
+      <h2><span class="icon">&#x2705;</span> How to Fix It</h2>
+
+      <p>
+        Remove <code class="inline-code">BindingFlags.DeclaredOnly</code> so the reflection search walks the
+        full inheritance chain, or manually traverse the type hierarchy. Here's the simplest fix:
+      </p>
+
+      <pre><code><span class="kw">public static</span> <span class="type">bool</span> <span class="fn">CheckShouldPersist</span>(<span class="type">object</span> o, <span class="type">string</span> memberName)
+{
+    <span class="type">string</span> methodInvoke = <span class="str">$"ShouldSerialize{memberName}"</span>;
+
+    <span class="type">MethodInfo</span>? method = o.GetType().<span class="fn">GetMethod</span>(
+        methodInvoke,
+        <span class="type">BindingFlags</span>.Public | <span class="type">BindingFlags</span>.NonPublic
+<span class="ok-line">        | <span class="type">BindingFlags</span>.Instance | <span class="type">BindingFlags</span>.Static);  <span class="cm">// ✓ No DeclaredOnly — searches base classes too</span></span>
+
+    <span class="kw">if</span> (method == <span class="kw">null</span>)
+        <span class="kw">return true</span>;  <span class="cm">// default: persist if no ShouldSerialize method found</span>
+
+    <span class="kw">return</span> (<span class="type">bool</span>)method.<span class="fn">Invoke</span>(o, Array.Empty&lt;<span class="type">object</span>&gt;())!;
+}</code></pre>
+
+      <div class="callout callout-fix">
+        <div class="callout-icon">&#x2705;</div>
+        <div class="callout-body">
+          <p><strong>Fix:</strong> Removing <code class="inline-code">BindingFlags.DeclaredOnly</code> lets <code class="inline-code">GetMethod()</code> traverse the full type hierarchy, finding inherited <code class="inline-code">ShouldSerialize*</code> methods on base classes. Adding a null check prevents the crash even if no method exists at all.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Real-world impact -->
+    <section>
+      <h2><span class="icon">&#x1F30D;</span> Real-World Impact</h2>
+
+      <div class="card-grid">
+        <div class="card">
+          <h4 style="color: var(--red)">&#x1F4A5; XML Serialization Crashes</h4>
+          <p>Any class hierarchy using <code class="inline-code">ShouldSerialize</code> patterns (common in WinForms, WPF, and data-binding scenarios) can crash during XML serialization if the method is declared on a base class.</p>
+        </div>
+        <div class="card">
+          <h4 style="color: var(--yellow)">&#x1F50D; Hard to Diagnose</h4>
+          <p>The NullReferenceException stack trace points into framework internals, not user code. Developers may not realize the root cause is a missing <code class="inline-code">BindingFlags</code> in the runtime.</p>
+        </div>
+        <div class="card">
+          <h4 style="color: var(--accent)">&#x1F3AF; Specific Trigger</h4>
+          <p>Only triggers when: (1) using XML serialization, (2) with class inheritance, and (3) a <code class="inline-code">ShouldSerialize*</code> method is on a base class. Works fine when everything is on one class.</p>
+        </div>
+        <div class="card">
+          <h4 style="color: var(--green)">&#x1F6E0;&#xFE0F; Source Location</h4>
+          <p>The bug lives in <code class="inline-code">ReflectionXmlSerializationWriter.cs</code> in the <code class="inline-code">System.Private.Xml</code> assembly of the .NET runtime.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <p>
+        Bug reference:
+        <a href="https://github.com/dotnet/runtime/issues/120561" target="_blank" rel="noopener">dotnet/runtime#120561</a>
+        &nbsp;|&nbsp; Demo project: <code class="inline-code">MicrosoftBugDemo/</code>
+      </p>
+    </footer>
+
+  </div>
+</body>
+</html>

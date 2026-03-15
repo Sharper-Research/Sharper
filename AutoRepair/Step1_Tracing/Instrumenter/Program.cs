@@ -19,6 +19,7 @@ namespace Instrumenter
                 Console.WriteLine("Usage:");
                 Console.WriteLine("  Instrumenter <ProjectRootPath>");
                 Console.WriteLine("  Instrumenter --test-project <TestProject.csproj>");
+                Console.WriteLine("  Instrumenter --scan-root <LibrariesRootPath>");
                 Console.WriteLine("  Instrumenter --diagnose <file.cs>");
                 return;
             }
@@ -31,6 +32,23 @@ namespace Instrumenter
                     return;
                 }
                 DiagnoseFile(Path.GetFullPath(args[1]));
+                return;
+            }
+
+            if (args[0] == "--scan-root")
+            {
+                if (args.Length < 2)
+                {
+                    Console.WriteLine("Error: --scan-root requires a directory path.");
+                    return;
+                }
+                string scanRoot = Path.GetFullPath(args[1]);
+                if (!Directory.Exists(scanRoot))
+                {
+                    Console.WriteLine($"Error: Directory not found at {scanRoot}!");
+                    return;
+                }
+                RunScanRoot(scanRoot);
                 return;
             }
 
@@ -256,6 +274,10 @@ namespace Instrumenter
 
                 string newCode = root6.ToFullString();
 
+                // Inject pragma to suppress nullable warnings introduced by instrumentation.
+                // Must come before any namespace/class declarations but after existing #-directives.
+                newCode = "#pragma warning disable CS8600,CS8602,CS8604,CS8619,CS8625,CS0161,CS0165,CS0177,CA5360,CS8603,CS0269,CS0675,CS0103\n" + newCode;
+
                 // Validate: re-parse and check for NEW syntax errors introduced by rewriting.
                 var newTree = CSharpSyntaxTree.ParseText(newCode);
                 int newErrors = newTree.GetDiagnostics().Count(d => d.Severity == DiagnosticSeverity.Error);
@@ -281,72 +303,331 @@ namespace Instrumenter
             }
         }
 
+        /// <summary>
+        /// --scan-root mode: discovers all library source directories under the given root
+        /// (e.g. runtime/src/libraries) and instruments each one independently.
+        /// Expects the pattern: {scanRoot}/*/src/*.csproj with .cs files.
+        /// </summary>
+        static void RunScanRoot(string scanRoot)
+        {
+            Console.WriteLine($"Scanning for library source projects under: {scanRoot}");
+
+            // Exclusions: projects that can't or shouldn't be instrumented
+            var excludedProjects = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+            {
+                "System.Private.CoreLib" // Special build — compiled as part of the runtime itself
+            };
+
+            var libraryDirs = Directory.GetDirectories(scanRoot);
+            var projectDirs = new List<(string SourceDir, string CsprojPath, string LibName)>();
+
+            foreach (var libDir in libraryDirs)
+            {
+                string libName = Path.GetFileName(libDir);
+                if (excludedProjects.Contains(libName))
+                {
+                    Console.WriteLine($"  [skip] {libName} (excluded)");
+                    continue;
+                }
+
+                string srcDir = Path.Combine(libDir, "src");
+                if (!Directory.Exists(srcDir))
+                    continue;
+
+                // Find .csproj in the src/ directory
+                var csprojFiles = Directory.GetFiles(srcDir, "*.csproj");
+                if (csprojFiles.Length == 0)
+                    continue;
+
+                // Check for .cs files (excluding obj/bin/generated)
+                var csFiles = Directory.GetFiles(srcDir, "*.cs", SearchOption.AllDirectories)
+                    .Where(f => !f.Contains($"{Path.DirectorySeparatorChar}obj{Path.DirectorySeparatorChar}")
+                             && !f.Contains($"{Path.DirectorySeparatorChar}bin{Path.DirectorySeparatorChar}")
+                             && !f.EndsWith(".g.cs")
+                             && !f.EndsWith(".designer.cs", StringComparison.OrdinalIgnoreCase));
+
+                if (!csFiles.Any())
+                    continue;
+
+                projectDirs.Add((srcDir, csprojFiles[0], libName));
+            }
+
+            Console.WriteLine($"Found {projectDirs.Count} library source projects to instrument.");
+
+            int totalSucceeded = 0;
+            int totalFailed = 0;
+
+            foreach (var (sourceDir, csprojPath, libName) in projectDirs)
+            {
+                Console.WriteLine($"\n=== Instrumenting: {libName} ===");
+
+                // Generate TraceLogger.cs in this project's src/ directory
+                GenerateTraceLogger(sourceDir);
+
+                // Patch the .csproj to include TraceLogger.cs (runtime uses EnableDefaultItems=false)
+                PatchCsprojForTraceLogger(csprojPath);
+
+                // Find .cs files to instrument
+                var files = Directory.GetFiles(sourceDir, "*.cs", SearchOption.AllDirectories)
+                    .Where(f => !f.Contains($"{Path.DirectorySeparatorChar}obj{Path.DirectorySeparatorChar}")
+                             && !f.Contains($"{Path.DirectorySeparatorChar}bin{Path.DirectorySeparatorChar}")
+                             && !f.EndsWith("TraceLogger.cs")
+                             && !f.EndsWith(".g.cs")
+                             && !f.EndsWith(".designer.cs", StringComparison.OrdinalIgnoreCase))
+                    .ToArray();
+
+                Console.WriteLine($"  {files.Length} C# files to instrument.");
+
+                int succeeded = 0;
+                int failed = 0;
+                Parallel.ForEach(files, new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount },
+                    file =>
+                    {
+                        bool ok = InstrumentFile(file, sourceDir);
+                        if (ok)
+                            Interlocked.Increment(ref succeeded);
+                        else
+                            Interlocked.Increment(ref failed);
+                    });
+
+                Console.WriteLine($"  Succeeded: {succeeded}, Failed/Skipped: {failed}");
+                totalSucceeded += succeeded;
+                totalFailed += failed;
+            }
+
+            Console.WriteLine($"\n=== Scan-Root Instrumentation Complete ===");
+            Console.WriteLine($"Projects: {projectDirs.Count}");
+            Console.WriteLine($"Files Succeeded: {totalSucceeded}");
+            Console.WriteLine($"Files Failed/Skipped: {totalFailed}");
+
+            // Handle generator/analyzer projects that share source files from src/
+            // They need a TraceLogger stub so the instrumented shared files compile.
+            // Note: Gen projects typically have EnableDefaultItems=true (SDK default),
+            //       so we only generate the stub file — no csproj patching needed.
+            Console.WriteLine("\nPatching generator projects with TraceLogger stubs...");
+            int genPatched = 0;
+            foreach (var libDir in libraryDirs)
+            {
+                string genDir = Path.Combine(libDir, "gen");
+                if (!Directory.Exists(genDir))
+                    continue;
+
+                var genCsprojs = Directory.GetFiles(genDir, "*.csproj", SearchOption.AllDirectories);
+                foreach (var genCsproj in genCsprojs)
+                {
+                    string genCsprojDir = Path.GetDirectoryName(genCsproj)!;
+                    GenerateTraceLoggerStub(genCsprojDir);
+                    genPatched++;
+                }
+            }
+            Console.WriteLine($"Generator projects patched: {genPatched}");
+        }
+
+        /// <summary>
+        /// Adds a &lt;Compile Include="TraceLogger.cs"/&gt; item to the .csproj so that
+        /// the runtime build (which uses EnableDefaultItems=false) picks up the file.
+        /// We modify each project individually instead of Directory.Build.targets to
+        /// avoid invalidating the global NuGet restore cache.
+        /// </summary>
+        static void PatchCsprojForTraceLogger(string csprojPath)
+        {
+            // Backup the original csproj
+            string backupPath = csprojPath + ".bak";
+            if (!File.Exists(backupPath))
+            {
+                try { File.Copy(csprojPath, backupPath, overwrite: false); }
+                catch (IOException) { /* another thread created it first */ }
+            }
+
+            string content = File.ReadAllText(csprojPath);
+
+            // If the csproj explicitly sets EnableDefaultItems=true, the SDK auto-includes
+            // all .cs files, so adding an explicit Compile item would cause NETSDK1022.
+            // Note: most runtime library csprojs inherit EnableDefaultItems=false from
+            // Directory.Build.props, so we only skip when it's explicitly overridden to true.
+            if (content.Contains("<EnableDefaultItems>true</EnableDefaultItems>"))
+            {
+                Console.WriteLine($"  Skipping csproj patch (EnableDefaultItems=true, SDK auto-includes .cs files)");
+                return;
+            }
+
+            // Check if already patched
+            if (content.Contains("TraceLogger.cs"))
+            {
+                Console.WriteLine($"  .csproj already includes TraceLogger.cs");
+                return;
+            }
+
+            // Insert <Compile Include="TraceLogger.cs" /> before the closing </Project> tag
+            const string marker = "</Project>";
+            int idx = content.LastIndexOf(marker, StringComparison.OrdinalIgnoreCase);
+            if (idx < 0)
+            {
+                Console.WriteLine($"  WARNING: Could not find </Project> in {csprojPath}");
+                return;
+            }
+
+            string patch = "  <ItemGroup>\n    <Compile Include=\"TraceLogger.cs\" />\n  </ItemGroup>\n";
+            content = content.Substring(0, idx) + patch + content.Substring(idx);
+            File.WriteAllText(csprojPath, content);
+            Console.WriteLine($"  Patched {Path.GetFileName(csprojPath)} with TraceLogger.cs include");
+        }
+
         static string GetRelativePath(string fullPath, string rootPath)
         {
             return Path.GetRelativePath(rootPath, fullPath);
         }
 
+        /// <summary>
+        /// Generates a minimal no-op TraceLogger stub for generator/analyzer projects
+        /// that share source files from src/. These projects typically target netstandard2.0
+        /// and don't need actual tracing — they just need the type to exist for compilation.
+        /// </summary>
+        static void GenerateTraceLoggerStub(string directory)
+        {
+            string path = Path.Combine(directory, "TraceLogger.cs");
+            if (File.Exists(path)) return;
+
+            string code = @"// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+
+// Auto-generated stub for generator project compilation compatibility.
+#pragma warning disable
+namespace AutoRepairTracing
+{
+    internal static class TraceLogger
+    {
+        public static void Log(string uniqueId, string file, int line, string message, object variableValue = null, string variableName = null) { }
+        public static T LogValue<T>(string uniqueId, string file, int line, string message, T value, string variableName = null) => value;
+        public static string Str(object value) { try { return value != null ? value.ToString() : null; } catch { return null; } }
+        public static string Str(string value) => value;
+        public static void LogArray(string uniqueId, string file, int line, string message, System.Array array, string variableName = null) { }
+        public static void LogArrayAliasParameter(string uniqueId, string file, int line, string methodName, int position, System.Array array, string parameterName) { }
+        public static void LogArrayAliasArgument(string uniqueId, string file, int line, string methodName, int position, object argumentValue, string argumentExpression) { }
+        public static object LogCastSource(string uniqueId, string file, int line, object source, string targetType) => source;
+        public static T LogAsCast<T>(string uniqueId, string file, int line, object source, string targetType) where T : class => source as T;
+        public static int LogCheckedBinary(string uniqueId, string file, int line, int left, int right, string op) => left;
+        public static long LogCheckedBinary(string uniqueId, string file, int line, long left, long right, string op) => left;
+        public static decimal LogCheckedBinary(string uniqueId, string file, int line, decimal left, decimal right, string op) => left;
+        public static uint LogCheckedBinary(string uniqueId, string file, int line, uint left, uint right, string op) => left;
+        public static ulong LogCheckedBinary(string uniqueId, string file, int line, ulong left, ulong right, string op) => left;
+        public static double LogCheckedBinary(string uniqueId, string file, int line, double left, double right, string op) => left;
+        public static float LogCheckedBinary(string uniqueId, string file, int line, float left, float right, string op) => left;
+        public static int LogCheckedBinary(string uniqueId, string file, int line, byte left, byte right, string op) => left;
+        public static int LogCheckedBinary(string uniqueId, string file, int line, ushort left, ushort right, string op) => left;
+        public static int LogCheckedBinary(string uniqueId, string file, int line, short left, short right, string op) => left;
+        public static int LogCheckedBinary(string uniqueId, string file, int line, sbyte left, sbyte right, string op) => left;
+        public static int LogCheckedBinary(string uniqueId, string file, int line, char left, char right, string op) => left;
+        public static TLeft LogCheckedBinary<TLeft, TRight>(string uniqueId, string file, int line, TLeft left, TRight right, string op) => left;
+    }
+}
+";
+            File.WriteAllText(path, code);
+            Console.WriteLine($"  Generated TraceLogger stub at {path}");
+        }
+
         static void GenerateTraceLogger(string rootPath)
         {
             string traceLoggerPath = Path.Combine(rootPath, "TraceLogger.cs");
-            string code = @"
-using System.Linq;
+            string code = @"// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
 
+#nullable disable
+#pragma warning disable
+#pragma warning disable CA5360
 namespace AutoRepairTracing
 {
-    public static class TraceLogger
+    internal static class TraceLogger
     {
-        private static readonly string LogJsonPath;
+        private static readonly string LogJsonPath =
+            System.Environment.GetEnvironmentVariable(""TRACE_LOG_JSON_PATH"") ?? ""trace_logs.jsonl"";
+        private static readonly object FileLock = new object();
 
-        static TraceLogger()
+        private static string EscapeJson(string s)
         {
-            var envPath = System.Environment.GetEnvironmentVariable(""TRACE_LOG_JSON_PATH"");
-            LogJsonPath = string.IsNullOrEmpty(envPath) ? ""trace_logs.jsonl"" : envPath;
+            if (s == null) return ""null"";
+            var sb = new System.Text.StringBuilder(s.Length + 10);
+            for (int i = 0; i < s.Length; i++)
+            {
+                char c = s[i];
+                switch (c)
+                {
+                    case '\\': sb.Append(""\\\\""); break;
+                    case '""': sb.Append(""\\\""""); break;
+                    case '\n': sb.Append(""\\n""); break;
+                    case '\r': sb.Append(""\\r""); break;
+                    case '\t': sb.Append(""\\t""); break;
+                    default:   sb.Append(c); break;
+                }
+            }
+            return sb.ToString();
         }
 
-        public static void Log(string uniqueId, string file, int line, string message, object? variableValue = null, string? variableName = null)
+        public static void Log(string uniqueId, string file, int line, string message, object variableValue = null, string variableName = null)
         {
             var timestamp = System.DateTime.Now.ToString(""yyyy-MM-dd HH:mm:ss.fff"");
-            var threadId = System.Threading.Thread.CurrentThread.ManagedThreadId;
+            var threadId = System.Environment.CurrentManagedThreadId;
 
             try
             {
-                // JSON Output
-                var jsonEntryObj = new 
+                var sb = new System.Text.StringBuilder(256);
+                sb.Append(""{\""id\"":\"""").Append(EscapeJson(uniqueId)).Append(""\"""");
+                sb.Append("",\""ts\"":\"""").Append(EscapeJson(timestamp)).Append(""\"""");
+                sb.Append("",\""tid\"":"").Append(threadId);
+                sb.Append("",\""file\"":\"""").Append(EscapeJson(file)).Append(""\"""");
+                sb.Append("",\""line\"":"").Append(line);
+                sb.Append("",\""msg\"":\"""").Append(EscapeJson(message)).Append(""\"""");
+
+                if (variableName != null)
                 {
-                    id = uniqueId,
-                    ts = timestamp,
-                    tid = threadId,
-                    file = file,
-                    line = line,
-                    msg = message,
-                    var = variableName != null ? new { name = variableName, val = variableValue?.ToString() } : null
-                };
-                
-                string jsonLine = System.Text.Json.JsonSerializer.Serialize(jsonEntryObj);
-                
-                lock (LogJsonPath) // Simple file lock
-                {
-                   System.IO.File.AppendAllText(LogJsonPath, jsonLine + System.Environment.NewLine);
+                    sb.Append("",\""var\"":{\""name\"":\"""").Append(EscapeJson(variableName)).Append(""\"""");
+                    sb.Append("",\""val\"":\"""").Append(EscapeJson(variableValue?.ToString())).Append(""\""}"");
                 }
+                else
+                {
+                    sb.Append("",\""var\"":null"");
+                }
+                sb.Append(""}"");
+
+                System.IO.File.AppendAllText(LogJsonPath, sb.ToString() + System.Environment.NewLine);
             }
             catch {}
         }
 
-        public static T LogValue<T>(string uniqueId, string file, int line, string message, T value, string? variableName = null)
+        public static T LogValue<T>(string uniqueId, string file, int line, string message, T value, string variableName = null)
         {
-            Log(uniqueId, file, line, message, value, variableName);
+            try
+            {
+                string s;
+                try { s = value?.ToString() ?? ""null""; } catch { s = ""null""; }
+                Log(uniqueId, file, line, message, s, variableName);
+            }
+            catch {}
             return value;
         }
 
-        public static void LogArray(string uniqueId, string file, int line, string message, System.Array array, string? variableName = null)
+        public static string Str(object value)
         {
-            object? snapshot = null;
+            try { return value != null ? value.ToString() : ""null""; }
+            catch { return ""null""; }
+        }
+
+        public static string Str(string value) => value ?? ""null"";
+
+        public static void LogArray(string uniqueId, string file, int line, string message, System.Array array, string variableName = null)
+        {
+            object snapshot = null;
             if (array != null)
             {
-                var values = array.Cast<object?>()
-                    .Select(v => v?.ToString() ?? ""null"");
-                snapshot = ""["" + string.Join("", "", values) + ""]"";
+                var sb = new System.Text.StringBuilder(""["");
+                for (int i = 0; i < array.Length; i++)
+                {
+                    if (i > 0) sb.Append("", "");
+                    var item = array.GetValue(i);
+                    sb.Append(item?.ToString() ?? ""null"");
+                }
+                sb.Append(""]"");
+                snapshot = sb.ToString();
             }
             Log(uniqueId, file, line, message, snapshot, variableName);
         }
@@ -363,10 +644,6 @@ namespace AutoRepairTracing
             Log(uniqueId, file, line, ""Array Argument Alias"", argumentExpression, aliasLabel);
         }
 
-        /// <summary>
-        /// Logs the source runtime type before an explicit cast and returns the source unchanged.
-        /// The outer (T) cast in the instrumented code performs the real conversion.
-        /// </summary>
         public static object LogCastSource(string uniqueId, string file, int line, object source, string targetType)
         {
             var sourceType = source?.GetType()?.FullName ?? ""null"";
@@ -374,9 +651,6 @@ namespace AutoRepairTracing
             return source;
         }
 
-        /// <summary>
-        /// Performs an 'as' cast, logging ""Invalid Cast"" when the result is null but the source was non-null.
-        /// </summary>
         public static T LogAsCast<T>(string uniqueId, string file, int line, object source, string targetType) where T : class
         {
             var result = source as T;
@@ -392,56 +666,23 @@ namespace AutoRepairTracing
             return result;
         }
 
-        /// <summary>
-        /// Evaluates a binary arithmetic operation inside a checked context.
-        /// If overflow occurs, logs an ""Overflow"" event with operand values and returns
-        /// the unchecked result so execution can continue for further tracing.
-        /// </summary>
-        public static long LogCheckedBinary(string uniqueId, string file, int line, long left, long right, string op)
-        {
-            try
-            {
-                long result = op switch
-                {
-                    ""+"" => checked(left + right),
-                    ""-"" => checked(left - right),
-                    ""*"" => checked(left * right),
-                    _ => left
-                };
-                return result;
-            }
-            catch (System.OverflowException)
-            {
-                var payload = $""{left}|{right}|Int64"";
-                Log(uniqueId, file, line, ""Overflow"", payload, ""overflow:"" + op);
-                return op switch
-                {
-                    ""+"" => unchecked(left + right),
-                    ""-"" => unchecked(left - right),
-                    ""*"" => unchecked(left * right),
-                    _ => left
-                };
-            }
-        }
-
-        /// <summary>int overload - promotes to long for range checking then casts back.</summary>
+        // ── LogCheckedBinary overloads ──────────────────────────────────────
+        // int
         public static int LogCheckedBinary(string uniqueId, string file, int line, int left, int right, string op)
         {
             try
             {
-                int result = op switch
+                return op switch
                 {
                     ""+"" => checked(left + right),
                     ""-"" => checked(left - right),
                     ""*"" => checked(left * right),
                     _ => left
                 };
-                return result;
             }
             catch (System.OverflowException)
             {
-                var payload = $""{left}|{right}|Int32"";
-                Log(uniqueId, file, line, ""Overflow"", payload, ""overflow:"" + op);
+                Log(uniqueId, file, line, ""Overflow"", $""{left}|{right}|Int32"", ""overflow:"" + op);
                 return op switch
                 {
                     ""+"" => unchecked(left + right),
@@ -452,29 +693,213 @@ namespace AutoRepairTracing
             }
         }
 
-        /// <summary>decimal overload for financial arithmetic.</summary>
-        public static decimal LogCheckedBinary(string uniqueId, string file, int line, decimal left, decimal right, string op)
+        // long
+        public static long LogCheckedBinary(string uniqueId, string file, int line, long left, long right, string op)
         {
             try
             {
-                decimal result = op switch
+                return op switch
                 {
                     ""+"" => checked(left + right),
                     ""-"" => checked(left - right),
                     ""*"" => checked(left * right),
                     _ => left
                 };
-                return result;
             }
             catch (System.OverflowException)
             {
-                var payload = $""{left}|{right}|Decimal"";
-                Log(uniqueId, file, line, ""Overflow"", payload, ""overflow:"" + op);
+                Log(uniqueId, file, line, ""Overflow"", $""{left}|{right}|Int64"", ""overflow:"" + op);
+                return op switch
+                {
+                    ""+"" => unchecked(left + right),
+                    ""-"" => unchecked(left - right),
+                    ""*"" => unchecked(left * right),
+                    _ => left
+                };
+            }
+        }
 
-                // Decimal arithmetic cannot provide a wrapped unchecked result.
+        // decimal
+        public static decimal LogCheckedBinary(string uniqueId, string file, int line, decimal left, decimal right, string op)
+        {
+            try
+            {
+                return op switch
+                {
+                    ""+"" => checked(left + right),
+                    ""-"" => checked(left - right),
+                    ""*"" => checked(left * right),
+                    _ => left
+                };
+            }
+            catch (System.OverflowException)
+            {
+                Log(uniqueId, file, line, ""Overflow"", $""{left}|{right}|Decimal"", ""overflow:"" + op);
                 return left;
             }
         }
+
+        // uint
+        public static uint LogCheckedBinary(string uniqueId, string file, int line, uint left, uint right, string op)
+        {
+            try
+            {
+                return op switch
+                {
+                    ""+"" => checked(left + right),
+                    ""-"" => checked(left - right),
+                    ""*"" => checked(left * right),
+                    _ => left
+                };
+            }
+            catch (System.OverflowException)
+            {
+                Log(uniqueId, file, line, ""Overflow"", $""{left}|{right}|UInt32"", ""overflow:"" + op);
+                return op switch
+                {
+                    ""+"" => unchecked(left + right),
+                    ""-"" => unchecked(left - right),
+                    ""*"" => unchecked(left * right),
+                    _ => left
+                };
+            }
+        }
+
+        // ulong
+        public static ulong LogCheckedBinary(string uniqueId, string file, int line, ulong left, ulong right, string op)
+        {
+            try
+            {
+                return op switch
+                {
+                    ""+"" => checked(left + right),
+                    ""-"" => checked(left - right),
+                    ""*"" => checked(left * right),
+                    _ => left
+                };
+            }
+            catch (System.OverflowException)
+            {
+                Log(uniqueId, file, line, ""Overflow"", $""{left}|{right}|UInt64"", ""overflow:"" + op);
+                return op switch
+                {
+                    ""+"" => unchecked(left + right),
+                    ""-"" => unchecked(left - right),
+                    ""*"" => unchecked(left * right),
+                    _ => left
+                };
+            }
+        }
+
+        // nint
+        public static nint LogCheckedBinary(string uniqueId, string file, int line, nint left, nint right, string op)
+        {
+            try
+            {
+                return op switch
+                {
+                    ""+"" => checked(left + right),
+                    ""-"" => checked(left - right),
+                    ""*"" => checked(left * right),
+                    _ => left
+                };
+            }
+            catch (System.OverflowException)
+            {
+                Log(uniqueId, file, line, ""Overflow"", $""{left}|{right}|IntPtr"", ""overflow:"" + op);
+                return op switch
+                {
+                    ""+"" => unchecked(left + right),
+                    ""-"" => unchecked(left - right),
+                    ""*"" => unchecked(left * right),
+                    _ => left
+                };
+            }
+        }
+
+        // nuint
+        public static nuint LogCheckedBinary(string uniqueId, string file, int line, nuint left, nuint right, string op)
+        {
+            try
+            {
+                return op switch
+                {
+                    ""+"" => checked(left + right),
+                    ""-"" => checked(left - right),
+                    ""*"" => checked(left * right),
+                    _ => left
+                };
+            }
+            catch (System.OverflowException)
+            {
+                Log(uniqueId, file, line, ""Overflow"", $""{left}|{right}|UIntPtr"", ""overflow:"" + op);
+                return op switch
+                {
+                    ""+"" => unchecked(left + right),
+                    ""-"" => unchecked(left - right),
+                    ""*"" => unchecked(left * right),
+                    _ => left
+                };
+            }
+        }
+
+        // byte (promotes to int, matching C# semantics)
+        public static int LogCheckedBinary(string uniqueId, string file, int line, byte left, byte right, string op)
+            => LogCheckedBinary(uniqueId, file, line, (int)left, (int)right, op);
+
+        // ushort (promotes to int, matching C# semantics)
+        public static int LogCheckedBinary(string uniqueId, string file, int line, ushort left, ushort right, string op)
+            => LogCheckedBinary(uniqueId, file, line, (int)left, (int)right, op);
+
+        // double (no overflow — saturates to Infinity)
+        public static double LogCheckedBinary(string uniqueId, string file, int line, double left, double right, string op)
+        {
+            return op switch
+            {
+                ""+"" => left + right,
+                ""-"" => left - right,
+                ""*"" => left * right,
+                _ => left
+            };
+        }
+
+        // float (no overflow — saturates to Infinity)
+        public static float LogCheckedBinary(string uniqueId, string file, int line, float left, float right, string op)
+        {
+            return op switch
+            {
+                ""+"" => left + right,
+                ""-"" => left - right,
+                ""*"" => left * right,
+                _ => left
+            };
+        }
+
+        // Generic catch-all for non-numeric types (e.g. string + string, enum, etc.)
+        // Lower priority than specific overloads due to being generic.
+        public static TLeft LogCheckedBinary<TLeft, TRight>(string uniqueId, string file, int line, TLeft left, TRight right, string op)
+        {
+            try
+            {
+                string sl; try { sl = left?.ToString() ?? ""null""; } catch { sl = ""null""; }
+                string sr; try { sr = right?.ToString() ?? ""null""; } catch { sr = ""null""; }
+                Log(uniqueId, file, line, ""Overflow Check"", sl + ""|"" + sr, ""overflow:"" + op);
+            }
+            catch {}
+            return left;
+        }
+
+        // short (promotes to int, matching C# semantics)
+        public static int LogCheckedBinary(string uniqueId, string file, int line, short left, short right, string op)
+            => LogCheckedBinary(uniqueId, file, line, (int)left, (int)right, op);
+
+        // sbyte (promotes to int, matching C# semantics)
+        public static int LogCheckedBinary(string uniqueId, string file, int line, sbyte left, sbyte right, string op)
+            => LogCheckedBinary(uniqueId, file, line, (int)left, (int)right, op);
+
+        // char (promotes to int, matching C# semantics)
+        public static int LogCheckedBinary(string uniqueId, string file, int line, char left, char right, string op)
+            => LogCheckedBinary(uniqueId, file, line, (int)left, (int)right, op);
     }
 }
 ";

@@ -1,4 +1,7 @@
-param([string]$targetDir)
+param(
+    [string]$targetDir,
+    [switch]$ScanRoot
+)
 
 $ErrorActionPreference = "Stop"
 
@@ -24,6 +27,35 @@ if (!(Test-Path $targetDir)) {
 }
 
 $targetDir = Resolve-Path $targetDir
+
+# In --ScanRoot mode, restore each library's src/ subdirectory
+if ($ScanRoot) {
+    Write-Host "Restoring all library projects under: $targetDir" -ForegroundColor Yellow
+    $libDirs = Get-ChildItem $targetDir -Directory
+    $totalRestored = 0
+    foreach ($lib in $libDirs) {
+        $srcDir = Join-Path $lib.FullName "src"
+        if (!(Test-Path $srcDir)) { continue }
+        # Check for .bak files (both .cs.bak and .csproj.bak)
+        $bakFiles = Get-ChildItem -Path $srcDir -Filter "*.bak" -Recurse -ErrorAction SilentlyContinue
+        $loggerPath = Join-Path $srcDir "TraceLogger.cs"
+        $hasLogger = Test-Path $loggerPath
+        if ($bakFiles.Count -eq 0 -and -not $hasLogger) { continue }
+
+        Write-Host "  Restoring: $($lib.Name)" -ForegroundColor Gray
+        if ($hasLogger) {
+            Remove-Item $loggerPath -Force
+        }
+        foreach ($bak in $bakFiles) {
+            $originalPath = $bak.FullName.Substring(0, $bak.FullName.Length - 4)
+            Move-Item -Path $bak.FullName -Destination $originalPath -Force
+            $totalRestored++
+        }
+    }
+    Write-Host "=== Scan-Root Restoration Complete ($totalRestored files restored) ===" -ForegroundColor Green
+    return
+}
+
 Write-Host "Restoring project at: $targetDir" -ForegroundColor Yellow
 
 # 1. Remove generated TraceLogger.cs
