@@ -21,6 +21,9 @@ Program_Instrumented.cs
 TraceLogger.cs
 *.bak
 
+.claude
+
+
 # Temporary & System Files
 *.log
 *.tmp

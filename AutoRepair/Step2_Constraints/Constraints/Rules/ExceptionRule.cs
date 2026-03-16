@@ -16,7 +16,7 @@ public sealed class ExceptionRule : IRule
         }
 
         violation = new ConstraintViolation(
-            Predicate: "NoUnhandledException(event)",
+            Predicate: "Null Dereference",
             Assertion: "event.exception == null",
             Bindings: new Dictionary<string, object?>
             {
