@@ -18,10 +18,10 @@ $logFileJson = Join-Path $PSScriptRoot $LogFileJsonName
 $restoreScript = Join-Path $PSScriptRoot "restore_project.ps1"
 
 if ([string]::IsNullOrWhiteSpace($TargetSourceDir)) {
-    $TargetSourceDir = Join-Path $repoRoot "BrightHrKata\Checkout"
+    $TargetSourceDir = Join-Path $repoRoot "ThrottleDebounce\ThrottleDebounce"
 }
 if ([string]::IsNullOrWhiteSpace($DriverProject)) {
-    $DriverProject = Join-Path $repoRoot "BrightHrKata\Checkout.Tests\Checkout.Tests.csproj"
+    $DriverProject = Join-Path $repoRoot "ThrottleDebounce\Tests\Tests.csproj"
 }
 
 $TargetSourceDir = Resolve-Path $TargetSourceDir
@@ -155,7 +155,7 @@ $testExitCode = 0
 if ($StopOnFirstFailure) {
     Write-Host "   Stop-on-first-failure mode is ON (tests run one-by-one)." -ForegroundColor DarkGray
 
-    $listArgs = @("test", "$DriverProject", "-f", "net10.0", "--list-tests", "--verbosity", "quiet")
+    $listArgs = @("test", "$DriverProject", "-f", "net8.0", "--list-tests", "--verbosity", "quiet")
     if (-not [string]::IsNullOrWhiteSpace($TestFilter)) {
         $listArgs += @("--filter", $TestFilter)
     }
@@ -177,7 +177,7 @@ if ($StopOnFirstFailure) {
         exit 1
     }
 
-    $buildArgs = @("build", "$DriverProject", "-f", "net10.0", "--verbosity", "quiet")
+    $buildArgs = @("build", "$DriverProject", "-f", "net8.0", "--verbosity", "quiet")
     $buildExit = Invoke-DotnetWithStreaming -DotnetArgs $buildArgs -JsonPath $logFileJson -TestLogPath $logFileTxt -TraceLineIndex ([ref]$traceLineIndex)
     if ($buildExit -ne 0) {
         $testExitCode = $buildExit
@@ -187,7 +187,7 @@ if ($StopOnFirstFailure) {
             Write-Host "   Running test: $testName" -ForegroundColor DarkGray
             $singleRunArgs = @(
                 "test", "$DriverProject",
-                "-f", "net10.0",
+                "-f", "net8.0",
                 "--no-build",
                 "--verbosity", "minimal",
                 "--filter", "Name=$testName"
@@ -203,7 +203,7 @@ if ($StopOnFirstFailure) {
     }
 }
 else {
-    $testArgs = @("test", "$DriverProject", "-f", "net10.0", "--verbosity", "minimal")
+    $testArgs = @("test", "$DriverProject", "-f", "net8.0", "--verbosity", "minimal")
     if (-not [string]::IsNullOrWhiteSpace($TestFilter)) {
         $testArgs += @("--filter", $TestFilter)
     }
