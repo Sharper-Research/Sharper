@@ -18,10 +18,10 @@ $logFileJson = Join-Path $PSScriptRoot $LogFileJsonName
 $restoreScript = Join-Path $PSScriptRoot "restore_project.ps1"
 
 if ([string]::IsNullOrWhiteSpace($TargetSourceDir)) {
-    $TargetSourceDir = Join-Path $repoRoot "BrightHrKata\Checkout"
+    $TargetSourceDir = Join-Path $repoRoot "MicrosoftBugDemo\RuntimeCode"
 }
 if ([string]::IsNullOrWhiteSpace($DriverProject)) {
-    $DriverProject = Join-Path $repoRoot "BrightHrKata\Checkout.Tests\Checkout.Tests.csproj"
+    $DriverProject = Join-Path $repoRoot "MicrosoftBugDemo\RuntimeCode.Tests\RuntimeCode.Tests.csproj"
 }
 
 $TargetSourceDir = Resolve-Path $TargetSourceDir
