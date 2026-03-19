@@ -3,15 +3,11 @@ param([string]$targetDir)
 $ErrorActionPreference = "Stop"
 
 if ([string]::IsNullOrEmpty($targetDir)) {
-    # Default to Checkout source folder; fallback to NodaTime, then TargetApp.
-    $checkoutDefault = Join-Path $PSScriptRoot "..\..\BrightHrKata\Checkout"
-    $nodaDefault = Join-Path $PSScriptRoot "..\..\nodatime\src\NodaTime"
+    # Default to MicrosoftBugDemo source folder; fallback to TargetApp.
+    $microsoftBugDemoDefault = Join-Path $PSScriptRoot "..\..\MicrosoftBugDemo\RuntimeCode"
     $targetAppDefault = Join-Path $PSScriptRoot "..\..\TargetApp"
-    if (Test-Path $checkoutDefault) {
-        $targetDir = $checkoutDefault
-    }
-    elseif (Test-Path $nodaDefault) {
-        $targetDir = $nodaDefault
+    if (Test-Path $microsoftBugDemoDefault) {
+        $targetDir = $microsoftBugDemoDefault
     }
     else {
         $targetDir = $targetAppDefault

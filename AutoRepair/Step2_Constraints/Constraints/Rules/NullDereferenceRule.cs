@@ -23,14 +23,29 @@ public sealed class NullDereferenceRule : IRule
                 bindings["exception.message"] = message;
             }
 
+            // Look back in state for the exact variable assignment that was null.
+            // e.g. trace line 13: method=null is the real root cause, not the crash line.
+            string originFile = evt.File;
+            int originLine = evt.Line;
+            string originTraceId = evt.Id;
+
+            if (state.TryGetLastNullAssignment(out var nullVar, out var nullFile, out var nullLine, out var nullTraceId))
+            {
+                bindings["null.variable"] = nullVar;
+                bindings["null.assigned_at_line"] = nullLine;
+                originFile = nullFile;
+                originLine = nullLine;
+                originTraceId = nullTraceId;
+            }
+
             violation = new ConstraintViolation(
                 Predicate: "NotNull(dereference.receiver)",
                 Assertion: "dereference receiver is not null",
                 Bindings: bindings,
                 Result: false,
-                File: evt.File,
-                Line: evt.Line,
-                TraceId: evt.Id);
+                File: originFile,
+                Line: originLine,
+                TraceId: originTraceId);
 
             // SafetyRewriter logs Exception Type right after this; avoid duplicate.
             _suppressNextNullReferenceExceptionType = true;

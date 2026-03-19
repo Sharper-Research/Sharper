@@ -24,8 +24,19 @@ public sealed class StateTracker
     // Like: "RunLoop1#arg1" -> "buf1" (from caller side)
     private readonly Dictionary<string, string> _argumentAliasCache = new(StringComparer.OrdinalIgnoreCase);
 
+    // Tracks the most recent variable assignment where val was null — used by NullDereferenceRule
+    // to pinpoint the exact line where null was born, not just where the crash occurred.
+    private (string VarName, string File, int Line, string TraceId)? _lastNullAssignment;
+
     public void Update(TraceEvent evt)
     {
+        // Track null assignments: Variable Update with val=null → record origin for NullDereferenceRule
+        if (evt.Message.Equals("Variable Update", StringComparison.OrdinalIgnoreCase)
+            && evt.Variable is { Name: { } nullVarName, Value: null })
+        {
+            _lastNullAssignment = (nullVarName, evt.File, evt.Line, evt.Id);
+        }
+
         if (evt.Variable is { Name: { } name, Value: { } value })
         {
             if (int.TryParse(value, NumberStyles.Integer, CultureInfo.InvariantCulture, out var parsed))
@@ -133,6 +144,17 @@ public sealed class StateTracker
                 _paramToArgAlias[paramName] = callerArgName;
             }
         }
+    }
+
+    public bool TryGetLastNullAssignment(out string varName, out string file, out int line, out string traceId)
+    {
+        if (_lastNullAssignment.HasValue)
+        {
+            (varName, file, line, traceId) = _lastNullAssignment.Value;
+            return true;
+        }
+        varName = default!; file = default!; line = 0; traceId = default!;
+        return false;
     }
 
     public bool TryGetInt(string name, out int value) => _ints.TryGetValue(name, out value);
