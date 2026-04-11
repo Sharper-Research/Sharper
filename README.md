@@ -90,6 +90,12 @@ Patching/
 │   │
 │   ├── run_all.ps1                     # Runs all 3 steps in one command
 │   └── Step3_Repair/                   # CFG building + repair (in progress)
+│       ├── build_cfg.ps1               # Build & run the CFG builder
+│       ├── reports/cfg_report.json     # (Generated) CFG output
+│       └── Repair/                     # C# project (Roslyn + System.CommandLine)
+│           ├── Program.cs
+│           ├── Models/                 # ViolationInput, CfgModels
+│           └── Analysis/              # SourceLocator, CfgBuilder
 │
 ├── BrightHrKata/                       # Primary target app (checkout kata)
 │   ├── Checkout/                       # Source code under test
