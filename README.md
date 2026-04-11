@@ -2,8 +2,8 @@
 
 Automated C# program repair system using runtime tracing, constraint solving, and patch generation.
 
-> **📍 Current focus: Step 2, Constraint Analysis.**
-> Step 1 (Tracing) is complete. Step 3 (Repair) has not been started.
+> **📍 Current focus: Step 3, Repair.**
+> Step 1 (Tracing) and Step 2 (Constraints) are complete. Step 3 Task 1 (CFG Builder) is done; Tasks 2 and 3 are next.
 
 ---
 
@@ -12,8 +12,8 @@ Automated C# program repair system using runtime tracing, constraint solving, an
 | Step | Module | Status | Description |
 | :--: | :--- | :--- | :--- |
 | **1** | [Tracing](AutoRepair/Step1_Tracing/README.md) | **Done** | Roslyn-based instrumenter injects logging into any C# project; produces a structured JSONL execution trace. |
-| **2** | [Constraints](AutoRepair/Step2_Constraints/README.md) | **In Progress** | Rule engine reads the trace and emits `violations.json` (buffer-bounds, exceptions, invalid casts, integer overflow). |
-| **3** | Repair | Not Started | Will generate source-level patches from the constraint violations. |
+| **2** | [Constraints](AutoRepair/Step2_Constraints/README.md) | **Done** | Rule engine reads the trace and emits `violations.json` (buffer-bounds, exceptions, invalid casts, integer overflow). |
+| **3** | [Repair](AutoRepair/Step3_Repair/README.md) | **In Progress** | Builds CFGs from violations, propagates constraints forward, synthesizes patches. Task 1 (CFG Builder) is complete. |
 
 ---
 
@@ -33,14 +33,17 @@ The system is designed to **work with any open-source C# project**, not just one
 ## Quick Start
 
 ```powershell
-# 1. Instrument & trace (instruments target, runs tests, collects JSONL trace)
-.\AutoRepair\Step1_Tracing\generate_trace.ps1
+# Run the full pipeline (Steps 1 + 2 + 3) in one command
+.\AutoRepair\run_all.ps1
+```
 
-# 2. Analyze the trace for constraint violations
-.\AutoRepair\Step2_Constraints\analyze_trace.ps1
+Or run each step individually:
 
-# 3. Restore the target project to its original state
-.\AutoRepair\Step1_Tracing\restore_project.ps1
+```powershell
+.\AutoRepair\Step1_Tracing\generate_trace.ps1      # 1. Instrument & trace
+.\AutoRepair\Step2_Constraints\analyze_trace.ps1    # 2. Analyze constraints
+.\AutoRepair\Step1_Tracing\restore_project.ps1      # 2.5 Restore original source
+.\AutoRepair\Step3_Repair\build_cfg.ps1             # 3. Build CFGs from violations
 ```
 
 Each step has its own detailed README. See the links in the Status table above.
@@ -85,7 +88,8 @@ Patching/
 │   │       ├── Runtime/                # TraceReader, StateTracker
 │   │       └── Rules/                  # IRule + 4 rule implementations
 │   │
-│   └── Step3_Repair/                   # (Not started) Patch generation
+│   ├── run_all.ps1                     # Runs all 3 steps in one command
+│   └── Step3_Repair/                   # CFG building + repair (in progress)
 │
 ├── BrightHrKata/                       # Primary target app (checkout kata)
 │   ├── Checkout/                       # Source code under test
