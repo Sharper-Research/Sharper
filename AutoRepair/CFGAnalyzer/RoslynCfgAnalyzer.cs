@@ -8,7 +8,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.FlowAnalysis;
 using Microsoft.CodeAnalysis.Operations;
 
-namespace CFGAnalyzer;
+namespace AutoRepair.CFGAnalyzer;
 
 public record CallSite(
     int BlockOrdinal,
