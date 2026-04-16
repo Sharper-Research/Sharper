@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.MSBuild;
+using AutoRepair.CFGAnalyzer.Analysis;
+using AutoRepair.CFGAnalyzer.Traversal;
 
 namespace AutoRepair.CFGAnalyzer;
 
@@ -17,7 +19,6 @@ class Program
             return;
         }
 
-        // Register MSBuild defaults before creating the workspace
         if (!Microsoft.Build.Locator.MSBuildLocator.IsRegistered)
         {
             Microsoft.Build.Locator.MSBuildLocator.RegisterDefaults();
@@ -27,11 +28,7 @@ class Program
         try
         {
             using var workspace = MSBuildWorkspace.Create();
-            
-            // Wire up diagnostics
-            workspace.WorkspaceFailed += (s, e) => {
-                Console.WriteLine($"[Workspace Warning] {e.Diagnostic.Message}");
-            };
+            workspace.WorkspaceFailed += (s, e) => Console.WriteLine($"[Workspace Warning] {e.Diagnostic.Message}");
             
             if (path.EndsWith(".sln", StringComparison.OrdinalIgnoreCase))
             {
@@ -58,32 +55,24 @@ class Program
 
     static void ReportDiagnostics(MSBuildWorkspace workspace)
     {
-        foreach (var diag in workspace.Diagnostics)
+        foreach (var diag in workspace.Diagnostics.Where(d => d.Kind == WorkspaceDiagnosticKind.Failure))
         {
-            if (diag.Kind == WorkspaceDiagnosticKind.Failure)
-            {
-                Console.WriteLine($"[Workspace Error] {diag.Message}");
-            }
+            Console.WriteLine($"[Workspace Error] {diag.Message}");
         }
     }
 
     static async Task AnalyzeAndTraverse(Project project)
     {
         Console.WriteLine($"\n--- Analyzing Project: {project.Name} ---");
-        var results = await RoslynCfgAnalyzer.AnalyzeProjectAsync(project);
+        var results = await ProjectAnalyzer.AnalyzeProjectAsync(project);
 
-        // Find entry points (e.g., Main)
         var entryPoints = results.Keys.Where(s => s.Name == "Main").ToList();
-        if (entryPoints.Count == 0 && results.Count > 0)
-        {
-            // Fallback: take the first method if no Main is found
-            entryPoints.Add(results.Keys.First());
-        }
+        if (entryPoints.Count == 0 && results.Count > 0) entryPoints.Add(results.Keys.First());
 
         foreach (var entry in entryPoints)
         {
             Console.WriteLine($"\n=== Call Graph Traversal starting from: {entry.ToDisplayString()} ===");
-            RoslynCfgAnalyzer.TraverseAndGeneratePathConditions(
+            CallGraphTraverser.TraverseAndGeneratePathConditions(
                 entry, 
                 results, 
                 new List<string>(), 
