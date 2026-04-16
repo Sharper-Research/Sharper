@@ -29,6 +29,9 @@ scripts\verify-rta-demo.bat
 ```
 
 The scripts run `samples/RtaNarrowingDemo/EdgeProbe/EdgeProbe.csproj`, which calls `ProjectAnalyzer` directly and prints the resolved `Main` callees.
+They validate both:
+- `samples/RtaNarrowingDemo/RtaNarrowingDemo.csproj`
+- `samples/LambdaLocalFunctionDemo/LambdaLocalFunctionDemo.csproj`
 
 ## What to check
 Look for call edges/call sites from `RtaNarrowingDemo.Program.Main()` that include:
