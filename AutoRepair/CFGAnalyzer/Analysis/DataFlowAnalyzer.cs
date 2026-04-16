@@ -3,7 +3,9 @@ using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.FlowAnalysis;
 using AutoRepair.CFGAnalyzer.Models;
-using AutoRepair.CFGAnalyzer.Flow; // Add this using directive
+using CFGAnalyzer.Analysis;
+
+// Add this using directive
 
 namespace AutoRepair.CFGAnalyzer.Analysis;
 
