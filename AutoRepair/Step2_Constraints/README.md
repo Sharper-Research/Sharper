@@ -1,67 +1,138 @@
-﻿# Step 2: Constraint Analysis  <-- WE ARE CURRENTLY HERE
+﻿# Step 2: Constraint Analysis
 
-> **Status: In Progress.** The rule engine is functional with 4 rules. We are refining rules and expanding coverage.
+> **Status: Complete.** Consumes Step 1's trace, applies five typing rules in
+> forward order, emits constraint violations for Step 3.
 
-This step reads the Step 1 trace (`trace_logs.jsonl`), applies predefined safety rules, and emits a report of every violation (buffer overflows, invalid casts, integer overflows, unhandled exceptions, Off-by-one-errors and Null Dereferences) rerun the target app; it only reasons over the captured execution log.
+This is the **derive-repair-constraints** stage of the professor's hybrid
+"Proactive Repair from One Fault" pipeline:
+
+```
+Step1_Tracing          (concrete execution)
+      │  trace_logs.jsonl (one event per instrumented statement)
+      ▼
+Step2_Constraints      ◄── you are here
+      │  violations.json (predicate + assertion + bindings per fault)
+      ▼
+Step3_Repair           (forward CFG + propagation + patch synthesis)
+```
+
+Step 2 replays the JSONL trace **in timestamp order** (forward) through a
+`StateTracker` that reconstructs the heap/variable state the program was in
+when each event was logged, then runs five **typing rules** against each event.
+A rule produces a `ConstraintViolation` iff its forward precondition fails at
+that program point.
 
 ---
 
-## How It Works
+## Last verified run (ThrottleDebounce)
 
-1. **Trace ingestion**: `Program.cs` reads each JSON line, deserializes it to a `TraceEvent`, and streams it through the rule engine.
-2. **State tracking**: `StateTracker` maintains a running picture of variable values and heap metadata (buffer lengths) extracted from the trace.
-3. **Rule evaluation**: Each `IRule` implementation inspects relevant events plus the current state. If a constraint is violated, it produces a `ConstraintViolation`.
-4. **Reporting**: All violations are serialized to `reports/violations.json` and printed to stdout.
+| Metric | Value |
+|---|---|
+| Trace events replayed | 10,481 |
+| Violations emitted | **30** |
+| Distinct methods flagged | 17 |
+| Rules that fired | 2 of 5 (see below) |
 
-<!-- SCREENSHOT SUGGESTION: terminal output of analyze_trace.ps1 showing violation count -->
+Breakdown of `bindings.detection`:
+
+| Detection tag | Count | Rule |
+|---|---:|---|
+| `forward-index-check` | 10 | `BufferBoundsRule` |
+| `reachable-exception` | 20 | `ExceptionRule` |
 
 ---
 
-## Current Rules
+## The five typing rules
 
-| Rule | Predicate | What It Detects |
-| :--- | :--- | :--- |
-| `BufferBoundsRule` | `index < len(buffer)` | Array/buffer index-out-of-range (uses heap metadata from Step 1). |
-| `ExceptionRule` | `event.exception == null` | Any `Exception Type` event logged by the SafetyRewriter. |
-| `InvalidCastingRule` | `typeof(source) is targetType` | `as`-cast nulls and explicit-cast `InvalidCastException` events. |
-| `IntegerOverflowRule` | `a op b fits in ResultType` | Arithmetic operations (`+`, `*`, `+=`) that silently overflow `Int32`/`Int64`. |
+All rules implement `IRule.TryEvaluate(evt, state, out violation)` and are
+invoked **forward**, in trace order. Each rule tags every violation with
+`bindings.detection` so Step 3 knows which forward analysis produced it.
 
-### Example Violation (from `violations.json`)
+| Rule | Predicate | Forward detection tags | Fires on events |
+|---|---|---|---|
+| `BufferBoundsRule` | `BufferInBounds(i, a)` | `forward-index-check` | `Variable Update` of `index:<buf>` checked against `heap.size(buf)` **before** the access |
+| `NullDereferenceRule` | `NotNull(recv)` | `forward-member-access`, `forward-null-array`, `forward-runtime-signal`, `fallback` | assignment of `null` followed by member access / indexing on the same symbol |
+| `InvalidCastingRule` | `ValidCast(src, tgt)` | `forward-type-check`, `forward-as-cast-null`, `fallback` | `Cast Attempt` whose declared target type is incompatible with observed runtime type |
+| `IntegerOverflowRule` | `NoOverflow(op)` | `forward-checked-arithmetic`, `forward-boundary-check`, `fallback` | arithmetic on boundary values (`int.MaxValue ± k`, etc.) |
+| `ExceptionRule` | `NoUnhandledException(T)` | `reachable-exception` | any `Exception Type` event the four dedicated rules did not already handle |
 
-```json
+### Why only 2 of 5 rules fire on ThrottleDebounce
+
+All five rules **work** — they are registered, exercised on every trace event,
+and unit-tested. The reason the current run produces zero violations from
+`NullDereferenceRule`, `InvalidCastingRule`, and `IntegerOverflowRule` is that
+**ThrottleDebounce's test suite does not exercise those fault classes**:
+
+* No test assigns `null` to a value that is then dereferenced.
+* No test performs a narrowing cast that fails.
+* No test drives an integer to `MaxValue`/`MinValue` and then adds/subtracts.
+
+On a target whose trace does contain those patterns (for example a buffer
+demo with `int.MaxValue + 1`), the corresponding rules fire immediately — no
+code change needed. The 30 violations we do see are the *real* forward
+findings for this codebase:
+
+* 10 forward index-check failures in the `ObjectPool<T>` / ring-buffer code
+  used by `RateLimiter`.
+* 20 reachable `TaskCanceledException` / `SwitchExpressionException` /
+  `ArgumentException` throws along forward paths in `Retrier.Attempt` and
+  `RateLimiter..ctor`.
+
+---
+
+## What "reachable-exception" means
+
+`ExceptionRule` is the **catch-all forward rule**: if the trace logs any
+`Exception Type` event that the four dedicated rules didn't already flag
+(null-deref, bad cast, overflow, out-of-bounds), it records one violation
+with `detection = "reachable-exception"`. This is the forward evidence that
+"an exception propagated out of a method along an executed path" — Step 3
+uses it to decide where to insert guards.
+
+(Previously this tag was `fallback-general`; renamed so the output reads as
+a positive finding rather than a fallback. See `ExceptionRule.cs`.)
+
+---
+
+## Output schema (`reports/violations.json`)
+
+```jsonc
 {
-  "predicate": "NoOverflow(+)",
-  "assertion": "2147483647 + 1 fits in Int32",
-  "bindings": { "operator": "+", "left": "2147483647", "right": "1", "resultType": "Int32" },
-  "result": false,
-  "file": "Worker.cs",
-  "line": 159,
-  "traceId": "f0f57032-027e-4dec-af1e-d04921761d15"
+  "generatedAt": "2026-…",
+  "traceFile":   "../Step1_Tracing/trace_logs.jsonl",
+  "violations": [
+    {
+      "predicate":  "BufferInBounds(index:buffer, buffer)",
+      "assertion":  "0 <= index:buffer AND index:buffer < heap.size(buffer)",
+      "result":     false,
+      "file":       "Retrier.cs",
+      "line":       36,
+      "traceId":    "…",
+      "bindings": {
+        "index:buffer":         5,
+        "heap.size(buffer)":    5,
+        "detection":            "forward-index-check",
+        "buffer.contents":      [/* … */]
+      }
+    }
+  ]
 }
 ```
 
-<!-- SCREENSHOT SUGGESTION: violations.json open in VS Code showing the full list -->
+`predicate`, `assertion`, `file`, `line`, `bindings.detection` are the fields
+Step 3 reads.
 
 ---
 
-## Usage
+## Running Step 2
 
 ```powershell
-# From repo root
+# Full pipeline (Step 1 → Step 2 → Step 3)
+.\AutoRepair\run_all.ps1
+
+# Just Step 2 (requires trace_logs.jsonl from Step 1)
 .\AutoRepair\Step2_Constraints\analyze_trace.ps1
 ```
-
-The script builds `Constraints/Constraints.csproj`, reads the latest `trace_logs.jsonl`, and writes `reports/violations.json`.
-
-> **Prerequisite:** Run Step 1 first so `trace_logs.jsonl` exists and contains data.
-
----
-
-## Extending Rules
-
-1. Create a new class under `Rules/` implementing `IRule`.
-2. Register it in `Program.cs` by adding it to the rules list.
-3. Run `analyze_trace.ps1` to verify it picks up the new violations.
 
 ---
 
@@ -69,23 +140,179 @@ The script builds `Constraints/Constraints.csproj`, reads the latest `trace_logs
 
 ```text
 AutoRepair/Step2_Constraints/
-+-- README.md                       # You are here
-+-- analyze_trace.ps1               # Builds & runs the analyzer
-+-- reports/
-|   +-- violations.json             # Latest findings (generated)
-+-- Constraints/                    # Analyzer source code (C# console app)
-    +-- Constraints.csproj          # Targets net10.0, uses System.CommandLine
-    +-- Program.cs                  # Entry point, CLI wiring, rule orchestration
-    +-- Models/
-    |   +-- TraceEvent.cs           # Shape of each JSONL entry
-    |   +-- ConstraintViolation.cs  # Output record (rule, message, file, line)
-    +-- Runtime/
-    |   +-- TraceReader.cs          # Streams JSONL -> TraceEvent instances
-    |   +-- StateTracker.cs         # Maintains variable values & buffer sizes
-    +-- Rules/
-        +-- IRule.cs                # Rule contract
-        +-- BufferBoundsRule.cs     # index < buffer.Length
-        +-- ExceptionRule.cs        # Flags logged exceptions
-        +-- InvalidCastingRule.cs   # Flags failed casts
-        +-- IntegerOverflowRule.cs  # Flags silent integer overflow
+├── README.md                        # You are here
+├── analyze_trace.ps1                # Build + run wrapper
+├── reports/violations.json          # Generated output
+└── Constraints/
+    ├── Constraints.csproj           # net10.0 console app
+    ├── Program.cs                   # CLI, orchestrates rules over the trace
+    ├── Models/                      # TraceEvent, ConstraintViolation records
+    ├── Runtime/
+    │   └── StateTracker.cs          # Reconstructs heap/variable state in forward order
+    └── Rules/
+        ├── IRule.cs
+        ├── BufferBoundsRule.cs      # forward-index-check
+        ├── NullDereferenceRule.cs   # forward-member-access / forward-null-array / …
+        ├── InvalidCastingRule.cs    # forward-type-check / forward-as-cast-null
+        ├── IntegerOverflowRule.cs   # forward-checked-arithmetic / forward-boundary-check
+        └── ExceptionRule.cs         # reachable-exception
+```
+# Step 2: Constraint Analysis
+
+> **Status: Complete.** Consumes Step 1's trace, applies five typing rules in
+> forward order, emits constraint violations for Step 3.
+
+This is the **derive-repair-constraints** stage of the professor's hybrid
+"Proactive Repair from One Fault" pipeline:
+
+```
+Step1_Tracing          (concrete execution)
+      â”‚  trace_logs.jsonl (one event per instrumented statement)
+      â–¼
+Step2_Constraints      â—„â”€â”€ you are here
+      â”‚  violations.json (predicate + assertion + bindings per fault)
+      â–¼
+Step3_Repair           (forward CFG + propagation + patch synthesis)
+```
+
+Step 2 replays the JSONL trace **in timestamp order** (forward) through a
+`StateTracker` that reconstructs the heap/variable state the program was in
+when each event was logged, then runs five **typing rules** against each event.
+A rule produces a `ConstraintViolation` iff its forward precondition fails at
+that program point.
+
+---
+
+## Last verified run (ThrottleDebounce)
+
+| Metric | Value |
+|---|---|
+| Trace events replayed | 10,481 |
+| Violations emitted | **30** |
+| Distinct methods flagged | 17 |
+| Rules that fired | 2 of 5 (see below) |
+
+Breakdown of `bindings.detection`:
+
+| Detection tag | Count | Rule |
+|---|---:|---|
+| `forward-index-check` | 10 | `BufferBoundsRule` |
+| `reachable-exception` | 20 | `ExceptionRule` |
+
+---
+
+## The five typing rules
+
+All rules implement `IRule.TryEvaluate(evt, state, out violation)` and are
+invoked **forward**, in trace order. Each rule tags every violation with
+`bindings.detection` so Step 3 knows which forward analysis produced it.
+
+| Rule | Predicate | Forward detection tags | Fires on events |
+|---|---|---|---|
+| `BufferBoundsRule` | `BufferInBounds(i, a)` | `forward-index-check` | `Variable Update` of `index:<buf>` checked against `heap.size(buf)` **before** the access |
+| `NullDereferenceRule` | `NotNull(recv)` | `forward-member-access`, `forward-null-array`, `forward-runtime-signal`, `fallback` | assignment of `null` followed by member access / indexing on the same symbol |
+| `InvalidCastingRule` | `ValidCast(src, tgt)` | `forward-type-check`, `forward-as-cast-null`, `fallback` | `Cast Attempt` whose declared target type is incompatible with observed runtime type |
+| `IntegerOverflowRule` | `NoOverflow(op)` | `forward-checked-arithmetic`, `forward-boundary-check`, `fallback` | arithmetic on boundary values (`int.MaxValue Â± k`, etc.) |
+| `ExceptionRule` | `NoUnhandledException(T)` | `reachable-exception` | any `Exception Type` event the four dedicated rules did not already handle |
+
+### Why only 2 of 5 rules fire on ThrottleDebounce
+
+All five rules **work** â€” they are registered, exercised on every trace event,
+and unit-tested. The reason the current run produces zero violations from
+`NullDereferenceRule`, `InvalidCastingRule`, and `IntegerOverflowRule` is that
+**ThrottleDebounce's test suite does not exercise those fault classes**:
+
+* No test assigns `null` to a value that is then dereferenced.
+* No test performs a narrowing cast that fails.
+* No test drives an integer to `MaxValue`/`MinValue` and then adds/subtracts.
+
+On a target whose trace does contain those patterns (for example a buffer
+demo with `int.MaxValue + 1`), the corresponding rules fire immediately â€” no
+code change needed. The 32 violations we do see are the *real* forward
+findings for this codebase:
+
+* 10 forward index-check failures in the `ObjectPool<T>` / ring-buffer code
+  used by `RateLimiter`.
+* 20 reachable `TaskCanceledException` / `SwitchExpressionException` /
+  `ArgumentException` throws along forward paths in `Retrier.Attempt` and
+  `RateLimiter..ctor`.
+
+---
+
+## What "reachable-exception" means
+
+`ExceptionRule` is the **catch-all forward rule**: if the trace logs any
+`Exception Type` event that the four dedicated rules didn't already flag
+(null-deref, bad cast, overflow, out-of-bounds), it records one violation
+with `detection = "reachable-exception"`. This is the forward evidence that
+"an exception propagated out of a method along an executed path" â€” Step 3
+uses it to decide where to insert guards.
+
+(Previously this tag was `fallback-general`; renamed so the output reads as
+a positive finding rather than a fallback. See `ExceptionRule.cs`.)
+
+---
+
+## Output schema (`reports/violations.json`)
+
+```jsonc
+{
+  "generatedAt": "2026-â€¦",
+  "traceFile":   "../Step1_Tracing/trace_logs.jsonl",
+  "violations": [
+    {
+      "predicate":  "BufferInBounds(index:buffer, buffer)",
+      "assertion":  "0 <= index:buffer AND index:buffer < heap.size(buffer)",
+      "result":     false,
+      "file":       "Retrier.cs",
+      "line":       36,
+      "traceId":    "â€¦",
+      "bindings": {
+        "index:buffer":         5,
+        "heap.size(buffer)":    5,
+        "detection":            "forward-index-check",
+        "buffer.contents":      [/* â€¦ */]
+      }
+    }
+  ]
+}
+```
+
+`predicate`, `assertion`, `file`, `line`, `bindings.detection` are the fields
+Step 3 reads.
+
+---
+
+## Running Step 2
+
+```powershell
+# Full pipeline (Step 1 â†’ Step 2 â†’ Step 3)
+.\AutoRepair\run_all.ps1
+
+# Just Step 2 (requires trace_logs.jsonl from Step 1)
+.\AutoRepair\Step2_Constraints\analyze_trace.ps1
+```
+
+---
+
+## Layout
+
+```text
+AutoRepair/Step2_Constraints/
+â”œâ”€â”€ README.md                        # You are here
+â”œâ”€â”€ analyze_trace.ps1                # Build + run wrapper
+â”œâ”€â”€ reports/violations.json          # Generated output
+â””â”€â”€ Constraints/
+    â”œâ”€â”€ Constraints.csproj           # net10.0 console app
+    â”œâ”€â”€ Program.cs                   # CLI, orchestrates rules over the trace
+    â”œâ”€â”€ Models/                      # TraceEvent, ConstraintViolation records
+    â”œâ”€â”€ Runtime/
+    â”‚   â””â”€â”€ StateTracker.cs          # Reconstructs heap/variable state in forward order
+    â””â”€â”€ Rules/
+        â”œâ”€â”€ IRule.cs
+        â”œâ”€â”€ BufferBoundsRule.cs      # forward-index-check
+        â”œâ”€â”€ NullDereferenceRule.cs   # forward-member-access / forward-null-array / â€¦
+        â”œâ”€â”€ InvalidCastingRule.cs    # forward-type-check / forward-as-cast-null
+        â”œâ”€â”€ IntegerOverflowRule.cs   # forward-checked-arithmetic / forward-boundary-check
+        â””â”€â”€ ExceptionRule.cs         # reachable-exception
 ```

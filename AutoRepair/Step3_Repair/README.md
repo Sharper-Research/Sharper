@@ -1,8 +1,21 @@
 # Step 3: Repair
 
-> **Status: In Progress (Task 1 complete).** CFG Builder works end-to-end. Tasks 2 and 3 are next.
+> **Status: Under review.** CFG Builder (Task 1) works end-to-end and is awaiting review. Tasks 2 and 3 are next.
 
-This step takes the violations from Step 2 and the original source code to build Control Flow Graphs, propagate constraints forward, and synthesize patches.
+This step takes the violations from Step 2 and the original source code to build **forward** Control Flow Graphs, propagate constraints forward, and synthesize patches.
+
+## Last verified run (ThrottleDebounce)
+
+| Metric | Value |
+|---|---|
+| Violations consumed from Step 2 | 30 |
+| Distinct methods analyzed | **17** |
+| Largest CFG (`Retrier.Attempt`) | 24 nodes / 31 edges |
+| CFG direction | Forward only (edges from `block.FallThroughSuccessor` and `block.ConditionalSuccessor`) |
+
+`Predecessors` is inspected **only** to label loop headers — no reverse
+edges are materialised, so the graph is a pure forward CFG as in the
+professor's slide.
 
 ---
 
@@ -10,7 +23,7 @@ This step takes the violations from Step 2 and the original source code to build
 
 | # | Task | Status | What It Does |
 | :-: | :--- | :--- | :--- |
-| 1 | **CFG Builder** | Done | Parses source with Roslyn, builds a Control Flow Graph for each method containing a violation. Outputs nodes, edges, and violation locations. |
+| 1 | **CFG Builder** | Under review | Parses source with Roslyn, builds a Control Flow Graph for each method containing a violation. Outputs nodes, edges, and violation locations. |
 | 2 | **Constraint Propagation** | Not started | Walks the CFG forward from each violation to find all other code sites that could violate the same constraint. |
 | 3 | **Patch Synthesis** | Not started | Generates code fixes (null checks, bounds guards, etc.) via Roslyn rewriting, applies them, and runs tests to validate. |
 
@@ -51,8 +64,8 @@ This step takes the violations from Step 2 and the original source code to build
 {
   "generatedAt": "2026-04-11T...",
   "sourceDirectory": "...",
-  "totalViolations": 19,
-  "methodsAnalyzed": 6,
+  "totalViolations": 30,
+  "methodsAnalyzed": 17,
   "methods": [
     {
       "methodName": "Attempt",

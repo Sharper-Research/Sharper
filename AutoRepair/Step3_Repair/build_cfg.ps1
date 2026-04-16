@@ -1,12 +1,17 @@
 param(
-    [string]$SourceDir = ""
+    [string]$SourceDir = "",
+    [string]$Violations = ""
 )
 
 $ErrorActionPreference = "Stop"
 
 $scriptRoot  = Split-Path -Parent $MyInvocation.MyCommand.Path
 $repairDir   = Join-Path $scriptRoot "Repair"
-$violationsPath = Join-Path $scriptRoot "..\Step2_Constraints\reports\violations.json"
+if ([string]::IsNullOrWhiteSpace($Violations)) {
+    $violationsPath = Join-Path $scriptRoot "..\Step2_Constraints\reports\violations.json"
+} else {
+    $violationsPath = $Violations
+}
 $outputDir   = Join-Path $scriptRoot "reports"
 $repoRoot    = Resolve-Path (Join-Path $scriptRoot "..\..")
 
