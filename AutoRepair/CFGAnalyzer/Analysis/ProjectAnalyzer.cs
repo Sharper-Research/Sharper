@@ -82,7 +82,8 @@ public static class ProjectAnalyzer
             }
 
             var pathConstraints = Flow.FlowAnalysis.GetPathConstraintsAcyclic(cfg);
-            node.Analysis = new MethodAnalysisResult(cfg, pathConstraints, callSites);
+            var dominatorTree = Flow.FlowAnalysis.BuildDominatorTree(cfg);
+            node.Analysis = new MethodAnalysisResult(cfg, pathConstraints, callSites, dominatorTree);
         }
 
         return callGraph;

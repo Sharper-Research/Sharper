@@ -19,8 +19,46 @@ public record CallSite(
 public record MethodAnalysisResult(
     ControlFlowGraph Cfg,
     List<List<string>> PathConstraints,
-    List<CallSite> CallSites
+    List<CallSite> CallSites,
+    DominatorTree? DominatorTree = null
 );
+
+/// <summary>
+/// Represents a node in the Dominator Tree.
+/// </summary>
+public class DominatorTreeNode
+{
+    public int BlockOrdinal { get; }
+    public DominatorTreeNode? ImmediateDominator { get; internal set; }
+    public List<DominatorTreeNode> Children { get; } = new();
+
+    public DominatorTreeNode(int ordinal) => BlockOrdinal = ordinal;
+}
+
+/// <summary>
+/// Represents the Dominator Tree for a CFG.
+/// </summary>
+public class DominatorTree
+{
+    public DominatorTreeNode Root { get; }
+    public Dictionary<int, DominatorTreeNode> Nodes { get; } = new();
+
+    public DominatorTree(int rootOrdinal)
+    {
+        Root = new DominatorTreeNode(rootOrdinal);
+        Nodes[rootOrdinal] = Root;
+    }
+
+    public DominatorTreeNode GetOrAddNode(int ordinal)
+    {
+        if (!Nodes.TryGetValue(ordinal, out var node))
+        {
+            node = new DominatorTreeNode(ordinal);
+            Nodes[ordinal] = node;
+        }
+        return node;
+    }
+}
 
 /// <summary>
 /// Represents a node in the Call Graph, corresponding to a specific method symbol.
