@@ -1,7 +1,26 @@
 using System.Collections.Generic;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.FlowAnalysis;
 
 namespace AutoRepair.CFGAnalyzer.Models;
+
+/// <summary>
+/// Represents a specific site within a CFG where a call occurs.
+/// </summary>
+public record CallSite(
+    int BlockOrdinal,
+    IMethodSymbol Target,
+    bool IsInternal
+);
+
+/// <summary>
+/// Contains the local analysis results for a single method.
+/// </summary>
+public record MethodAnalysisResult(
+    ControlFlowGraph Cfg,
+    List<List<string>> PathConstraints,
+    List<CallSite> CallSites
+);
 
 /// <summary>
 /// Represents a node in the Call Graph, corresponding to a specific method symbol.
