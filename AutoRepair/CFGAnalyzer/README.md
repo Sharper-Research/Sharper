@@ -90,7 +90,16 @@ var config = new CallGraphConfig
 ### Future Work
 
 - Implement Interprocedural pointer analysis to further narrow call targets.
-- Implement CFG construction algorithms for delegates, events, dynamic calls, extension methods, operator overloading, partial methods, function pointers, and linq.
+- Implement CFG construction algorithms for:
+  - delegates, 
+  - events, 
+  - dynamic calls, 
+  - extension methods, 
+  - operator overloading, 
+  - partial methods, 
+  - function pointers, 
+  - generic methods,
+  - and linq.
 - Add a test project with unit tests for core components (e.g., CFG construction, call resolution, dominator computation).
 - Expand sample projects to cover more C# features and edge cases (e.g., generics, async/await, dynamic calls).
 
