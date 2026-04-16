@@ -1,100 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.FlowAnalysis;
-using Microsoft.CodeAnalysis.Operations;
 
-namespace AutoRepair.CFGAnalyzer;
+namespace AutoRepair.CFGAnalyzer.Flow;
 
-public record CallSite(
-    int BlockOrdinal,
-    IMethodSymbol Target,
-    bool IsInternal
-);
-
-public record MethodAnalysisResult(
-    ControlFlowGraph Cfg,
-    List<List<string>> PathConstraints,
-    List<CallSite> CallSites
-);
-
-public static class RoslynCfgAnalyzer
+public static class FlowAnalysis
 {
-    public static async Task<Dictionary<IMethodSymbol, MethodAnalysisResult>> AnalyzeProjectAsync(Project project)
-    {
-        var compilation = await project.GetCompilationAsync();
-        if (compilation == null) return new Dictionary<IMethodSymbol, MethodAnalysisResult>(SymbolEqualityComparer.Default);
-
-        var results = new Dictionary<IMethodSymbol, MethodAnalysisResult>(SymbolEqualityComparer.Default);
-        var methodCfgs = new Dictionary<IMethodSymbol, ControlFlowGraph>(SymbolEqualityComparer.Default);
-
-        foreach (var document in project.Documents)
-        {
-            var syntaxTree = await document.GetSyntaxTreeAsync();
-            if (syntaxTree == null) continue;
-
-            var semanticModel = compilation.GetSemanticModel(syntaxTree);
-            var root = await syntaxTree.GetRootAsync();
-
-            var members = root.DescendantNodes().Where(n => n is MethodDeclarationSyntax or ConstructorDeclarationSyntax or AccessorDeclarationSyntax or LocalFunctionStatementSyntax);
-
-            foreach (var member in members)
-            {
-                var operation = semanticModel.GetOperation(member);
-                IMethodSymbol? symbol = semanticModel.GetDeclaredSymbol(member) as IMethodSymbol;
-                
-                ControlFlowGraph? cfg = null;
-                if (operation is IBlockOperation blockOp) cfg = ControlFlowGraph.Create(blockOp);
-                else if (operation is IMethodBodyOperation mb) cfg = ControlFlowGraph.Create(mb);
-                else if (operation is IConstructorBodyOperation cb) cfg = ControlFlowGraph.Create(cb);
-                else if (operation is ILocalFunctionOperation local && local.Body != null) cfg = ControlFlowGraph.Create(local.Body);
-
-                if (cfg != null && symbol != null)
-                {
-                    methodCfgs[symbol] = cfg;
-                }
-            }
-        }
-
-        foreach (var kvp in methodCfgs)
-        {
-            var symbol = kvp.Key;
-            var cfg = kvp.Value;
-
-            var callSites = new List<CallSite>();
-            foreach (var block in cfg.Blocks)
-            {
-                foreach (var op in block.Operations)
-                {
-                    foreach (var descendant in op.DescendantsAndSelf())
-                    {
-                        IMethodSymbol? target = descendant switch
-                        {
-                            IInvocationOperation inv => inv.TargetMethod,
-                            IObjectCreationOperation oc => oc.Constructor,
-                            IPropertyReferenceOperation pr => pr.Property.GetMethod ?? pr.Property.SetMethod,
-                            _ => null
-                        };
-
-                        if (target != null)
-                        {
-                            callSites.Add(new CallSite(block.Ordinal, target, methodCfgs.ContainsKey(target)));
-                        }
-                    }
-                }
-            }
-
-            var pathConstraints = GetPathConstraintsAcyclic(cfg);
-            results[symbol] = new MethodAnalysisResult(cfg, pathConstraints, callSites);
-        }
-
-        return results;
-    }
-
     public static Dictionary<int, HashSet<int>> ComputeDominatorSets(ControlFlowGraph cfg)
     {
         int n = cfg.Blocks.Length;
@@ -249,47 +161,6 @@ public static class RoslynCfgAnalyzer
             var dest = block.FallThroughSuccessor.Destination;
             if (!domSets[block.Ordinal].Contains(dest.Ordinal))
                 ExplorePathToBlockAcyclic(dest, targetOrdinal, currentPath, domSets, allPaths);
-        }
-    }
-
-    public static void TraverseAndGeneratePathConditions(
-        IMethodSymbol entrySymbol, 
-        Dictionary<IMethodSymbol, MethodAnalysisResult> results, 
-        List<string> prefixContext,
-        HashSet<IMethodSymbol> visited)
-    {
-        if (visited.Contains(entrySymbol)) return;
-        visited.Add(entrySymbol);
-
-        if (!results.TryGetValue(entrySymbol, out var result)) return;
-
-        string currentContext = prefixContext.Count > 0 ? string.Join(" && ", prefixContext) : "true";
-        Console.WriteLine($"\n[Method] {entrySymbol.ToDisplayString()}");
-        Console.WriteLine($"  Inherited Context: {currentContext}");
-
-        foreach (var path in result.PathConstraints)
-        {
-            string fullPath = path.Count > 0 ? string.Join(" && ", path) : "true";
-            Console.WriteLine($"  Local Path: {fullPath}");
-        }
-
-        foreach (var call in result.CallSites)
-        {
-            if (call.IsInternal)
-            {
-                var pathsToCall = GetPathsToBlockAcyclic(result.Cfg, call.BlockOrdinal);
-                foreach (var pathToCall in pathsToCall)
-                {
-                    var newContext = new List<string>(prefixContext);
-                    newContext.AddRange(pathToCall);
-                    
-                    TraverseAndGeneratePathConditions(call.Target, results, newContext, new HashSet<IMethodSymbol>(visited, SymbolEqualityComparer.Default));
-                }
-            }
-            else
-            {
-                Console.WriteLine($"  External Call: {call.Target.ToDisplayString()} from Block {call.BlockOrdinal}");
-            }
         }
     }
 }
