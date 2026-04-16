@@ -14,6 +14,22 @@ dotnet build samples/RtaNarrowingDemo/RtaNarrowingDemo.csproj
 dotnet run --project CFGAnalyzer.csproj -- samples/RtaNarrowingDemo/RtaNarrowingDemo.csproj
 ```
 
+## Automated check
+
+- macOS/Linux:
+
+```zsh
+./scripts/verify-rta-demo.sh
+```
+
+- Windows:
+
+```bat
+scripts\verify-rta-demo.bat
+```
+
+The scripts run `samples/RtaNarrowingDemo/EdgeProbe/EdgeProbe.csproj`, which calls `ProjectAnalyzer` directly and prints the resolved `Main` callees.
+
 ## What to check
 Look for call edges/call sites from `RtaNarrowingDemo.Program.Main()` that include:
 - `RtaNarrowingDemo.WorkerA.Run()`
