@@ -17,19 +17,32 @@ class Program
             return;
         }
 
+        // Register MSBuild defaults before creating the workspace
+        if (!Microsoft.Build.Locator.MSBuildLocator.IsRegistered)
+        {
+            Microsoft.Build.Locator.MSBuildLocator.RegisterDefaults();
+        }
+
         string path = args[0];
         try
         {
             using var workspace = MSBuildWorkspace.Create();
             
+            // Wire up diagnostics
+            workspace.WorkspaceFailed += (s, e) => {
+                Console.WriteLine($"[Workspace Warning] {e.Diagnostic.Message}");
+            };
+            
             if (path.EndsWith(".sln", StringComparison.OrdinalIgnoreCase))
             {
                 var solution = await workspace.OpenSolutionAsync(path);
+                ReportDiagnostics(workspace);
                 foreach (var project in solution.Projects) await AnalyzeAndTraverse(project);
             }
             else if (path.EndsWith(".csproj", StringComparison.OrdinalIgnoreCase))
             {
                 var project = await workspace.OpenProjectAsync(path);
+                ReportDiagnostics(workspace);
                 await AnalyzeAndTraverse(project);
             }
             else
@@ -40,6 +53,17 @@ class Program
         catch (Exception ex)
         {
             Console.WriteLine($"Error: {ex.Message}");
+        }
+    }
+
+    static void ReportDiagnostics(MSBuildWorkspace workspace)
+    {
+        foreach (var diag in workspace.Diagnostics)
+        {
+            if (diag.Kind == WorkspaceDiagnosticKind.Failure)
+            {
+                Console.WriteLine($"[Workspace Error] {diag.Message}");
+            }
         }
     }
 
