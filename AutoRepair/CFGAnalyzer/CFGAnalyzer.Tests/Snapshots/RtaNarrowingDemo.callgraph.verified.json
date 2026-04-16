@@ -1,0 +1,349 @@
+{
+  "ProjectName": "RtaNarrowingDemo",
+  "Nodes": [
+    {
+      "Id": "RtaNarrowingDemo::RtaNarrowingDemo.Program.Main()",
+      "DisplayName": "RtaNarrowingDemo.Program.Main()",
+      "MethodName": "Main",
+      "ContainingType": "RtaNarrowingDemo.Program",
+      "ContainingNamespace": "RtaNarrowingDemo",
+      "AssemblyName": "RtaNarrowingDemo",
+      "Analysis": {
+        "PathConstraints": [
+          [
+            "worker as WorkerBase"
+          ],
+          [
+            "!(worker as WorkerBase)"
+          ]
+        ],
+        "CallSites": [
+          {
+            "BlockOrdinal": 1,
+            "TargetId": "RtaNarrowingDemo::RtaNarrowingDemo.WorkerA.Run()",
+            "TargetDisplayName": "RtaNarrowingDemo.WorkerA.Run()",
+            "IsInternal": true
+          },
+          {
+            "BlockOrdinal": 1,
+            "TargetId": "RtaNarrowingDemo::RtaNarrowingDemo.WorkerA.WorkerA()",
+            "TargetDisplayName": "RtaNarrowingDemo.WorkerA.WorkerA()",
+            "IsInternal": false
+          },
+          {
+            "BlockOrdinal": 4,
+            "TargetId": "RtaNarrowingDemo::RtaNarrowingDemo.WorkerA.WorkerA()",
+            "TargetDisplayName": "RtaNarrowingDemo.WorkerA.WorkerA()",
+            "IsInternal": false
+          },
+          {
+            "BlockOrdinal": 6,
+            "TargetId": "RtaNarrowingDemo::RtaNarrowingDemo.WorkerA.Tick()",
+            "TargetDisplayName": "RtaNarrowingDemo.WorkerA.Tick()",
+            "IsInternal": true
+          }
+        ],
+        "DominatorTree": {
+          "RootOrdinal": 0,
+          "Nodes": [
+            {
+              "BlockOrdinal": 0,
+              "ImmediateDominatorOrdinal": null,
+              "ChildOrdinals": [
+                1
+              ]
+            },
+            {
+              "BlockOrdinal": 1,
+              "ImmediateDominatorOrdinal": 0,
+              "ChildOrdinals": [
+                2
+              ]
+            },
+            {
+              "BlockOrdinal": 2,
+              "ImmediateDominatorOrdinal": 1,
+              "ChildOrdinals": [
+                3,
+                4,
+                5
+              ]
+            },
+            {
+              "BlockOrdinal": 3,
+              "ImmediateDominatorOrdinal": 2,
+              "ChildOrdinals": []
+            },
+            {
+              "BlockOrdinal": 4,
+              "ImmediateDominatorOrdinal": 2,
+              "ChildOrdinals": []
+            },
+            {
+              "BlockOrdinal": 5,
+              "ImmediateDominatorOrdinal": 2,
+              "ChildOrdinals": [
+                6
+              ]
+            },
+            {
+              "BlockOrdinal": 6,
+              "ImmediateDominatorOrdinal": 5,
+              "ChildOrdinals": [
+                7
+              ]
+            },
+            {
+              "BlockOrdinal": 7,
+              "ImmediateDominatorOrdinal": 6,
+              "ChildOrdinals": []
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Id": "RtaNarrowingDemo::RtaNarrowingDemo.WorkerA.Run()",
+      "DisplayName": "RtaNarrowingDemo.WorkerA.Run()",
+      "MethodName": "Run",
+      "ContainingType": "RtaNarrowingDemo.WorkerA",
+      "ContainingNamespace": "RtaNarrowingDemo",
+      "AssemblyName": "RtaNarrowingDemo",
+      "Analysis": {
+        "PathConstraints": [
+          []
+        ],
+        "CallSites": [
+          {
+            "BlockOrdinal": 1,
+            "TargetId": "RtaNarrowingDemo::RtaNarrowingDemo.WorkerA.Tick()",
+            "TargetDisplayName": "RtaNarrowingDemo.WorkerA.Tick()",
+            "IsInternal": true
+          }
+        ],
+        "DominatorTree": {
+          "RootOrdinal": 0,
+          "Nodes": [
+            {
+              "BlockOrdinal": 0,
+              "ImmediateDominatorOrdinal": null,
+              "ChildOrdinals": [
+                1
+              ]
+            },
+            {
+              "BlockOrdinal": 1,
+              "ImmediateDominatorOrdinal": 0,
+              "ChildOrdinals": [
+                2
+              ]
+            },
+            {
+              "BlockOrdinal": 2,
+              "ImmediateDominatorOrdinal": 1,
+              "ChildOrdinals": []
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Id": "RtaNarrowingDemo::RtaNarrowingDemo.WorkerA.Tick()",
+      "DisplayName": "RtaNarrowingDemo.WorkerA.Tick()",
+      "MethodName": "Tick",
+      "ContainingType": "RtaNarrowingDemo.WorkerA",
+      "ContainingNamespace": "RtaNarrowingDemo",
+      "AssemblyName": "RtaNarrowingDemo",
+      "Analysis": {
+        "PathConstraints": [
+          []
+        ],
+        "CallSites": [],
+        "DominatorTree": {
+          "RootOrdinal": 0,
+          "Nodes": [
+            {
+              "BlockOrdinal": 0,
+              "ImmediateDominatorOrdinal": null,
+              "ChildOrdinals": [
+                1
+              ]
+            },
+            {
+              "BlockOrdinal": 1,
+              "ImmediateDominatorOrdinal": 0,
+              "ChildOrdinals": []
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Id": "RtaNarrowingDemo::RtaNarrowingDemo.WorkerA.WorkerA()",
+      "DisplayName": "RtaNarrowingDemo.WorkerA.WorkerA()",
+      "MethodName": ".ctor",
+      "ContainingType": "RtaNarrowingDemo.WorkerA",
+      "ContainingNamespace": "RtaNarrowingDemo",
+      "AssemblyName": "RtaNarrowingDemo",
+      "Analysis": null
+    },
+    {
+      "Id": "RtaNarrowingDemo::RtaNarrowingDemo.WorkerB.Run()",
+      "DisplayName": "RtaNarrowingDemo.WorkerB.Run()",
+      "MethodName": "Run",
+      "ContainingType": "RtaNarrowingDemo.WorkerB",
+      "ContainingNamespace": "RtaNarrowingDemo",
+      "AssemblyName": "RtaNarrowingDemo",
+      "Analysis": {
+        "PathConstraints": [
+          []
+        ],
+        "CallSites": [
+          {
+            "BlockOrdinal": 1,
+            "TargetId": "RtaNarrowingDemo::RtaNarrowingDemo.WorkerB.Tick()",
+            "TargetDisplayName": "RtaNarrowingDemo.WorkerB.Tick()",
+            "IsInternal": true
+          }
+        ],
+        "DominatorTree": {
+          "RootOrdinal": 0,
+          "Nodes": [
+            {
+              "BlockOrdinal": 0,
+              "ImmediateDominatorOrdinal": null,
+              "ChildOrdinals": [
+                1
+              ]
+            },
+            {
+              "BlockOrdinal": 1,
+              "ImmediateDominatorOrdinal": 0,
+              "ChildOrdinals": [
+                2
+              ]
+            },
+            {
+              "BlockOrdinal": 2,
+              "ImmediateDominatorOrdinal": 1,
+              "ChildOrdinals": []
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Id": "RtaNarrowingDemo::RtaNarrowingDemo.WorkerB.Tick()",
+      "DisplayName": "RtaNarrowingDemo.WorkerB.Tick()",
+      "MethodName": "Tick",
+      "ContainingType": "RtaNarrowingDemo.WorkerB",
+      "ContainingNamespace": "RtaNarrowingDemo",
+      "AssemblyName": "RtaNarrowingDemo",
+      "Analysis": {
+        "PathConstraints": [
+          []
+        ],
+        "CallSites": [],
+        "DominatorTree": {
+          "RootOrdinal": 0,
+          "Nodes": [
+            {
+              "BlockOrdinal": 0,
+              "ImmediateDominatorOrdinal": null,
+              "ChildOrdinals": [
+                1
+              ]
+            },
+            {
+              "BlockOrdinal": 1,
+              "ImmediateDominatorOrdinal": 0,
+              "ChildOrdinals": []
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Id": "RtaNarrowingDemo::RtaNarrowingDemo.WorkerBase.Tick()",
+      "DisplayName": "RtaNarrowingDemo.WorkerBase.Tick()",
+      "MethodName": "Tick",
+      "ContainingType": "RtaNarrowingDemo.WorkerBase",
+      "ContainingNamespace": "RtaNarrowingDemo",
+      "AssemblyName": "RtaNarrowingDemo",
+      "Analysis": {
+        "PathConstraints": [
+          []
+        ],
+        "CallSites": [],
+        "DominatorTree": {
+          "RootOrdinal": 0,
+          "Nodes": [
+            {
+              "BlockOrdinal": 0,
+              "ImmediateDominatorOrdinal": null,
+              "ChildOrdinals": [
+                1
+              ]
+            },
+            {
+              "BlockOrdinal": 1,
+              "ImmediateDominatorOrdinal": 0,
+              "ChildOrdinals": []
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "Edges": [
+    {
+      "CallerId": "RtaNarrowingDemo::RtaNarrowingDemo.Program.Main()",
+      "CallerDisplayName": "RtaNarrowingDemo.Program.Main()",
+      "CalleeId": "RtaNarrowingDemo::RtaNarrowingDemo.WorkerA.Run()",
+      "CalleeDisplayName": "RtaNarrowingDemo.WorkerA.Run()",
+      "BlockOrdinal": 1,
+      "IsInternal": true
+    },
+    {
+      "CallerId": "RtaNarrowingDemo::RtaNarrowingDemo.Program.Main()",
+      "CallerDisplayName": "RtaNarrowingDemo.Program.Main()",
+      "CalleeId": "RtaNarrowingDemo::RtaNarrowingDemo.WorkerA.Tick()",
+      "CalleeDisplayName": "RtaNarrowingDemo.WorkerA.Tick()",
+      "BlockOrdinal": 6,
+      "IsInternal": true
+    },
+    {
+      "CallerId": "RtaNarrowingDemo::RtaNarrowingDemo.Program.Main()",
+      "CallerDisplayName": "RtaNarrowingDemo.Program.Main()",
+      "CalleeId": "RtaNarrowingDemo::RtaNarrowingDemo.WorkerA.WorkerA()",
+      "CalleeDisplayName": "RtaNarrowingDemo.WorkerA.WorkerA()",
+      "BlockOrdinal": 1,
+      "IsInternal": false
+    },
+    {
+      "CallerId": "RtaNarrowingDemo::RtaNarrowingDemo.Program.Main()",
+      "CallerDisplayName": "RtaNarrowingDemo.Program.Main()",
+      "CalleeId": "RtaNarrowingDemo::RtaNarrowingDemo.WorkerA.WorkerA()",
+      "CalleeDisplayName": "RtaNarrowingDemo.WorkerA.WorkerA()",
+      "BlockOrdinal": 4,
+      "IsInternal": false
+    },
+    {
+      "CallerId": "RtaNarrowingDemo::RtaNarrowingDemo.WorkerA.Run()",
+      "CallerDisplayName": "RtaNarrowingDemo.WorkerA.Run()",
+      "CalleeId": "RtaNarrowingDemo::RtaNarrowingDemo.WorkerA.Tick()",
+      "CalleeDisplayName": "RtaNarrowingDemo.WorkerA.Tick()",
+      "BlockOrdinal": 1,
+      "IsInternal": true
+    },
+    {
+      "CallerId": "RtaNarrowingDemo::RtaNarrowingDemo.WorkerB.Run()",
+      "CallerDisplayName": "RtaNarrowingDemo.WorkerB.Run()",
+      "CalleeId": "RtaNarrowingDemo::RtaNarrowingDemo.WorkerB.Tick()",
+      "CalleeDisplayName": "RtaNarrowingDemo.WorkerB.Tick()",
+      "BlockOrdinal": 1,
+      "IsInternal": true
+    }
+  ]
+}
+

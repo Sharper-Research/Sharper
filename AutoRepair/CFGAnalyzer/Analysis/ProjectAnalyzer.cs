@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoRepair.CFGAnalyzer;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.FlowAnalysis;
 using Microsoft.CodeAnalysis.Operations; // Add this using directive
@@ -15,8 +16,15 @@ namespace AutoRepair.CFGAnalyzer.Analysis;
 
 public static class ProjectAnalyzer
 {
-    public static async Task<CallGraph> AnalyzeProjectAsync(Project project)
+    public static async Task<string> AnalyzeProjectAsJsonAsync(Project project, bool indented = true, CallGraphConfig? config = null)
     {
+        var callGraph = await AnalyzeProjectAsync(project, config);
+        return CallGraphJsonExporter.ToJson(callGraph, project.Name, indented);
+    }
+
+    public static async Task<CallGraph> AnalyzeProjectAsync(Project project, CallGraphConfig? config = null)
+    {
+        config ??= new CallGraphConfig();
         var compilation = await project.GetCompilationAsync();
         if (compilation == null) return new CallGraph();
 
@@ -64,12 +72,24 @@ public static class ProjectAnalyzer
 
         // 2. Build Call Graph and discover Call Sites
         var instantiatedTypes = CollectInstantiatedTypes(methodCfgs.Values);
-        var callGraphBuilder = new CallGraphBuilder(new List<ICallResolver>
+        var allResolvers = new List<ICallResolver>
         {
             new RapidTypeAnalysisCallResolver(instantiatedTypes),
             new InterfaceImplementationCallResolver(),
             new StaticCallResolver()
-        });
+        };
+        static string ResolverClassName(CallResolver name) => name switch
+        {
+            CallResolver.Static => nameof(StaticCallResolver),
+            CallResolver.InterfaceImplementation => nameof(InterfaceImplementationCallResolver),
+            CallResolver.RapidTypeAnalysis => nameof(RapidTypeAnalysisCallResolver),
+            _ => name.ToString()
+        };
+        var disabledClassNames = config.DisabledResolvers.Select(ResolverClassName).ToHashSet();
+        var activeResolvers = config.DisabledResolvers.Count == 0
+            ? allResolvers
+            : allResolvers.Where(r => !disabledClassNames.Contains(r.GetType().Name)).ToList();
+        var callGraphBuilder = new CallGraphBuilder(activeResolvers, config);
         foreach (var kvp in methodCfgs)
         {
             var symbol = kvp.Key;
@@ -88,6 +108,7 @@ public static class ProjectAnalyzer
             var analysisResult = kvp.Value;
             
             analysisResult.DataFlow = dataFlowAnalyzer.Analyze(analysisResult.Cfg);
+            callGraph.GetOrAddNode(symbol).Analysis = analysisResult;
         }
 
         return callGraph;

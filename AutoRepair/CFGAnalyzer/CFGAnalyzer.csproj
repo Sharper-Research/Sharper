@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="samples/**/*.cs" />
+    <Compile Remove="samples/**/*.cs;CFGAnalyzer.Tests/**/*.cs" />
   </ItemGroup>
 
   <ItemGroup>
