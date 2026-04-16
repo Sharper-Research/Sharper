@@ -22,15 +22,19 @@ class Program
         {
             using var workspace = MSBuildWorkspace.Create();
             
-            if (path.EndsWith(".sln"))
+            if (path.EndsWith(".sln", StringComparison.OrdinalIgnoreCase))
             {
                 var solution = await workspace.OpenSolutionAsync(path);
                 foreach (var project in solution.Projects) await AnalyzeAndTraverse(project);
             }
-            else if (path.EndsWith(".csproj"))
+            else if (path.EndsWith(".csproj", StringComparison.OrdinalIgnoreCase))
             {
                 var project = await workspace.OpenProjectAsync(path);
                 await AnalyzeAndTraverse(project);
+            }
+            else
+            {
+                Console.WriteLine("Unsupported path. Please provide a .sln or .csproj file.");
             }
         }
         catch (Exception ex)
