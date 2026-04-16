@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -31,7 +32,7 @@ public static class ProjectAnalyzer
             var semanticModel = compilation.GetSemanticModel(syntaxTree);
             var root = await syntaxTree.GetRootAsync();
 
-            var members = root.DescendantNodes().Where(n => n is MethodDeclarationSyntax or ConstructorDeclarationSyntax or AccessorDeclarationSyntax or LocalFunctionStatementSyntax);
+            var members = root.DescendantNodes().Where(n => n is MethodDeclarationSyntax or ConstructorDeclarationSyntax or AccessorDeclarationSyntax or LocalFunctionStatementSyntax or AnonymousFunctionExpressionSyntax);
 
             foreach (var member in members)
             {
@@ -39,10 +40,18 @@ public static class ProjectAnalyzer
                 IMethodSymbol? symbol = semanticModel.GetDeclaredSymbol(member) as IMethodSymbol;
                 
                 ControlFlowGraph? cfg = null;
-                if (operation is IBlockOperation blockOp) cfg = ControlFlowGraph.Create(blockOp);
-                else if (operation is IMethodBodyOperation mb) cfg = ControlFlowGraph.Create(mb);
-                else if (operation is IConstructorBodyOperation cb) cfg = ControlFlowGraph.Create(cb);
-                else if (operation is ILocalFunctionOperation local && local.Body != null) cfg = ControlFlowGraph.Create(local.Body);
+                try
+                {
+                    if (operation is IBlockOperation blockOp) cfg = ControlFlowGraph.Create(blockOp);
+                    else if (operation is IMethodBodyOperation mb) cfg = ControlFlowGraph.Create(mb);
+                    else if (operation is IConstructorBodyOperation cb) cfg = ControlFlowGraph.Create(cb);
+                    else if (operation is ILocalFunctionOperation local && local.Body != null) cfg = ControlFlowGraph.Create(local.Body);
+                    else if (operation is IAnonymousFunctionOperation anon && anon.Body != null) cfg = ControlFlowGraph.Create(anon.Body);
+                }
+                catch (ArgumentException)
+                {
+                    cfg = null;
+                }
 
                 if (cfg != null && symbol != null)
                 {
