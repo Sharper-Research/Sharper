@@ -1,15 +1,6 @@
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.FlowAnalysis;
-using Microsoft.CodeAnalysis.Operations; // Add this using directive
-using Microsoft.CodeAnalysis.CSharp.Syntax; // Add this using directive
-using AutoRepair.CFGAnalyzer.Models;
-using AutoRepair.CFGAnalyzer.Analysis;
-using CFGAnalyzer.Analysis;
 
-namespace AutoRepair.CFGAnalyzer.Traversal;
+namespace AutoRepair.CFGAnalyzer.Analysis;
 
 public static class CallGraphTraverser
 {
@@ -58,25 +49,36 @@ public static class CallGraphTraverser
         }
 
         // 3. Recursively traverse children (callees)
-        var domSets = startNode.Analysis.DataFlow?.DominatorTree != null 
-            ? FlowAnalysis.ComputeDominatorSets(startNode.Analysis.Cfg) // Recomputing, but this is for example
-            : new Dictionary<int, HashSet<int>>(); // Fallback if no domSets
+        var dominator = new Dominator();
+        var domSets = startNode.Analysis.Cfg.Blocks.Length > 0
+            ? dominator.ComputeDominatorSets(startNode.Analysis.Cfg)
+            : new Dictionary<int, HashSet<int>>();
 
-        foreach (var site in startNode.Analysis.CallSites)
+        foreach (var edge in startNode.OutgoingEdges)
         {
-            if (site.IsInternal) // Only traverse internal calls for now
+            if (!edge.CallSite.IsInternal)
             {
-                // Need to find the actual CallGraphNode for the target symbol
-                // This assumes the CallGraph is fully built and nodes are available.
-                // In a real scenario, you'd pass the CallGraph or a lookup mechanism.
-                // For simplicity here, we'll assume we can find it or simulate it.
-                
-                // Placeholder: In a real implementation, you'd get the CalleeNode from the CallGraph
-                // For demonstration, let's just print a message indicating recursion.
-                Console.WriteLine($"    (Recursively traversing call to: {site.Target.ToDisplayString()})");
-                
-                // To actually recurse, you'd need the full CallGraph object here.
-                // Example: TraverseAndGeneratePathConditions(callGraph.Nodes[site.Target], newPathConstraints, visitedNodes);
+                continue;
+            }
+
+            var callSitePaths = domSets.Count == 0
+                ? new List<List<string>> { new() }
+                : FlowAnalysis.GetPathsToBlockAcyclic(startNode.Analysis.Cfg, edge.CallSite.BlockOrdinal, domSets);
+
+            if (callSitePaths.Count == 0)
+            {
+                callSitePaths.Add(new List<string>());
+            }
+
+            foreach (var callSitePath in callSitePaths)
+            {
+                var nextPrefixContext = new List<string>(initialPathConstraints);
+                nextPrefixContext.AddRange(callSitePath);
+
+                TraverseAndGeneratePathConditions(
+                    edge.Callee,
+                    nextPrefixContext,
+                    new HashSet<IMethodSymbol>(visitedNodes, SymbolEqualityComparer.Default));
             }
         }
     }

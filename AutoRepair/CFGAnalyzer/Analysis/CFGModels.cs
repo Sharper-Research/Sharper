@@ -1,8 +1,7 @@
-using System.Collections.Generic;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.FlowAnalysis;
 
-namespace AutoRepair.CFGAnalyzer.Models;
+namespace AutoRepair.CFGAnalyzer.Analysis;
 
 /// <summary>
 /// Represents a specific site within a CFG where a call occurs.
