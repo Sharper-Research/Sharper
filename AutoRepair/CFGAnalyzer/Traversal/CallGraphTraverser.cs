@@ -9,42 +9,41 @@ namespace AutoRepair.CFGAnalyzer.Traversal;
 public static class CallGraphTraverser
 {
     public static void TraverseAndGeneratePathConditions(
-        IMethodSymbol entrySymbol, 
-        Dictionary<IMethodSymbol, MethodAnalysisResult> results, 
+        CallGraphNode node, 
         List<string> prefixContext,
         HashSet<IMethodSymbol> visited)
     {
-        if (visited.Contains(entrySymbol)) return;
-        visited.Add(entrySymbol);
+        if (visited.Contains(node.Symbol)) return;
+        visited.Add(node.Symbol);
 
-        if (!results.TryGetValue(entrySymbol, out var result)) return;
+        if (node.Analysis == null) return;
 
         string currentContext = prefixContext.Count > 0 ? string.Join(" && ", prefixContext) : "true";
-        Console.WriteLine($"\n[Method] {entrySymbol.ToDisplayString()}");
+        Console.WriteLine($"\n[Method] {node.Symbol.ToDisplayString()}");
         Console.WriteLine($"  Inherited Context: {currentContext}");
 
-        foreach (var path in result.PathConstraints)
+        foreach (var path in node.Analysis.PathConstraints)
         {
             string fullPath = path.Count > 0 ? string.Join(" && ", path) : "true";
             Console.WriteLine($"  Local Path: {fullPath}");
         }
 
-        foreach (var call in result.CallSites)
+        foreach (var edge in node.OutgoingEdges)
         {
-            if (call.IsInternal)
+            if (edge.CallSite.IsInternal)
             {
-                var pathsToCall = Flow.FlowAnalysis.GetPathsToBlockAcyclic(result.Cfg, call.BlockOrdinal);
+                var pathsToCall = Flow.FlowAnalysis.GetPathsToBlockAcyclic(node.Analysis.Cfg, edge.CallSite.BlockOrdinal);
                 foreach (var pathToCall in pathsToCall)
                 {
                     var newContext = new List<string>(prefixContext);
                     newContext.AddRange(pathToCall);
                     
-                    TraverseAndGeneratePathConditions(call.Target, results, newContext, new HashSet<IMethodSymbol>(visited, SymbolEqualityComparer.Default));
+                    TraverseAndGeneratePathConditions(edge.Callee, newContext, new HashSet<IMethodSymbol>(visited, SymbolEqualityComparer.Default));
                 }
             }
             else
             {
-                Console.WriteLine($"  External Call: {call.Target.ToDisplayString()} from Block {call.BlockOrdinal}");
+                Console.WriteLine($"  External Call: {edge.Callee.Symbol.ToDisplayString()} from Block {edge.CallSite.BlockOrdinal}");
             }
         }
     }

@@ -12,14 +12,15 @@ namespace AutoRepair.CFGAnalyzer.Analysis;
 
 public static class ProjectAnalyzer
 {
-    public static async Task<Dictionary<IMethodSymbol, MethodAnalysisResult>> AnalyzeProjectAsync(Project project)
+    public static async Task<CallGraph> AnalyzeProjectAsync(Project project)
     {
         var compilation = await project.GetCompilationAsync();
-        if (compilation == null) return new Dictionary<IMethodSymbol, MethodAnalysisResult>(SymbolEqualityComparer.Default);
+        if (compilation == null) return new CallGraph();
 
-        var results = new Dictionary<IMethodSymbol, MethodAnalysisResult>(SymbolEqualityComparer.Default);
+        var callGraph = new CallGraph();
         var methodCfgs = new Dictionary<IMethodSymbol, ControlFlowGraph>(SymbolEqualityComparer.Default);
 
+        // 1. Collect all internal CFGs
         foreach (var document in project.Documents)
         {
             var syntaxTree = await document.GetSyntaxTreeAsync();
@@ -48,10 +49,12 @@ public static class ProjectAnalyzer
             }
         }
 
+        // 2. Perform analysis and build the Call Graph structure
         foreach (var kvp in methodCfgs)
         {
             var symbol = kvp.Key;
             var cfg = kvp.Value;
+            var node = callGraph.GetOrAddNode(symbol);
 
             var callSites = new List<CallSite>();
             foreach (var block in cfg.Blocks)
@@ -70,16 +73,18 @@ public static class ProjectAnalyzer
 
                         if (target != null)
                         {
-                            callSites.Add(new CallSite(block.Ordinal, target, methodCfgs.ContainsKey(target)));
+                            var site = new CallSite(block.Ordinal, target, methodCfgs.ContainsKey(target));
+                            callSites.Add(site);
+                            callGraph.AddEdge(symbol, target, site);
                         }
                     }
                 }
             }
 
             var pathConstraints = Flow.FlowAnalysis.GetPathConstraintsAcyclic(cfg);
-            results[symbol] = new MethodAnalysisResult(cfg, pathConstraints, callSites);
+            node.Analysis = new MethodAnalysisResult(cfg, pathConstraints, callSites);
         }
 
-        return results;
+        return callGraph;
     }
 }
