@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.MSBuild;
 
-namespace CFGAnalyzer;
+namespace AutoRepair.CFGAnalyzer;
 
 class Program
 {
