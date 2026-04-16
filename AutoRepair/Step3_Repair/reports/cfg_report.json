@@ -1,9 +1,493 @@
 {
-  "generatedAt": "2026-04-11T12:49:54.8967225Z",
+  "generatedAt": "2026-04-16T19:32:23.5293216Z",
   "sourceDirectory": "C:\\Users\\manis\\Desktop\\Patching\\ThrottleDebounce\\ThrottleDebounce",
-  "totalViolations": 19,
-  "methodsAnalyzed": 6,
+  "totalViolations": 30,
+  "methodsAnalyzed": 17,
   "methods": [
+    {
+      "methodName": "Invoke",
+      "file": "RateLimiter.Overloads.cs",
+      "methodStartLine": 65,
+      "methodEndLine": 74,
+      "violationLines": [
+        67
+      ],
+      "nodes": [
+        {
+          "id": 0,
+          "kind": "entry",
+          "startLine": 65,
+          "endLine": 65,
+          "code": "Enter Invoke"
+        },
+        {
+          "id": 1,
+          "kind": "statement",
+          "startLine": 66,
+          "endLine": 73,
+          "code": "parameters = parameterArrayPool.Borrow(); parameters[0] = arg1!;; parameters[1] = arg2!;; parameters[2] = arg3!;; parameters[3] = arg4!;; parameter..."
+        },
+        {
+          "id": 2,
+          "kind": "exit",
+          "startLine": 74,
+          "endLine": 74,
+          "code": "Exit Invoke"
+        }
+      ],
+      "edges": [
+        {
+          "fromId": 0,
+          "toId": 1,
+          "label": "sequential"
+        },
+        {
+          "fromId": 1,
+          "toId": 2,
+          "label": "sequential"
+        }
+      ]
+    },
+    {
+      "methodName": "Invoke",
+      "file": "RateLimiter.Overloads.cs",
+      "methodStartLine": 146,
+      "methodEndLine": 161,
+      "violationLines": [
+        148
+      ],
+      "nodes": [
+        {
+          "id": 0,
+          "kind": "entry",
+          "startLine": 146,
+          "endLine": 146,
+          "code": "Enter Invoke"
+        },
+        {
+          "id": 1,
+          "kind": "statement",
+          "startLine": 147,
+          "endLine": 160,
+          "code": "parameters = parameterArrayPool.Borrow(); parameters[0] = arg1!;; parameters[1] = arg2!;; parameters[2] = arg3!;; parameters[3] = arg4!;; parameter..."
+        },
+        {
+          "id": 2,
+          "kind": "exit",
+          "startLine": 161,
+          "endLine": 161,
+          "code": "Exit Invoke"
+        }
+      ],
+      "edges": [
+        {
+          "fromId": 0,
+          "toId": 1,
+          "label": "sequential"
+        },
+        {
+          "fromId": 1,
+          "toId": 2,
+          "label": "sequential"
+        }
+      ]
+    },
+    {
+      "methodName": "Invoke",
+      "file": "RateLimiter.Overloads.cs",
+      "methodStartLine": 223,
+      "methodEndLine": 243,
+      "violationLines": [
+        226
+      ],
+      "nodes": [
+        {
+          "id": 0,
+          "kind": "entry",
+          "startLine": 223,
+          "endLine": 223,
+          "code": "Enter Invoke"
+        },
+        {
+          "id": 1,
+          "kind": "statement",
+          "startLine": 225,
+          "endLine": 242,
+          "code": "parameters = parameterArrayPool.Borrow(); parameters[0] = arg1!;; parameters[1] = arg2!;; parameters[2] = arg3!;; parameters[3] = arg4!;; parameter..."
+        },
+        {
+          "id": 2,
+          "kind": "exit",
+          "startLine": 243,
+          "endLine": 243,
+          "code": "Exit Invoke"
+        }
+      ],
+      "edges": [
+        {
+          "fromId": 0,
+          "toId": 1,
+          "label": "sequential"
+        },
+        {
+          "fromId": 1,
+          "toId": 2,
+          "label": "sequential"
+        }
+      ]
+    },
+    {
+      "methodName": "Invoke",
+      "file": "RateLimiter.Overloads.cs",
+      "methodStartLine": 251,
+      "methodEndLine": 256,
+      "violationLines": [
+        253
+      ],
+      "nodes": [
+        {
+          "id": 0,
+          "kind": "entry",
+          "startLine": 251,
+          "endLine": 251,
+          "code": "Enter Invoke"
+        },
+        {
+          "id": 1,
+          "kind": "return",
+          "startLine": 252,
+          "endLine": 255,
+          "code": "parameters = parameterArrayPool.Borrow(); parameters[0] = arg1!;; parameters[1] = arg2!;; OnUserInvocation(parameters)"
+        },
+        {
+          "id": 2,
+          "kind": "exit",
+          "startLine": 256,
+          "endLine": 256,
+          "code": "Exit Invoke"
+        }
+      ],
+      "edges": [
+        {
+          "fromId": 0,
+          "toId": 1,
+          "label": "sequential"
+        },
+        {
+          "fromId": 1,
+          "toId": 2,
+          "label": "return"
+        }
+      ]
+    },
+    {
+      "methodName": "Invoke",
+      "file": "RateLimiter.Overloads.cs",
+      "methodStartLine": 266,
+      "methodEndLine": 273,
+      "violationLines": [
+        268
+      ],
+      "nodes": [
+        {
+          "id": 0,
+          "kind": "entry",
+          "startLine": 266,
+          "endLine": 266,
+          "code": "Enter Invoke"
+        },
+        {
+          "id": 1,
+          "kind": "return",
+          "startLine": 267,
+          "endLine": 272,
+          "code": "parameters = parameterArrayPool.Borrow(); parameters[0] = arg1!;; parameters[1] = arg2!;; parameters[2] = arg3!;; parameters[3] = arg4!;; OnUserInv..."
+        },
+        {
+          "id": 2,
+          "kind": "exit",
+          "startLine": 273,
+          "endLine": 273,
+          "code": "Exit Invoke"
+        }
+      ],
+      "edges": [
+        {
+          "fromId": 0,
+          "toId": 1,
+          "label": "sequential"
+        },
+        {
+          "fromId": 1,
+          "toId": 2,
+          "label": "return"
+        }
+      ]
+    },
+    {
+      "methodName": "Invoke",
+      "file": "RateLimiter.Overloads.cs",
+      "methodStartLine": 285,
+      "methodEndLine": 294,
+      "violationLines": [
+        287
+      ],
+      "nodes": [
+        {
+          "id": 0,
+          "kind": "entry",
+          "startLine": 285,
+          "endLine": 285,
+          "code": "Enter Invoke"
+        },
+        {
+          "id": 1,
+          "kind": "return",
+          "startLine": 286,
+          "endLine": 293,
+          "code": "parameters = parameterArrayPool.Borrow(); parameters[0] = arg1!;; parameters[1] = arg2!;; parameters[2] = arg3!;; parameters[3] = arg4!;; parameter..."
+        },
+        {
+          "id": 2,
+          "kind": "exit",
+          "startLine": 294,
+          "endLine": 294,
+          "code": "Exit Invoke"
+        }
+      ],
+      "edges": [
+        {
+          "fromId": 0,
+          "toId": 1,
+          "label": "sequential"
+        },
+        {
+          "fromId": 1,
+          "toId": 2,
+          "label": "return"
+        }
+      ]
+    },
+    {
+      "methodName": "Invoke",
+      "file": "RateLimiter.Overloads.cs",
+      "methodStartLine": 321,
+      "methodEndLine": 333,
+      "violationLines": [
+        323
+      ],
+      "nodes": [
+        {
+          "id": 0,
+          "kind": "entry",
+          "startLine": 321,
+          "endLine": 321,
+          "code": "Enter Invoke"
+        },
+        {
+          "id": 1,
+          "kind": "return",
+          "startLine": 322,
+          "endLine": 332,
+          "code": "parameters = parameterArrayPool.Borrow(); parameters[0] = arg1!;; parameters[1] = arg2!;; parameters[2] = arg3!;; parameters[3] = arg4!;; parameter..."
+        },
+        {
+          "id": 2,
+          "kind": "exit",
+          "startLine": 333,
+          "endLine": 333,
+          "code": "Exit Invoke"
+        }
+      ],
+      "edges": [
+        {
+          "fromId": 0,
+          "toId": 1,
+          "label": "sequential"
+        },
+        {
+          "fromId": 1,
+          "toId": 2,
+          "label": "return"
+        }
+      ]
+    },
+    {
+      "methodName": "Invoke",
+      "file": "RateLimiter.Overloads.cs",
+      "methodStartLine": 335,
+      "methodEndLine": 348,
+      "violationLines": [
+        337
+      ],
+      "nodes": [
+        {
+          "id": 0,
+          "kind": "entry",
+          "startLine": 335,
+          "endLine": 335,
+          "code": "Enter Invoke"
+        },
+        {
+          "id": 1,
+          "kind": "return",
+          "startLine": 336,
+          "endLine": 347,
+          "code": "parameters = parameterArrayPool.Borrow(); parameters[0] = arg1!;; parameters[1] = arg2!;; parameters[2] = arg3!;; parameters[3] = arg4!;; parameter..."
+        },
+        {
+          "id": 2,
+          "kind": "exit",
+          "startLine": 348,
+          "endLine": 348,
+          "code": "Exit Invoke"
+        }
+      ],
+      "edges": [
+        {
+          "fromId": 0,
+          "toId": 1,
+          "label": "sequential"
+        },
+        {
+          "fromId": 1,
+          "toId": 2,
+          "label": "return"
+        }
+      ]
+    },
+    {
+      "methodName": "Invoke",
+      "file": "RateLimiter.Overloads.cs",
+      "methodStartLine": 366,
+      "methodEndLine": 382,
+      "violationLines": [
+        369
+      ],
+      "nodes": [
+        {
+          "id": 0,
+          "kind": "entry",
+          "startLine": 366,
+          "endLine": 366,
+          "code": "Enter Invoke"
+        },
+        {
+          "id": 1,
+          "kind": "return",
+          "startLine": 368,
+          "endLine": 381,
+          "code": "parameters = parameterArrayPool.Borrow(); parameters[0] = arg1!;; parameters[1] = arg2!;; parameters[2] = arg3!;; parameters[3] = arg4!;; parameter..."
+        },
+        {
+          "id": 2,
+          "kind": "exit",
+          "startLine": 382,
+          "endLine": 382,
+          "code": "Exit Invoke"
+        }
+      ],
+      "edges": [
+        {
+          "fromId": 0,
+          "toId": 1,
+          "label": "sequential"
+        },
+        {
+          "fromId": 1,
+          "toId": 2,
+          "label": "return"
+        }
+      ]
+    },
+    {
+      "methodName": "Invoke",
+      "file": "RateLimiter.Overloads.cs",
+      "methodStartLine": 384,
+      "methodEndLine": 401,
+      "violationLines": [
+        387
+      ],
+      "nodes": [
+        {
+          "id": 0,
+          "kind": "entry",
+          "startLine": 384,
+          "endLine": 384,
+          "code": "Enter Invoke"
+        },
+        {
+          "id": 1,
+          "kind": "return",
+          "startLine": 386,
+          "endLine": 400,
+          "code": "parameters = parameterArrayPool.Borrow(); parameters[0] = arg1!;; parameters[1] = arg2!;; parameters[2] = arg3!;; parameters[3] = arg4!;; parameter..."
+        },
+        {
+          "id": 2,
+          "kind": "exit",
+          "startLine": 401,
+          "endLine": 401,
+          "code": "Exit Invoke"
+        }
+      ],
+      "edges": [
+        {
+          "fromId": 0,
+          "toId": 1,
+          "label": "sequential"
+        },
+        {
+          "fromId": 1,
+          "toId": 2,
+          "label": "return"
+        }
+      ]
+    },
+    {
+      "methodName": "Invoke",
+      "file": "RateLimiter.Overloads.cs",
+      "methodStartLine": 444,
+      "methodEndLine": 464,
+      "violationLines": [
+        447
+      ],
+      "nodes": [
+        {
+          "id": 0,
+          "kind": "entry",
+          "startLine": 444,
+          "endLine": 444,
+          "code": "Enter Invoke"
+        },
+        {
+          "id": 1,
+          "kind": "return",
+          "startLine": 446,
+          "endLine": 463,
+          "code": "parameters = parameterArrayPool.Borrow(); parameters[0] = arg1!;; parameters[1] = arg2!;; parameters[2] = arg3!;; parameters[3] = arg4!;; parameter..."
+        },
+        {
+          "id": 2,
+          "kind": "exit",
+          "startLine": 464,
+          "endLine": 464,
+          "code": "Exit Invoke"
+        }
+      ],
+      "edges": [
+        {
+          "fromId": 0,
+          "toId": 1,
+          "label": "sequential"
+        },
+        {
+          "fromId": 1,
+          "toId": 2,
+          "label": "return"
+        }
+      ]
+    },
     {
       "methodName": "Throttle",
       "file": "Throttler.cs",
@@ -22,29 +506,29 @@
         },
         {
           "id": 1,
+          "kind": "return",
+          "startLine": 10,
+          "endLine": 11,
+          "code": "new RateLimiter<object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, obj..."
+        },
+        {
+          "id": 2,
           "kind": "exit",
           "startLine": 12,
           "endLine": 12,
           "code": "Exit Throttle"
-        },
-        {
-          "id": 2,
-          "kind": "return",
-          "startLine": 10,
-          "endLine": 11,
-          "code": "return new RateLimiter<object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, obje..."
         }
       ],
       "edges": [
         {
-          "fromId": 2,
+          "fromId": 0,
           "toId": 1,
-          "label": "return"
+          "label": "sequential"
         },
         {
-          "fromId": 0,
+          "fromId": 1,
           "toId": 2,
-          "label": "sequential"
+          "label": "return"
         }
       ]
     },
@@ -66,29 +550,29 @@
         },
         {
           "id": 1,
+          "kind": "return",
+          "startLine": 8,
+          "endLine": 9,
+          "code": "new RateLimiter<object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, obj..."
+        },
+        {
+          "id": 2,
           "kind": "exit",
           "startLine": 10,
           "endLine": 10,
           "code": "Exit Debounce"
-        },
-        {
-          "id": 2,
-          "kind": "return",
-          "startLine": 8,
-          "endLine": 9,
-          "code": "return new RateLimiter<object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, obje..."
         }
       ],
       "edges": [
         {
-          "fromId": 2,
+          "fromId": 0,
           "toId": 1,
-          "label": "return"
+          "label": "sequential"
         },
         {
-          "fromId": 0,
+          "fromId": 1,
           "toId": 2,
-          "label": "sequential"
+          "label": "return"
         }
       ]
     },
@@ -110,216 +594,235 @@
         },
         {
           "id": 1,
-          "kind": "exit",
-          "startLine": 57,
-          "endLine": 57,
-          "code": "Exit Attempt"
+          "kind": "statement",
+          "startLine": 36,
+          "endLine": 36,
+          "code": "attempt = 0"
         },
         {
           "id": 2,
-          "kind": "statement",
-          "startLine": 35,
-          "endLine": 35,
-          "code": "int attempt;"
-        },
-        {
-          "id": 3,
           "kind": "loop-header",
           "startLine": 36,
           "endLine": 36,
-          "code": "(!maxAttempts.HasValue || attempt < maxAttempts - 1) && !cancellationToken.IsCancellationRequested"
+          "code": "maxAttempts.HasValue"
+        },
+        {
+          "id": 3,
+          "kind": "branch",
+          "startLine": 36,
+          "endLine": 36,
+          "code": "attempt < maxAttempts - 1"
         },
         {
           "id": 4,
-          "kind": "loop-exit",
-          "startLine": 50,
-          "endLine": 50,
-          "code": "end-for"
+          "kind": "branch",
+          "startLine": 36,
+          "endLine": 36,
+          "code": "cancellationToken.IsCancellationRequested"
         },
         {
           "id": 5,
-          "kind": "for-update",
-          "startLine": 36,
-          "endLine": 36,
-          "code": "attempt++"
-        },
-        {
-          "id": 6,
-          "kind": "try",
-          "startLine": 37,
-          "endLine": 37,
-          "code": "try"
-        },
-        {
-          "id": 7,
-          "kind": "join",
-          "startLine": 49,
-          "endLine": 49,
-          "code": "end-try"
-        },
-        {
-          "id": 8,
           "kind": "statement",
           "startLine": 38,
           "endLine": 38,
           "code": "action.Invoke(attempt);"
         },
         {
+          "id": 6,
+          "kind": "filter",
+          "startLine": 40,
+          "endLine": 40,
+          "code": "(Exception e); e is not OutOfMemoryException"
+        },
+        {
+          "id": 7,
+          "kind": "catch",
+          "startLine": 42,
+          "endLine": 42,
+          "code": "isRetryAllowed; isRetryAllowed"
+        },
+        {
+          "id": 8,
+          "kind": "catch",
+          "startLine": 42,
+          "endLine": 42,
+          "code": ".Invoke(e)"
+        },
+        {
           "id": 9,
-          "kind": "return",
-          "startLine": 39,
-          "endLine": 39,
-          "code": "return;"
+          "kind": "catch",
+          "startLine": 42,
+          "endLine": 42,
+          "code": "isRetryAllowed"
         },
         {
           "id": 10,
           "kind": "catch",
-          "startLine": 40,
-          "endLine": 40,
-          "code": "catch (Exception)"
+          "startLine": 42,
+          "endLine": 42,
+          "code": "!isRetryAllowed?.Invoke(e)"
         },
         {
           "id": 11,
-          "kind": "branch",
+          "kind": "catch",
           "startLine": 42,
           "endLine": 42,
-          "code": "!isRetryAllowed?.Invoke(e) ?? false"
+          "code": "!isRetryAllowed?.Invoke(e)"
         },
         {
           "id": 12,
-          "kind": "join",
+          "kind": "catch",
           "startLine": 42,
           "endLine": 42,
-          "code": "endif"
+          "code": "!isRetryAllowed?.Invoke(e)"
         },
         {
           "id": 13,
-          "kind": "throw",
+          "kind": "catch",
           "startLine": 42,
           "endLine": 42,
-          "code": "throw;"
+          "code": "false"
         },
         {
           "id": 14,
-          "kind": "branch",
+          "kind": "catch",
+          "startLine": 29,
+          "endLine": 29,
+          "code": "(empty)"
+        },
+        {
+          "id": 15,
+          "kind": "catch",
           "startLine": 44,
           "endLine": 44,
           "code": "GetDelay(delay, attempt) is { } duration"
         },
         {
-          "id": 15,
-          "kind": "join",
-          "startLine": 46,
-          "endLine": 46,
-          "code": "endif"
-        },
-        {
           "id": 16,
-          "kind": "statement",
+          "kind": "catch",
           "startLine": 45,
           "endLine": 45,
           "code": "Task.Delay(duration, cancellationToken).GetAwaiter().GetResult();"
         },
         {
           "id": 17,
-          "kind": "statement",
+          "kind": "catch",
+          "startLine": 48,
+          "endLine": 48,
+          "code": "beforeRetry; beforeRetry"
+        },
+        {
+          "id": 18,
+          "kind": "catch",
           "startLine": 48,
           "endLine": 48,
           "code": "beforeRetry?.Invoke();"
         },
         {
-          "id": 18,
-          "kind": "branch",
-          "startLine": 52,
-          "endLine": 52,
-          "code": "!cancellationToken.IsCancellationRequested"
-        },
-        {
           "id": 19,
-          "kind": "join",
-          "startLine": 56,
-          "endLine": 56,
-          "code": "endif"
+          "kind": "statement",
+          "startLine": 36,
+          "endLine": 36,
+          "code": "attempt++"
         },
         {
           "id": 20,
+          "kind": "branch",
+          "startLine": 52,
+          "endLine": 52,
+          "code": "cancellationToken.IsCancellationRequested"
+        },
+        {
+          "id": 21,
           "kind": "statement",
           "startLine": 53,
           "endLine": 53,
           "code": "action.Invoke(attempt);"
         },
         {
-          "id": 21,
+          "id": 22,
           "kind": "throw",
           "startLine": 55,
           "endLine": 55,
-          "code": "throw new TaskCanceledException(\"Remaining Retrier attempts were cancelled\");"
+          "code": "new TaskCanceledException(\"Remaining Retrier attempts were cancelled\")"
+        },
+        {
+          "id": 23,
+          "kind": "exit",
+          "startLine": 57,
+          "endLine": 57,
+          "code": "Exit Attempt"
         }
       ],
       "edges": [
+        {
+          "fromId": 0,
+          "toId": 1,
+          "label": "sequential"
+        },
+        {
+          "fromId": 1,
+          "toId": 2,
+          "label": "sequential"
+        },
+        {
+          "fromId": 2,
+          "toId": 3,
+          "label": "false"
+        },
+        {
+          "fromId": 2,
+          "toId": 4,
+          "label": "false"
+        },
         {
           "fromId": 3,
           "toId": 4,
           "label": "false"
         },
         {
-          "fromId": 9,
-          "toId": 1,
-          "label": "return"
+          "fromId": 3,
+          "toId": 20,
+          "label": "false"
+        },
+        {
+          "fromId": 4,
+          "toId": 5,
+          "label": "false"
+        },
+        {
+          "fromId": 4,
+          "toId": 20,
+          "label": "true"
+        },
+        {
+          "fromId": 5,
+          "toId": 23,
+          "label": "sequential"
+        },
+        {
+          "fromId": 6,
+          "toId": 7,
+          "label": "true"
+        },
+        {
+          "fromId": 7,
+          "toId": 8,
+          "label": "false"
+        },
+        {
+          "fromId": 7,
+          "toId": 9,
+          "label": "true"
         },
         {
           "fromId": 8,
-          "toId": 9,
-          "label": "sequential"
-        },
-        {
-          "fromId": 6,
-          "toId": 8,
-          "label": "try-body"
-        },
-        {
-          "fromId": 6,
           "toId": 10,
-          "label": "exception"
-        },
-        {
-          "fromId": 13,
-          "toId": 1,
-          "label": "throw"
-        },
-        {
-          "fromId": 11,
-          "toId": 13,
-          "label": "true"
-        },
-        {
-          "fromId": 11,
-          "toId": 12,
-          "label": "false"
-        },
-        {
-          "fromId": 14,
-          "toId": 16,
-          "label": "true"
-        },
-        {
-          "fromId": 16,
-          "toId": 15,
           "label": "sequential"
         },
         {
-          "fromId": 14,
-          "toId": 15,
-          "label": "false"
-        },
-        {
-          "fromId": 12,
-          "toId": 14,
-          "label": "sequential"
-        },
-        {
-          "fromId": 15,
-          "toId": 17,
+          "fromId": 9,
+          "toId": 10,
           "label": "sequential"
         },
         {
@@ -328,64 +831,84 @@
           "label": "sequential"
         },
         {
-          "fromId": 17,
-          "toId": 7,
-          "label": "sequential"
+          "fromId": 11,
+          "toId": 12,
+          "label": "false"
         },
         {
-          "fromId": 3,
-          "toId": 6,
+          "fromId": 11,
+          "toId": 13,
           "label": "true"
         },
         {
-          "fromId": 7,
-          "toId": 5,
+          "fromId": 12,
+          "toId": 14,
+          "label": "false"
+        },
+        {
+          "fromId": 12,
+          "toId": 15,
+          "label": "false"
+        },
+        {
+          "fromId": 13,
+          "toId": 14,
+          "label": "false"
+        },
+        {
+          "fromId": 13,
+          "toId": 15,
+          "label": "false"
+        },
+        {
+          "fromId": 15,
+          "toId": 16,
+          "label": "false"
+        },
+        {
+          "fromId": 15,
+          "toId": 17,
+          "label": "false"
+        },
+        {
+          "fromId": 16,
+          "toId": 17,
           "label": "sequential"
         },
         {
-          "fromId": 5,
-          "toId": 3,
-          "label": "back-edge"
+          "fromId": 17,
+          "toId": 18,
+          "label": "false"
         },
         {
-          "fromId": 2,
-          "toId": 3,
-          "label": "sequential"
+          "fromId": 17,
+          "toId": 19,
+          "label": "true"
         },
         {
           "fromId": 18,
-          "toId": 20,
-          "label": "true"
-        },
-        {
-          "fromId": 20,
           "toId": 19,
           "label": "sequential"
         },
         {
-          "fromId": 21,
-          "toId": 1,
-          "label": "throw"
+          "fromId": 19,
+          "toId": 2,
+          "label": "back-edge"
         },
         {
-          "fromId": 18,
+          "fromId": 20,
           "toId": 21,
           "label": "false"
         },
         {
-          "fromId": 4,
-          "toId": 18,
-          "label": "sequential"
+          "fromId": 20,
+          "toId": 22,
+          "label": "true"
         },
         {
-          "fromId": 0,
-          "toId": 2,
+          "fromId": 21,
+          "toId": 23,
           "label": "sequential"
-        },
-        {
-          "fromId": 19,
-          "toId": 1,
-          "label": "fall-through"
         }
       ]
     },
@@ -407,204 +930,230 @@
         },
         {
           "id": 1,
-          "kind": "exit",
-          "startLine": 96,
-          "endLine": 96,
-          "code": "Exit Attempt"
+          "kind": "statement",
+          "startLine": 77,
+          "endLine": 77,
+          "code": "attempt = 0"
         },
         {
           "id": 2,
-          "kind": "statement",
-          "startLine": 76,
-          "endLine": 76,
-          "code": "int attempt;"
-        },
-        {
-          "id": 3,
           "kind": "loop-header",
           "startLine": 77,
           "endLine": 77,
-          "code": "(!maxAttempts.HasValue || attempt < maxAttempts - 1) && !cancellationToken.IsCancellationRequested"
+          "code": "maxAttempts.HasValue"
+        },
+        {
+          "id": 3,
+          "kind": "branch",
+          "startLine": 77,
+          "endLine": 77,
+          "code": "attempt < maxAttempts - 1"
         },
         {
           "id": 4,
-          "kind": "loop-exit",
-          "startLine": 89,
-          "endLine": 89,
-          "code": "end-for"
+          "kind": "branch",
+          "startLine": 77,
+          "endLine": 77,
+          "code": "cancellationToken.IsCancellationRequested"
         },
         {
           "id": 5,
-          "kind": "for-update",
-          "startLine": 77,
-          "endLine": 77,
-          "code": "attempt++"
-        },
-        {
-          "id": 6,
-          "kind": "try",
-          "startLine": 78,
-          "endLine": 78,
-          "code": "try"
-        },
-        {
-          "id": 7,
-          "kind": "join",
-          "startLine": 88,
-          "endLine": 88,
-          "code": "end-try"
-        },
-        {
-          "id": 8,
           "kind": "return",
           "startLine": 79,
           "endLine": 79,
-          "code": "return func.Invoke(attempt);"
+          "code": "func.Invoke(attempt)"
+        },
+        {
+          "id": 6,
+          "kind": "filter",
+          "startLine": 80,
+          "endLine": 80,
+          "code": "(Exception e); e is not OutOfMemoryException"
+        },
+        {
+          "id": 7,
+          "kind": "catch",
+          "startLine": 81,
+          "endLine": 81,
+          "code": "isRetryAllowed; isRetryAllowed"
+        },
+        {
+          "id": 8,
+          "kind": "catch",
+          "startLine": 81,
+          "endLine": 81,
+          "code": ".Invoke(e)"
         },
         {
           "id": 9,
           "kind": "catch",
-          "startLine": 80,
-          "endLine": 80,
-          "code": "catch (Exception)"
+          "startLine": 81,
+          "endLine": 81,
+          "code": "isRetryAllowed"
         },
         {
           "id": 10,
-          "kind": "branch",
+          "kind": "catch",
           "startLine": 81,
           "endLine": 81,
-          "code": "!isRetryAllowed?.Invoke(e) ?? false"
+          "code": "!isRetryAllowed?.Invoke(e)"
         },
         {
           "id": 11,
-          "kind": "join",
+          "kind": "catch",
           "startLine": 81,
           "endLine": 81,
-          "code": "endif"
+          "code": "!isRetryAllowed?.Invoke(e)"
         },
         {
           "id": 12,
-          "kind": "throw",
+          "kind": "catch",
           "startLine": 81,
           "endLine": 81,
-          "code": "throw;"
+          "code": "!isRetryAllowed?.Invoke(e)"
         },
         {
           "id": 13,
-          "kind": "branch",
+          "kind": "catch",
+          "startLine": 81,
+          "endLine": 81,
+          "code": "false"
+        },
+        {
+          "id": 14,
+          "kind": "catch",
+          "startLine": 70,
+          "endLine": 70,
+          "code": "(empty)"
+        },
+        {
+          "id": 15,
+          "kind": "catch",
           "startLine": 83,
           "endLine": 83,
           "code": "GetDelay(delay, attempt) is { } duration"
         },
         {
-          "id": 14,
-          "kind": "join",
-          "startLine": 85,
-          "endLine": 85,
-          "code": "endif"
-        },
-        {
-          "id": 15,
-          "kind": "statement",
+          "id": 16,
+          "kind": "catch",
           "startLine": 84,
           "endLine": 84,
           "code": "Task.Delay(duration, cancellationToken).GetAwaiter().GetResult();"
         },
         {
-          "id": 16,
-          "kind": "statement",
+          "id": 17,
+          "kind": "catch",
+          "startLine": 87,
+          "endLine": 87,
+          "code": "beforeRetry; beforeRetry"
+        },
+        {
+          "id": 18,
+          "kind": "catch",
           "startLine": 87,
           "endLine": 87,
           "code": "beforeRetry?.Invoke();"
         },
         {
-          "id": 17,
-          "kind": "branch",
-          "startLine": 91,
-          "endLine": 91,
-          "code": "!cancellationToken.IsCancellationRequested"
-        },
-        {
-          "id": 18,
-          "kind": "join",
-          "startLine": 95,
-          "endLine": 95,
-          "code": "endif"
-        },
-        {
           "id": 19,
-          "kind": "return",
-          "startLine": 92,
-          "endLine": 92,
-          "code": "return func.Invoke(attempt);"
+          "kind": "statement",
+          "startLine": 77,
+          "endLine": 77,
+          "code": "attempt++"
         },
         {
           "id": 20,
+          "kind": "branch",
+          "startLine": 91,
+          "endLine": 91,
+          "code": "cancellationToken.IsCancellationRequested"
+        },
+        {
+          "id": 21,
+          "kind": "return",
+          "startLine": 92,
+          "endLine": 92,
+          "code": "func.Invoke(attempt)"
+        },
+        {
+          "id": 22,
           "kind": "throw",
           "startLine": 94,
           "endLine": 94,
-          "code": "throw new TaskCanceledException(\"Remaining Retrier attempts were cancelled\");"
+          "code": "new TaskCanceledException(\"Remaining Retrier attempts were cancelled\")"
+        },
+        {
+          "id": 23,
+          "kind": "exit",
+          "startLine": 96,
+          "endLine": 96,
+          "code": "Exit Attempt"
         }
       ],
       "edges": [
+        {
+          "fromId": 0,
+          "toId": 1,
+          "label": "sequential"
+        },
+        {
+          "fromId": 1,
+          "toId": 2,
+          "label": "sequential"
+        },
+        {
+          "fromId": 2,
+          "toId": 3,
+          "label": "false"
+        },
+        {
+          "fromId": 2,
+          "toId": 4,
+          "label": "false"
+        },
         {
           "fromId": 3,
           "toId": 4,
           "label": "false"
         },
         {
-          "fromId": 8,
-          "toId": 1,
+          "fromId": 3,
+          "toId": 20,
+          "label": "false"
+        },
+        {
+          "fromId": 4,
+          "toId": 5,
+          "label": "false"
+        },
+        {
+          "fromId": 4,
+          "toId": 20,
+          "label": "true"
+        },
+        {
+          "fromId": 5,
+          "toId": 23,
           "label": "return"
         },
         {
           "fromId": 6,
+          "toId": 7,
+          "label": "true"
+        },
+        {
+          "fromId": 7,
           "toId": 8,
-          "label": "try-body"
+          "label": "false"
         },
         {
-          "fromId": 6,
+          "fromId": 7,
           "toId": 9,
-          "label": "exception"
-        },
-        {
-          "fromId": 12,
-          "toId": 1,
-          "label": "throw"
-        },
-        {
-          "fromId": 10,
-          "toId": 12,
           "label": "true"
         },
         {
-          "fromId": 10,
-          "toId": 11,
-          "label": "false"
-        },
-        {
-          "fromId": 13,
-          "toId": 15,
-          "label": "true"
-        },
-        {
-          "fromId": 15,
-          "toId": 14,
-          "label": "sequential"
-        },
-        {
-          "fromId": 13,
-          "toId": 14,
-          "label": "false"
-        },
-        {
-          "fromId": 11,
-          "toId": 13,
-          "label": "sequential"
-        },
-        {
-          "fromId": 14,
-          "toId": 16,
+          "fromId": 8,
+          "toId": 10,
           "label": "sequential"
         },
         {
@@ -613,34 +1162,59 @@
           "label": "sequential"
         },
         {
-          "fromId": 16,
-          "toId": 7,
+          "fromId": 10,
+          "toId": 11,
           "label": "sequential"
         },
         {
-          "fromId": 3,
-          "toId": 6,
+          "fromId": 11,
+          "toId": 12,
+          "label": "false"
+        },
+        {
+          "fromId": 11,
+          "toId": 13,
           "label": "true"
         },
         {
-          "fromId": 7,
-          "toId": 5,
+          "fromId": 12,
+          "toId": 14,
+          "label": "false"
+        },
+        {
+          "fromId": 12,
+          "toId": 15,
+          "label": "false"
+        },
+        {
+          "fromId": 13,
+          "toId": 14,
+          "label": "false"
+        },
+        {
+          "fromId": 13,
+          "toId": 15,
+          "label": "false"
+        },
+        {
+          "fromId": 15,
+          "toId": 16,
+          "label": "false"
+        },
+        {
+          "fromId": 15,
+          "toId": 17,
+          "label": "false"
+        },
+        {
+          "fromId": 16,
+          "toId": 17,
           "label": "sequential"
         },
         {
-          "fromId": 5,
-          "toId": 3,
-          "label": "back-edge"
-        },
-        {
-          "fromId": 2,
-          "toId": 3,
-          "label": "sequential"
-        },
-        {
-          "fromId": 19,
-          "toId": 1,
-          "label": "return"
+          "fromId": 17,
+          "toId": 18,
+          "label": "false"
         },
         {
           "fromId": 17,
@@ -648,29 +1222,29 @@
           "label": "true"
         },
         {
-          "fromId": 20,
-          "toId": 1,
-          "label": "throw"
+          "fromId": 18,
+          "toId": 19,
+          "label": "sequential"
         },
         {
-          "fromId": 17,
-          "toId": 20,
+          "fromId": 19,
+          "toId": 2,
+          "label": "back-edge"
+        },
+        {
+          "fromId": 20,
+          "toId": 21,
           "label": "false"
         },
         {
-          "fromId": 4,
-          "toId": 17,
-          "label": "sequential"
+          "fromId": 20,
+          "toId": 22,
+          "label": "true"
         },
         {
-          "fromId": 0,
-          "toId": 2,
-          "label": "sequential"
-        },
-        {
-          "fromId": 18,
-          "toId": 1,
-          "label": "fall-through"
+          "fromId": 21,
+          "toId": 23,
+          "label": "return"
         }
       ]
     },
@@ -692,216 +1266,235 @@
         },
         {
           "id": 1,
-          "kind": "exit",
-          "startLine": 136,
-          "endLine": 136,
-          "code": "Exit Attempt"
+          "kind": "statement",
+          "startLine": 116,
+          "endLine": 116,
+          "code": "attempt = 0"
         },
         {
           "id": 2,
-          "kind": "statement",
-          "startLine": 115,
-          "endLine": 115,
-          "code": "int attempt;"
-        },
-        {
-          "id": 3,
           "kind": "loop-header",
           "startLine": 116,
           "endLine": 116,
-          "code": "(!maxAttempts.HasValue || attempt < maxAttempts - 1) && !cancellationToken.IsCancellationRequested"
+          "code": "maxAttempts.HasValue"
+        },
+        {
+          "id": 3,
+          "kind": "branch",
+          "startLine": 116,
+          "endLine": 116,
+          "code": "attempt < maxAttempts - 1"
         },
         {
           "id": 4,
-          "kind": "loop-exit",
-          "startLine": 129,
-          "endLine": 129,
-          "code": "end-for"
+          "kind": "branch",
+          "startLine": 116,
+          "endLine": 116,
+          "code": "cancellationToken.IsCancellationRequested"
         },
         {
           "id": 5,
-          "kind": "for-update",
-          "startLine": 116,
-          "endLine": 116,
-          "code": "attempt++"
-        },
-        {
-          "id": 6,
-          "kind": "try",
-          "startLine": 117,
-          "endLine": 117,
-          "code": "try"
-        },
-        {
-          "id": 7,
-          "kind": "join",
-          "startLine": 128,
-          "endLine": 128,
-          "code": "end-try"
-        },
-        {
-          "id": 8,
           "kind": "statement",
           "startLine": 118,
           "endLine": 118,
           "code": "await func.Invoke(attempt).ConfigureAwait(false);"
         },
         {
+          "id": 6,
+          "kind": "filter",
+          "startLine": 120,
+          "endLine": 120,
+          "code": "(Exception e); e is not OutOfMemoryException"
+        },
+        {
+          "id": 7,
+          "kind": "catch",
+          "startLine": 121,
+          "endLine": 121,
+          "code": "isRetryAllowed; isRetryAllowed"
+        },
+        {
+          "id": 8,
+          "kind": "catch",
+          "startLine": 121,
+          "endLine": 121,
+          "code": ".Invoke(e)"
+        },
+        {
           "id": 9,
-          "kind": "return",
-          "startLine": 119,
-          "endLine": 119,
-          "code": "return;"
+          "kind": "catch",
+          "startLine": 121,
+          "endLine": 121,
+          "code": "isRetryAllowed"
         },
         {
           "id": 10,
           "kind": "catch",
-          "startLine": 120,
-          "endLine": 120,
-          "code": "catch (Exception)"
+          "startLine": 121,
+          "endLine": 121,
+          "code": "!isRetryAllowed?.Invoke(e)"
         },
         {
           "id": 11,
-          "kind": "branch",
+          "kind": "catch",
           "startLine": 121,
           "endLine": 121,
-          "code": "!isRetryAllowed?.Invoke(e) ?? false"
+          "code": "!isRetryAllowed?.Invoke(e)"
         },
         {
           "id": 12,
-          "kind": "join",
+          "kind": "catch",
           "startLine": 121,
           "endLine": 121,
-          "code": "endif"
+          "code": "!isRetryAllowed?.Invoke(e)"
         },
         {
           "id": 13,
-          "kind": "throw",
+          "kind": "catch",
           "startLine": 121,
           "endLine": 121,
-          "code": "throw;"
+          "code": "false"
         },
         {
           "id": 14,
-          "kind": "branch",
+          "kind": "catch",
+          "startLine": 109,
+          "endLine": 109,
+          "code": "(empty)"
+        },
+        {
+          "id": 15,
+          "kind": "catch",
           "startLine": 123,
           "endLine": 123,
           "code": "GetDelay(delay, attempt) is { } duration"
         },
         {
-          "id": 15,
-          "kind": "join",
-          "startLine": 125,
-          "endLine": 125,
-          "code": "endif"
-        },
-        {
           "id": 16,
-          "kind": "statement",
+          "kind": "catch",
           "startLine": 124,
           "endLine": 124,
           "code": "await Task.Delay(duration, cancellationToken).ConfigureAwait(false);"
         },
         {
           "id": 17,
-          "kind": "statement",
+          "kind": "catch",
+          "startLine": 127,
+          "endLine": 127,
+          "code": "beforeRetry; beforeRetry"
+        },
+        {
+          "id": 18,
+          "kind": "catch",
           "startLine": 127,
           "endLine": 127,
           "code": "beforeRetry?.Invoke();"
         },
         {
-          "id": 18,
-          "kind": "branch",
-          "startLine": 131,
-          "endLine": 131,
-          "code": "!cancellationToken.IsCancellationRequested"
-        },
-        {
           "id": 19,
-          "kind": "join",
-          "startLine": 135,
-          "endLine": 135,
-          "code": "endif"
+          "kind": "statement",
+          "startLine": 116,
+          "endLine": 116,
+          "code": "attempt++"
         },
         {
           "id": 20,
+          "kind": "branch",
+          "startLine": 131,
+          "endLine": 131,
+          "code": "cancellationToken.IsCancellationRequested"
+        },
+        {
+          "id": 21,
           "kind": "statement",
           "startLine": 132,
           "endLine": 132,
           "code": "await func.Invoke(attempt).ConfigureAwait(false);"
         },
         {
-          "id": 21,
+          "id": 22,
           "kind": "throw",
           "startLine": 134,
           "endLine": 134,
-          "code": "throw new TaskCanceledException(\"Remaining Retrier attempts were cancelled\");"
+          "code": "new TaskCanceledException(\"Remaining Retrier attempts were cancelled\")"
+        },
+        {
+          "id": 23,
+          "kind": "exit",
+          "startLine": 136,
+          "endLine": 136,
+          "code": "Exit Attempt"
         }
       ],
       "edges": [
+        {
+          "fromId": 0,
+          "toId": 1,
+          "label": "sequential"
+        },
+        {
+          "fromId": 1,
+          "toId": 2,
+          "label": "sequential"
+        },
+        {
+          "fromId": 2,
+          "toId": 3,
+          "label": "false"
+        },
+        {
+          "fromId": 2,
+          "toId": 4,
+          "label": "false"
+        },
         {
           "fromId": 3,
           "toId": 4,
           "label": "false"
         },
         {
-          "fromId": 9,
-          "toId": 1,
-          "label": "return"
+          "fromId": 3,
+          "toId": 20,
+          "label": "false"
+        },
+        {
+          "fromId": 4,
+          "toId": 5,
+          "label": "false"
+        },
+        {
+          "fromId": 4,
+          "toId": 20,
+          "label": "true"
+        },
+        {
+          "fromId": 5,
+          "toId": 23,
+          "label": "sequential"
+        },
+        {
+          "fromId": 6,
+          "toId": 7,
+          "label": "true"
+        },
+        {
+          "fromId": 7,
+          "toId": 8,
+          "label": "false"
+        },
+        {
+          "fromId": 7,
+          "toId": 9,
+          "label": "true"
         },
         {
           "fromId": 8,
-          "toId": 9,
-          "label": "sequential"
-        },
-        {
-          "fromId": 6,
-          "toId": 8,
-          "label": "try-body"
-        },
-        {
-          "fromId": 6,
           "toId": 10,
-          "label": "exception"
-        },
-        {
-          "fromId": 13,
-          "toId": 1,
-          "label": "throw"
-        },
-        {
-          "fromId": 11,
-          "toId": 13,
-          "label": "true"
-        },
-        {
-          "fromId": 11,
-          "toId": 12,
-          "label": "false"
-        },
-        {
-          "fromId": 14,
-          "toId": 16,
-          "label": "true"
-        },
-        {
-          "fromId": 16,
-          "toId": 15,
           "label": "sequential"
         },
         {
-          "fromId": 14,
-          "toId": 15,
-          "label": "false"
-        },
-        {
-          "fromId": 12,
-          "toId": 14,
-          "label": "sequential"
-        },
-        {
-          "fromId": 15,
-          "toId": 17,
+          "fromId": 9,
+          "toId": 10,
           "label": "sequential"
         },
         {
@@ -910,64 +1503,84 @@
           "label": "sequential"
         },
         {
-          "fromId": 17,
-          "toId": 7,
-          "label": "sequential"
+          "fromId": 11,
+          "toId": 12,
+          "label": "false"
         },
         {
-          "fromId": 3,
-          "toId": 6,
+          "fromId": 11,
+          "toId": 13,
           "label": "true"
         },
         {
-          "fromId": 7,
-          "toId": 5,
+          "fromId": 12,
+          "toId": 14,
+          "label": "false"
+        },
+        {
+          "fromId": 12,
+          "toId": 15,
+          "label": "false"
+        },
+        {
+          "fromId": 13,
+          "toId": 14,
+          "label": "false"
+        },
+        {
+          "fromId": 13,
+          "toId": 15,
+          "label": "false"
+        },
+        {
+          "fromId": 15,
+          "toId": 16,
+          "label": "false"
+        },
+        {
+          "fromId": 15,
+          "toId": 17,
+          "label": "false"
+        },
+        {
+          "fromId": 16,
+          "toId": 17,
           "label": "sequential"
         },
         {
-          "fromId": 5,
-          "toId": 3,
-          "label": "back-edge"
+          "fromId": 17,
+          "toId": 18,
+          "label": "false"
         },
         {
-          "fromId": 2,
-          "toId": 3,
-          "label": "sequential"
+          "fromId": 17,
+          "toId": 19,
+          "label": "true"
         },
         {
           "fromId": 18,
-          "toId": 20,
-          "label": "true"
-        },
-        {
-          "fromId": 20,
           "toId": 19,
           "label": "sequential"
         },
         {
-          "fromId": 21,
-          "toId": 1,
-          "label": "throw"
+          "fromId": 19,
+          "toId": 2,
+          "label": "back-edge"
         },
         {
-          "fromId": 18,
+          "fromId": 20,
           "toId": 21,
           "label": "false"
         },
         {
-          "fromId": 4,
-          "toId": 18,
-          "label": "sequential"
+          "fromId": 20,
+          "toId": 22,
+          "label": "true"
         },
         {
-          "fromId": 0,
-          "toId": 2,
+          "fromId": 21,
+          "toId": 23,
           "label": "sequential"
-        },
-        {
-          "fromId": 19,
-          "toId": 1,
-          "label": "fall-through"
         }
       ]
     },
@@ -989,204 +1602,230 @@
         },
         {
           "id": 1,
-          "kind": "exit",
-          "startLine": 175,
-          "endLine": 175,
-          "code": "Exit Attempt"
+          "kind": "statement",
+          "startLine": 156,
+          "endLine": 156,
+          "code": "attempt = 0"
         },
         {
           "id": 2,
-          "kind": "statement",
-          "startLine": 155,
-          "endLine": 155,
-          "code": "int attempt;"
-        },
-        {
-          "id": 3,
           "kind": "loop-header",
           "startLine": 156,
           "endLine": 156,
-          "code": "(!maxAttempts.HasValue || attempt < maxAttempts - 1) && !cancellationToken.IsCancellationRequested"
+          "code": "maxAttempts.HasValue"
+        },
+        {
+          "id": 3,
+          "kind": "branch",
+          "startLine": 156,
+          "endLine": 156,
+          "code": "attempt < maxAttempts - 1"
         },
         {
           "id": 4,
-          "kind": "loop-exit",
-          "startLine": 168,
-          "endLine": 168,
-          "code": "end-for"
+          "kind": "branch",
+          "startLine": 156,
+          "endLine": 156,
+          "code": "cancellationToken.IsCancellationRequested"
         },
         {
           "id": 5,
-          "kind": "for-update",
-          "startLine": 156,
-          "endLine": 156,
-          "code": "attempt++"
-        },
-        {
-          "id": 6,
-          "kind": "try",
-          "startLine": 157,
-          "endLine": 157,
-          "code": "try"
-        },
-        {
-          "id": 7,
-          "kind": "join",
-          "startLine": 167,
-          "endLine": 167,
-          "code": "end-try"
-        },
-        {
-          "id": 8,
           "kind": "return",
           "startLine": 158,
           "endLine": 158,
-          "code": "return await func.Invoke(attempt).ConfigureAwait(false);"
+          "code": "await func.Invoke(attempt).ConfigureAwait(false)"
+        },
+        {
+          "id": 6,
+          "kind": "filter",
+          "startLine": 159,
+          "endLine": 159,
+          "code": "(Exception e); e is not OutOfMemoryException"
+        },
+        {
+          "id": 7,
+          "kind": "catch",
+          "startLine": 160,
+          "endLine": 160,
+          "code": "isRetryAllowed; isRetryAllowed"
+        },
+        {
+          "id": 8,
+          "kind": "catch",
+          "startLine": 160,
+          "endLine": 160,
+          "code": ".Invoke(e)"
         },
         {
           "id": 9,
           "kind": "catch",
-          "startLine": 159,
-          "endLine": 159,
-          "code": "catch (Exception)"
+          "startLine": 160,
+          "endLine": 160,
+          "code": "isRetryAllowed"
         },
         {
           "id": 10,
-          "kind": "branch",
+          "kind": "catch",
           "startLine": 160,
           "endLine": 160,
-          "code": "!isRetryAllowed?.Invoke(e) ?? false"
+          "code": "!isRetryAllowed?.Invoke(e)"
         },
         {
           "id": 11,
-          "kind": "join",
+          "kind": "catch",
           "startLine": 160,
           "endLine": 160,
-          "code": "endif"
+          "code": "!isRetryAllowed?.Invoke(e)"
         },
         {
           "id": 12,
-          "kind": "throw",
+          "kind": "catch",
           "startLine": 160,
           "endLine": 160,
-          "code": "throw;"
+          "code": "!isRetryAllowed?.Invoke(e)"
         },
         {
           "id": 13,
-          "kind": "branch",
+          "kind": "catch",
+          "startLine": 160,
+          "endLine": 160,
+          "code": "false"
+        },
+        {
+          "id": 14,
+          "kind": "catch",
+          "startLine": 149,
+          "endLine": 149,
+          "code": "(empty)"
+        },
+        {
+          "id": 15,
+          "kind": "catch",
           "startLine": 162,
           "endLine": 162,
           "code": "GetDelay(delay, attempt) is { } duration"
         },
         {
-          "id": 14,
-          "kind": "join",
-          "startLine": 164,
-          "endLine": 164,
-          "code": "endif"
-        },
-        {
-          "id": 15,
-          "kind": "statement",
+          "id": 16,
+          "kind": "catch",
           "startLine": 163,
           "endLine": 163,
           "code": "await Task.Delay(duration, cancellationToken).ConfigureAwait(false);"
         },
         {
-          "id": 16,
-          "kind": "statement",
+          "id": 17,
+          "kind": "catch",
+          "startLine": 166,
+          "endLine": 166,
+          "code": "beforeRetry; beforeRetry"
+        },
+        {
+          "id": 18,
+          "kind": "catch",
           "startLine": 166,
           "endLine": 166,
           "code": "beforeRetry?.Invoke();"
         },
         {
-          "id": 17,
-          "kind": "branch",
-          "startLine": 170,
-          "endLine": 170,
-          "code": "!cancellationToken.IsCancellationRequested"
-        },
-        {
-          "id": 18,
-          "kind": "join",
-          "startLine": 174,
-          "endLine": 174,
-          "code": "endif"
-        },
-        {
           "id": 19,
-          "kind": "return",
-          "startLine": 171,
-          "endLine": 171,
-          "code": "return await func.Invoke(attempt).ConfigureAwait(false);"
+          "kind": "statement",
+          "startLine": 156,
+          "endLine": 156,
+          "code": "attempt++"
         },
         {
           "id": 20,
+          "kind": "branch",
+          "startLine": 170,
+          "endLine": 170,
+          "code": "cancellationToken.IsCancellationRequested"
+        },
+        {
+          "id": 21,
+          "kind": "return",
+          "startLine": 171,
+          "endLine": 171,
+          "code": "await func.Invoke(attempt).ConfigureAwait(false)"
+        },
+        {
+          "id": 22,
           "kind": "throw",
           "startLine": 173,
           "endLine": 173,
-          "code": "throw new TaskCanceledException(\"Remaining Retrier attempts were cancelled\");"
+          "code": "new TaskCanceledException(\"Remaining Retrier attempts were cancelled\")"
+        },
+        {
+          "id": 23,
+          "kind": "exit",
+          "startLine": 175,
+          "endLine": 175,
+          "code": "Exit Attempt"
         }
       ],
       "edges": [
+        {
+          "fromId": 0,
+          "toId": 1,
+          "label": "sequential"
+        },
+        {
+          "fromId": 1,
+          "toId": 2,
+          "label": "sequential"
+        },
+        {
+          "fromId": 2,
+          "toId": 3,
+          "label": "false"
+        },
+        {
+          "fromId": 2,
+          "toId": 4,
+          "label": "false"
+        },
         {
           "fromId": 3,
           "toId": 4,
           "label": "false"
         },
         {
-          "fromId": 8,
-          "toId": 1,
+          "fromId": 3,
+          "toId": 20,
+          "label": "false"
+        },
+        {
+          "fromId": 4,
+          "toId": 5,
+          "label": "false"
+        },
+        {
+          "fromId": 4,
+          "toId": 20,
+          "label": "true"
+        },
+        {
+          "fromId": 5,
+          "toId": 23,
           "label": "return"
         },
         {
           "fromId": 6,
+          "toId": 7,
+          "label": "true"
+        },
+        {
+          "fromId": 7,
           "toId": 8,
-          "label": "try-body"
+          "label": "false"
         },
         {
-          "fromId": 6,
+          "fromId": 7,
           "toId": 9,
-          "label": "exception"
-        },
-        {
-          "fromId": 12,
-          "toId": 1,
-          "label": "throw"
-        },
-        {
-          "fromId": 10,
-          "toId": 12,
           "label": "true"
         },
         {
-          "fromId": 10,
-          "toId": 11,
-          "label": "false"
-        },
-        {
-          "fromId": 13,
-          "toId": 15,
-          "label": "true"
-        },
-        {
-          "fromId": 15,
-          "toId": 14,
-          "label": "sequential"
-        },
-        {
-          "fromId": 13,
-          "toId": 14,
-          "label": "false"
-        },
-        {
-          "fromId": 11,
-          "toId": 13,
-          "label": "sequential"
-        },
-        {
-          "fromId": 14,
-          "toId": 16,
+          "fromId": 8,
+          "toId": 10,
           "label": "sequential"
         },
         {
@@ -1195,34 +1834,59 @@
           "label": "sequential"
         },
         {
-          "fromId": 16,
-          "toId": 7,
+          "fromId": 10,
+          "toId": 11,
           "label": "sequential"
         },
         {
-          "fromId": 3,
-          "toId": 6,
+          "fromId": 11,
+          "toId": 12,
+          "label": "false"
+        },
+        {
+          "fromId": 11,
+          "toId": 13,
           "label": "true"
         },
         {
-          "fromId": 7,
-          "toId": 5,
+          "fromId": 12,
+          "toId": 14,
+          "label": "false"
+        },
+        {
+          "fromId": 12,
+          "toId": 15,
+          "label": "false"
+        },
+        {
+          "fromId": 13,
+          "toId": 14,
+          "label": "false"
+        },
+        {
+          "fromId": 13,
+          "toId": 15,
+          "label": "false"
+        },
+        {
+          "fromId": 15,
+          "toId": 16,
+          "label": "false"
+        },
+        {
+          "fromId": 15,
+          "toId": 17,
+          "label": "false"
+        },
+        {
+          "fromId": 16,
+          "toId": 17,
           "label": "sequential"
         },
         {
-          "fromId": 5,
-          "toId": 3,
-          "label": "back-edge"
-        },
-        {
-          "fromId": 2,
-          "toId": 3,
-          "label": "sequential"
-        },
-        {
-          "fromId": 19,
-          "toId": 1,
-          "label": "return"
+          "fromId": 17,
+          "toId": 18,
+          "label": "false"
         },
         {
           "fromId": 17,
@@ -1230,29 +1894,29 @@
           "label": "true"
         },
         {
-          "fromId": 20,
-          "toId": 1,
-          "label": "throw"
+          "fromId": 18,
+          "toId": 19,
+          "label": "sequential"
         },
         {
-          "fromId": 17,
-          "toId": 20,
+          "fromId": 19,
+          "toId": 2,
+          "label": "back-edge"
+        },
+        {
+          "fromId": 20,
+          "toId": 21,
           "label": "false"
         },
         {
-          "fromId": 4,
-          "toId": 17,
-          "label": "sequential"
+          "fromId": 20,
+          "toId": 22,
+          "label": "true"
         },
         {
-          "fromId": 0,
-          "toId": 2,
-          "label": "sequential"
-        },
-        {
-          "fromId": 18,
-          "toId": 1,
-          "label": "fall-through"
+          "fromId": 21,
+          "toId": 23,
+          "label": "return"
         }
       ]
     }

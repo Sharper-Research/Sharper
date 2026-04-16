@@ -3,57 +3,75 @@ using AutoRepair.Step2Constraints.Runtime;
 
 namespace AutoRepair.Step2Constraints.Rules;
 
-// ── FUTURE WORK: Unboxing-failure detection ─────────────────────────────
-// Currently this rule catches:
-//   Path 0 – Cast Attempt: tracks the source type before an explicit cast.
-//   Path 1 – Failed 'as' cast: LogAsCast detects null result from non-null source.
-//   Path 2 – InvalidCastException: correlates with the last Cast Attempt event.
-//
-// NOT yet covered:
-//   - Unboxing failures:  (int)(object)"hi"  throws InvalidCastException but
-//     the CastingRewriter currently skips value-type target casts, so Path 0
-//     never fires and Path 2 falls back to the generic "ValidCast(event)"
-//     violation (no source-type / target-type bindings).
-//
-// When the Instrumenter gains unboxing instrumentation (check CastingRewriter
-// FUTURE WORK for more info), add a new path here to handle events with
-// msg = "Unbox Failure" (or a cast.kind = "unbox" flag) and emit a richer
-// ConstraintViolation with source-type, target-type, and cast-kind bindings.
-//
-// Jyoti note: "Unboxing failure will be good to catch! But I am not
-// sure if the current methodology will be sufficient."
-// ─────────────────────────────────────────────────────────────────────────
+/// <summary>
+/// Forward cast-safety analysis.
+/// Evaluates type compatibility at the "Cast Attempt" event (BEFORE the cast
+/// executes), rather than waiting for "Invalid Cast" or an exception.
+/// "Invalid Cast" and InvalidCastException are kept as confirmation/fallback.
+/// </summary>
 public sealed class InvalidCastingRule : IRule
 {
+    private static readonly HashSet<string> ValueTypes = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "System.Int32", "System.Int64", "System.Int16", "System.Byte",
+        "System.UInt32", "System.UInt64", "System.UInt16", "System.SByte",
+        "System.Single", "System.Double", "System.Decimal",
+        "System.Boolean", "System.Char", "System.DateTime", "System.TimeSpan"
+    };
+
     private TraceEvent? _lastCastAttempt;
 
     public bool TryEvaluate(TraceEvent evt, StateTracker state, out ConstraintViolation violation)
     {
         violation = null!;
 
-        // ─ Path 0: Track cast attempts (from CastingRewriter)
+        // ── Forward path 1: evaluate type compatibility at Cast Attempt ──
+        // Fires BEFORE the cast executes.  The instrumenter logs the source
+        // type and target type; we check compatibility immediately.
         if (string.Equals(evt.Message, "Cast Attempt", StringComparison.OrdinalIgnoreCase)
-            && evt.Variable is { Name: { } name }
-            && name.StartsWith("cast:", StringComparison.OrdinalIgnoreCase))
-        {
-            _lastCastAttempt = evt;
-            return false;
-        }
-
-        // ─ Path 1: Failed 'as' cast (CastingRewriter emits "Invalid Cast")
-        if (string.Equals(evt.Message, "Invalid Cast", StringComparison.OrdinalIgnoreCase)
             && evt.Variable is { Name: { } castName, Value: { } sourceType }
             && castName.StartsWith("cast:", StringComparison.OrdinalIgnoreCase))
         {
             var targetType = castName[5..];
+            _lastCastAttempt = evt;
+
+            if (IsIncompatibleCast(sourceType, targetType))
+            {
+                violation = new ConstraintViolation(
+                    Predicate: $"ValidCast({sourceType}, {targetType})",
+                    Assertion: $"typeof(source) is assignable to {targetType}",
+                    Bindings: new Dictionary<string, object?>
+                    {
+                        ["source.type"] = sourceType,
+                        ["target.type"] = targetType,
+                        ["detection"] = "forward-type-check"
+                    },
+                    Result: false,
+                    File: evt.File,
+                    Line: evt.Line,
+                    TraceId: evt.Id);
+                return true;
+            }
+            return false;
+        }
+
+        // ── Forward path 2: failed 'as' cast (non-null source → null result) ──
+        // LogAsCast detects this at the cast site.  This is still forward:
+        // the detection happens at the operation, not from an exception.
+        if (string.Equals(evt.Message, "Invalid Cast", StringComparison.OrdinalIgnoreCase)
+            && evt.Variable is { Name: { } icName, Value: { } icSourceType }
+            && icName.StartsWith("cast:", StringComparison.OrdinalIgnoreCase))
+        {
+            var targetType = icName[5..];
 
             violation = new ConstraintViolation(
-                Predicate: $"ValidCast({sourceType}, {targetType})",
+                Predicate: $"ValidCast({icSourceType}, {targetType})",
                 Assertion: $"typeof(source) is {targetType}",
                 Bindings: new Dictionary<string, object?>
                 {
-                    ["source.type"] = sourceType,
-                    ["target.type"] = targetType
+                    ["source.type"] = icSourceType,
+                    ["target.type"] = targetType,
+                    ["detection"] = "forward-as-cast-null"
                 },
                 Result: false,
                 File: evt.File,
@@ -64,14 +82,15 @@ public sealed class InvalidCastingRule : IRule
             return true;
         }
 
-        // ─ Path 2: InvalidCastException from exception logging
+        // ── Fallback: InvalidCastException from exception logging ──
         if (string.Equals(evt.Message, "Exception Type", StringComparison.OrdinalIgnoreCase)
             && evt.Variable is { Value: { } exType }
             && exType.Contains("InvalidCastException", StringComparison.OrdinalIgnoreCase))
         {
             var bindings = new Dictionary<string, object?>
             {
-                ["exception.type"] = exType
+                ["exception.type"] = exType,
+                ["detection"] = "fallback"
             };
 
             string predicate;
@@ -83,13 +102,11 @@ public sealed class InvalidCastingRule : IRule
                 var targetType = attemptName[5..];
                 bindings["source.type"] = attemptSource;
                 bindings["target.type"] = targetType;
-
                 predicate = $"ValidCast({attemptSource}, {targetType})";
                 assertion = $"typeof(source) is {targetType}";
             }
             else
             {
-
                 predicate = "ValidCast(event)";
                 assertion = "cast does not throw InvalidCastException";
             }
@@ -109,4 +126,64 @@ public sealed class InvalidCastingRule : IRule
 
         return false;
     }
+
+    /// <summary>
+    /// Conservative type compatibility check using type name heuristics.
+    /// Only flags casts that are clearly incompatible to avoid false positives.
+    /// </summary>
+    private static bool IsIncompatibleCast(string sourceType, string targetType)
+    {
+        if (string.IsNullOrEmpty(sourceType) || string.IsNullOrEmpty(targetType))
+            return false;
+
+        // null → any reference type is always valid
+        if (sourceType.Equals("null", StringComparison.OrdinalIgnoreCase))
+            return false;
+
+        // Same type is always compatible
+        if (sourceType.Equals(targetType, StringComparison.OrdinalIgnoreCase))
+            return false;
+
+        // Anything → Object is always valid (upcast)
+        if (targetType.Equals("System.Object", StringComparison.OrdinalIgnoreCase))
+            return false;
+
+        // Object → anything: runtime determines, can't say incompatible
+        if (sourceType.Equals("System.Object", StringComparison.OrdinalIgnoreCase))
+            return false;
+
+        // Generic type parameters (no dots) → can't resolve statically
+        if (!sourceType.Contains('.') || !targetType.Contains('.'))
+            return false;
+
+        // Value type ↔ String is incompatible (no implicit conversion)
+        bool srcIsString = sourceType.Equals("System.String", StringComparison.OrdinalIgnoreCase);
+        bool tgtIsString = targetType.Equals("System.String", StringComparison.OrdinalIgnoreCase);
+        if (srcIsString && ValueTypes.Contains(targetType))
+            return true;
+        if (tgtIsString && ValueTypes.Contains(sourceType))
+            return true;
+
+        // Two different value types (non-numeric widening) is risky
+        if (ValueTypes.Contains(sourceType) && ValueTypes.Contains(targetType))
+        {
+            // Numeric widening conversions are valid casts, but cross-family is not.
+            // Boolean ↔ numeric, DateTime ↔ numeric, etc.
+            bool srcIsNumeric = IsNumericType(sourceType);
+            bool tgtIsNumeric = IsNumericType(targetType);
+            if (srcIsNumeric != tgtIsNumeric)
+                return true;
+        }
+
+        return false;
+    }
+
+    private static bool IsNumericType(string type) =>
+        type.StartsWith("System.Int", StringComparison.OrdinalIgnoreCase) ||
+        type.StartsWith("System.UInt", StringComparison.OrdinalIgnoreCase) ||
+        type.Equals("System.Byte", StringComparison.OrdinalIgnoreCase) ||
+        type.Equals("System.SByte", StringComparison.OrdinalIgnoreCase) ||
+        type.Equals("System.Single", StringComparison.OrdinalIgnoreCase) ||
+        type.Equals("System.Double", StringComparison.OrdinalIgnoreCase) ||
+        type.Equals("System.Decimal", StringComparison.OrdinalIgnoreCase);
 }

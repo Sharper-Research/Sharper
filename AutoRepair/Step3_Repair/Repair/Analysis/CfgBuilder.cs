@@ -2,376 +2,272 @@ using System.Text.RegularExpressions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.FlowAnalysis;
 using AutoRepair.Step3Repair.Models;
 
 namespace AutoRepair.Step3Repair.Analysis;
 
 /// <summary>
-/// Builds a simplified Control Flow Graph for each method/accessor whose line range
-/// overlaps with at least one violation line.  The CFG captures branches, loops,
-/// try/catch, return/throw, break/continue and sequential flow.
+/// Builds a Control Flow Graph for each method/accessor whose line range
+/// overlaps with at least one violation line.  Uses Roslyn's built-in
+/// <see cref="ControlFlowGraph"/> API instead of hand-rolled syntax walking.
 /// </summary>
 public sealed class CfgBuilder
 {
-    private int _nextId;
-    private List<CfgNode> _nodes = null!;
-    private List<CfgEdge> _edges = null!;
+    private CSharpCompilation? _compilation;
+    private readonly Dictionary<string, (SyntaxTree Tree, SemanticModel Model)> _models = new(StringComparer.OrdinalIgnoreCase);
+
+    /// <summary>
+    /// Initializes the Roslyn compilation with all source files under <paramref name="sourceDirectory"/>.
+    /// Must be called once before <see cref="BuildForFile"/>.
+    /// </summary>
+    public void Initialize(string sourceDirectory)
+    {
+        var files = Directory.GetFiles(sourceDirectory, "*.cs", SearchOption.AllDirectories)
+            .Where(f => !f.Contains($"{Path.DirectorySeparatorChar}obj{Path.DirectorySeparatorChar}")
+                     && !f.Contains($"{Path.DirectorySeparatorChar}bin{Path.DirectorySeparatorChar}")
+                     && !Path.GetFileName(f).Equals("TraceLogger.cs", StringComparison.OrdinalIgnoreCase))
+            .ToList();
+
+        var trees = files.Select(f =>
+            CSharpSyntaxTree.ParseText(File.ReadAllText(f), path: f)).ToList();
+
+        var refs = GetRuntimeReferences();
+
+        _compilation = CSharpCompilation.Create("analysis", trees, refs,
+            new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary)
+                .WithNullableContextOptions(NullableContextOptions.Enable));
+
+        foreach (var tree in trees)
+            _models[tree.FilePath] = (tree, _compilation.GetSemanticModel(tree));
+    }
 
     // ───────────────────────── public API ─────────────────────────
 
     public List<MethodCfg> BuildForFile(string fullPath, string relativePath, List<int> violationLines)
     {
-        var source = File.ReadAllText(fullPath);
-        var tree = CSharpSyntaxTree.ParseText(source);
-        var root = tree.GetRoot();
+        if (_compilation is null)
+        {
+            // Fallback: initialize with just this file's directory
+            Initialize(Path.GetDirectoryName(fullPath)!);
+        }
+
+        if (!_models.TryGetValue(fullPath, out var entry))
+        {
+            // File wasn't in the compilation (e.g. generated file). Parse standalone.
+            var source = File.ReadAllText(fullPath);
+            var tree = CSharpSyntaxTree.ParseText(source, path: fullPath);
+            var comp = _compilation!.AddSyntaxTrees(tree);
+            entry = (tree, comp.GetSemanticModel(tree));
+        }
+
+        var (syntaxTree, model) = entry;
+        var root = syntaxTree.GetRoot();
         var result = new List<MethodCfg>();
 
         foreach (var member in root.DescendantNodes())
         {
             string? name;
-            BlockSyntax? body;
-            ArrowExpressionClauseSyntax? exprBody;
+            SyntaxNode? body;
 
             switch (member)
             {
                 case MethodDeclarationSyntax m:
                     name = m.Identifier.Text;
-                    body = m.Body;
-                    exprBody = m.ExpressionBody;
+                    body = (SyntaxNode?)m.Body ?? m.ExpressionBody?.Expression;
                     break;
                 case ConstructorDeclarationSyntax c:
                     name = c.Identifier.Text + "..ctor";
                     body = c.Body;
-                    exprBody = null;
                     break;
                 case AccessorDeclarationSyntax a:
                     name = AccessorName(a);
-                    body = a.Body;
-                    exprBody = a.ExpressionBody;
+                    body = (SyntaxNode?)a.Body ?? a.ExpressionBody?.Expression;
                     break;
                 default:
                     continue;
             }
 
+            if (body is null) continue;
+
             var span = member.GetLocation().GetLineSpan();
             int startLine = span.StartLinePosition.Line + 1;
-            int endLine   = span.EndLinePosition.Line + 1;
+            int endLine = span.EndLinePosition.Line + 1;
 
             var relevant = violationLines.Where(l => l >= startLine && l <= endLine).ToList();
             if (relevant.Count == 0) continue;
 
-            // Reset per-method state
-            _nextId = 0;
-            _nodes = new List<CfgNode>();
-            _edges = new List<CfgEdge>();
-
-            var entry = Node("entry", startLine, startLine, $"Enter {name}");
-            var exit  = Node("exit",  endLine,   endLine,   $"Exit {name}");
-
-            if (body is { Statements.Count: > 0 })
+            try
             {
-                var (first, last) = Sequence(body.Statements, exit.Id, null);
-                if (first >= 0) Edge(entry.Id, first, "sequential");
-                if (last  >= 0) Edge(last, exit.Id, "fall-through");
-            }
-            else if (exprBody != null)
-            {
-                var expr = NodeSyn("expression", exprBody.Expression);
-                Edge(entry.Id, expr.Id, "sequential");
-                Edge(expr.Id,  exit.Id, "sequential");
-            }
-            else
-            {
-                Edge(entry.Id, exit.Id, "empty");
-            }
+                // ControlFlowGraph.Create needs the method/constructor/accessor
+                // declaration itself so Roslyn gets the root IOperation node
+                var cfg = ControlFlowGraph.Create(member, model);
+                if (cfg is null) continue;
+                var (nodes, edges) = MapToModel(cfg, startLine, endLine, name!);
 
-            result.Add(new MethodCfg(
-                MethodName:      name,
-                File:            relativePath,
-                MethodStartLine: startLine,
-                MethodEndLine:   endLine,
-                ViolationLines:  relevant,
-                Nodes:           _nodes.ToList(),
-                Edges:           _edges.ToList()));
+                result.Add(new MethodCfg(
+                    MethodName: name!,
+                    File: relativePath,
+                    MethodStartLine: startLine,
+                    MethodEndLine: endLine,
+                    ViolationLines: relevant,
+                    Nodes: nodes,
+                    Edges: edges));
+            }
+            catch (ArgumentException)
+            {
+                // Roslyn couldn't build CFG (e.g. incomplete semantic info). Skip method.
+            }
         }
 
         return result;
     }
 
-    // ───────────────────── CFG primitives ──────────────────────
+    // ──────────────── map Roslyn CFG to our model ─────────────────
 
-    private CfgNode Node(string kind, int startLine, int endLine, string code)
+    private static (List<CfgNode> Nodes, List<CfgEdge> Edges) MapToModel(
+        ControlFlowGraph cfg, int methodStart, int methodEnd, string methodName)
     {
-        var n = new CfgNode(_nextId++, kind, startLine, endLine, Trunc(code, 150));
-        _nodes.Add(n);
-        return n;
-    }
+        var nodes = new List<CfgNode>();
+        var edges = new List<CfgEdge>();
 
-    private CfgNode NodeSyn(string kind, SyntaxNode syn)
-    {
-        var sp = syn.GetLocation().GetLineSpan();
-        return Node(kind,
-            sp.StartLinePosition.Line + 1,
-            sp.EndLinePosition.Line + 1,
-            Collapse(syn.ToString()));
-    }
-
-    private void Edge(int from, int to, string label)
-    {
-        if (from >= 0 && to >= 0)
-            _edges.Add(new CfgEdge(from, to, label));
-    }
-
-    // ────────────────── statement builders ─────────────────────
-    // Each returns (firstNodeId, lastNodeId).
-    // lastNodeId == -1 means the path is unreachable after this point (return/throw/break/continue).
-
-    private (int first, int last) Sequence(SyntaxList<StatementSyntax> stmts, int exitId, Loop? loop)
-    {
-        if (stmts.Count == 0) return (-1, -1);
-
-        int firstId = -1, prev = -1;
-        foreach (var s in stmts)
+        foreach (var block in cfg.Blocks)
         {
-            var (f, l) = Stmt(s, exitId, loop);
-            if (f < 0) continue;
-            if (firstId < 0) firstId = f;
-            if (prev >= 0) Edge(prev, f, "sequential");
-            prev = l;
-            if (l < 0) break; // unreachable from here on
-        }
-        return (firstId, prev);
-    }
+            var kind = DetermineKind(block, cfg);
+            var (blockStart, blockEnd, code) = GetBlockInfo(block, methodStart, methodEnd, methodName);
 
-    private (int first, int last) Stmt(StatementSyntax s, int exitId, Loop? loop) => s switch
-    {
-        BlockSyntax              x => Sequence(x.Statements, exitId, loop),
-        IfStatementSyntax        x => If(x, exitId, loop),
-        WhileStatementSyntax     x => While(x, exitId),
-        ForStatementSyntax       x => For(x, exitId),
-        ForEachStatementSyntax   x => ForEach(x, exitId),
-        DoStatementSyntax        x => Do(x, exitId),
-        SwitchStatementSyntax    x => Switch(x, exitId, loop),
-        TryStatementSyntax       x => Try(x, exitId, loop),
-        ReturnStatementSyntax    x => Return(x, exitId),
-        ThrowStatementSyntax     x => Throw(x, exitId),
-        BreakStatementSyntax     x => Break(x, loop),
-        ContinueStatementSyntax  x => Continue(x, loop),
-        _                          => Simple(s),
-    };
+            nodes.Add(new CfgNode(block.Ordinal, kind, blockStart, blockEnd, Trunc(code, 150)));
 
-    private (int f, int l) Simple(StatementSyntax s)
-    {
-        var n = NodeSyn("statement", s);
-        return (n.Id, n.Id);
-    }
-
-    private (int f, int l) Return(ReturnStatementSyntax s, int exitId)
-    {
-        var n = NodeSyn("return", s);
-        Edge(n.Id, exitId, "return");
-        return (n.Id, -1);
-    }
-
-    private (int f, int l) Throw(ThrowStatementSyntax s, int exitId)
-    {
-        var n = NodeSyn("throw", s);
-        Edge(n.Id, exitId, "throw");
-        return (n.Id, -1);
-    }
-
-    private (int f, int l) Break(BreakStatementSyntax s, Loop? loop)
-    {
-        var n = NodeSyn("break", s);
-        if (loop != null) Edge(n.Id, loop.ExitId, "break");
-        return (n.Id, -1);
-    }
-
-    private (int f, int l) Continue(ContinueStatementSyntax s, Loop? loop)
-    {
-        var n = NodeSyn("continue", s);
-        if (loop != null) Edge(n.Id, loop.HeaderId, "continue");
-        return (n.Id, -1);
-    }
-
-    // ─── if / else ───
-
-    private (int f, int l) If(IfStatementSyntax s, int exitId, Loop? loop)
-    {
-        var br   = NodeSyn("branch", s.Condition);
-        var join = Node("join", EndL(s), EndL(s), "endif");
-
-        // true branch
-        var (tf, tl) = Stmt(s.Statement, exitId, loop);
-        if (tf >= 0) { Edge(br.Id, tf, "true"); if (tl >= 0) Edge(tl, join.Id, "sequential"); }
-        else         Edge(br.Id, join.Id, "true");
-
-        // false / else branch
-        if (s.Else != null)
-        {
-            var (ff, fl) = Stmt(s.Else.Statement, exitId, loop);
-            if (ff >= 0) { Edge(br.Id, ff, "false"); if (fl >= 0) Edge(fl, join.Id, "sequential"); }
-            else         Edge(br.Id, join.Id, "false");
-        }
-        else Edge(br.Id, join.Id, "false");
-
-        return (br.Id, join.Id);
-    }
-
-    // ─── while ───
-
-    private (int f, int l) While(WhileStatementSyntax s, int exitId)
-    {
-        var hdr = NodeSyn("loop-header", s.Condition);
-        var ex  = Node("loop-exit", EndL(s), EndL(s), "end-while");
-        Edge(hdr.Id, ex.Id, "false");
-
-        var ctx = new Loop(hdr.Id, ex.Id);
-        var (bf, bl) = Stmt(s.Statement, exitId, ctx);
-        if (bf >= 0) { Edge(hdr.Id, bf, "true"); if (bl >= 0) Edge(bl, hdr.Id, "back-edge"); }
-
-        return (hdr.Id, ex.Id);
-    }
-
-    // ─── for ───
-
-    private (int f, int l) For(ForStatementSyntax s, int exitId)
-    {
-        int initF = -1, initL = -1;
-        if (s.Declaration != null)
-        {
-            var n = NodeSyn("for-init", s.Declaration);
-            initF = initL = n.Id;
-        }
-
-        var hdr = s.Condition != null
-            ? NodeSyn("loop-header", s.Condition)
-            : Node("loop-header", StartL(s), StartL(s), "for(;;)");
-        if (initL >= 0) Edge(initL, hdr.Id, "sequential");
-
-        var ex = Node("loop-exit", EndL(s), EndL(s), "end-for");
-        Edge(hdr.Id, ex.Id, "false");
-
-        CfgNode? inc = s.Incrementors.Count > 0 ? NodeSyn("for-update", s.Incrementors[0]) : null;
-
-        var ctx = new Loop(hdr.Id, ex.Id);
-        var (bf, bl) = Stmt(s.Statement, exitId, ctx);
-        if (bf >= 0)
-        {
-            Edge(hdr.Id, bf, "true");
-            if (bl >= 0)
+            // Fall-through successor
+            if (block.FallThroughSuccessor is { Destination: { } fallDest })
             {
-                if (inc != null) { Edge(bl, inc.Id, "sequential"); Edge(inc.Id, hdr.Id, "back-edge"); }
-                else             Edge(bl, hdr.Id, "back-edge");
+                var label = block.FallThroughSuccessor.Semantics switch
+                {
+                    ControlFlowBranchSemantics.Return => "return",
+                    ControlFlowBranchSemantics.Throw => "throw",
+                    ControlFlowBranchSemantics.Rethrow => "throw",
+                    ControlFlowBranchSemantics.ProgramTermination => "throw",
+                    _ => block.ConditionalSuccessor != null ? "false" : "sequential"
+                };
+
+                // Detect back-edge (successor has lower ordinal)
+                if (fallDest.Ordinal < block.Ordinal && label == "sequential")
+                    label = "back-edge";
+
+                edges.Add(new CfgEdge(block.Ordinal, fallDest.Ordinal, label));
+            }
+
+            // Conditional successor
+            if (block.ConditionalSuccessor is { Destination: { } condDest })
+            {
+                var label = block.ConditionKind == ControlFlowConditionKind.WhenTrue
+                    ? "true" : "false";
+
+                if (condDest.Ordinal < block.Ordinal)
+                    label = "back-edge";
+
+                edges.Add(new CfgEdge(block.Ordinal, condDest.Ordinal, label));
             }
         }
 
-        return (initF >= 0 ? initF : hdr.Id, ex.Id);
+        return (nodes, edges);
     }
 
-    // ─── foreach ───
-
-    private (int f, int l) ForEach(ForEachStatementSyntax s, int exitId)
+    private static string DetermineKind(BasicBlock block, ControlFlowGraph cfg)
     {
-        var code = $"foreach ({s.Type} {s.Identifier} in ...)";
-        var hdr  = Node("loop-header", StartL(s), StartL(s), code);
-        var ex   = Node("loop-exit", EndL(s), EndL(s), "end-foreach");
-        Edge(hdr.Id, ex.Id, "false");
+        if (block.Kind == BasicBlockKind.Entry) return "entry";
+        if (block.Kind == BasicBlockKind.Exit) return "exit";
 
-        var ctx = new Loop(hdr.Id, ex.Id);
-        var (bf, bl) = Stmt(s.Statement, exitId, ctx);
-        if (bf >= 0) { Edge(hdr.Id, bf, "true"); if (bl >= 0) Edge(bl, hdr.Id, "back-edge"); }
-
-        return (hdr.Id, ex.Id);
-    }
-
-    // ─── do-while ───
-
-    private (int f, int l) Do(DoStatementSyntax s, int exitId)
-    {
-        var cond = NodeSyn("loop-condition", s.Condition);
-        var ex   = Node("loop-exit", EndL(s), EndL(s), "end-do");
-
-        var ctx = new Loop(cond.Id, ex.Id);
-        var (bf, bl) = Stmt(s.Statement, exitId, ctx);
-
-        int entry = bf >= 0 ? bf : cond.Id;
-        if (bl >= 0) Edge(bl, cond.Id, "sequential");
-        if (bf >= 0) Edge(cond.Id, bf, "true");  // back-edge
-        Edge(cond.Id, ex.Id, "false");
-
-        return (entry, ex.Id);
-    }
-
-    // ─── switch ───
-
-    private (int f, int l) Switch(SwitchStatementSyntax s, int exitId, Loop? loop)
-    {
-        var sw   = NodeSyn("switch", s.Expression);
-        var join = Node("join", EndL(s), EndL(s), "end-switch");
-
-        // break inside a switch section should exit the switch (not an enclosing loop)
-        var ctx = new Loop(loop?.HeaderId ?? -1, join.Id);
-
-        foreach (var sec in s.Sections)
+        // Check enclosing region
+        var region = block.EnclosingRegion;
+        while (region != null)
         {
-            var lbl = string.Join(", ", sec.Labels.Select(l => Collapse(l.ToString())));
-            var cn  = Node("case", StartL(sec), StartL(sec), Trunc(lbl, 150));
-            Edge(sw.Id, cn.Id, "case");
-
-            var (bf, bl) = Sequence(sec.Statements, exitId, ctx);
-            if (bf >= 0) { Edge(cn.Id, bf, "sequential"); if (bl >= 0) Edge(bl, join.Id, "fall-through"); }
-            else         Edge(cn.Id, join.Id, "sequential");
+            switch (region.Kind)
+            {
+                case ControlFlowRegionKind.Catch: return "catch";
+                case ControlFlowRegionKind.Finally: return "finally";
+                case ControlFlowRegionKind.Filter: return "filter";
+            }
+            region = region.EnclosingRegion;
         }
 
-        return (sw.Id, join.Id);
+        // Check for branch (has conditional successor)
+        if (block.ConditionalSuccessor != null)
+        {
+            // Check if this is a loop header (has back-edge predecessor)
+            foreach (var pred in block.Predecessors)
+            {
+                if (pred.Source.Ordinal > block.Ordinal)
+                    return "loop-header";
+            }
+            return "branch";
+        }
+
+        // Check exit semantics
+        if (block.FallThroughSuccessor?.Semantics == ControlFlowBranchSemantics.Return)
+            return "return";
+        if (block.FallThroughSuccessor?.Semantics is ControlFlowBranchSemantics.Throw
+            or ControlFlowBranchSemantics.Rethrow)
+            return "throw";
+
+        return "statement";
     }
 
-    // ─── try / catch / finally ───
-
-    private (int f, int l) Try(TryStatementSyntax s, int exitId, Loop? loop)
+    private static (int Start, int End, string Code) GetBlockInfo(
+        BasicBlock block, int methodStart, int methodEnd, string methodName)
     {
-        var tryN = Node("try", StartL(s), StartL(s), "try");
-        var join = Node("join", EndL(s), EndL(s), "end-try");
+        if (block.Kind == BasicBlockKind.Entry)
+            return (methodStart, methodStart, $"Enter {methodName}");
+        if (block.Kind == BasicBlockKind.Exit)
+            return (methodEnd, methodEnd, $"Exit {methodName}");
 
-        // try body
-        var (tf, tl) = Sequence(s.Block.Statements, exitId, loop);
-        if (tf >= 0) { Edge(tryN.Id, tf, "try-body"); if (tl >= 0) Edge(tl, join.Id, "sequential"); }
-        else         Edge(tryN.Id, join.Id, "try-body");
+        int minLine = int.MaxValue, maxLine = int.MinValue;
+        var codeBuilder = new System.Text.StringBuilder();
 
-        // catch clauses
-        foreach (var c in s.Catches)
+        foreach (var op in block.Operations)
         {
-            var ct = c.Declaration?.Type.ToString() ?? "Exception";
-            var cn = Node("catch", StartL(c), StartL(c), $"catch ({ct})");
-            Edge(tryN.Id, cn.Id, "exception");
+            var loc = op.Syntax.GetLocation().GetLineSpan();
+            var start = loc.StartLinePosition.Line + 1;
+            var end = loc.EndLinePosition.Line + 1;
+            if (start < minLine) minLine = start;
+            if (end > maxLine) maxLine = end;
 
-            var (cf, cl) = Sequence(c.Block.Statements, exitId, loop);
-            if (cf >= 0) { Edge(cn.Id, cf, "sequential"); if (cl >= 0) Edge(cl, join.Id, "sequential"); }
-            else         Edge(cn.Id, join.Id, "sequential");
+            if (codeBuilder.Length > 0) codeBuilder.Append("; ");
+            codeBuilder.Append(Collapse(op.Syntax.ToString()));
         }
 
-        // finally
-        if (s.Finally != null)
+        // Include branch value in code
+        if (block.BranchValue != null)
         {
-            var fin     = Node("finally", StartL(s.Finally), StartL(s.Finally), "finally");
-            var endJoin = Node("join", EndL(s), EndL(s), "end-finally");
-            Edge(join.Id, fin.Id, "finally");
+            var bLoc = block.BranchValue.Syntax.GetLocation().GetLineSpan();
+            var bStart = bLoc.StartLinePosition.Line + 1;
+            var bEnd = bLoc.EndLinePosition.Line + 1;
+            if (bStart < minLine) minLine = bStart;
+            if (bEnd > maxLine) maxLine = bEnd;
 
-            var (ff, fl) = Sequence(s.Finally.Block.Statements, exitId, loop);
-            if (ff >= 0) { Edge(fin.Id, ff, "sequential"); if (fl >= 0) Edge(fl, endJoin.Id, "sequential"); }
-            else         Edge(fin.Id, endJoin.Id, "sequential");
-
-            return (tryN.Id, endJoin.Id);
+            if (codeBuilder.Length > 0) codeBuilder.Append("; ");
+            codeBuilder.Append(Collapse(block.BranchValue.Syntax.ToString()));
         }
 
-        return (tryN.Id, join.Id);
+        if (minLine == int.MaxValue) minLine = methodStart;
+        if (maxLine == int.MinValue) maxLine = minLine;
+
+        return (minLine, maxLine, codeBuilder.Length > 0 ? codeBuilder.ToString() : "(empty)");
     }
 
     // ───────────────────── utilities ──────────────────────────
 
-    private static int StartL(SyntaxNode n) => n.GetLocation().GetLineSpan().StartLinePosition.Line + 1;
-    private static int EndL(SyntaxNode n)   => n.GetLocation().GetLineSpan().EndLinePosition.Line + 1;
+    private static List<MetadataReference> GetRuntimeReferences()
+    {
+        var runtimeDir = Path.GetDirectoryName(typeof(object).Assembly.Location)!;
+        var refs = new List<MetadataReference>();
+        foreach (var dll in Directory.GetFiles(runtimeDir, "*.dll"))
+        {
+            try { refs.Add(MetadataReference.CreateFromFile(dll)); }
+            catch { /* skip native/invalid DLLs */ }
+        }
+        return refs;
+    }
 
     private static string Collapse(string text) => Regex.Replace(text, @"\s+", " ").Trim();
     private static string Trunc(string text, int max) => text.Length > max ? text[..(max - 3)] + "..." : text;
@@ -381,6 +277,4 @@ public sealed class CfgBuilder
         var prop = a.Ancestors().OfType<PropertyDeclarationSyntax>().FirstOrDefault();
         return $"{prop?.Identifier.Text ?? "property"}.{a.Keyword.Text}";
     }
-
-    private sealed record Loop(int HeaderId, int ExitId);
 }

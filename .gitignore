@@ -22,6 +22,11 @@ Program_Instrumented.cs
 TraceLogger.cs
 *.bak
 
+# Pipeline diagram (local-only, not committed)
+AutoRepair/pipeline_diagram.mmd
+AutoRepair/pipeline_diagram.png
+AutoRepair/STEP3_PIPELINE.png
+
 # Temporary & System Files
 *.log
 *.tmp

@@ -63,6 +63,7 @@ internal static class Program
         // 2. Build CFGs for each file containing violations
         var locator = new SourceLocator(sourceDir.FullName);
         var builder = new CfgBuilder();
+        builder.Initialize(sourceDir.FullName);
         var methods = new List<MethodCfg>();
 
         foreach (var group in violations.GroupBy(v => v.File))
