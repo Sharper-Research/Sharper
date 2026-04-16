@@ -2,66 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.CodeAnalysis.FlowAnalysis;
-
 using AutoRepair.CFGAnalyzer.Models;
 
 namespace AutoRepair.CFGAnalyzer.Flow;
 
 public static class FlowAnalysis
 {
-    public static DominatorTree BuildDominatorTree(ControlFlowGraph cfg)
-    {
-        var domSets = ComputeDominatorSets(cfg);
-        var tree = new DominatorTree(0);
-
-        // For each node n (except root), find its immediate dominator
-        // IDom(n) = d such that d dominates n, d != n, and d is dominated by all other dominators of n
-        foreach (var kvp in domSets)
-        {
-            int n = kvp.Key;
-            if (n == 0) continue;
-
-            var dominators = kvp.Value;
-            int iDom = -1;
-
-            foreach (int d in dominators)
-            {
-                if (d == n) continue;
-
-                // Check if d is dominated by all other nodes in Dom(n) - {n}
-                bool isIDom = true;
-                foreach (int otherD in dominators)
-                {
-                    if (otherD == n || otherD == d) continue;
-                    
-                    // if otherD does not dominate d, then d cannot be the IDom
-                    if (!domSets[d].Contains(otherD))
-                    {
-                        isIDom = false;
-                        break;
-                    }
-                }
-
-                if (isIDom)
-                {
-                    iDom = d;
-                    break;
-                }
-            }
-
-            if (iDom != -1)
-            {
-                var childNode = tree.GetOrAddNode(n);
-                var parentNode = tree.GetOrAddNode(iDom);
-                
-                childNode.ImmediateDominator = parentNode;
-                parentNode.Children.Add(childNode);
-            }
-        }
-
-        return tree;
-    }
-
+    /// <summary>
+    /// Computes the dominator sets for all basic blocks in a control flow graph.
+    /// </summary>
     public static Dictionary<int, HashSet<int>> ComputeDominatorSets(ControlFlowGraph cfg)
     {
         int n = cfg.Blocks.Length;
@@ -114,9 +63,62 @@ public static class FlowAnalysis
         return result;
     }
 
-    public static List<List<string>> GetPathConstraintsAcyclic(ControlFlowGraph cfg)
+    /// <summary>
+    /// Builds the Dominator Tree from the computed dominator sets.
+    /// </summary>
+    public static DominatorTree BuildDominatorTree(ControlFlowGraph cfg, Dictionary<int, HashSet<int>> domSets)
     {
-        var domSets = ComputeDominatorSets(cfg);
+        var tree = new DominatorTree(0);
+
+        foreach (var kvp in domSets)
+        {
+            int n = kvp.Key;
+            if (n == 0) continue;
+
+            var dominators = kvp.Value;
+            int iDom = -1;
+
+            foreach (int d in dominators)
+            {
+                if (d == n) continue;
+
+                bool isIDom = true;
+                foreach (int otherD in dominators)
+                {
+                    if (otherD == n || otherD == d) continue;
+                    
+                    if (!domSets[d].Contains(otherD))
+                    {
+                        isIDom = false;
+                        break;
+                    }
+                }
+
+                if (isIDom)
+                {
+                    iDom = d;
+                    break;
+                }
+            }
+
+            if (iDom != -1)
+            {
+                var childNode = tree.GetOrAddNode(n);
+                var parentNode = tree.GetOrAddNode(iDom);
+                
+                childNode.ImmediateDominator = parentNode;
+                parentNode.Children.Add(childNode);
+            }
+        }
+
+        return tree;
+    }
+
+    /// <summary>
+    /// Explores acyclic paths to generate path constraints.
+    /// </summary>
+    public static List<List<string>> GetPathConstraintsAcyclic(ControlFlowGraph cfg, Dictionary<int, HashSet<int>> domSets)
+    {
         var allPaths = new List<List<string>>();
         if (cfg.Blocks.Length == 0) return allPaths;
 
@@ -130,13 +132,12 @@ public static class FlowAnalysis
 
         if (block.ConditionalSuccessor != null && block.FallThroughSuccessor != null && block.BranchValue != null)
         {
-            string condition = block.BranchValue.Syntax.ToString().Replace("\n", " ").Trim();
-            
+            string condition = block.BranchValue.Syntax.ToString().Replace("\\n", " ").Trim();
             var destA = block.ConditionalSuccessor.Destination;
             var destB = block.FallThroughSuccessor.Destination;
 
-            bool isBackA = destA != null && domSets[block.Ordinal].Contains(destA.Ordinal);
-            bool isBackB = destB != null && domSets[block.Ordinal].Contains(destB.Ordinal);
+            bool isBackA = destA != null && domSets.ContainsKey(destA.Ordinal) && domSets[block.Ordinal].Contains(destA.Ordinal);
+            bool isBackB = destB != null && domSets.ContainsKey(destB.Ordinal) && domSets[block.Ordinal].Contains(destB.Ordinal);
 
             if (!isBackA && destA != null)
             {
@@ -157,7 +158,7 @@ public static class FlowAnalysis
         else if (block.FallThroughSuccessor != null && block.FallThroughSuccessor.Destination != null)
         {
             var dest = block.FallThroughSuccessor.Destination;
-            if (!domSets[block.Ordinal].Contains(dest.Ordinal))
+            if (dest != null && domSets.ContainsKey(dest.Ordinal) && !domSets[block.Ordinal].Contains(dest.Ordinal))
             {
                 ExplorePathAcyclic(dest, currentPath, domSets, allPaths);
                 hasForwardSuccessor = true;
@@ -170,9 +171,11 @@ public static class FlowAnalysis
         }
     }
 
-    public static List<List<string>> GetPathsToBlockAcyclic(ControlFlowGraph cfg, int targetBlockOrdinal)
+    /// <summary>
+    /// Explores acyclic paths to a specific target block, generating path constraints.
+    /// </summary>
+    public static List<List<string>> GetPathsToBlockAcyclic(ControlFlowGraph cfg, int targetBlockOrdinal, Dictionary<int, HashSet<int>> domSets)
     {
-        var domSets = ComputeDominatorSets(cfg);
         var allPaths = new List<List<string>>();
         if (cfg.Blocks.Length == 0) return allPaths;
 
@@ -188,14 +191,13 @@ public static class FlowAnalysis
             return;
         }
 
-        if (block.ConditionalSuccessor != null && block.FallThroughSuccessor != null && block.BranchValue != null)
-        {
-            string condition = block.BranchValue.Syntax.ToString().Replace("\n", " ").Trim();
+        if (block.ConditionalSuccessor != null && block.FallThroughSuccessor != null && block.BranchValue != null) {
+        string condition = block.BranchValue.Syntax.ToString().Replace("\\n", " ").Trim();
             var destA = block.ConditionalSuccessor.Destination;
             var destB = block.FallThroughSuccessor.Destination;
 
-            bool isBackA = destA != null && domSets[block.Ordinal].Contains(destA.Ordinal);
-            bool isBackB = destB != null && domSets[block.Ordinal].Contains(destB.Ordinal);
+            bool isBackA = destA != null && domSets.ContainsKey(destA.Ordinal) && domSets[block.Ordinal].Contains(destA.Ordinal);
+            bool isBackB = destB != null && domSets.ContainsKey(destB.Ordinal) && domSets[block.Ordinal].Contains(destB.Ordinal);
 
             if (!isBackA && destA != null)
             {
@@ -214,7 +216,7 @@ public static class FlowAnalysis
         else if (block.FallThroughSuccessor != null && block.FallThroughSuccessor.Destination != null)
         {
             var dest = block.FallThroughSuccessor.Destination;
-            if (!domSets[block.Ordinal].Contains(dest.Ordinal))
+            if (dest != null && domSets.ContainsKey(dest.Ordinal) && !domSets[block.Ordinal].Contains(dest.Ordinal))
                 ExplorePathToBlockAcyclic(dest, targetOrdinal, currentPath, domSets, allPaths);
         }
     }

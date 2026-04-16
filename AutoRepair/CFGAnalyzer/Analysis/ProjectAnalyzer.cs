@@ -2,11 +2,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.FlowAnalysis;
-using Microsoft.CodeAnalysis.Operations;
+using Microsoft.CodeAnalysis.Operations; // Add this using directive
+using Microsoft.CodeAnalysis.CSharp.Syntax; // Add this using directive
 using AutoRepair.CFGAnalyzer.Models;
-using AutoRepair.CFGAnalyzer.Flow;
+using AutoRepair.CFGAnalyzer.Analysis; 
+using AutoRepair.CFGAnalyzer.Flow; // Add this using directive for FlowAnalysis
 
 namespace AutoRepair.CFGAnalyzer.Analysis;
 
@@ -19,6 +20,7 @@ public static class ProjectAnalyzer
 
         var callGraph = new CallGraph();
         var methodCfgs = new Dictionary<IMethodSymbol, ControlFlowGraph>(SymbolEqualityComparer.Default);
+        var methodAnalysisResults = new Dictionary<IMethodSymbol, MethodAnalysisResult>(SymbolEqualityComparer.Default);
 
         // 1. Collect all internal CFGs
         foreach (var document in project.Documents)
@@ -45,47 +47,63 @@ public static class ProjectAnalyzer
                 if (cfg != null && symbol != null)
                 {
                     methodCfgs[symbol] = cfg;
+                    methodAnalysisResults[symbol] = new MethodAnalysisResult(cfg, new List<CallSite>());
                 }
             }
         }
 
-        // 2. Perform analysis and build the Call Graph structure
+        // 2. Build Call Graph and discover Call Sites
+        var instantiatedTypes = CollectInstantiatedTypes(methodCfgs.Values);
+        var callGraphBuilder = new CallGraphBuilder(new List<ICallResolver>
+        {
+            new RapidTypeAnalysisCallResolver(instantiatedTypes),
+            new InterfaceImplementationCallResolver(),
+            new StaticCallResolver()
+        });
         foreach (var kvp in methodCfgs)
         {
             var symbol = kvp.Key;
             var cfg = kvp.Value;
-            var node = callGraph.GetOrAddNode(symbol);
+            var analysisResult = methodAnalysisResults[symbol];
+            
+            analysisResult.CallSites.AddRange(await callGraphBuilder.DiscoverCallSitesAsync(cfg, methodCfgs, project));
+        }
+        callGraphBuilder.BuildEdges(callGraph, methodAnalysisResults);
 
-            var callSites = new List<CallSite>();
+        // 3. Perform Data Flow Analysis
+        var dataFlowAnalyzer = new DataFlowAnalyzer();
+        foreach (var kvp in methodAnalysisResults)
+        {
+            var symbol = kvp.Key;
+            var analysisResult = kvp.Value;
+            
+            analysisResult.DataFlow = dataFlowAnalyzer.Analyze(analysisResult.Cfg);
+        }
+
+        return callGraph;
+    }
+
+    private static IEnumerable<INamedTypeSymbol> CollectInstantiatedTypes(IEnumerable<ControlFlowGraph> cfgs)
+    {
+        var instantiated = new HashSet<INamedTypeSymbol>(SymbolEqualityComparer.Default);
+
+        foreach (var cfg in cfgs)
+        {
             foreach (var block in cfg.Blocks)
             {
                 foreach (var op in block.Operations)
                 {
                     foreach (var descendant in op.DescendantsAndSelf())
                     {
-                        IMethodSymbol? target = descendant switch
+                        if (descendant is IObjectCreationOperation { Type: INamedTypeSymbol createdType })
                         {
-                            IInvocationOperation inv => inv.TargetMethod,
-                            IObjectCreationOperation oc => oc.Constructor,
-                            IPropertyReferenceOperation pr => pr.Property.GetMethod ?? pr.Property.SetMethod,
-                            _ => null
-                        };
-
-                        if (target != null)
-                        {
-                            var site = new CallSite(block.Ordinal, target, methodCfgs.ContainsKey(target));
-                            callSites.Add(site);
-                            callGraph.AddEdge(symbol, target, site);
+                            instantiated.Add(createdType);
                         }
                     }
                 }
             }
-
-            var pathConstraints = Flow.FlowAnalysis.GetPathConstraintsAcyclic(cfg);
-            var dominatorTree = Flow.FlowAnalysis.BuildDominatorTree(cfg);
-            node.Analysis = new MethodAnalysisResult(cfg, pathConstraints, callSites, dominatorTree);
         }
 
-        return callGraph;
+        return instantiated;
     }
 }

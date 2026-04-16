@@ -16,15 +16,17 @@ class Program
         if (args.Length == 0)
         {
             Console.WriteLine("Usage: CFGAnalyzer <project-or-solution-path>");
+            Console.WriteLine("Example: CFGAnalyzer /abs/path/to/Target.sln");
             return;
         }
+
+        string path = args[0];
 
         if (!Microsoft.Build.Locator.MSBuildLocator.IsRegistered)
         {
             Microsoft.Build.Locator.MSBuildLocator.RegisterDefaults();
         }
 
-        string path = args[0];
         try
         {
             using var workspace = MSBuildWorkspace.Create();
@@ -60,6 +62,7 @@ class Program
             Console.WriteLine($"[Workspace Error] {diag.Message}");
         }
     }
+
 
     static async Task AnalyzeAndTraverse(Project project)
     {

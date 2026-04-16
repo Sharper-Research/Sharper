@@ -14,14 +14,32 @@ public record CallSite(
 );
 
 /// <summary>
-/// Contains the local analysis results for a single method.
+/// Contains the dataflow analysis results for a single method.
 /// </summary>
-public record MethodAnalysisResult(
-    ControlFlowGraph Cfg,
+public record DataFlowAnalysisResult(
     List<List<string>> PathConstraints,
-    List<CallSite> CallSites,
     DominatorTree? DominatorTree = null
 );
+
+/// <summary>
+/// Contains the local analysis results for a single method.
+/// </summary>
+public class MethodAnalysisResult
+{
+    public ControlFlowGraph Cfg { get; }
+    public List<CallSite> CallSites { get; }
+    public DataFlowAnalysisResult? DataFlow { get; set; }
+
+    public MethodAnalysisResult(ControlFlowGraph cfg, List<CallSite> callSites)
+    {
+        Cfg = cfg;
+        CallSites = callSites;
+    }
+
+    // Compatibility for existing code
+    public List<List<string>> PathConstraints => DataFlow?.PathConstraints ?? new();
+    public DominatorTree? DominatorTree => DataFlow?.DominatorTree;
+}
 
 /// <summary>
 /// Represents a node in the Dominator Tree.
