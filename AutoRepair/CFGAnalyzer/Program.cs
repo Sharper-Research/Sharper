@@ -64,17 +64,23 @@ class Program
     static async Task AnalyzeAndTraverse(Project project)
     {
         Console.WriteLine($"\n--- Analyzing Project: {project.Name} ---");
-        var results = await ProjectAnalyzer.AnalyzeProjectAsync(project);
+        var callGraph = await ProjectAnalyzer.AnalyzeProjectAsync(project);
 
-        var entryPoints = results.Keys.Where(s => s.Name == "Main").ToList();
-        if (entryPoints.Count == 0 && results.Count > 0) entryPoints.Add(results.Keys.First());
-
-        foreach (var entry in entryPoints)
+        var entryNodes = callGraph.Nodes.Values
+            .Where(n => n.Symbol.Name == "Main" && n.Analysis != null)
+            .ToList();
+            
+        if (entryNodes.Count == 0 && callGraph.Nodes.Count > 0)
         {
-            Console.WriteLine($"\n=== Call Graph Traversal starting from: {entry.ToDisplayString()} ===");
+            var firstWithAnalysis = callGraph.Nodes.Values.FirstOrDefault(n => n.Analysis != null);
+            if (firstWithAnalysis != null) entryNodes.Add(firstWithAnalysis);
+        }
+
+        foreach (var entry in entryNodes)
+        {
+            Console.WriteLine($"\n=== Call Graph Traversal starting from: {entry.Symbol.ToDisplayString()} ===");
             CallGraphTraverser.TraverseAndGeneratePathConditions(
                 entry, 
-                results, 
                 new List<string>(), 
                 new HashSet<IMethodSymbol>(SymbolEqualityComparer.Default));
         }
