@@ -3,6 +3,7 @@ using System.Collections.Immutable;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoRepair.CFGAnalyzer;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.FindSymbols;
 using Microsoft.CodeAnalysis.FlowAnalysis;
@@ -15,6 +16,8 @@ namespace AutoRepair.CFGAnalyzer.Analysis;
 /// </summary>
 public interface ICallResolver
 {
+    CallResolver Kind { get; }
+
     /// <summary>
     /// Higher priority resolvers are tried first.
     /// </summary>
@@ -31,6 +34,7 @@ public interface ICallResolver
 /// </summary>
 public class StaticCallResolver : ICallResolver
 {
+    public CallResolver Kind => CallResolver.Static;
     public int Priority => 0;
 
     public Task<IEnumerable<IMethodSymbol>> ResolveAsync(
@@ -74,6 +78,7 @@ public class StaticCallResolver : ICallResolver
 /// </summary>
 public class InterfaceImplementationCallResolver : ICallResolver
 {
+    public CallResolver Kind => CallResolver.InterfaceImplementation;
     public int Priority => 100;
 
     public async Task<IEnumerable<IMethodSymbol>> ResolveAsync(
@@ -113,6 +118,7 @@ public class RapidTypeAnalysisCallResolver : ICallResolver
 {
     private readonly HashSet<INamedTypeSymbol> _instantiatedTypes;
 
+    public CallResolver Kind => CallResolver.RapidTypeAnalysis;
     public int Priority => 200;
 
     public RapidTypeAnalysisCallResolver(IEnumerable<INamedTypeSymbol> instantiatedTypes)

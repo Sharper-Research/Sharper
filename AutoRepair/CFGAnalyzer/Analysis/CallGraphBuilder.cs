@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using AutoRepair.CFGAnalyzer;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Operations;
-using AutoRepair.CFGAnalyzer.Models;
 using Microsoft.CodeAnalysis.FlowAnalysis;
 
 namespace AutoRepair.CFGAnalyzer.Analysis;

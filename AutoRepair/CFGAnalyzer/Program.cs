@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.MSBuild;
 using AutoRepair.CFGAnalyzer.Analysis;
-using AutoRepair.CFGAnalyzer.Traversal;
 
 namespace AutoRepair.CFGAnalyzer;
 
@@ -19,7 +18,7 @@ class Program
             Console.WriteLine("Usage: CFGAnalyzer <project-or-solution-path>");
             Console.WriteLine("Example: CFGAnalyzer /abs/path/to/Target.sln");
             Console.WriteLine("Optional flags: --exclude-system-library-targets (keeps System.Console.*)");
-            Console.WriteLine("                --disable-resolver <name>  Disable a call resolver by class name.");
+            Console.WriteLine("                --disable-resolver <name>  Disable a call resolver by enum name (case-insensitive).");
             Console.WriteLine($"                  Known names: {string.Join(", ", Enum.GetNames<CallResolver>())}");
             return;
         }
@@ -34,7 +33,7 @@ class Program
         try
         {
             using var workspace = MSBuildWorkspace.Create();
-            workspace.WorkspaceFailed += (s, e) => Console.WriteLine($"[Workspace Warning] {e.Diagnostic.Message}");
+            workspace.RegisterWorkspaceFailedHandler(e => Console.WriteLine($"[Workspace Warning] {e.Diagnostic.Message}"));
             
             if (path.EndsWith(".sln", StringComparison.OrdinalIgnoreCase))
             {
@@ -55,7 +54,7 @@ class Program
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error: {ex.Message}");
+            Console.WriteLine($"Error: {ex}");
         }
     }
 
