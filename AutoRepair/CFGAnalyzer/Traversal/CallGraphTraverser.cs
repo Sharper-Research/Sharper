@@ -6,8 +6,8 @@ using Microsoft.CodeAnalysis.FlowAnalysis;
 using Microsoft.CodeAnalysis.Operations; // Add this using directive
 using Microsoft.CodeAnalysis.CSharp.Syntax; // Add this using directive
 using AutoRepair.CFGAnalyzer.Models;
-using AutoRepair.CFGAnalyzer.Analysis; 
-using AutoRepair.CFGAnalyzer.Flow; 
+using AutoRepair.CFGAnalyzer.Analysis;
+using CFGAnalyzer.Analysis;
 
 namespace AutoRepair.CFGAnalyzer.Traversal;
 

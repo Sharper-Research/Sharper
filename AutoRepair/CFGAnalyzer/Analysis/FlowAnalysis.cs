@@ -1,10 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.CodeAnalysis.FlowAnalysis;
 using AutoRepair.CFGAnalyzer.Models;
+using Microsoft.CodeAnalysis.FlowAnalysis;
 
-namespace AutoRepair.CFGAnalyzer.Flow;
+namespace CFGAnalyzer.Analysis;
 
 public static class FlowAnalysis
 {

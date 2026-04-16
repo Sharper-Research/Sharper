@@ -16,4 +16,8 @@
   <ItemGroup>
     <Compile Remove="samples/**/*.cs" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Flow\" />
+  </ItemGroup>
 </Project>
