@@ -3,10 +3,65 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.CodeAnalysis.FlowAnalysis;
 
+using AutoRepair.CFGAnalyzer.Models;
+
 namespace AutoRepair.CFGAnalyzer.Flow;
 
 public static class FlowAnalysis
 {
+    public static DominatorTree BuildDominatorTree(ControlFlowGraph cfg)
+    {
+        var domSets = ComputeDominatorSets(cfg);
+        var tree = new DominatorTree(0);
+
+        // For each node n (except root), find its immediate dominator
+        // IDom(n) = d such that d dominates n, d != n, and d is dominated by all other dominators of n
+        foreach (var kvp in domSets)
+        {
+            int n = kvp.Key;
+            if (n == 0) continue;
+
+            var dominators = kvp.Value;
+            int iDom = -1;
+
+            foreach (int d in dominators)
+            {
+                if (d == n) continue;
+
+                // Check if d is dominated by all other nodes in Dom(n) - {n}
+                bool isIDom = true;
+                foreach (int otherD in dominators)
+                {
+                    if (otherD == n || otherD == d) continue;
+                    
+                    // if otherD does not dominate d, then d cannot be the IDom
+                    if (!domSets[d].Contains(otherD))
+                    {
+                        isIDom = false;
+                        break;
+                    }
+                }
+
+                if (isIDom)
+                {
+                    iDom = d;
+                    break;
+                }
+            }
+
+            if (iDom != -1)
+            {
+                var childNode = tree.GetOrAddNode(n);
+                var parentNode = tree.GetOrAddNode(iDom);
+                
+                childNode.ImmediateDominator = parentNode;
+                parentNode.Children.Add(childNode);
+            }
+        }
+
+        return tree;
+    }
+
     public static Dictionary<int, HashSet<int>> ComputeDominatorSets(ControlFlowGraph cfg)
     {
         int n = cfg.Blocks.Length;
