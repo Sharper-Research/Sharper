@@ -113,7 +113,7 @@ var config = new CallGraphConfig
 
 - Implement Interprocedural pointer analysis to further narrow call targets.
 - Implement CFG construction algorithms for:
-  - delegates, 
+  - delegates (intraprocedural done; interprocedural not yet supported), 
   - events, 
   - dynamic calls, 
   - extension methods, 
