@@ -12,7 +12,7 @@ public enum CallResolver
     RapidTypeAnalysis,
     IntraproceduralDelegate,
     OperatorOverload,
-    FunctionPointer
+    IntraproceduralFunctionPointer
 }
 
 public class CallGraphConfig

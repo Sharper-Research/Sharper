@@ -409,7 +409,7 @@ public class OperatorOverloadCallResolver : ICallResolver
 /// </summary>
 public class FunctionPointerResolver : ICfgAwareCallResolver
 {
-    public CallResolver Kind => CallResolver.FunctionPointer;
+    public CallResolver Kind => CallResolver.IntraproceduralFunctionPointer;
 
     // Run after static (which can't resolve unsafe pointers) but before interface/RTA
     // to capture intraprocedural pointer assignments before falling through.
@@ -425,10 +425,11 @@ public class FunctionPointerResolver : ICfgAwareCallResolver
     {
         _pointerTargets = new Dictionary<ISymbol, HashSet<IMethodSymbol>>(SymbolEqualityComparer.Default);
 
-        foreach (var block in cfg.Blocks)
-        foreach (var op in block.Operations)
-        foreach (var descendant in op.DescendantsAndSelf())
+        foreach (var descendant in cfg.Blocks.SelectMany(block =>
+                     block.Operations.SelectMany(op => op.DescendantsAndSelf())))
+        {
             ScanForPointerAssignment(descendant);
+        }
     }
 
     // ── Resolution ────────────────────────────────────────────────────────────
