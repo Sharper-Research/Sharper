@@ -66,18 +66,85 @@ public class CallGraphBuilder
 
                     foreach (var target in targets)
                     {
-                        if (ShouldSkipTarget(target, internalCfgs))
+                        var internalTarget = ResolveInternalTarget(target, internalCfgs);
+                        var effectiveTarget = internalTarget ?? target;
+
+                        if (ShouldSkipTarget(effectiveTarget, internalCfgs))
                         {
                             continue;
                         }
 
-                        var site = new CallSite(block.Ordinal, target, internalCfgs.ContainsKey(target));
+                        var callerLineNumber = GetCallerLineNumber(descendant);
+                        var calleeLineNumber = GetCalleeLineNumber(effectiveTarget);
+                        var site = new CallSite(
+                            block.Ordinal,
+                            effectiveTarget,
+                            internalTarget != null,
+                            callerLineNumber,
+                            calleeLineNumber);
                         callSites.Add(site);
                     }
                 }
             }
         }
         return callSites;
+    }
+
+    private static IMethodSymbol? ResolveInternalTarget(
+        IMethodSymbol target,
+        Dictionary<IMethodSymbol, ControlFlowGraph> internalCfgs)
+    {
+        if (internalCfgs.ContainsKey(target))
+        {
+            return target;
+        }
+
+        var originalDefinition = target.OriginalDefinition;
+        if (internalCfgs.ContainsKey(originalDefinition))
+        {
+            return originalDefinition;
+        }
+
+        var constructedFrom = target.ConstructedFrom;
+        if (constructedFrom != null && internalCfgs.ContainsKey(constructedFrom))
+        {
+            return constructedFrom;
+        }
+
+        return null;
+    }
+
+    private static int? GetCallerLineNumber(IOperation operation)
+    {
+        if (operation.Syntax == null)
+        {
+            return null;
+        }
+
+        var span = operation.Syntax.GetLocation().GetLineSpan();
+        if (!span.IsValid)
+        {
+            return null;
+        }
+
+        return span.StartLinePosition.Line + 1;
+    }
+
+    private static int? GetCalleeLineNumber(IMethodSymbol target)
+    {
+        var sourceLocation = target.Locations.FirstOrDefault(location => location.IsInSource);
+        if (sourceLocation == null)
+        {
+            return null;
+        }
+
+        var span = sourceLocation.GetLineSpan();
+        if (!span.IsValid)
+        {
+            return null;
+        }
+
+        return span.StartLinePosition.Line + 1;
     }
 
     private bool ShouldSkipTarget(IMethodSymbol target, Dictionary<IMethodSymbol, ControlFlowGraph> internalCfgs)

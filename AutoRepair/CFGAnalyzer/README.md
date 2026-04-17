@@ -23,6 +23,9 @@ dotnet run --project CFGAnalyzer.csproj -- --exclude-system-library-targets /abs
 - `samples/LambdaLocalFunctionDemo/`: validates lambda and local-function resolution.
   - Expected include: `LocalWork()`, `lambda expression`
   - Expected exclude: `NeverCalled`
+- `samples/GenericsDemo/`: validates partial generic callgraph support.
+  - Expected include: `PrintValue<T>`, `Consume<T>`, `Box<T>.Update(T)`, `Box<T>.Log(T)`
+  - Current limitation: generic calls are normalized to generic definitions (`<T>`), not preserved as separate constructed targets (`<int>`, `<string>`).
 
 Use the cross-platform verifier scripts:
 
