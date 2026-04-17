@@ -45,13 +45,15 @@ public static class ProjectAnalyzer
                 ControlFlowGraph? cfg = null;
                 try
                 {
-                    if (operation is IBlockOperation blockOp) cfg = ControlFlowGraph.Create(blockOp);
-                    else if (operation is IMethodBodyOperation mb) cfg = ControlFlowGraph.Create(mb);
-                    else if (operation is IConstructorBodyOperation cb) cfg = ControlFlowGraph.Create(cb);
-                    else if (operation is ILocalFunctionOperation local && local.Body != null)
-                        cfg = ControlFlowGraph.Create(local.Body);
-                    else if (operation is IAnonymousFunctionOperation anon && anon.Body != null)
-                        cfg = ControlFlowGraph.Create(anon.Body);
+                    cfg = operation switch
+                    {
+                        IBlockOperation blockOp => ControlFlowGraph.Create(blockOp),
+                        IMethodBodyOperation mb => ControlFlowGraph.Create(mb),
+                        IConstructorBodyOperation cb => ControlFlowGraph.Create(cb),
+                        ILocalFunctionOperation local when local.Body != null => ControlFlowGraph.Create(local.Body),
+                        IAnonymousFunctionOperation anon when anon.Body != null => ControlFlowGraph.Create(anon.Body),
+                        _ => cfg
+                    };
                 }
                 catch (ArgumentException ex)
                 {
@@ -113,9 +115,10 @@ public static class ProjectAnalyzer
         var instantiated = new HashSet<INamedTypeSymbol>(SymbolEqualityComparer.Default);
 
         foreach (var cfg in cfgs)
-        foreach (var block in cfg.Blocks)
-        foreach (var op in block.Operations)
-        foreach (var descendant in op.DescendantsAndSelf())
+        foreach (var descendant in from block in cfg.Blocks
+                 from op in block.Operations
+                 from descendant in op.DescendantsAndSelf()
+                 select descendant)
             if (descendant is IObjectCreationOperation { Type: INamedTypeSymbol createdType })
                 instantiated.Add(createdType);
 

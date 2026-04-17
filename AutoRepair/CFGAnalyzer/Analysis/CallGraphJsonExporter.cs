@@ -58,26 +58,26 @@ public static class CallGraphJsonExporter
                 site.CalleeLineNumber))
             .ToList();
 
-        DominatorTreeJsonDto? dominatorTree = null;
-        if (analysis.DominatorTree != null)
-        {
-            var dominatorNodes = analysis.DominatorTree.Nodes.Values
-                .OrderBy(node => node.BlockOrdinal)
-                .Select(node => new DominatorTreeNodeJsonDto(
-                    node.BlockOrdinal,
-                    node.ImmediateDominator?.BlockOrdinal,
-                    node.Children.Select(child => child.BlockOrdinal).OrderBy(x => x).ToList()))
-                .ToList();
-
-            dominatorTree = new DominatorTreeJsonDto(
-                analysis.DominatorTree.Root.BlockOrdinal,
-                dominatorNodes);
-        }
+        if (analysis.DominatorTree == null)
+            return new CallGraphAnalysisJsonDto(
+                analysis.PathConstraints.Select(path => path.ToList()).ToList(),
+                callSites,
+                null);
+        
+        var dominatorNodes = analysis.DominatorTree.Nodes.Values
+            .OrderBy(node => node.BlockOrdinal)
+            .Select(node => new DominatorTreeNodeJsonDto(
+                node.BlockOrdinal,
+                node.ImmediateDominator?.BlockOrdinal,
+                node.Children.Select(child => child.BlockOrdinal).OrderBy(x => x).ToList()))
+            .ToList();
 
         return new CallGraphAnalysisJsonDto(
             analysis.PathConstraints.Select(path => path.ToList()).ToList(),
             callSites,
-            dominatorTree);
+            new DominatorTreeJsonDto(
+                analysis.DominatorTree.Root.BlockOrdinal,
+                dominatorNodes));
     }
 
     private static CallGraphEdgeJsonDto ToEdgeDto(CallGraphEdge edge)

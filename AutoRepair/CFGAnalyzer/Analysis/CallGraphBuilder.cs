@@ -92,8 +92,6 @@ public class CallGraphBuilder
 
     private static int? GetCallerLineNumber(IOperation operation)
     {
-        if (operation.Syntax == null) return null;
-
         var span = operation.Syntax.GetLocation().GetLineSpan();
         if (!span.IsValid) return null;
 

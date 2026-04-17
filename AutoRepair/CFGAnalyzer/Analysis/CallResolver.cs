@@ -317,16 +317,11 @@ public class RapidTypeAnalysisCallResolver : ICallResolver
 
         var resolved = new HashSet<IMethodSymbol>(SymbolEqualityComparer.Default);
 
-        foreach (var type in _instantiatedTypes)
+        foreach (var type in _instantiatedTypes.Where(type => !type.IsAbstract && type.TypeKind == TypeKind.Class)
+                     .Where(type => SymbolEqualityComparer.Default.Equals(type, target.ContainingType) ||
+                                    InheritsFrom(type, target.ContainingType)))
         {
-            if (type.IsAbstract || type.TypeKind != TypeKind.Class) continue;
-
-            if (!SymbolEqualityComparer.Default.Equals(type, target.ContainingType) &&
-                !InheritsFrom(type, target.ContainingType))
-                continue;
-
-            var resolvedMethod = ResolveOverrideOnType(type, target);
-            if (resolvedMethod != null) resolved.Add(resolvedMethod);
+            resolved.Add(ResolveOverrideOnType(type, target));
         }
 
         return resolved;
