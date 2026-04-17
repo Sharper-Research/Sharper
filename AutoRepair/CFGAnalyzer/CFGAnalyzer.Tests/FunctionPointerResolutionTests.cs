@@ -39,7 +39,7 @@ public class FunctionPointerResolutionTests
         // Verify the FunctionPointer resolver exists and can be disabled
         var config = new CallGraphConfig
         {
-            DisabledResolvers = new HashSet<CallResolver> { CallResolver.FunctionPointer }
+            DisabledResolvers = new HashSet<CallResolver> { CallResolver.IntraproceduralFunctionPointer }
         };
         
         var callGraph = await AnalyzeFunctionPointerDemoAsync(config);
