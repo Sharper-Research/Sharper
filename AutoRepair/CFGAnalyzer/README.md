@@ -65,6 +65,19 @@ scripts\verify-snapshots.bat
 6. Compute path/dominator data and attach it to method analysis results.
 7. Traverse/report from selected entry nodes.
 
+### Reachability API
+
+`CallGraphTraverser` exposes a reachability helper for graph queries:
+
+```csharp
+IReadOnlyList<CallGraphNode> reachable =
+    CallGraphTraverser.GetReachableCallNodes(startNode, ReachabilityDirection.Forward);
+```
+
+- `ReachabilityDirection.Forward`: follows `OutgoingEdges` (`caller -> callee`).
+- `ReachabilityDirection.Backward`: follows `IncomingEdges` (`callee <- caller`).
+- Results are deduplicated by method symbol and do not include the start node itself.
+
 ### Call Resolvers
 
 Call resolvers implement `ICallResolver` and are tried in descending priority order. The first resolver that returns a non-empty result wins. Resolvers can be disabled via `CallGraphConfig.DisabledResolvers` (using the `CallResolver` enum) or the `--disable-resolver` CLI flag.
