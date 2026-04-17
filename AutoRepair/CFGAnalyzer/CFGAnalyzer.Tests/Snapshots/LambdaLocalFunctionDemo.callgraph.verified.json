@@ -1,0 +1,167 @@
+{
+  "ProjectName": "LambdaLocalFunctionDemo",
+  "Nodes": [
+    {
+      "Id": "LambdaLocalFunctionDemo::LambdaLocalFunctionDemo.Program.Main()",
+      "DisplayName": "LambdaLocalFunctionDemo.Program.Main()",
+      "MethodName": "Main",
+      "ContainingType": "LambdaLocalFunctionDemo.Program",
+      "ContainingNamespace": "LambdaLocalFunctionDemo",
+      "AssemblyName": "LambdaLocalFunctionDemo",
+      "Analysis": {
+        "PathConstraints": [
+          []
+        ],
+        "CallSites": [
+          {
+            "BlockOrdinal": 1,
+            "TargetId": "LambdaLocalFunctionDemo::LocalWork()",
+            "TargetDisplayName": "LocalWork()",
+            "IsInternal": false,
+            "CallerLineNumber": 11,
+            "CalleeLineNumber": 7
+          },
+          {
+            "BlockOrdinal": 1,
+            "TargetId": "LambdaLocalFunctionDemo::lambda expression",
+            "TargetDisplayName": "lambda expression",
+            "IsInternal": false,
+            "CallerLineNumber": 13,
+            "CalleeLineNumber": 13
+          },
+          {
+            "BlockOrdinal": 1,
+            "TargetId": "LambdaLocalFunctionDemo::lambda expression",
+            "TargetDisplayName": "lambda expression",
+            "IsInternal": false,
+            "CallerLineNumber": 13,
+            "CalleeLineNumber": 13
+          },
+          {
+            "BlockOrdinal": 1,
+            "TargetId": "LambdaLocalFunctionDemo::lambda expression",
+            "TargetDisplayName": "lambda expression",
+            "IsInternal": false,
+            "CallerLineNumber": 19,
+            "CalleeLineNumber": 13
+          }
+        ],
+        "DominatorTree": {
+          "RootOrdinal": 0,
+          "Nodes": [
+            {
+              "BlockOrdinal": 0,
+              "ImmediateDominatorOrdinal": null,
+              "ChildOrdinals": [
+                1
+              ]
+            },
+            {
+              "BlockOrdinal": 1,
+              "ImmediateDominatorOrdinal": 0,
+              "ChildOrdinals": [
+                2
+              ]
+            },
+            {
+              "BlockOrdinal": 2,
+              "ImmediateDominatorOrdinal": 1,
+              "ChildOrdinals": []
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Id": "LambdaLocalFunctionDemo::LambdaLocalFunctionDemo.Program.NeverCalled()",
+      "DisplayName": "LambdaLocalFunctionDemo.Program.NeverCalled()",
+      "MethodName": "NeverCalled",
+      "ContainingType": "LambdaLocalFunctionDemo.Program",
+      "ContainingNamespace": "LambdaLocalFunctionDemo",
+      "AssemblyName": "LambdaLocalFunctionDemo",
+      "Analysis": {
+        "PathConstraints": [
+          []
+        ],
+        "CallSites": [],
+        "DominatorTree": {
+          "RootOrdinal": 0,
+          "Nodes": [
+            {
+              "BlockOrdinal": 0,
+              "ImmediateDominatorOrdinal": null,
+              "ChildOrdinals": [
+                1
+              ]
+            },
+            {
+              "BlockOrdinal": 1,
+              "ImmediateDominatorOrdinal": 0,
+              "ChildOrdinals": []
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Id": "LambdaLocalFunctionDemo::LocalWork()",
+      "DisplayName": "LocalWork()",
+      "MethodName": "LocalWork",
+      "ContainingType": "LambdaLocalFunctionDemo.Program",
+      "ContainingNamespace": "LambdaLocalFunctionDemo",
+      "AssemblyName": "LambdaLocalFunctionDemo",
+      "Analysis": null
+    },
+    {
+      "Id": "LambdaLocalFunctionDemo::lambda expression",
+      "DisplayName": "lambda expression",
+      "MethodName": "",
+      "ContainingType": "LambdaLocalFunctionDemo.Program",
+      "ContainingNamespace": "LambdaLocalFunctionDemo",
+      "AssemblyName": "LambdaLocalFunctionDemo",
+      "Analysis": null
+    }
+  ],
+  "Edges": [
+    {
+      "CallerId": "LambdaLocalFunctionDemo::LambdaLocalFunctionDemo.Program.Main()",
+      "CallerDisplayName": "LambdaLocalFunctionDemo.Program.Main()",
+      "CalleeId": "LambdaLocalFunctionDemo::LocalWork()",
+      "CalleeDisplayName": "LocalWork()",
+      "BlockOrdinal": 1,
+      "IsInternal": false,
+      "CallerLineNumber": 11,
+      "CalleeLineNumber": 7
+    },
+    {
+      "CallerId": "LambdaLocalFunctionDemo::LambdaLocalFunctionDemo.Program.Main()",
+      "CallerDisplayName": "LambdaLocalFunctionDemo.Program.Main()",
+      "CalleeId": "LambdaLocalFunctionDemo::lambda expression",
+      "CalleeDisplayName": "lambda expression",
+      "BlockOrdinal": 1,
+      "IsInternal": false,
+      "CallerLineNumber": 13,
+      "CalleeLineNumber": 13
+    },
+    {
+      "CallerId": "LambdaLocalFunctionDemo::LambdaLocalFunctionDemo.Program.Main()",
+      "CallerDisplayName": "LambdaLocalFunctionDemo.Program.Main()",
+      "CalleeId": "LambdaLocalFunctionDemo::lambda expression",
+      "CalleeDisplayName": "lambda expression",
+      "BlockOrdinal": 1,
+      "IsInternal": false,
+      "CallerLineNumber": 13,
+      "CalleeLineNumber": 13
+    },
+    {
+      "CallerId": "LambdaLocalFunctionDemo::LambdaLocalFunctionDemo.Program.Main()",
+      "CallerDisplayName": "LambdaLocalFunctionDemo.Program.Main()",
+      "CalleeId": "LambdaLocalFunctionDemo::lambda expression",
+      "CalleeDisplayName": "lambda expression",
+      "BlockOrdinal": 1,
+      "IsInternal": false,
+      "CallerLineNumber": 19,
+      "CalleeLineNumber": 13
+    }
+  ]
+}
