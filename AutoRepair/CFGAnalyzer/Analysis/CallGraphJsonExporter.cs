@@ -55,7 +55,9 @@ public static class CallGraphJsonExporter
                 BlockOrdinal: site.BlockOrdinal,
                 TargetId: GetSymbolId(site.Target),
                 TargetDisplayName: site.Target.ToDisplayString(),
-                IsInternal: site.IsInternal))
+                IsInternal: site.IsInternal,
+                CallerLineNumber: site.CallerLineNumber,
+                CalleeLineNumber: site.CalleeLineNumber))
             .ToList();
 
         DominatorTreeJsonDto? dominatorTree = null;
@@ -88,7 +90,9 @@ public static class CallGraphJsonExporter
             CalleeId: GetSymbolId(edge.Callee.Symbol),
             CalleeDisplayName: edge.Callee.Symbol.ToDisplayString(),
             BlockOrdinal: edge.CallSite.BlockOrdinal,
-            IsInternal: edge.CallSite.IsInternal);
+            IsInternal: edge.CallSite.IsInternal,
+            CallerLineNumber: edge.CallSite.CallerLineNumber,
+            CalleeLineNumber: edge.CallSite.CalleeLineNumber);
     }
 
     private static string GetSymbolId(IMethodSymbol symbol)
@@ -122,7 +126,9 @@ public record CallSiteJsonDto(
     int BlockOrdinal,
     string TargetId,
     string TargetDisplayName,
-    bool IsInternal);
+    bool IsInternal,
+    int? CallerLineNumber,
+    int? CalleeLineNumber);
 
 public record DominatorTreeJsonDto(
     int RootOrdinal,
@@ -139,5 +145,7 @@ public record CallGraphEdgeJsonDto(
     string CalleeId,
     string CalleeDisplayName,
     int BlockOrdinal,
-    bool IsInternal);
+    bool IsInternal,
+    int? CallerLineNumber,
+    int? CalleeLineNumber);
 

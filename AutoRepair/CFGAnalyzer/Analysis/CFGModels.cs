@@ -9,7 +9,9 @@ namespace AutoRepair.CFGAnalyzer.Analysis;
 public record CallSite(
     int BlockOrdinal,
     IMethodSymbol Target,
-    bool IsInternal
+    bool IsInternal,
+    int? CallerLineNumber = null,
+    int? CalleeLineNumber = null
 );
 
 /// <summary>

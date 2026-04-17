@@ -22,25 +22,33 @@
             "BlockOrdinal": 1,
             "TargetId": "RtaNarrowingDemo::RtaNarrowingDemo.WorkerA.Run()",
             "TargetDisplayName": "RtaNarrowingDemo.WorkerA.Run()",
-            "IsInternal": true
+            "IsInternal": true,
+            "CallerLineNumber": 30,
+            "CalleeLineNumber": 16
           },
           {
             "BlockOrdinal": 1,
             "TargetId": "RtaNarrowingDemo::RtaNarrowingDemo.WorkerA.WorkerA()",
             "TargetDisplayName": "RtaNarrowingDemo.WorkerA.WorkerA()",
-            "IsInternal": false
+            "IsInternal": false,
+            "CallerLineNumber": 29,
+            "CalleeLineNumber": 13
           },
           {
             "BlockOrdinal": 4,
             "TargetId": "RtaNarrowingDemo::RtaNarrowingDemo.WorkerA.WorkerA()",
             "TargetDisplayName": "RtaNarrowingDemo.WorkerA.WorkerA()",
-            "IsInternal": false
+            "IsInternal": false,
+            "CallerLineNumber": 32,
+            "CalleeLineNumber": 13
           },
           {
             "BlockOrdinal": 6,
             "TargetId": "RtaNarrowingDemo::RtaNarrowingDemo.WorkerA.Tick()",
             "TargetDisplayName": "RtaNarrowingDemo.WorkerA.Tick()",
-            "IsInternal": true
+            "IsInternal": true,
+            "CallerLineNumber": 33,
+            "CalleeLineNumber": 15
           }
         ],
         "DominatorTree": {
@@ -118,7 +126,9 @@
             "BlockOrdinal": 1,
             "TargetId": "RtaNarrowingDemo::RtaNarrowingDemo.WorkerA.Tick()",
             "TargetDisplayName": "RtaNarrowingDemo.WorkerA.Tick()",
-            "IsInternal": true
+            "IsInternal": true,
+            "CallerLineNumber": 16,
+            "CalleeLineNumber": 15
           }
         ],
         "DominatorTree": {
@@ -203,7 +213,9 @@
             "BlockOrdinal": 1,
             "TargetId": "RtaNarrowingDemo::RtaNarrowingDemo.WorkerB.Tick()",
             "TargetDisplayName": "RtaNarrowingDemo.WorkerB.Tick()",
-            "IsInternal": true
+            "IsInternal": true,
+            "CallerLineNumber": 22,
+            "CalleeLineNumber": 21
           }
         ],
         "DominatorTree": {
@@ -302,7 +314,9 @@
       "CalleeId": "RtaNarrowingDemo::RtaNarrowingDemo.WorkerA.Run()",
       "CalleeDisplayName": "RtaNarrowingDemo.WorkerA.Run()",
       "BlockOrdinal": 1,
-      "IsInternal": true
+      "IsInternal": true,
+      "CallerLineNumber": 30,
+      "CalleeLineNumber": 16
     },
     {
       "CallerId": "RtaNarrowingDemo::RtaNarrowingDemo.Program.Main()",
@@ -310,7 +324,9 @@
       "CalleeId": "RtaNarrowingDemo::RtaNarrowingDemo.WorkerA.Tick()",
       "CalleeDisplayName": "RtaNarrowingDemo.WorkerA.Tick()",
       "BlockOrdinal": 6,
-      "IsInternal": true
+      "IsInternal": true,
+      "CallerLineNumber": 33,
+      "CalleeLineNumber": 15
     },
     {
       "CallerId": "RtaNarrowingDemo::RtaNarrowingDemo.Program.Main()",
@@ -318,7 +334,9 @@
       "CalleeId": "RtaNarrowingDemo::RtaNarrowingDemo.WorkerA.WorkerA()",
       "CalleeDisplayName": "RtaNarrowingDemo.WorkerA.WorkerA()",
       "BlockOrdinal": 1,
-      "IsInternal": false
+      "IsInternal": false,
+      "CallerLineNumber": 29,
+      "CalleeLineNumber": 13
     },
     {
       "CallerId": "RtaNarrowingDemo::RtaNarrowingDemo.Program.Main()",
@@ -326,7 +344,9 @@
       "CalleeId": "RtaNarrowingDemo::RtaNarrowingDemo.WorkerA.WorkerA()",
       "CalleeDisplayName": "RtaNarrowingDemo.WorkerA.WorkerA()",
       "BlockOrdinal": 4,
-      "IsInternal": false
+      "IsInternal": false,
+      "CallerLineNumber": 32,
+      "CalleeLineNumber": 13
     },
     {
       "CallerId": "RtaNarrowingDemo::RtaNarrowingDemo.WorkerA.Run()",
@@ -334,7 +354,9 @@
       "CalleeId": "RtaNarrowingDemo::RtaNarrowingDemo.WorkerA.Tick()",
       "CalleeDisplayName": "RtaNarrowingDemo.WorkerA.Tick()",
       "BlockOrdinal": 1,
-      "IsInternal": true
+      "IsInternal": true,
+      "CallerLineNumber": 16,
+      "CalleeLineNumber": 15
     },
     {
       "CallerId": "RtaNarrowingDemo::RtaNarrowingDemo.WorkerB.Run()",
@@ -342,8 +364,9 @@
       "CalleeId": "RtaNarrowingDemo::RtaNarrowingDemo.WorkerB.Tick()",
       "CalleeDisplayName": "RtaNarrowingDemo.WorkerB.Tick()",
       "BlockOrdinal": 1,
-      "IsInternal": true
+      "IsInternal": true,
+      "CallerLineNumber": 22,
+      "CalleeLineNumber": 21
     }
   ]
 }
-

@@ -17,25 +17,33 @@
             "BlockOrdinal": 1,
             "TargetId": "LambdaLocalFunctionDemo::LocalWork()",
             "TargetDisplayName": "LocalWork()",
-            "IsInternal": false
+            "IsInternal": false,
+            "CallerLineNumber": 11,
+            "CalleeLineNumber": 7
           },
           {
             "BlockOrdinal": 1,
             "TargetId": "System.Runtime::System.Action.Invoke()",
             "TargetDisplayName": "System.Action.Invoke()",
-            "IsInternal": false
+            "IsInternal": false,
+            "CallerLineNumber": 19,
+            "CalleeLineNumber": null
           },
           {
             "BlockOrdinal": 1,
             "TargetId": "LambdaLocalFunctionDemo::lambda expression",
             "TargetDisplayName": "lambda expression",
-            "IsInternal": false
+            "IsInternal": false,
+            "CallerLineNumber": 13,
+            "CalleeLineNumber": 13
           },
           {
             "BlockOrdinal": 1,
             "TargetId": "LambdaLocalFunctionDemo::lambda expression",
             "TargetDisplayName": "lambda expression",
-            "IsInternal": false
+            "IsInternal": false,
+            "CallerLineNumber": 13,
+            "CalleeLineNumber": 13
           }
         ],
         "DominatorTree": {
@@ -130,7 +138,9 @@
       "CalleeId": "LambdaLocalFunctionDemo::LocalWork()",
       "CalleeDisplayName": "LocalWork()",
       "BlockOrdinal": 1,
-      "IsInternal": false
+      "IsInternal": false,
+      "CallerLineNumber": 11,
+      "CalleeLineNumber": 7
     },
     {
       "CallerId": "LambdaLocalFunctionDemo::LambdaLocalFunctionDemo.Program.Main()",
@@ -138,7 +148,9 @@
       "CalleeId": "System.Runtime::System.Action.Invoke()",
       "CalleeDisplayName": "System.Action.Invoke()",
       "BlockOrdinal": 1,
-      "IsInternal": false
+      "IsInternal": false,
+      "CallerLineNumber": 19,
+      "CalleeLineNumber": null
     },
     {
       "CallerId": "LambdaLocalFunctionDemo::LambdaLocalFunctionDemo.Program.Main()",
@@ -146,7 +158,9 @@
       "CalleeId": "LambdaLocalFunctionDemo::lambda expression",
       "CalleeDisplayName": "lambda expression",
       "BlockOrdinal": 1,
-      "IsInternal": false
+      "IsInternal": false,
+      "CallerLineNumber": 13,
+      "CalleeLineNumber": 13
     },
     {
       "CallerId": "LambdaLocalFunctionDemo::LambdaLocalFunctionDemo.Program.Main()",
@@ -154,8 +168,9 @@
       "CalleeId": "LambdaLocalFunctionDemo::lambda expression",
       "CalleeDisplayName": "lambda expression",
       "BlockOrdinal": 1,
-      "IsInternal": false
+      "IsInternal": false,
+      "CallerLineNumber": 13,
+      "CalleeLineNumber": 13
     }
   ]
 }
-
