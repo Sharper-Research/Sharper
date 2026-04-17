@@ -1,6 +1,7 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.FlowAnalysis;
 using Microsoft.CodeAnalysis.Operations;
+using AutoRepair.CFGAnalyzer.Analysis.CallResolvers;
 
 namespace AutoRepair.CFGAnalyzer.Analysis;
 

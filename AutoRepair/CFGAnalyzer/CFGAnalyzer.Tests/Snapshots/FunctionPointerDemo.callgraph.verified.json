@@ -1,0 +1,187 @@
+{
+  "ProjectName": "FunctionPointerDemo",
+  "Nodes": [
+    {
+      "Id": "FunctionPointerDemo::FunctionPointerDemo.Operations.Add(int, int)",
+      "DisplayName": "FunctionPointerDemo.Operations.Add(int, int)",
+      "MethodName": "Add",
+      "ContainingType": "FunctionPointerDemo.Operations",
+      "ContainingNamespace": "FunctionPointerDemo",
+      "AssemblyName": "FunctionPointerDemo",
+      "Analysis": {
+        "PathConstraints": [
+          []
+        ],
+        "CallSites": [],
+        "DominatorTree": {
+          "RootOrdinal": 0,
+          "Nodes": [
+            {
+              "BlockOrdinal": 0,
+              "ImmediateDominatorOrdinal": null,
+              "ChildOrdinals": [
+                1
+              ]
+            },
+            {
+              "BlockOrdinal": 1,
+              "ImmediateDominatorOrdinal": 0,
+              "ChildOrdinals": [
+                2
+              ]
+            },
+            {
+              "BlockOrdinal": 2,
+              "ImmediateDominatorOrdinal": 1,
+              "ChildOrdinals": []
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Id": "FunctionPointerDemo::FunctionPointerDemo.Operations.Multiply(int, int)",
+      "DisplayName": "FunctionPointerDemo.Operations.Multiply(int, int)",
+      "MethodName": "Multiply",
+      "ContainingType": "FunctionPointerDemo.Operations",
+      "ContainingNamespace": "FunctionPointerDemo",
+      "AssemblyName": "FunctionPointerDemo",
+      "Analysis": {
+        "PathConstraints": [
+          []
+        ],
+        "CallSites": [],
+        "DominatorTree": {
+          "RootOrdinal": 0,
+          "Nodes": [
+            {
+              "BlockOrdinal": 0,
+              "ImmediateDominatorOrdinal": null,
+              "ChildOrdinals": [
+                1
+              ]
+            },
+            {
+              "BlockOrdinal": 1,
+              "ImmediateDominatorOrdinal": 0,
+              "ChildOrdinals": [
+                2
+              ]
+            },
+            {
+              "BlockOrdinal": 2,
+              "ImmediateDominatorOrdinal": 1,
+              "ChildOrdinals": []
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Id": "FunctionPointerDemo::FunctionPointerDemo.Operations.Square(int)",
+      "DisplayName": "FunctionPointerDemo.Operations.Square(int)",
+      "MethodName": "Square",
+      "ContainingType": "FunctionPointerDemo.Operations",
+      "ContainingNamespace": "FunctionPointerDemo",
+      "AssemblyName": "FunctionPointerDemo",
+      "Analysis": {
+        "PathConstraints": [
+          []
+        ],
+        "CallSites": [],
+        "DominatorTree": {
+          "RootOrdinal": 0,
+          "Nodes": [
+            {
+              "BlockOrdinal": 0,
+              "ImmediateDominatorOrdinal": null,
+              "ChildOrdinals": [
+                1
+              ]
+            },
+            {
+              "BlockOrdinal": 1,
+              "ImmediateDominatorOrdinal": 0,
+              "ChildOrdinals": [
+                2
+              ]
+            },
+            {
+              "BlockOrdinal": 2,
+              "ImmediateDominatorOrdinal": 1,
+              "ChildOrdinals": []
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Id": "FunctionPointerDemo::FunctionPointerDemo.Program.Main()",
+      "DisplayName": "FunctionPointerDemo.Program.Main()",
+      "MethodName": "Main",
+      "ContainingType": "FunctionPointerDemo.Program",
+      "ContainingNamespace": "FunctionPointerDemo",
+      "AssemblyName": "FunctionPointerDemo",
+      "Analysis": {
+        "PathConstraints": [
+          []
+        ],
+        "CallSites": [
+          {
+            "BlockOrdinal": 1,
+            "TargetId": "System.Console::System.Console.WriteLine(string?)",
+            "TargetDisplayName": "System.Console.WriteLine(string?)",
+            "IsInternal": false,
+            "CallerLineNumber": 30,
+            "CalleeLineNumber": null
+          }
+        ],
+        "DominatorTree": {
+          "RootOrdinal": 0,
+          "Nodes": [
+            {
+              "BlockOrdinal": 0,
+              "ImmediateDominatorOrdinal": null,
+              "ChildOrdinals": [
+                1
+              ]
+            },
+            {
+              "BlockOrdinal": 1,
+              "ImmediateDominatorOrdinal": 0,
+              "ChildOrdinals": [
+                2
+              ]
+            },
+            {
+              "BlockOrdinal": 2,
+              "ImmediateDominatorOrdinal": 1,
+              "ChildOrdinals": []
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Id": "System.Console::System.Console.WriteLine(string?)",
+      "DisplayName": "System.Console.WriteLine(string?)",
+      "MethodName": "WriteLine",
+      "ContainingType": "System.Console",
+      "ContainingNamespace": "System",
+      "AssemblyName": "System.Console",
+      "Analysis": null
+    }
+  ],
+  "Edges": [
+    {
+      "CallerId": "FunctionPointerDemo::FunctionPointerDemo.Program.Main()",
+      "CallerDisplayName": "FunctionPointerDemo.Program.Main()",
+      "CalleeId": "System.Console::System.Console.WriteLine(string?)",
+      "CalleeDisplayName": "System.Console.WriteLine(string?)",
+      "BlockOrdinal": 1,
+      "IsInternal": false,
+      "CallerLineNumber": 30,
+      "CalleeLineNumber": null
+    }
+  ]
+}

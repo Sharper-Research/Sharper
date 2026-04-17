@@ -11,7 +11,8 @@ public enum CallResolver
     InterfaceImplementation,
     RapidTypeAnalysis,
     IntraproceduralDelegate,
-    OperatorOverload
+    OperatorOverload,
+    IntraproceduralFunctionPointer
 }
 
 public class CallGraphConfig

@@ -2,6 +2,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.FlowAnalysis;
 using Microsoft.CodeAnalysis.Operations;
+using AutoRepair.CFGAnalyzer.Analysis.CallResolvers;
 
 namespace AutoRepair.CFGAnalyzer.Analysis;
 
@@ -80,6 +81,7 @@ public static class ProjectAnalyzer
             new RapidTypeAnalysisCallResolver(instantiatedTypes),
             new InterfaceImplementationCallResolver(),
             new OperatorOverloadCallResolver(),
+            new FunctionPointerResolver(),
             new IntraproceduralDelegateResolver(),
             new StaticCallResolver()
         };
