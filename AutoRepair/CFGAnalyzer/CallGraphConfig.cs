@@ -10,7 +10,8 @@ public enum CallResolver
     Static,
     InterfaceImplementation,
     RapidTypeAnalysis,
-    IntraproceduralDelegate
+    IntraproceduralDelegate,
+    OperatorOverload
 }
 
 public class CallGraphConfig
@@ -22,4 +23,3 @@ public class CallGraphConfig
     /// </summary>
     public ISet<CallResolver> DisabledResolvers { get; set; } = new HashSet<CallResolver>();
 }
-

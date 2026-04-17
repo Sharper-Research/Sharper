@@ -35,7 +35,8 @@ public static class ProjectAnalyzer
 
             var members = root.DescendantNodes().Where(n =>
                 n is MethodDeclarationSyntax or ConstructorDeclarationSyntax or AccessorDeclarationSyntax
-                    or LocalFunctionStatementSyntax or AnonymousFunctionExpressionSyntax);
+                    or LocalFunctionStatementSyntax or AnonymousFunctionExpressionSyntax
+                    or OperatorDeclarationSyntax or ConversionOperatorDeclarationSyntax);
 
             foreach (var member in members)
             {
@@ -78,6 +79,7 @@ public static class ProjectAnalyzer
         {
             new RapidTypeAnalysisCallResolver(instantiatedTypes),
             new InterfaceImplementationCallResolver(),
+            new OperatorOverloadCallResolver(),
             new IntraproceduralDelegateResolver(),
             new StaticCallResolver()
         };

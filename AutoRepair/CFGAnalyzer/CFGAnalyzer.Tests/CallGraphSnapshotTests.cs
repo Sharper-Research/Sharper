@@ -15,6 +15,7 @@ public class CallGraphSnapshotTests
     [InlineData("samples/GenericsDemo/GenericsDemo.csproj", "GenericsDemo.callgraph.verified.json")]
     [InlineData("samples/DelegateDemo/DelegateDemo.csproj", "DelegateDemo.callgraph.verified.json")]
     [InlineData("samples/ExtensionMethodDemo/ExtensionMethodDemo.csproj", "ExtensionMethodDemo.callgraph.verified.json")]
+    [InlineData("samples/OperatorOverloadDemo/OperatorOverloadDemo.csproj", "OperatorOverloadDemo.callgraph.verified.json")]
     public async Task CallGraph_json_matches_snapshot(string sampleProjectRelativePath, string snapshotFileName)
     {
         MsBuildRegistration.EnsureRegistered();
