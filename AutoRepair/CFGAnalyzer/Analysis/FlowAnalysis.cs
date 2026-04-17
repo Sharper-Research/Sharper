@@ -75,45 +75,55 @@ public static class FlowAnalysis
         return allPaths;
     }
 
-    private static void ExplorePathToBlockAcyclic(BasicBlock block, int targetOrdinal, List<string> currentPath,
-        Dictionary<int, HashSet<int>> domSets, List<List<string>> allPaths)
+    private static void ExplorePathToBlockAcyclic(BasicBlock block, int targetOrdinal, List<string> currentPath, Dictionary<int, HashSet<int>> domSets, List<List<string>> allPaths)
     {
-        if (block.Ordinal == targetOrdinal)
+        while (true)
         {
-            allPaths.Add(new List<string>(currentPath));
-            return;
-        }
-
-        if (block.ConditionalSuccessor != null && block.FallThroughSuccessor != null && block.BranchValue != null)
-        {
-            var condition = block.BranchValue.Syntax.ToString().Replace("\\n", " ").Trim();
-            var destA = block.ConditionalSuccessor.Destination;
-            var destB = block.FallThroughSuccessor.Destination;
-
-            var isBackA = destA != null && domSets.ContainsKey(destA.Ordinal) &&
-                          domSets[block.Ordinal].Contains(destA.Ordinal);
-            var isBackB = destB != null && domSets.ContainsKey(destB.Ordinal) &&
-                          domSets[block.Ordinal].Contains(destB.Ordinal);
-
-            if (!isBackA && destA != null)
+            if (block.Ordinal == targetOrdinal)
             {
-                var pathA = new List<string>(currentPath);
-                pathA.Add(block.ConditionKind == ControlFlowConditionKind.WhenTrue ? condition : $"!({condition})");
-                ExplorePathToBlockAcyclic(destA, targetOrdinal, pathA, domSets, allPaths);
+                allPaths.Add(new List<string>(currentPath));
+                return;
             }
 
-            if (!isBackB && destB != null)
+            if (block.ConditionalSuccessor != null && block.FallThroughSuccessor != null && block.BranchValue != null)
             {
-                var pathB = new List<string>(currentPath);
-                pathB.Add(block.ConditionKind == ControlFlowConditionKind.WhenTrue ? $"!({condition})" : condition);
-                ExplorePathToBlockAcyclic(destB, targetOrdinal, pathB, domSets, allPaths);
+                var condition = block.BranchValue.Syntax.ToString().Replace("\\n", " ").Trim();
+                var destA = block.ConditionalSuccessor.Destination;
+                var destB = block.FallThroughSuccessor.Destination;
+
+                var isBackA = destA != null && domSets.ContainsKey(destA.Ordinal) && domSets[block.Ordinal].Contains(destA.Ordinal);
+                var isBackB = destB != null && domSets.ContainsKey(destB.Ordinal) && domSets[block.Ordinal].Contains(destB.Ordinal);
+
+                if (!isBackA && destA != null)
+                {
+                    var pathA = new List<string>(currentPath);
+                    pathA.Add(block.ConditionKind == ControlFlowConditionKind.WhenTrue ? condition : $"!({condition})");
+                    ExplorePathToBlockAcyclic(destA, targetOrdinal, pathA, domSets, allPaths);
+                }
+
+                if (isBackB || destB == null) return;
+                var pathB = new List<string>(currentPath)
+                {
+                    block.ConditionKind == ControlFlowConditionKind.WhenTrue
+                        ? $"!({condition})"
+                        : condition
+                };
+                block = destB;
+                currentPath = pathB;
+                continue;
             }
-        }
-        else if (block.FallThroughSuccessor != null && block.FallThroughSuccessor.Destination != null)
-        {
-            var dest = block.FallThroughSuccessor.Destination;
-            if (dest != null && domSets.ContainsKey(dest.Ordinal) && !domSets[block.Ordinal].Contains(dest.Ordinal))
-                ExplorePathToBlockAcyclic(dest, targetOrdinal, currentPath, domSets, allPaths);
+
+            if (block.FallThroughSuccessor != null && block.FallThroughSuccessor.Destination != null)
+            {
+                var dest = block.FallThroughSuccessor.Destination;
+                if (dest != null && domSets.ContainsKey(dest.Ordinal) && !domSets[block.Ordinal].Contains(dest.Ordinal))
+                {
+                    block = dest;
+                    continue;
+                }
+            }
+
+            break;
         }
     }
 }

@@ -78,7 +78,7 @@ internal class Dominator
         return result;
     }
 
-    public DominatorTree BuildDominatorTree(ControlFlowGraph cfg, Dictionary<int, HashSet<int>> domSets)
+    private DominatorTree BuildDominatorTree(ControlFlowGraph cfg, Dictionary<int, HashSet<int>> domSets)
     {
         var tree = new DominatorTree(0);
 
@@ -113,14 +113,12 @@ internal class Dominator
                 }
             }
 
-            if (iDom != -1)
-            {
-                var childNode = tree.GetOrAddNode(n);
-                var parentNode = tree.GetOrAddNode(iDom);
+            if (iDom == -1) continue;
+            var childNode = tree.GetOrAddNode(n);
+            var parentNode = tree.GetOrAddNode(iDom);
 
-                childNode.ImmediateDominator = parentNode;
-                parentNode.Children.Add(childNode);
-            }
+            childNode.ImmediateDominator = parentNode;
+            parentNode.Children.Add(childNode);
         }
 
         return tree;
