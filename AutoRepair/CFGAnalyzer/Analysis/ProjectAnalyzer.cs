@@ -43,7 +43,7 @@ public static class ProjectAnalyzer
             {
                 var operation = semanticModel.GetOperation(member);
                 IMethodSymbol? symbol = semanticModel.GetDeclaredSymbol(member) as IMethodSymbol;
-                
+
                 ControlFlowGraph? cfg = null;
                 try
                 {
@@ -86,7 +86,7 @@ public static class ProjectAnalyzer
             var symbol = kvp.Key;
             var cfg = kvp.Value;
             var analysisResult = methodAnalysisResults[symbol];
-            
+
             analysisResult.CallSites.AddRange(await callGraphBuilder.DiscoverCallSitesAsync(cfg, methodCfgs, project));
         }
         callGraphBuilder.BuildEdges(callGraph, methodAnalysisResults);
@@ -97,7 +97,7 @@ public static class ProjectAnalyzer
         {
             var symbol = kvp.Key;
             var analysisResult = kvp.Value;
-            
+
             analysisResult.DataFlow = dataFlowAnalyzer.Analyze(analysisResult.Cfg);
             callGraph.GetOrAddNode(symbol).Analysis = analysisResult;
         }
