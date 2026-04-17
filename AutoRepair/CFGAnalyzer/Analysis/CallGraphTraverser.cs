@@ -2,8 +2,58 @@ using Microsoft.CodeAnalysis;
 
 namespace AutoRepair.CFGAnalyzer.Analysis;
 
+public enum ReachabilityDirection
+{
+    Forward,
+    Backward
+}
+
 public static class CallGraphTraverser
 {
+    public static IReadOnlyList<CallGraphNode> GetReachableCallNodes(
+        CallGraphNode methodNode,
+        ReachabilityDirection direction)
+    {
+        if (methodNode == null)
+        {
+            throw new ArgumentNullException(nameof(methodNode));
+        }
+
+        var reachable = new List<CallGraphNode>();
+        var visited = new HashSet<IMethodSymbol>(SymbolEqualityComparer.Default) { methodNode.Symbol };
+        var pending = new Queue<CallGraphNode>();
+
+        foreach (var adjacent in GetAdjacentNodes(methodNode, direction))
+        {
+            pending.Enqueue(adjacent);
+        }
+
+        while (pending.Count > 0)
+        {
+            var current = pending.Dequeue();
+            if (!visited.Add(current.Symbol))
+            {
+                continue;
+            }
+
+            reachable.Add(current);
+
+            foreach (var adjacent in GetAdjacentNodes(current, direction))
+            {
+                pending.Enqueue(adjacent);
+            }
+        }
+
+        return reachable;
+    }
+
+    private static IEnumerable<CallGraphNode> GetAdjacentNodes(CallGraphNode node, ReachabilityDirection direction)
+    {
+        return direction == ReachabilityDirection.Forward
+            ? node.OutgoingEdges.Select(edge => edge.Callee)
+            : node.IncomingEdges.Select(edge => edge.Caller);
+    }
+
     public static void TraverseAndGeneratePathConditions(
         CallGraphNode startNode, 
         List<string> initialPathConstraints, 
