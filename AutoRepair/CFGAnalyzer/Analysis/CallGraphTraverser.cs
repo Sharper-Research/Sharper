@@ -14,34 +14,22 @@ public static class CallGraphTraverser
         CallGraphNode methodNode,
         ReachabilityDirection direction)
     {
-        if (methodNode == null)
-        {
-            throw new ArgumentNullException(nameof(methodNode));
-        }
+        if (methodNode == null) throw new ArgumentNullException(nameof(methodNode));
 
         var reachable = new List<CallGraphNode>();
         var visited = new HashSet<IMethodSymbol>(SymbolEqualityComparer.Default) { methodNode.Symbol };
         var pending = new Queue<CallGraphNode>();
 
-        foreach (var adjacent in GetAdjacentNodes(methodNode, direction))
-        {
-            pending.Enqueue(adjacent);
-        }
+        foreach (var adjacent in GetAdjacentNodes(methodNode, direction)) pending.Enqueue(adjacent);
 
         while (pending.Count > 0)
         {
             var current = pending.Dequeue();
-            if (!visited.Add(current.Symbol))
-            {
-                continue;
-            }
+            if (!visited.Add(current.Symbol)) continue;
 
             reachable.Add(current);
 
-            foreach (var adjacent in GetAdjacentNodes(current, direction))
-            {
-                pending.Enqueue(adjacent);
-            }
+            foreach (var adjacent in GetAdjacentNodes(current, direction)) pending.Enqueue(adjacent);
         }
 
         return reachable;
@@ -71,32 +59,20 @@ public static class CallGraphTraverser
         }
 
         // 1. Print Path Constraints
-        Console.WriteLine($"  Path Constraints:");
+        Console.WriteLine("  Path Constraints:");
         if (startNode.Analysis.DataFlow?.PathConstraints != null && startNode.Analysis.DataFlow.PathConstraints.Any())
-        {
             foreach (var path in startNode.Analysis.DataFlow.PathConstraints)
-            {
                 Console.WriteLine($"    - {string.Join(" && ", path)}");
-            }
-        }
         else
-        {
             Console.WriteLine("    (No path constraints found)");
-        }
 
         // 2. Print Call Sites
-        Console.WriteLine($"  Call Sites:");
+        Console.WriteLine("  Call Sites:");
         if (startNode.Analysis.CallSites.Any())
-        {
             foreach (var site in startNode.Analysis.CallSites)
-            {
                 Console.WriteLine($"    - {site.Target.ToDisplayString()} (Block: {site.BlockOrdinal})");
-            }
-        }
         else
-        {
             Console.WriteLine("    (No call sites found)");
-        }
 
         // 3. Recursively traverse children (callees)
         var dominator = new Dominator();
@@ -106,19 +82,13 @@ public static class CallGraphTraverser
 
         foreach (var edge in startNode.OutgoingEdges)
         {
-            if (!edge.CallSite.IsInternal)
-            {
-                continue;
-            }
+            if (!edge.CallSite.IsInternal) continue;
 
             var callSitePaths = domSets.Count == 0
                 ? new List<List<string>> { new() }
                 : FlowAnalysis.GetPathsToBlockAcyclic(startNode.Analysis.Cfg, edge.CallSite.BlockOrdinal, domSets);
 
-            if (callSitePaths.Count == 0)
-            {
-                callSitePaths.Add(new List<string>());
-            }
+            if (callSitePaths.Count == 0) callSitePaths.Add(new List<string>());
 
             foreach (var callSitePath in callSitePaths)
             {

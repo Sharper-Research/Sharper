@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Microsoft.CodeAnalysis.FlowAnalysis;
 
 namespace AutoRepair.CFGAnalyzer.Analysis;
@@ -7,10 +6,7 @@ public class DataFlowAnalyzer
 {
     public DataFlowAnalysisResult Analyze(ControlFlowGraph cfg)
     {
-        if (cfg.Blocks.Length == 0)
-        {
-            return new DataFlowAnalysisResult(new List<List<string>>(), null);
-        }
+        if (cfg.Blocks.Length == 0) return new DataFlowAnalysisResult(new List<List<string>>());
 
         var dominator = new Dominator();
         var (domSets, dominatorTree) = dominator.Build(cfg);
@@ -24,15 +20,15 @@ internal class Dominator
 {
     public Dictionary<int, HashSet<int>> ComputeDominatorSets(ControlFlowGraph cfg)
     {
-        int n = cfg.Blocks.Length;
+        var n = cfg.Blocks.Length;
         var dom = new HashSet<int>[n];
         var allNodes = Enumerable.Range(0, n).ToHashSet();
 
-        for (int i = 0; i < n; i++) dom[i] = new HashSet<int>(allNodes);
+        for (var i = 0; i < n; i++) dom[i] = new HashSet<int>(allNodes);
         dom[0] = new HashSet<int> { 0 };
 
         var preds = new List<int>[n];
-        for (int i = 0; i < n; i++) preds[i] = new List<int>();
+        for (var i = 0; i < n; i++) preds[i] = new List<int>();
         foreach (var block in cfg.Blocks)
         {
             if (block.ConditionalSuccessor != null && block.ConditionalSuccessor.Destination != null)
@@ -41,23 +37,31 @@ internal class Dominator
                 preds[block.FallThroughSuccessor.Destination.Ordinal].Add(block.Ordinal);
         }
 
-        bool changed = true;
+        var changed = true;
         while (changed)
         {
             changed = false;
-            for (int i = 1; i < n; i++)
+            for (var i = 1; i < n; i++)
             {
                 var newDom = new HashSet<int>(allNodes);
                 if (preds[i].Count > 0)
                 {
-                    bool first = true;
-                    foreach (int p in preds[i])
-                    {
-                        if (first) { newDom = new HashSet<int>(dom[p]); first = false; }
-                        else newDom.IntersectWith(dom[p]);
-                    }
+                    var first = true;
+                    foreach (var p in preds[i])
+                        if (first)
+                        {
+                            newDom = new HashSet<int>(dom[p]);
+                            first = false;
+                        }
+                        else
+                        {
+                            newDom.IntersectWith(dom[p]);
+                        }
                 }
-                else newDom = new HashSet<int>();
+                else
+                {
+                    newDom = new HashSet<int>();
+                }
 
                 newDom.Add(i);
 
@@ -70,7 +74,7 @@ internal class Dominator
         }
 
         var result = new Dictionary<int, HashSet<int>>();
-        for (int i = 0; i < n; i++) result[i] = dom[i];
+        for (var i = 0; i < n; i++) result[i] = dom[i];
         return result;
     }
 
@@ -80,18 +84,18 @@ internal class Dominator
 
         foreach (var kvp in domSets)
         {
-            int n = kvp.Key;
+            var n = kvp.Key;
             if (n == 0) continue;
 
             var dominators = kvp.Value;
-            int iDom = -1;
+            var iDom = -1;
 
-            foreach (int d in dominators)
+            foreach (var d in dominators)
             {
                 if (d == n) continue;
 
-                bool isIDom = true;
-                foreach (int otherD in dominators)
+                var isIDom = true;
+                foreach (var otherD in dominators)
                 {
                     if (otherD == n || otherD == d) continue;
 
@@ -129,4 +133,3 @@ internal class Dominator
         return (domSets, dominatorTree);
     }
 }
-
