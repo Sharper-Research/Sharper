@@ -59,12 +59,12 @@ public static class CallGraphTraverser
         List<string> initialPathConstraints,
         HashSet<IMethodSymbol> visitedNodes)
     {
-        if (startNode == null || !visitedNodes.Add(startNode.Symbol))
+        if (!visitedNodes.Add(startNode.Symbol))
             return;
 
         Console.WriteLine($"Traversing: {startNode.Symbol.ToDisplayString()} ---");
 
-        if (startNode.Analysis?.Cfg == null || startNode.Analysis.CallSites == null)
+        if (startNode.Analysis?.Cfg == null)
         {
             Console.WriteLine("  (No CFG or Call Sites found for this node)");
             return;
