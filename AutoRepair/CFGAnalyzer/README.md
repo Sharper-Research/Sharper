@@ -23,10 +23,10 @@ dotnet run --project CFGAnalyzer.csproj -- --exclude-system-library-targets /abs
 - `samples/LambdaLocalFunctionDemo/`: validates lambda and local-function resolution.
   - Expected include: `LocalWork()`, `lambda expression`
   - Expected exclude: `NeverCalled`
-- `samples/GenericsDemo/`: validates partial generic callgraph support.
+- `samples/GenericsDemo/`: validates generic-method and generic-type callgraph support.
   - Expected include: `PrintValue<T>`, `Consume<T>`, `Box<T>.Update(T)`, `Box<T>.Log(T)`
   - Current behavior:
-    - Generic calls are resolved and linked to internal generic method/type definitions.
+    - Generic method/type calls are resolved and linked to internal generic method/type definitions.
     - Generic call edges include caller/callee line numbers in snapshot output.
   - Limitations:
     - Constructed generic targets are normalized to generic definitions (`<T>`) instead of being preserved as separate concrete targets (`<int>`, `<string>`).
@@ -126,9 +126,9 @@ var config = new CallGraphConfig
   - async/await (will not be supported),
   - advanced extension-method scenarios (e.g., complex generic constraints and ambiguous overload corner cases),
   - advanced operator-overloading scenarios (e.g., lifted/nullability and complex overload-selection corner cases),
+  - advanced generic-method scenarios (e.g., per-instantiation node specialization, complex constraint solving, and deep inference chains),
   - partial methods, 
   - function pointers, 
-  - generic methods,
   - and linq.
 - Add a test project with unit tests for core components (e.g., CFG construction, call resolution, dominator computation).
 - Expand sample projects to cover more C# features and edge cases (e.g., generics, async/await, dynamic calls).
