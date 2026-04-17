@@ -23,11 +23,11 @@
           },
           {
             "BlockOrdinal": 1,
-            "TargetId": "System.Runtime::System.Action.Invoke()",
-            "TargetDisplayName": "System.Action.Invoke()",
+            "TargetId": "LambdaLocalFunctionDemo::lambda expression",
+            "TargetDisplayName": "lambda expression",
             "IsInternal": false,
-            "CallerLineNumber": 19,
-            "CalleeLineNumber": null
+            "CallerLineNumber": 13,
+            "CalleeLineNumber": 13
           },
           {
             "BlockOrdinal": 1,
@@ -42,7 +42,7 @@
             "TargetId": "LambdaLocalFunctionDemo::lambda expression",
             "TargetDisplayName": "lambda expression",
             "IsInternal": false,
-            "CallerLineNumber": 13,
+            "CallerLineNumber": 19,
             "CalleeLineNumber": 13
           }
         ],
@@ -113,15 +113,6 @@
       "Analysis": null
     },
     {
-      "Id": "System.Runtime::System.Action.Invoke()",
-      "DisplayName": "System.Action.Invoke()",
-      "MethodName": "Invoke",
-      "ContainingType": "System.Action",
-      "ContainingNamespace": "System",
-      "AssemblyName": "System.Runtime",
-      "Analysis": null
-    },
-    {
       "Id": "LambdaLocalFunctionDemo::lambda expression",
       "DisplayName": "lambda expression",
       "MethodName": "",
@@ -145,12 +136,12 @@
     {
       "CallerId": "LambdaLocalFunctionDemo::LambdaLocalFunctionDemo.Program.Main()",
       "CallerDisplayName": "LambdaLocalFunctionDemo.Program.Main()",
-      "CalleeId": "System.Runtime::System.Action.Invoke()",
-      "CalleeDisplayName": "System.Action.Invoke()",
+      "CalleeId": "LambdaLocalFunctionDemo::lambda expression",
+      "CalleeDisplayName": "lambda expression",
       "BlockOrdinal": 1,
       "IsInternal": false,
-      "CallerLineNumber": 19,
-      "CalleeLineNumber": null
+      "CallerLineNumber": 13,
+      "CalleeLineNumber": 13
     },
     {
       "CallerId": "LambdaLocalFunctionDemo::LambdaLocalFunctionDemo.Program.Main()",
@@ -169,7 +160,7 @@
       "CalleeDisplayName": "lambda expression",
       "BlockOrdinal": 1,
       "IsInternal": false,
-      "CallerLineNumber": 13,
+      "CallerLineNumber": 19,
       "CalleeLineNumber": 13
     }
   ]
