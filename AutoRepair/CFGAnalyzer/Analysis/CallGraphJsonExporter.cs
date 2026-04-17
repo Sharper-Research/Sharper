@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
 using System.Text.Json;
 using Microsoft.CodeAnalysis;
 
@@ -37,13 +35,13 @@ public static class CallGraphJsonExporter
     {
         var symbol = node.Symbol;
         return new CallGraphNodeJsonDto(
-            Id: GetSymbolId(symbol),
-            DisplayName: symbol.ToDisplayString(),
-            MethodName: symbol.Name,
-            ContainingType: symbol.ContainingType?.ToDisplayString(),
-            ContainingNamespace: symbol.ContainingNamespace?.ToDisplayString(),
-            AssemblyName: symbol.ContainingAssembly?.Name,
-            Analysis: node.Analysis != null ? ToAnalysisDto(node.Analysis) : null);
+            GetSymbolId(symbol),
+            symbol.ToDisplayString(),
+            symbol.Name,
+            symbol.ContainingType?.ToDisplayString(),
+            symbol.ContainingNamespace?.ToDisplayString(),
+            symbol.ContainingAssembly?.Name,
+            node.Analysis != null ? ToAnalysisDto(node.Analysis) : null);
     }
 
     private static CallGraphAnalysisJsonDto ToAnalysisDto(MethodAnalysisResult analysis)
@@ -52,12 +50,12 @@ public static class CallGraphJsonExporter
             .OrderBy(site => site.BlockOrdinal)
             .ThenBy(site => site.Target.ToDisplayString(), StringComparer.Ordinal)
             .Select(site => new CallSiteJsonDto(
-                BlockOrdinal: site.BlockOrdinal,
-                TargetId: GetSymbolId(site.Target),
-                TargetDisplayName: site.Target.ToDisplayString(),
-                IsInternal: site.IsInternal,
-                CallerLineNumber: site.CallerLineNumber,
-                CalleeLineNumber: site.CalleeLineNumber))
+                site.BlockOrdinal,
+                GetSymbolId(site.Target),
+                site.Target.ToDisplayString(),
+                site.IsInternal,
+                site.CallerLineNumber,
+                site.CalleeLineNumber))
             .ToList();
 
         DominatorTreeJsonDto? dominatorTree = null;
@@ -66,33 +64,33 @@ public static class CallGraphJsonExporter
             var dominatorNodes = analysis.DominatorTree.Nodes.Values
                 .OrderBy(node => node.BlockOrdinal)
                 .Select(node => new DominatorTreeNodeJsonDto(
-                    BlockOrdinal: node.BlockOrdinal,
-                    ImmediateDominatorOrdinal: node.ImmediateDominator?.BlockOrdinal,
-                    ChildOrdinals: node.Children.Select(child => child.BlockOrdinal).OrderBy(x => x).ToList()))
+                    node.BlockOrdinal,
+                    node.ImmediateDominator?.BlockOrdinal,
+                    node.Children.Select(child => child.BlockOrdinal).OrderBy(x => x).ToList()))
                 .ToList();
 
             dominatorTree = new DominatorTreeJsonDto(
-                RootOrdinal: analysis.DominatorTree.Root.BlockOrdinal,
-                Nodes: dominatorNodes);
+                analysis.DominatorTree.Root.BlockOrdinal,
+                dominatorNodes);
         }
 
         return new CallGraphAnalysisJsonDto(
-            PathConstraints: analysis.PathConstraints.Select(path => path.ToList()).ToList(),
-            CallSites: callSites,
-            DominatorTree: dominatorTree);
+            analysis.PathConstraints.Select(path => path.ToList()).ToList(),
+            callSites,
+            dominatorTree);
     }
 
     private static CallGraphEdgeJsonDto ToEdgeDto(CallGraphEdge edge)
     {
         return new CallGraphEdgeJsonDto(
-            CallerId: GetSymbolId(edge.Caller.Symbol),
-            CallerDisplayName: edge.Caller.Symbol.ToDisplayString(),
-            CalleeId: GetSymbolId(edge.Callee.Symbol),
-            CalleeDisplayName: edge.Callee.Symbol.ToDisplayString(),
-            BlockOrdinal: edge.CallSite.BlockOrdinal,
-            IsInternal: edge.CallSite.IsInternal,
-            CallerLineNumber: edge.CallSite.CallerLineNumber,
-            CalleeLineNumber: edge.CallSite.CalleeLineNumber);
+            GetSymbolId(edge.Caller.Symbol),
+            edge.Caller.Symbol.ToDisplayString(),
+            GetSymbolId(edge.Callee.Symbol),
+            edge.Callee.Symbol.ToDisplayString(),
+            edge.CallSite.BlockOrdinal,
+            edge.CallSite.IsInternal,
+            edge.CallSite.CallerLineNumber,
+            edge.CallSite.CalleeLineNumber);
     }
 
     private static string GetSymbolId(IMethodSymbol symbol)
@@ -148,4 +146,3 @@ public record CallGraphEdgeJsonDto(
     bool IsInternal,
     int? CallerLineNumber,
     int? CalleeLineNumber);
-

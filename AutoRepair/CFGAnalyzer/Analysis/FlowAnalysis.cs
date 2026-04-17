@@ -4,11 +4,11 @@ namespace AutoRepair.CFGAnalyzer.Analysis;
 
 public static class FlowAnalysis
 {
-
     /// <summary>
-    /// Explores acyclic paths to generate path constraints.
+    ///     Explores acyclic paths to generate path constraints.
     /// </summary>
-    public static List<List<string>> GetPathConstraintsAcyclic(ControlFlowGraph cfg, Dictionary<int, HashSet<int>> domSets)
+    public static List<List<string>> GetPathConstraintsAcyclic(ControlFlowGraph cfg,
+        Dictionary<int, HashSet<int>> domSets)
     {
         var allPaths = new List<List<string>>();
         if (cfg.Blocks.Length == 0) return allPaths;
@@ -17,18 +17,21 @@ public static class FlowAnalysis
         return allPaths;
     }
 
-    private static void ExplorePathAcyclic(BasicBlock block, List<string> currentPath, Dictionary<int, HashSet<int>> domSets, List<List<string>> allPaths)
+    private static void ExplorePathAcyclic(BasicBlock block, List<string> currentPath,
+        Dictionary<int, HashSet<int>> domSets, List<List<string>> allPaths)
     {
-        bool hasForwardSuccessor = false;
+        var hasForwardSuccessor = false;
 
         if (block.ConditionalSuccessor != null && block.FallThroughSuccessor != null && block.BranchValue != null)
         {
-            string condition = block.BranchValue.Syntax.ToString().Replace("\\n", " ").Trim();
+            var condition = block.BranchValue.Syntax.ToString().Replace("\\n", " ").Trim();
             var destA = block.ConditionalSuccessor.Destination;
             var destB = block.FallThroughSuccessor.Destination;
 
-            bool isBackA = destA != null && domSets.ContainsKey(destA.Ordinal) && domSets[block.Ordinal].Contains(destA.Ordinal);
-            bool isBackB = destB != null && domSets.ContainsKey(destB.Ordinal) && domSets[block.Ordinal].Contains(destB.Ordinal);
+            var isBackA = destA != null && domSets.ContainsKey(destA.Ordinal) &&
+                          domSets[block.Ordinal].Contains(destA.Ordinal);
+            var isBackB = destB != null && domSets.ContainsKey(destB.Ordinal) &&
+                          domSets[block.Ordinal].Contains(destB.Ordinal);
 
             if (!isBackA && destA != null)
             {
@@ -56,16 +59,14 @@ public static class FlowAnalysis
             }
         }
 
-        if (!hasForwardSuccessor)
-        {
-            allPaths.Add(new List<string>(currentPath));
-        }
+        if (!hasForwardSuccessor) allPaths.Add(new List<string>(currentPath));
     }
 
     /// <summary>
-    /// Explores acyclic paths to a specific target block, generating path constraints.
+    ///     Explores acyclic paths to a specific target block, generating path constraints.
     /// </summary>
-    public static List<List<string>> GetPathsToBlockAcyclic(ControlFlowGraph cfg, int targetBlockOrdinal, Dictionary<int, HashSet<int>> domSets)
+    public static List<List<string>> GetPathsToBlockAcyclic(ControlFlowGraph cfg, int targetBlockOrdinal,
+        Dictionary<int, HashSet<int>> domSets)
     {
         var allPaths = new List<List<string>>();
         if (cfg.Blocks.Length == 0) return allPaths;
@@ -74,7 +75,8 @@ public static class FlowAnalysis
         return allPaths;
     }
 
-    private static void ExplorePathToBlockAcyclic(BasicBlock block, int targetOrdinal, List<string> currentPath, Dictionary<int, HashSet<int>> domSets, List<List<string>> allPaths)
+    private static void ExplorePathToBlockAcyclic(BasicBlock block, int targetOrdinal, List<string> currentPath,
+        Dictionary<int, HashSet<int>> domSets, List<List<string>> allPaths)
     {
         if (block.Ordinal == targetOrdinal)
         {
@@ -84,12 +86,14 @@ public static class FlowAnalysis
 
         if (block.ConditionalSuccessor != null && block.FallThroughSuccessor != null && block.BranchValue != null)
         {
-            string condition = block.BranchValue.Syntax.ToString().Replace("\\n", " ").Trim();
+            var condition = block.BranchValue.Syntax.ToString().Replace("\\n", " ").Trim();
             var destA = block.ConditionalSuccessor.Destination;
             var destB = block.FallThroughSuccessor.Destination;
 
-            bool isBackA = destA != null && domSets.ContainsKey(destA.Ordinal) && domSets[block.Ordinal].Contains(destA.Ordinal);
-            bool isBackB = destB != null && domSets.ContainsKey(destB.Ordinal) && domSets[block.Ordinal].Contains(destB.Ordinal);
+            var isBackA = destA != null && domSets.ContainsKey(destA.Ordinal) &&
+                          domSets[block.Ordinal].Contains(destA.Ordinal);
+            var isBackB = destB != null && domSets.ContainsKey(destB.Ordinal) &&
+                          domSets[block.Ordinal].Contains(destB.Ordinal);
 
             if (!isBackA && destA != null)
             {

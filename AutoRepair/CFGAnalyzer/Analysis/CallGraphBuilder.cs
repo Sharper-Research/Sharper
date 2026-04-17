@@ -1,19 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoRepair.CFGAnalyzer;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.Operations;
 using Microsoft.CodeAnalysis.FlowAnalysis;
+using Microsoft.CodeAnalysis.Operations;
 
 namespace AutoRepair.CFGAnalyzer.Analysis;
 
 public class CallGraphBuilder
 {
-    private readonly List<ICallResolver> _resolvers;
     private readonly CallGraphConfig _config;
+    private readonly List<ICallResolver> _resolvers;
 
     public CallGraphBuilder(IEnumerable<ICallResolver> resolvers, CallGraphConfig? config = null)
     {
@@ -29,10 +23,7 @@ public class CallGraphBuilder
             var analysis = kvp.Value;
             var node = callGraph.GetOrAddNode(symbol);
 
-            foreach (var site in analysis.CallSites)
-            {
-                callGraph.AddEdge(symbol, site.Target, site);
-            }
+            foreach (var site in analysis.CallSites) callGraph.AddEdge(symbol, site.Target, site);
         }
     }
 
@@ -44,49 +35,37 @@ public class CallGraphBuilder
     {
         var callSites = new List<CallSite>();
         foreach (var block in cfg.Blocks)
+        foreach (var op in block.Operations)
+        foreach (var descendant in op.DescendantsAndSelf())
         {
-            foreach (var op in block.Operations)
+            var targets = new HashSet<IMethodSymbol>(SymbolEqualityComparer.Default);
+            foreach (var resolver in _resolvers)
             {
-                foreach (var descendant in op.DescendantsAndSelf())
-                {
-                    var targets = new HashSet<IMethodSymbol>(SymbolEqualityComparer.Default);
-                    foreach (var resolver in _resolvers)
-                    {
-                        var resolvedTargets = await resolver.ResolveAsync(descendant, project, cancellationToken);
-                        foreach (var resolved in resolvedTargets)
-                        {
-                            targets.Add(resolved);
-                        }
+                var resolvedTargets = await resolver.ResolveAsync(descendant, project, cancellationToken);
+                foreach (var resolved in resolvedTargets) targets.Add(resolved);
 
-                        if (targets.Count > 0)
-                        {
-                            break;
-                        }
-                    }
+                if (targets.Count > 0) break;
+            }
 
-                    foreach (var target in targets)
-                    {
-                        var internalTarget = ResolveInternalTarget(target, internalCfgs);
-                        var effectiveTarget = internalTarget ?? target;
+            foreach (var target in targets)
+            {
+                var internalTarget = ResolveInternalTarget(target, internalCfgs);
+                var effectiveTarget = internalTarget ?? target;
 
-                        if (ShouldSkipTarget(effectiveTarget, internalCfgs))
-                        {
-                            continue;
-                        }
+                if (ShouldSkipTarget(effectiveTarget, internalCfgs)) continue;
 
-                        var callerLineNumber = GetCallerLineNumber(descendant);
-                        var calleeLineNumber = GetCalleeLineNumber(effectiveTarget);
-                        var site = new CallSite(
-                            block.Ordinal,
-                            effectiveTarget,
-                            internalTarget != null,
-                            callerLineNumber,
-                            calleeLineNumber);
-                        callSites.Add(site);
-                    }
-                }
+                var callerLineNumber = GetCallerLineNumber(descendant);
+                var calleeLineNumber = GetCalleeLineNumber(effectiveTarget);
+                var site = new CallSite(
+                    block.Ordinal,
+                    effectiveTarget,
+                    internalTarget != null,
+                    callerLineNumber,
+                    calleeLineNumber);
+                callSites.Add(site);
             }
         }
+
         return callSites;
     }
 
@@ -94,38 +73,23 @@ public class CallGraphBuilder
         IMethodSymbol target,
         Dictionary<IMethodSymbol, ControlFlowGraph> internalCfgs)
     {
-        if (internalCfgs.ContainsKey(target))
-        {
-            return target;
-        }
+        if (internalCfgs.ContainsKey(target)) return target;
 
         var originalDefinition = target.OriginalDefinition;
-        if (internalCfgs.ContainsKey(originalDefinition))
-        {
-            return originalDefinition;
-        }
+        if (internalCfgs.ContainsKey(originalDefinition)) return originalDefinition;
 
         var constructedFrom = target.ConstructedFrom;
-        if (constructedFrom != null && internalCfgs.ContainsKey(constructedFrom))
-        {
-            return constructedFrom;
-        }
+        if (constructedFrom != null && internalCfgs.ContainsKey(constructedFrom)) return constructedFrom;
 
         return null;
     }
 
     private static int? GetCallerLineNumber(IOperation operation)
     {
-        if (operation.Syntax == null)
-        {
-            return null;
-        }
+        if (operation.Syntax == null) return null;
 
         var span = operation.Syntax.GetLocation().GetLineSpan();
-        if (!span.IsValid)
-        {
-            return null;
-        }
+        if (!span.IsValid) return null;
 
         return span.StartLinePosition.Line + 1;
     }
@@ -133,31 +97,19 @@ public class CallGraphBuilder
     private static int? GetCalleeLineNumber(IMethodSymbol target)
     {
         var sourceLocation = target.Locations.FirstOrDefault(location => location.IsInSource);
-        if (sourceLocation == null)
-        {
-            return null;
-        }
+        if (sourceLocation == null) return null;
 
         var span = sourceLocation.GetLineSpan();
-        if (!span.IsValid)
-        {
-            return null;
-        }
+        if (!span.IsValid) return null;
 
         return span.StartLinePosition.Line + 1;
     }
 
     private bool ShouldSkipTarget(IMethodSymbol target, Dictionary<IMethodSymbol, ControlFlowGraph> internalCfgs)
     {
-        if (!_config.ExcludeSystemLibraryTargetsExceptConsole)
-        {
-            return false;
-        }
+        if (!_config.ExcludeSystemLibraryTargetsExceptConsole) return false;
 
-        if (internalCfgs.ContainsKey(target))
-        {
-            return false;
-        }
+        if (internalCfgs.ContainsKey(target)) return false;
 
         return IsSystemLibraryTarget(target) && !IsConsoleTarget(target);
     }
@@ -165,10 +117,8 @@ public class CallGraphBuilder
     private static bool IsSystemLibraryTarget(IMethodSymbol target)
     {
         var ns = target.ContainingNamespace?.ToDisplayString();
-        if (!string.IsNullOrEmpty(ns) && (ns == "System" || ns.StartsWith("System.", StringComparison.Ordinal)))
-        {
-            return true;
-        }
+        if (!string.IsNullOrEmpty(ns) &&
+            (ns == "System" || ns.StartsWith("System.", StringComparison.Ordinal))) return true;
 
         var assemblyName = target.ContainingAssembly?.Name;
         return !string.IsNullOrEmpty(assemblyName) &&
