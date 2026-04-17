@@ -76,6 +76,7 @@ public static class ProjectAnalyzer
         {
             new RapidTypeAnalysisCallResolver(instantiatedTypes),
             new InterfaceImplementationCallResolver(),
+            new IntraproceduralDelegateResolver(),
             new StaticCallResolver()
         };
         var activeResolvers = config.DisabledResolvers.Count == 0

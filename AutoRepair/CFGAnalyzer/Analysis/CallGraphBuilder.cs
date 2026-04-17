@@ -33,6 +33,12 @@ public class CallGraphBuilder
         Project project,
         CancellationToken cancellationToken = default)
     {
+        // Notify CFG-aware resolvers of the current method's graph so they can
+        // pre-compute per-CFG state (e.g. intraprocedural delegate assignments).
+        foreach (var resolver in _resolvers)
+            if (resolver is ICfgAwareCallResolver cfgAware)
+                cfgAware.SetCfg(cfg);
+
         var callSites = new List<CallSite>();
         foreach (var block in cfg.Blocks)
         foreach (var op in block.Operations)

@@ -9,7 +9,8 @@ public enum CallResolver
 {
     Static,
     InterfaceImplementation,
-    RapidTypeAnalysis
+    RapidTypeAnalysis,
+    IntraproceduralDelegate
 }
 
 public class CallGraphConfig
