@@ -85,12 +85,12 @@ public class DominatorTree
 public class CallGraphNode
 {
     public IMethodSymbol Symbol { get; }
-    
+
     /// <summary>
     /// The CFG analysis results for this method, if available (internal methods).
     /// </summary>
     public MethodAnalysisResult? Analysis { get; set; }
-    
+
     public List<CallGraphEdge> OutgoingEdges { get; } = new();
     public List<CallGraphEdge> IncomingEdges { get; } = new();
 
@@ -109,7 +109,7 @@ public class CallGraphEdge
 {
     public CallGraphNode Caller { get; }
     public CallGraphNode Callee { get; }
-    
+
     /// <summary>
     /// The specific site within the caller's CFG where the call occurs.
     /// </summary>
@@ -145,12 +145,12 @@ public class CallGraph
     {
         var callerNode = GetOrAddNode(callerSymbol);
         var calleeNode = GetOrAddNode(calleeSymbol);
-        
+
         var edge = new CallGraphEdge(callerNode, calleeNode, site);
         callerNode.OutgoingEdges.Add(edge);
         calleeNode.IncomingEdges.Add(edge);
         Edges.Add(edge);
-        
+
         return edge;
     }
 }

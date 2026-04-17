@@ -82,8 +82,9 @@ public static class FlowAnalysis
             return;
         }
 
-        if (block.ConditionalSuccessor != null && block.FallThroughSuccessor != null && block.BranchValue != null) {
-        string condition = block.BranchValue.Syntax.ToString().Replace("\\n", " ").Trim();
+        if (block.ConditionalSuccessor != null && block.FallThroughSuccessor != null && block.BranchValue != null)
+        {
+            string condition = block.BranchValue.Syntax.ToString().Replace("\\n", " ").Trim();
             var destA = block.ConditionalSuccessor.Destination;
             var destB = block.FallThroughSuccessor.Destination;
 

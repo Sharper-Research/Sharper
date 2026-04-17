@@ -55,8 +55,8 @@ public static class CallGraphTraverser
     }
 
     public static void TraverseAndGeneratePathConditions(
-        CallGraphNode startNode, 
-        List<string> initialPathConstraints, 
+        CallGraphNode startNode,
+        List<string> initialPathConstraints,
         HashSet<IMethodSymbol> visitedNodes)
     {
         if (startNode == null || !visitedNodes.Add(startNode.Symbol))

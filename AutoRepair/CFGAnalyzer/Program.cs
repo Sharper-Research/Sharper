@@ -34,7 +34,7 @@ class Program
         {
             using var workspace = MSBuildWorkspace.Create();
             workspace.RegisterWorkspaceFailedHandler(e => Console.WriteLine($"[Workspace Warning] {e.Diagnostic.Message}"));
-            
+
             if (path.EndsWith(".sln", StringComparison.OrdinalIgnoreCase))
             {
                 var solution = await workspace.OpenSolutionAsync(path);
@@ -115,7 +115,7 @@ class Program
         var entryNodes = callGraph.Nodes.Values
             .Where(n => n.Symbol.Name == "Main" && n.Analysis != null)
             .ToList();
-            
+
         if (entryNodes.Count == 0 && callGraph.Nodes.Count > 0)
         {
             var firstWithAnalysis = callGraph.Nodes.Values.FirstOrDefault(n => n.Analysis != null);
@@ -126,8 +126,8 @@ class Program
         {
             Console.WriteLine($"\n=== Call Graph Traversal starting from: {entry.Symbol.ToDisplayString()} ===");
             CallGraphTraverser.TraverseAndGeneratePathConditions(
-                entry, 
-                new List<string>(), 
+                entry,
+                new List<string>(),
                 new HashSet<IMethodSymbol>(SymbolEqualityComparer.Default));
         }
     }
