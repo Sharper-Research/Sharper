@@ -131,10 +131,9 @@ var config = new CallGraphConfig
   - async/await (will not be supported),
   - advanced extension-method scenarios (e.g., complex generic constraints and ambiguous overload corner cases),
   - advanced operator-overloading scenarios (e.g., lifted/nullability and complex overload-selection corner cases),
-  - advanced function-pointer scenarios (e.g., interprocedural pointer tracking, pointer-to-pointer chains, and dynamic pointer updates),
+  - unsafe function pointers (infrastructure ready; awaiting Roslyn `ptr()` invocation operation modeling),
   - advanced generic-method scenarios (e.g., per-instantiation node specialization, complex constraint solving, and deep inference chains),
   - partial methods, 
-  - function pointers, 
   - and linq.
 - Add a test project with unit tests for core components (e.g., CFG construction, call resolution, dominator computation).
 - Expand sample projects to cover more C# features and edge cases (e.g., generics, async/await, dynamic calls).
