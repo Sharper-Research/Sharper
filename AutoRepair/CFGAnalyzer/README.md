@@ -25,7 +25,13 @@ dotnet run --project CFGAnalyzer.csproj -- --exclude-system-library-targets /abs
   - Expected exclude: `NeverCalled`
 - `samples/GenericsDemo/`: validates partial generic callgraph support.
   - Expected include: `PrintValue<T>`, `Consume<T>`, `Box<T>.Update(T)`, `Box<T>.Log(T)`
-  - Current limitation: generic calls are normalized to generic definitions (`<T>`), not preserved as separate constructed targets (`<int>`, `<string>`).
+  - Current behavior:
+    - Generic calls are resolved and linked to internal generic method/type definitions.
+    - Generic call edges include caller/callee line numbers in snapshot output.
+  - Limitations:
+    - Constructed generic targets are normalized to generic definitions (`<T>`) instead of being preserved as separate concrete targets (`<int>`, `<string>`).
+    - The call graph does not currently keep per-instantiation specialization in node identity.
+    - Generic-heavy scenarios not covered yet include complex constraints, nested generic inference chains, and overload resolution corner cases.
 
 Use the cross-platform verifier scripts:
 
