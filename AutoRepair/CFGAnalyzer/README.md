@@ -131,7 +131,7 @@ var config = new CallGraphConfig
   - async/await (will not be supported),
   - advanced extension-method scenarios (e.g., complex generic constraints and ambiguous overload corner cases),
   - advanced operator-overloading scenarios (e.g., lifted/nullability and complex overload-selection corner cases),
-  - unsafe function pointers (infrastructure ready; awaiting Roslyn `ptr()` invocation operation modeling),
+  - unsafe function pointers (infrastructure ready; block on Roslyn `ptr()` invocation operation modeling),
   - advanced generic-method scenarios (e.g., per-instantiation node specialization, complex constraint solving, and deep inference chains),
   - partial methods, 
   - and linq.
