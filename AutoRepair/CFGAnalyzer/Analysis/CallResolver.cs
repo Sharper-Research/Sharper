@@ -402,3 +402,131 @@ public class OperatorOverloadCallResolver : ICallResolver
         return Task.FromResult(result);
     }
 }
+
+/// <summary>
+///     Resolves unsafe function pointer invocations by tracking assignments within the CFG.
+///     Requires explicit pointer dereference syntax; C# 9+ function pointer types are treated similarly.
+/// </summary>
+public class FunctionPointerResolver : ICfgAwareCallResolver
+{
+    public CallResolver Kind => CallResolver.FunctionPointer;
+
+    // Run after static (which can't resolve unsafe pointers) but before interface/RTA
+    // to capture intraprocedural pointer assignments before falling through.
+    public int Priority => 30;
+
+    // Maps every local/parameter/field holding function pointers in the current CFG
+    // to the concrete method(s) it was assigned.
+    private Dictionary<ISymbol, HashSet<IMethodSymbol>> _pointerTargets =
+        new(SymbolEqualityComparer.Default);
+
+    /// <inheritdoc/>
+    public void SetCfg(ControlFlowGraph cfg)
+    {
+        _pointerTargets = new Dictionary<ISymbol, HashSet<IMethodSymbol>>(SymbolEqualityComparer.Default);
+
+        foreach (var block in cfg.Blocks)
+        foreach (var op in block.Operations)
+        foreach (var descendant in op.DescendantsAndSelf())
+            ScanForPointerAssignment(descendant);
+    }
+
+    // ── Resolution ────────────────────────────────────────────────────────────
+
+    public Task<IEnumerable<IMethodSymbol>> ResolveAsync(
+        IOperation operation,
+        Project project,
+        CancellationToken cancellationToken = default)
+    {
+        // Function pointer invocations appear as invocations on pointer-typed expressions.
+        // Roslyn represents `ptr()` as an invocation where the instance is a dereference of a pointer.
+        if (operation is not IInvocationOperation invocation)
+            return Task.FromResult(Enumerable.Empty<IMethodSymbol>());
+
+        // The instance should be a pointer dereference operation.
+        var instanceOp = invocation.Instance;
+        if (instanceOp == null)
+            return Task.FromResult(Enumerable.Empty<IMethodSymbol>());
+
+        // Extract the symbol being dereferenced.
+        var symbol = ExtractSymbol(instanceOp);
+        if (symbol == null || !_pointerTargets.TryGetValue(symbol, out var targets))
+            return Task.FromResult(Enumerable.Empty<IMethodSymbol>());
+
+        return Task.FromResult<IEnumerable<IMethodSymbol>>(targets);
+    }
+
+    // ── Helpers ───────────────────────────────────────────────────────────────
+
+    private void ScanForPointerAssignment(IOperation operation)
+    {
+        switch (operation)
+        {
+            // `ptr = &SomeMethod` or `ptr = (delegate*)&SomeMethod` style assignments
+            case ISimpleAssignmentOperation { Target: var lhs, Value: var rhs }:
+            {
+                var sym = ExtractSymbol(lhs);
+                var methods = ExtractPointerMethods(rhs);
+                if (sym != null && methods.Count > 0)
+                    MergeInto(sym, methods);
+                break;
+            }
+
+            // `delegate* ptr = &SomeMethod` (initializer inside declaration)
+            case IVariableDeclaratorOperation { Initializer: { } init } declarator:
+            {
+                var methods = ExtractPointerMethods(init.Value);
+                if (methods.Count > 0)
+                    MergeInto(declarator.Symbol, methods);
+                break;
+            }
+        }
+    }
+
+    private void MergeInto(ISymbol symbol, HashSet<IMethodSymbol> methods)
+    {
+        if (!_pointerTargets.TryGetValue(symbol, out var existing))
+        {
+            existing = new HashSet<IMethodSymbol>(SymbolEqualityComparer.Default);
+            _pointerTargets[symbol] = existing;
+        }
+
+        foreach (var m in methods) existing.Add(m);
+    }
+
+    private static ISymbol? ExtractSymbol(IOperation operation) => operation switch
+    {
+        ILocalReferenceOperation local => local.Local,
+        IParameterReferenceOperation param => param.Parameter,
+        IFieldReferenceOperation field => field.Field,
+        IPropertyReferenceOperation prop => prop.Property,
+        // Unwrap dereference operations to get to the underlying symbol
+        IUnaryOperation { OperatorKind: var kind } when kind.ToString().Contains("AddressOf") => null,
+        _ => null
+    };
+
+    /// <summary>
+    ///     Extracts concrete methods from function pointer expressions.
+    /// </summary>
+    private static HashSet<IMethodSymbol> ExtractPointerMethods(IOperation operation)
+    {
+        var result = new HashSet<IMethodSymbol>(SymbolEqualityComparer.Default);
+
+        // Strip conversions (e.g., cast to delegate* type)
+        var current = operation;
+        while (current is IConversionOperation conv) current = conv.Operand;
+
+        // Address-of a method: `&SomeMethod`
+        if (current is IUnaryOperation { OperatorKind: var opKind } unary && opKind.ToString().Contains("AddressOf"))
+        {
+            if (unary.Operand is IMethodReferenceOperation mr)
+                result.Add(mr.Method);
+        }
+
+        // Direct method reference (rare, but possible in some contexts)
+        if (current is IMethodReferenceOperation methodRef)
+            result.Add(methodRef.Method);
+
+        return result;
+    }
+}

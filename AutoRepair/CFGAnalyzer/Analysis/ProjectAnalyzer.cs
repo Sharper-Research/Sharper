@@ -80,6 +80,7 @@ public static class ProjectAnalyzer
             new RapidTypeAnalysisCallResolver(instantiatedTypes),
             new InterfaceImplementationCallResolver(),
             new OperatorOverloadCallResolver(),
+            new FunctionPointerResolver(),
             new IntraproceduralDelegateResolver(),
             new StaticCallResolver()
         };

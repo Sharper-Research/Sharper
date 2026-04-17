@@ -37,6 +37,10 @@ dotnet run --project CFGAnalyzer.csproj -- --exclude-system-library-targets /abs
 - `samples/OperatorOverloadDemo/`: validates user-defined operator and conversion resolution.
   - Expected include from `Program.Main()`: `op_Addition`, `op_UnaryNegation`, `op_Equality`, `op_Inequality`, `op_Implicit`, `op_Explicit`.
   - Expected exclude: built-in numeric conversion edges (for example `int -> double`).
+- `samples/FunctionPointerDemo/`: demonstrates unsafe function pointer syntax support.
+  - Contains: `Operations.Add`, `Operations.Multiply`, `Operations.Square` methods and `Program.Main()` with pointer assignments.
+  - Current behavior: CFG and symbol collection work correctly for function pointer code.
+  - Limitations: Roslyn's operation tree does not model unsafe pointer dereference invocations as regular call operations, so call site resolution for `ptr()` syntax is not yet possible. The infrastructure is in place for potential future resolution if Roslyn changes its modeling.
 
 Use the cross-platform verifier scripts:
 
@@ -90,6 +94,7 @@ Call resolvers implement `ICallResolver` and are tried in descending priority or
 | Enum value | Class | Priority | What it does |
 |---|---|---|---|
 | `Static` | `StaticCallResolver` | 0 (lowest) | Uses Roslyn static semantics to resolve direct invocations, object creations, property accessors, local functions, anonymous functions, and delegate creations. This is the baseline resolver and handles the majority of calls. |
+| `FunctionPointer` | `FunctionPointerResolver` | 30 | Resolves unsafe function pointer invocations (C# 9+ `delegate*` and `&` operator) by tracking `&MethodName` assignments within the method CFG (intraprocedural, stops at function boundary). |
 | `IntraproceduralDelegate` | `IntraproceduralDelegateResolver` | 50 | Resolves delegate invoke calls by tracking delegate assignments inside the current method CFG only (intraprocedural backward tracking). |
 | `OperatorOverload` | `OperatorOverloadCallResolver` | 75 | Resolves user-defined operator and conversion methods (`op_Addition`, `op_Equality`, `op_Implicit`, `op_Explicit`, etc.) from Roslyn operator/conversion operations. |
 | `InterfaceImplementation` | `InterfaceImplementationCallResolver` | 100 | When the call target is declared on an interface, uses `SymbolFinder.FindImplementationsAsync` to locate all concrete implementations in the project. More precise than RTA for interface calls but requires a full solution search. |
@@ -126,6 +131,7 @@ var config = new CallGraphConfig
   - async/await (will not be supported),
   - advanced extension-method scenarios (e.g., complex generic constraints and ambiguous overload corner cases),
   - advanced operator-overloading scenarios (e.g., lifted/nullability and complex overload-selection corner cases),
+  - advanced function-pointer scenarios (e.g., interprocedural pointer tracking, pointer-to-pointer chains, and dynamic pointer updates),
   - advanced generic-method scenarios (e.g., per-instantiation node specialization, complex constraint solving, and deep inference chains),
   - partial methods, 
   - function pointers, 
