@@ -32,6 +32,8 @@ dotnet run --project CFGAnalyzer.csproj -- --exclude-system-library-targets /abs
     - Constructed generic targets are normalized to generic definitions (`<T>`) instead of being preserved as separate concrete targets (`<int>`, `<string>`).
     - The call graph does not currently keep per-instantiation specialization in node identity.
     - Generic-heavy scenarios not covered yet include complex constraints, nested generic inference chains, and overload resolution corner cases.
+- `samples/ExtensionMethodDemo/`: validates extension-method resolution.
+  - Expected include: `TextExtensions.WrapInBrackets(string)`, `TextExtensions.Duplicate(string)` as internal edges from `Program.Main()`.
 
 Use the cross-platform verifier scripts:
 
@@ -115,8 +117,9 @@ var config = new CallGraphConfig
 - Implement CFG construction algorithms for:
   - delegates (intraprocedural done; interprocedural not yet supported), 
   - events, 
-  - dynamic calls, 
-  - extension methods, 
+  - dynamic calls (will not be supported, requires dynamic trace), 
+  - async/await (will not be supported)
+  - advanced extension-method scenarios (e.g., complex generic constraints and ambiguous overload corner cases),
   - operator overloading, 
   - partial methods, 
   - function pointers, 
@@ -126,4 +129,3 @@ var config = new CallGraphConfig
 - Expand sample projects to cover more C# features and edge cases (e.g., generics, async/await, dynamic calls).
 
 For repository-specific AI/developer guidance, see `AGENTS.md`.
-
