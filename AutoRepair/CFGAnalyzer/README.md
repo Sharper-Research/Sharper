@@ -34,6 +34,9 @@ dotnet run --project CFGAnalyzer.csproj -- --exclude-system-library-targets /abs
     - Generic-heavy scenarios not covered yet include complex constraints, nested generic inference chains, and overload resolution corner cases.
 - `samples/ExtensionMethodDemo/`: validates extension-method resolution.
   - Expected include: `TextExtensions.WrapInBrackets(string)`, `TextExtensions.Duplicate(string)` as internal edges from `Program.Main()`.
+- `samples/OperatorOverloadDemo/`: validates user-defined operator and conversion resolution.
+  - Expected include from `Program.Main()`: `op_Addition`, `op_UnaryNegation`, `op_Equality`, `op_Inequality`, `op_Implicit`, `op_Explicit`.
+  - Expected exclude: built-in numeric conversion edges (for example `int -> double`).
 
 Use the cross-platform verifier scripts:
 
@@ -87,6 +90,8 @@ Call resolvers implement `ICallResolver` and are tried in descending priority or
 | Enum value | Class | Priority | What it does |
 |---|---|---|---|
 | `Static` | `StaticCallResolver` | 0 (lowest) | Uses Roslyn static semantics to resolve direct invocations, object creations, property accessors, local functions, anonymous functions, and delegate creations. This is the baseline resolver and handles the majority of calls. |
+| `IntraproceduralDelegate` | `IntraproceduralDelegateResolver` | 50 | Resolves delegate invoke calls by tracking delegate assignments inside the current method CFG only (intraprocedural backward tracking). |
+| `OperatorOverload` | `OperatorOverloadCallResolver` | 75 | Resolves user-defined operator and conversion methods (`op_Addition`, `op_Equality`, `op_Implicit`, `op_Explicit`, etc.) from Roslyn operator/conversion operations. |
 | `InterfaceImplementation` | `InterfaceImplementationCallResolver` | 100 | When the call target is declared on an interface, uses `SymbolFinder.FindImplementationsAsync` to locate all concrete implementations in the project. More precise than RTA for interface calls but requires a full solution search. |
 | `RapidTypeAnalysis` | `RapidTypeAnalysisCallResolver` | 200 (highest) | Narrows virtual and interface dispatch to only the types actually instantiated in the project (RTA set). Avoids including dead subtypes in the call graph edges. See `samples/RtaNarrowingDemo/` for a worked example. |
 
@@ -118,9 +123,9 @@ var config = new CallGraphConfig
   - delegates (intraprocedural done; interprocedural not yet supported), 
   - events, 
   - dynamic calls (will not be supported, requires dynamic trace), 
-  - async/await (will not be supported)
+  - async/await (will not be supported),
   - advanced extension-method scenarios (e.g., complex generic constraints and ambiguous overload corner cases),
-  - operator overloading, 
+  - advanced operator-overloading scenarios (e.g., lifted/nullability and complex overload-selection corner cases),
   - partial methods, 
   - function pointers, 
   - generic methods,
