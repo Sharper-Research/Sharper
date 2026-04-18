@@ -41,11 +41,12 @@ public class CallGraphBuilder
                 cfgAware.SetCfg(cfg);
 
         var callSites = new List<CallSite>();
+        var targets = new HashSet<IMethodSymbol>(SymbolEqualityComparer.Default);
         foreach (var block in cfg.Blocks)
         foreach (var op in block.Operations)
         foreach (var descendant in op.DescendantsAndSelf())
         {
-            var targets = new HashSet<IMethodSymbol>(SymbolEqualityComparer.Default);
+            targets.Clear();
             foreach (var resolver in _resolvers)
             {
                 var resolvedTargets = await resolver.ResolveAsync(descendant, project, cancellationToken);

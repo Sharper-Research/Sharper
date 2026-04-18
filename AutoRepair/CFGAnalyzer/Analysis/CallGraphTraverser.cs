@@ -45,52 +45,55 @@ public static class CallGraphTraverser
     public static void TraverseAndGeneratePathConditions(
         CallGraphNode startNode,
         List<string> initialPathConstraints,
-        HashSet<IMethodSymbol> visitedNodes)
+        HashSet<IMethodSymbol> visitedNodes,
+        TextWriter? output = null)
     {
+        output ??= Console.Out;
+
         if (!visitedNodes.Add(startNode.Symbol))
             return;
 
-        Console.WriteLine($"Traversing: {startNode.Symbol.ToDisplayString()} ---");
+        output.WriteLine($"Traversing: {startNode.Symbol.ToDisplayString()} ---");
 
         if (startNode.Analysis?.Cfg == null)
         {
-            Console.WriteLine("  (No CFG or Call Sites found for this node)");
+            output.WriteLine("  (No CFG or Call Sites found for this node)");
             return;
         }
 
         // 1. Print Path Constraints
-        Console.WriteLine("  Path Constraints:");
-        if (startNode.Analysis.DataFlow?.PathConstraints != null && startNode.Analysis.DataFlow.PathConstraints.Any())
-            foreach (var path in startNode.Analysis.DataFlow.PathConstraints)
-                Console.WriteLine($"    - {string.Join(" && ", path)}");
+        output.WriteLine("  Path Constraints:");
+        if (startNode.Analysis.DataFlow?.PathConstraints is { Count: > 0 } constraints)
+            foreach (var path in constraints)
+                output.WriteLine($"    - {string.Join(" && ", path)}");
         else
-            Console.WriteLine("    (No path constraints found)");
+            output.WriteLine("    (No path constraints found)");
 
         // 2. Print Call Sites
-        Console.WriteLine("  Call Sites:");
+        output.WriteLine("  Call Sites:");
         if (startNode.Analysis.CallSites.Any())
             foreach (var site in startNode.Analysis.CallSites)
-                Console.WriteLine($"    - {site.Target.ToDisplayString()} (Block: {site.BlockOrdinal})");
+                output.WriteLine($"    - {site.Target.ToDisplayString()} (Block: {site.BlockOrdinal})");
         else
-            Console.WriteLine("    (No call sites found)");
+            output.WriteLine("    (No call sites found)");
 
-        // 3. Recursively traverse children (callees)
-        var dominator = new Dominator();
-        var domSets = startNode.Analysis.Cfg.Blocks.Length > 0
-            ? dominator.ComputeDominatorSets(startNode.Analysis.Cfg)
-            : new Dictionary<int, HashSet<int>>();
+        // 3. Recursively traverse children (callees) — reuse stored dominator sets
+        var domSets = startNode.Analysis.DataFlow?.DomSets
+                      ?? DominatorSets.Empty;
 
         foreach (var edge in startNode.OutgoingEdges)
         {
             if (!edge.CallSite.IsInternal) continue;
 
             var callSitePaths = domSets.Count == 0
-                ? new List<List<string>> { new() }
-                : FlowAnalysis.GetPathsToBlockAcyclic(startNode.Analysis.Cfg, edge.CallSite.BlockOrdinal, domSets);
+                ? new List<IReadOnlyList<string>> { new List<string>() }
+                : (IEnumerable<IReadOnlyList<string>>)FlowAnalysis.GetPathsToBlockAcyclic(
+                    startNode.Analysis.Cfg, edge.CallSite.BlockOrdinal, domSets);
 
-            if (callSitePaths.Count == 0) callSitePaths.Add(new List<string>());
+            var callSitePathsList = callSitePaths.ToList();
+            if (callSitePathsList.Count == 0) callSitePathsList.Add(new List<string>());
 
-            foreach (var callSitePath in callSitePaths)
+            foreach (var callSitePath in callSitePathsList)
             {
                 var nextPrefixContext = new List<string>(initialPathConstraints);
                 nextPrefixContext.AddRange(callSitePath);
@@ -98,7 +101,8 @@ public static class CallGraphTraverser
                 TraverseAndGeneratePathConditions(
                     edge.Callee,
                     nextPrefixContext,
-                    new HashSet<IMethodSymbol>(visitedNodes, SymbolEqualityComparer.Default));
+                    new HashSet<IMethodSymbol>(visitedNodes, SymbolEqualityComparer.Default),
+                    output);
             }
         }
     }

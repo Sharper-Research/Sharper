@@ -44,6 +44,9 @@ public static class ProjectAnalyzer
                 var operation = semanticModel.GetOperation(member);
                 var symbol = semanticModel.GetDeclaredSymbol(member) as IMethodSymbol;
 
+                // Skip early if there is no symbol (e.g. lambdas) to avoid building a CFG we can't store.
+                if (symbol == null) continue;
+
                 ControlFlowGraph? cfg = null;
                 try
                 {
@@ -60,13 +63,13 @@ public static class ProjectAnalyzer
                 catch (ArgumentException ex)
                 {
                     var location = member.GetLocation().GetLineSpan().StartLinePosition;
-                    var memberName = symbol?.ToDisplayString() ?? member.GetType().Name;
+                    var memberName = symbol.ToDisplayString();
                     Console.WriteLine(
                         $"[CFG Warning] Unable to build CFG for {memberName} at {document.Name}:{location.Line + 1}:{location.Character + 1}. {ex.Message}");
                     cfg = null;
                 }
 
-                if (cfg != null && symbol != null)
+                if (cfg != null)
                 {
                     methodCfgs[symbol] = cfg;
                     methodAnalysisResults[symbol] = new MethodAnalysisResult(cfg, new List<CallSite>());
@@ -114,18 +117,12 @@ public static class ProjectAnalyzer
         return callGraph;
     }
 
-    private static IEnumerable<INamedTypeSymbol> CollectInstantiatedTypes(IEnumerable<ControlFlowGraph> cfgs)
-    {
-        var instantiated = new HashSet<INamedTypeSymbol>(SymbolEqualityComparer.Default);
-
-        foreach (var cfg in cfgs)
-        foreach (var descendant in from block in cfg.Blocks
-                 from op in block.Operations
-                 from descendant in op.DescendantsAndSelf()
-                 select descendant)
-            if (descendant is IObjectCreationOperation { Type: INamedTypeSymbol createdType })
-                instantiated.Add(createdType);
-
-        return instantiated;
-    }
+    private static IEnumerable<INamedTypeSymbol> CollectInstantiatedTypes(IEnumerable<ControlFlowGraph> cfgs) =>
+        cfgs.SelectMany(cfg => cfg.Blocks)
+            .SelectMany(block => block.Operations)
+            .SelectMany(op => op.DescendantsAndSelf())
+            .OfType<IObjectCreationOperation>()
+            .Select(op => op.Type)
+            .OfType<INamedTypeSymbol>()
+            .ToHashSet<INamedTypeSymbol>(SymbolEqualityComparer.Default);
 }

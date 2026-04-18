@@ -128,7 +128,8 @@ class Program
             CallGraphTraverser.TraverseAndGeneratePathConditions(
                 entry,
                 new List<string>(),
-                new HashSet<IMethodSymbol>(SymbolEqualityComparer.Default));
+                new HashSet<IMethodSymbol>(SymbolEqualityComparer.Default),
+                Console.Out);
         }
     }
 }

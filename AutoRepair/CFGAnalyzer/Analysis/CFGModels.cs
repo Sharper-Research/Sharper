@@ -18,9 +18,56 @@ public record CallSite(
 ///     Contains the dataflow analysis results for a single method.
 /// </summary>
 public record DataFlowAnalysisResult(
-    List<List<string>> PathConstraints,
-    DominatorTree? DominatorTree = null
+    IReadOnlyList<IReadOnlyList<string>> PathConstraints,
+    DominatorTree? DominatorTree = null,
+    DominatorSets? DomSets = null
 );
+
+/// <summary>
+///     Read-only wrapper around dominator sets keyed by CFG block ordinal.
+/// </summary>
+public sealed class DominatorSets
+{
+    private readonly Dictionary<int, HashSet<int>> _sets;
+
+    public DominatorSets(Dictionary<int, HashSet<int>> sets)
+    {
+        ArgumentNullException.ThrowIfNull(sets);
+
+        _sets = new Dictionary<int, HashSet<int>>(sets.Count);
+        foreach (var (blockOrdinal, dominators) in sets)
+        {
+            ArgumentNullException.ThrowIfNull(dominators);
+            _sets[blockOrdinal] = new HashSet<int>(dominators);
+        }
+    }
+
+    public static DominatorSets Empty { get; } = new(new Dictionary<int, HashSet<int>>());
+
+    public int Count => _sets.Count;
+
+    public bool ContainsBlock(int blockOrdinal)
+    {
+        return _sets.ContainsKey(blockOrdinal);
+    }
+
+    public bool Dominates(int blockOrdinal, int maybeDominatedOrdinal)
+    {
+        return _sets.TryGetValue(blockOrdinal, out var dominators) && dominators.Contains(maybeDominatedOrdinal);
+    }
+
+    public IReadOnlyCollection<int> GetDominators(int blockOrdinal)
+    {
+        return _sets.TryGetValue(blockOrdinal, out var dominators)
+            ? dominators.ToArray()
+            : Array.Empty<int>();
+    }
+
+    public Dictionary<int, HashSet<int>> ToMutableDictionarySnapshot()
+    {
+        return _sets.ToDictionary(kvp => kvp.Key, kvp => new HashSet<int>(kvp.Value));
+    }
+}
 
 /// <summary>
 ///     Contains the local analysis results for a single method.
@@ -38,7 +85,7 @@ public class MethodAnalysisResult
     public DataFlowAnalysisResult? DataFlow { get; set; }
 
     // Compatibility for existing code
-    public List<List<string>> PathConstraints => DataFlow?.PathConstraints ?? new List<List<string>>();
+    public IReadOnlyList<IReadOnlyList<string>> PathConstraints => DataFlow?.PathConstraints ?? [];
     public DominatorTree? DominatorTree => DataFlow?.DominatorTree;
 }
 

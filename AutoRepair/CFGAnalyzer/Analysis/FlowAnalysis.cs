@@ -7,54 +7,69 @@ public static class FlowAnalysis
     /// <summary>
     ///     Explores acyclic paths to generate path constraints.
     /// </summary>
-    public static List<List<string>> GetPathConstraintsAcyclic(ControlFlowGraph cfg,
-        Dictionary<int, HashSet<int>> domSets)
+    /// <param name="cfg">The control flow graph to explore.</param>
+    /// <param name="domSets">Pre-computed dominator sets used to suppress back-edges.</param>
+    /// <param name="maxPaths">Maximum number of paths to collect. Defaults to 1000.</param>
+    public static IReadOnlyList<IReadOnlyList<string>> GetPathConstraintsAcyclic(
+        ControlFlowGraph cfg,
+        DominatorSets domSets,
+        int maxPaths = 1000)
     {
-        var allPaths = new List<List<string>>();
+        var allPaths = new List<IReadOnlyList<string>>();
         if (cfg.Blocks.Length == 0) return allPaths;
 
-        ExplorePathAcyclic(cfg.Blocks[0], new List<string>(), domSets, allPaths);
+        ExplorePathAcyclic(cfg.Blocks[0], [], domSets, allPaths, maxPaths);
         return allPaths;
     }
 
-    private static void ExplorePathAcyclic(BasicBlock block, List<string> currentPath,
-        Dictionary<int, HashSet<int>> domSets, List<List<string>> allPaths)
+    private static void ExplorePathAcyclic(
+        BasicBlock block,
+        List<string> currentPath,
+        DominatorSets domSets,
+        List<IReadOnlyList<string>> allPaths,
+        int maxPaths)
     {
+        if (allPaths.Count >= maxPaths) return;
+
         var hasForwardSuccessor = false;
 
         if (block.ConditionalSuccessor != null && block.FallThroughSuccessor != null && block.BranchValue != null)
         {
-            var condition = block.BranchValue.Syntax.ToString().Replace("\\n", " ").Trim();
+            var condition = block.BranchValue.Syntax.ToString().Replace("\n", " ").Trim();
             var destA = block.ConditionalSuccessor.Destination;
             var destB = block.FallThroughSuccessor.Destination;
 
-            var isBackA = destA != null && domSets.ContainsKey(destA.Ordinal) &&
-                          domSets[block.Ordinal].Contains(destA.Ordinal);
-            var isBackB = destB != null && domSets.ContainsKey(destB.Ordinal) &&
-                          domSets[block.Ordinal].Contains(destB.Ordinal);
+            var isBackA = destA != null && domSets.ContainsBlock(destA.Ordinal) &&
+                          domSets.Dominates(block.Ordinal, destA.Ordinal);
+            var isBackB = destB != null && domSets.ContainsBlock(destB.Ordinal) &&
+                          domSets.Dominates(block.Ordinal, destB.Ordinal);
 
             if (!isBackA && destA != null)
             {
-                var pathA = new List<string>(currentPath);
-                pathA.Add(block.ConditionKind == ControlFlowConditionKind.WhenTrue ? condition : $"!({condition})");
-                ExplorePathAcyclic(destA, pathA, domSets, allPaths);
+                var pathA = new List<string>(currentPath)
+                {
+                    block.ConditionKind == ControlFlowConditionKind.WhenTrue ? condition : $"!({condition})"
+                };
+                ExplorePathAcyclic(destA, pathA, domSets, allPaths, maxPaths);
                 hasForwardSuccessor = true;
             }
 
             if (!isBackB && destB != null)
             {
-                var pathB = new List<string>(currentPath);
-                pathB.Add(block.ConditionKind == ControlFlowConditionKind.WhenTrue ? $"!({condition})" : condition);
-                ExplorePathAcyclic(destB, pathB, domSets, allPaths);
+                var pathB = new List<string>(currentPath)
+                {
+                    block.ConditionKind == ControlFlowConditionKind.WhenTrue ? $"!({condition})" : condition
+                };
+                ExplorePathAcyclic(destB, pathB, domSets, allPaths, maxPaths);
                 hasForwardSuccessor = true;
             }
         }
-        else if (block.FallThroughSuccessor != null && block.FallThroughSuccessor.Destination != null)
+        else if (block.FallThroughSuccessor?.Destination != null)
         {
             var dest = block.FallThroughSuccessor.Destination;
-            if (dest != null && domSets.ContainsKey(dest.Ordinal) && !domSets[block.Ordinal].Contains(dest.Ordinal))
+            if (domSets.ContainsBlock(dest.Ordinal) && !domSets.Dominates(block.Ordinal, dest.Ordinal))
             {
-                ExplorePathAcyclic(dest, currentPath, domSets, allPaths);
+                ExplorePathAcyclic(dest, currentPath, domSets, allPaths, maxPaths);
                 hasForwardSuccessor = true;
             }
         }
@@ -65,20 +80,35 @@ public static class FlowAnalysis
     /// <summary>
     ///     Explores acyclic paths to a specific target block, generating path constraints.
     /// </summary>
-    public static List<List<string>> GetPathsToBlockAcyclic(ControlFlowGraph cfg, int targetBlockOrdinal,
-        Dictionary<int, HashSet<int>> domSets)
+    /// <param name="cfg">The control flow graph to explore.</param>
+    /// <param name="targetBlockOrdinal">The ordinal of the block to find paths to.</param>
+    /// <param name="domSets">Pre-computed dominator sets used to suppress back-edges.</param>
+    /// <param name="maxPaths">Maximum number of paths to collect. Defaults to 1000.</param>
+    public static IReadOnlyList<IReadOnlyList<string>> GetPathsToBlockAcyclic(
+        ControlFlowGraph cfg,
+        int targetBlockOrdinal,
+        DominatorSets domSets,
+        int maxPaths = 1000)
     {
-        var allPaths = new List<List<string>>();
+        var allPaths = new List<IReadOnlyList<string>>();
         if (cfg.Blocks.Length == 0) return allPaths;
 
-        ExplorePathToBlockAcyclic(cfg.Blocks[0], targetBlockOrdinal, new List<string>(), domSets, allPaths);
+        ExplorePathToBlockAcyclic(cfg.Blocks[0], targetBlockOrdinal, [], domSets, allPaths, maxPaths);
         return allPaths;
     }
 
-    private static void ExplorePathToBlockAcyclic(BasicBlock block, int targetOrdinal, List<string> currentPath, Dictionary<int, HashSet<int>> domSets, List<List<string>> allPaths)
+    private static void ExplorePathToBlockAcyclic(
+        BasicBlock block,
+        int targetOrdinal,
+        List<string> currentPath,
+        DominatorSets domSets,
+        List<IReadOnlyList<string>> allPaths,
+        int maxPaths)
     {
         while (true)
         {
+            if (allPaths.Count >= maxPaths) return;
+
             if (block.Ordinal == targetOrdinal)
             {
                 allPaths.Add(new List<string>(currentPath));
@@ -87,36 +117,35 @@ public static class FlowAnalysis
 
             if (block.ConditionalSuccessor != null && block.FallThroughSuccessor != null && block.BranchValue != null)
             {
-                var condition = block.BranchValue.Syntax.ToString().Replace("\\n", " ").Trim();
+                var condition = block.BranchValue.Syntax.ToString().Replace("\n", " ").Trim();
                 var destA = block.ConditionalSuccessor.Destination;
                 var destB = block.FallThroughSuccessor.Destination;
 
-                var isBackA = destA != null && domSets.ContainsKey(destA.Ordinal) && domSets[block.Ordinal].Contains(destA.Ordinal);
-                var isBackB = destB != null && domSets.ContainsKey(destB.Ordinal) && domSets[block.Ordinal].Contains(destB.Ordinal);
+                var isBackA = destA != null && domSets.ContainsBlock(destA.Ordinal) && domSets.Dominates(block.Ordinal, destA.Ordinal);
+                var isBackB = destB != null && domSets.ContainsBlock(destB.Ordinal) && domSets.Dominates(block.Ordinal, destB.Ordinal);
 
                 if (!isBackA && destA != null)
                 {
-                    var pathA = new List<string>(currentPath);
-                    pathA.Add(block.ConditionKind == ControlFlowConditionKind.WhenTrue ? condition : $"!({condition})");
-                    ExplorePathToBlockAcyclic(destA, targetOrdinal, pathA, domSets, allPaths);
+                    var pathA = new List<string>(currentPath)
+                    {
+                        block.ConditionKind == ControlFlowConditionKind.WhenTrue ? condition : $"!({condition})"
+                    };
+                    ExplorePathToBlockAcyclic(destA, targetOrdinal, pathA, domSets, allPaths, maxPaths);
                 }
 
                 if (isBackB || destB == null) return;
-                var pathB = new List<string>(currentPath)
+                currentPath = new List<string>(currentPath)
                 {
-                    block.ConditionKind == ControlFlowConditionKind.WhenTrue
-                        ? $"!({condition})"
-                        : condition
+                    block.ConditionKind == ControlFlowConditionKind.WhenTrue ? $"!({condition})" : condition
                 };
                 block = destB;
-                currentPath = pathB;
                 continue;
             }
 
-            if (block.FallThroughSuccessor != null && block.FallThroughSuccessor.Destination != null)
+            if (block.FallThroughSuccessor?.Destination != null)
             {
                 var dest = block.FallThroughSuccessor.Destination;
-                if (dest != null && domSets.ContainsKey(dest.Ordinal) && !domSets[block.Ordinal].Contains(dest.Ordinal))
+                if (domSets.ContainsBlock(dest.Ordinal) && !domSets.Dominates(block.Ordinal, dest.Ordinal))
                 {
                     block = dest;
                     continue;
