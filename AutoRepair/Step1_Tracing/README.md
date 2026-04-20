@@ -10,10 +10,10 @@ This is the *concrete execution* stage of the professor's "Proactive Repair from
 |---|---|
 | Source files instrumented | 7 |
 | Tests executed | 110 (all passing) |
-| Events written to `trace_logs.jsonl` | **10,481** |
+| Events written to `trace_logs.jsonl` | **10,446** |
 | File size | ~2 MB |
 
-Most frequent event categories captured: `Variable Update` (4,595), `Array Snapshot` (1,171), `If-True Branch` (928), `Return` (519), `Array Argument Alias` (474), `Cast Attempt` (135), plus method-entry events.
+Most frequent event categories captured: `Variable Update` (4,582), `Array Snapshot` (1,171), `If-True Branch` (925), `Return` (519), `Array Argument Alias` (472), `Array Parameter` (336), `Else Branch` (327), plus method-entry events.
 
 ---
 

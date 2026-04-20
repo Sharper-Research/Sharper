@@ -8,8 +8,8 @@ This step takes the violations from Step 2 and the original source code to build
 
 | Metric | Value |
 |---|---|
-| Violations consumed from Step 2 | 30 |
-| Distinct methods analyzed | **17** |
+| Violations consumed from Step 2 | 6 |
+| Distinct methods analyzed | **6** |
 | Largest CFG (`Retrier.Attempt`) | 24 nodes / 31 edges |
 | CFG direction | Forward only (edges from `block.FallThroughSuccessor` and `block.ConditionalSuccessor`) |
 

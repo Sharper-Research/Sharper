@@ -59,36 +59,12 @@ public sealed class IntegerOverflowRule : IRule
             return true;
         }
 
-        // ── Forward path 2: variable value near type boundary ──
-        // When a tracked integer is at or near Int32.MaxValue / MinValue,
-        // flag as overflow risk for the next arithmetic operation.
-        if (string.Equals(evt.Message, "Variable Update", StringComparison.OrdinalIgnoreCase)
-            && evt.Variable is { Name: { } vuName, Value: { } vuValue })
-        {
-            if (long.TryParse(vuValue, System.Globalization.NumberStyles.Integer,
-                    System.Globalization.CultureInfo.InvariantCulture, out var longVal))
-            {
-                if (longVal > int.MaxValue || longVal < int.MinValue)
-                {
-                    violation = new ConstraintViolation(
-                        Predicate: $"NoOverflow({vuName})",
-                        Assertion: $"{vuName} = {longVal} exceeds Int32 range [{int.MinValue}, {int.MaxValue}]",
-                        Bindings: new Dictionary<string, object?>
-                        {
-                            ["variable"] = vuName,
-                            ["value"] = longVal,
-                            ["int32.min"] = int.MinValue,
-                            ["int32.max"] = int.MaxValue,
-                            ["detection"] = "forward-boundary-check"
-                        },
-                        Result: false,
-                        File: evt.File,
-                        Line: evt.Line,
-                        TraceId: evt.Id);
-                    return true;
-                }
-            }
-        }
+        // (Removed: forward-boundary-check clause that flagged any long >
+        // int.MaxValue as a potential overflow.  It produced false positives
+        // for legitimate large values such as DateTime.Ticks, file sizes,
+        // Stopwatch counters, etc., where the value never participates in
+        // an Int32 operation.  We now rely solely on the instrumenter's
+        // checked-arithmetic Overflow events and OverflowException fallback.)
 
         // ── Fallback: OverflowException from exception logging ──
         if (string.Equals(evt.Message, "Exception Type", StringComparison.OrdinalIgnoreCase)

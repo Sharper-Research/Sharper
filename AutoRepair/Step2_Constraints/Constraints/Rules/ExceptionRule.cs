@@ -18,6 +18,11 @@ public sealed class ExceptionRule : IRule
         "OverflowException"
     };
 
+    // Same exception is logged at every catch frame on its way up the stack
+    // (SafetyRewriter wraps multiple methods).  De-duplicate by traceId so
+    // a single throw produces a single violation.
+    private readonly HashSet<string> _emittedTraceIds = new();
+
     public bool TryEvaluate(TraceEvent evt, StateTracker state, out ConstraintViolation violation)
     {
         violation = null!;
@@ -34,6 +39,9 @@ public sealed class ExceptionRule : IRule
             if (value.Contains(handled, StringComparison.OrdinalIgnoreCase))
                 return false;
         }
+
+        if (!_emittedTraceIds.Add(evt.Id))
+            return false;
 
         violation = new ConstraintViolation(
             Predicate: "NoUnhandledException(event)",

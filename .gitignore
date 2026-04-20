@@ -24,8 +24,11 @@ TraceLogger.cs
 
 # Pipeline diagram (local-only, not committed)
 AutoRepair/pipeline_diagram.mmd
+AutoRepair/pipeline_diagram.puml
 AutoRepair/pipeline_diagram.png
+AutoRepair/AutoRepair_Pipeline.png
 AutoRepair/STEP3_PIPELINE.png
+AutoRepair/plantuml.jar
 
 # Temporary & System Files
 *.log

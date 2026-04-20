@@ -32,6 +32,13 @@ public sealed class BufferBoundsRule : IRule
         if (!state.TryGetBufferSize(bufferName, out var size))
             return false;
 
+        // Skip buffers whose true size is unknown (e.g. arrays returned from
+        // method calls like pool.Borrow() — the instrumenter only emits
+        // Heap State for direct `new T[N]` allocations, so size defaults to 0
+        // and would otherwise produce a false-positive bounds violation).
+        if (size <= 0)
+            return false;
+
         if (!int.TryParse(payload.Value, NumberStyles.Integer, CultureInfo.InvariantCulture, out var index))
             return false;
 

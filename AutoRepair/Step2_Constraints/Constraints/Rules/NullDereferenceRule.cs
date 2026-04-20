@@ -27,7 +27,13 @@ public sealed class NullDereferenceRule : IRule
             if (dotIdx > 0)
             {
                 var receiver = name[..dotIdx];
+                // Skip likely type/namespace prefixes (e.g. Math.Max, int.Parse,
+                // DateTime.Now).  A real receiver variable in C# is conventionally
+                // lowercase or _camelCase; uppercase first letter strongly suggests
+                // a type or namespace name, which cannot be null-dereferenced.
+                var looksLikeTypeName = receiver.Length > 0 && char.IsUpper(receiver[0]);
                 if (!receiver.Equals("this", StringComparison.OrdinalIgnoreCase)
+                    && !looksLikeTypeName
                     && state.IsNullTracked(receiver))
                 {
                     violation = new ConstraintViolation(

@@ -1,493 +1,9 @@
 {
-  "generatedAt": "2026-04-16T19:32:23.5293216Z",
+  "generatedAt": "2026-04-19T17:54:35.5419804Z",
   "sourceDirectory": "C:\\Users\\manis\\Desktop\\Patching\\ThrottleDebounce\\ThrottleDebounce",
-  "totalViolations": 30,
-  "methodsAnalyzed": 17,
+  "totalViolations": 6,
+  "methodsAnalyzed": 6,
   "methods": [
-    {
-      "methodName": "Invoke",
-      "file": "RateLimiter.Overloads.cs",
-      "methodStartLine": 65,
-      "methodEndLine": 74,
-      "violationLines": [
-        67
-      ],
-      "nodes": [
-        {
-          "id": 0,
-          "kind": "entry",
-          "startLine": 65,
-          "endLine": 65,
-          "code": "Enter Invoke"
-        },
-        {
-          "id": 1,
-          "kind": "statement",
-          "startLine": 66,
-          "endLine": 73,
-          "code": "parameters = parameterArrayPool.Borrow(); parameters[0] = arg1!;; parameters[1] = arg2!;; parameters[2] = arg3!;; parameters[3] = arg4!;; parameter..."
-        },
-        {
-          "id": 2,
-          "kind": "exit",
-          "startLine": 74,
-          "endLine": 74,
-          "code": "Exit Invoke"
-        }
-      ],
-      "edges": [
-        {
-          "fromId": 0,
-          "toId": 1,
-          "label": "sequential"
-        },
-        {
-          "fromId": 1,
-          "toId": 2,
-          "label": "sequential"
-        }
-      ]
-    },
-    {
-      "methodName": "Invoke",
-      "file": "RateLimiter.Overloads.cs",
-      "methodStartLine": 146,
-      "methodEndLine": 161,
-      "violationLines": [
-        148
-      ],
-      "nodes": [
-        {
-          "id": 0,
-          "kind": "entry",
-          "startLine": 146,
-          "endLine": 146,
-          "code": "Enter Invoke"
-        },
-        {
-          "id": 1,
-          "kind": "statement",
-          "startLine": 147,
-          "endLine": 160,
-          "code": "parameters = parameterArrayPool.Borrow(); parameters[0] = arg1!;; parameters[1] = arg2!;; parameters[2] = arg3!;; parameters[3] = arg4!;; parameter..."
-        },
-        {
-          "id": 2,
-          "kind": "exit",
-          "startLine": 161,
-          "endLine": 161,
-          "code": "Exit Invoke"
-        }
-      ],
-      "edges": [
-        {
-          "fromId": 0,
-          "toId": 1,
-          "label": "sequential"
-        },
-        {
-          "fromId": 1,
-          "toId": 2,
-          "label": "sequential"
-        }
-      ]
-    },
-    {
-      "methodName": "Invoke",
-      "file": "RateLimiter.Overloads.cs",
-      "methodStartLine": 223,
-      "methodEndLine": 243,
-      "violationLines": [
-        226
-      ],
-      "nodes": [
-        {
-          "id": 0,
-          "kind": "entry",
-          "startLine": 223,
-          "endLine": 223,
-          "code": "Enter Invoke"
-        },
-        {
-          "id": 1,
-          "kind": "statement",
-          "startLine": 225,
-          "endLine": 242,
-          "code": "parameters = parameterArrayPool.Borrow(); parameters[0] = arg1!;; parameters[1] = arg2!;; parameters[2] = arg3!;; parameters[3] = arg4!;; parameter..."
-        },
-        {
-          "id": 2,
-          "kind": "exit",
-          "startLine": 243,
-          "endLine": 243,
-          "code": "Exit Invoke"
-        }
-      ],
-      "edges": [
-        {
-          "fromId": 0,
-          "toId": 1,
-          "label": "sequential"
-        },
-        {
-          "fromId": 1,
-          "toId": 2,
-          "label": "sequential"
-        }
-      ]
-    },
-    {
-      "methodName": "Invoke",
-      "file": "RateLimiter.Overloads.cs",
-      "methodStartLine": 251,
-      "methodEndLine": 256,
-      "violationLines": [
-        253
-      ],
-      "nodes": [
-        {
-          "id": 0,
-          "kind": "entry",
-          "startLine": 251,
-          "endLine": 251,
-          "code": "Enter Invoke"
-        },
-        {
-          "id": 1,
-          "kind": "return",
-          "startLine": 252,
-          "endLine": 255,
-          "code": "parameters = parameterArrayPool.Borrow(); parameters[0] = arg1!;; parameters[1] = arg2!;; OnUserInvocation(parameters)"
-        },
-        {
-          "id": 2,
-          "kind": "exit",
-          "startLine": 256,
-          "endLine": 256,
-          "code": "Exit Invoke"
-        }
-      ],
-      "edges": [
-        {
-          "fromId": 0,
-          "toId": 1,
-          "label": "sequential"
-        },
-        {
-          "fromId": 1,
-          "toId": 2,
-          "label": "return"
-        }
-      ]
-    },
-    {
-      "methodName": "Invoke",
-      "file": "RateLimiter.Overloads.cs",
-      "methodStartLine": 266,
-      "methodEndLine": 273,
-      "violationLines": [
-        268
-      ],
-      "nodes": [
-        {
-          "id": 0,
-          "kind": "entry",
-          "startLine": 266,
-          "endLine": 266,
-          "code": "Enter Invoke"
-        },
-        {
-          "id": 1,
-          "kind": "return",
-          "startLine": 267,
-          "endLine": 272,
-          "code": "parameters = parameterArrayPool.Borrow(); parameters[0] = arg1!;; parameters[1] = arg2!;; parameters[2] = arg3!;; parameters[3] = arg4!;; OnUserInv..."
-        },
-        {
-          "id": 2,
-          "kind": "exit",
-          "startLine": 273,
-          "endLine": 273,
-          "code": "Exit Invoke"
-        }
-      ],
-      "edges": [
-        {
-          "fromId": 0,
-          "toId": 1,
-          "label": "sequential"
-        },
-        {
-          "fromId": 1,
-          "toId": 2,
-          "label": "return"
-        }
-      ]
-    },
-    {
-      "methodName": "Invoke",
-      "file": "RateLimiter.Overloads.cs",
-      "methodStartLine": 285,
-      "methodEndLine": 294,
-      "violationLines": [
-        287
-      ],
-      "nodes": [
-        {
-          "id": 0,
-          "kind": "entry",
-          "startLine": 285,
-          "endLine": 285,
-          "code": "Enter Invoke"
-        },
-        {
-          "id": 1,
-          "kind": "return",
-          "startLine": 286,
-          "endLine": 293,
-          "code": "parameters = parameterArrayPool.Borrow(); parameters[0] = arg1!;; parameters[1] = arg2!;; parameters[2] = arg3!;; parameters[3] = arg4!;; parameter..."
-        },
-        {
-          "id": 2,
-          "kind": "exit",
-          "startLine": 294,
-          "endLine": 294,
-          "code": "Exit Invoke"
-        }
-      ],
-      "edges": [
-        {
-          "fromId": 0,
-          "toId": 1,
-          "label": "sequential"
-        },
-        {
-          "fromId": 1,
-          "toId": 2,
-          "label": "return"
-        }
-      ]
-    },
-    {
-      "methodName": "Invoke",
-      "file": "RateLimiter.Overloads.cs",
-      "methodStartLine": 321,
-      "methodEndLine": 333,
-      "violationLines": [
-        323
-      ],
-      "nodes": [
-        {
-          "id": 0,
-          "kind": "entry",
-          "startLine": 321,
-          "endLine": 321,
-          "code": "Enter Invoke"
-        },
-        {
-          "id": 1,
-          "kind": "return",
-          "startLine": 322,
-          "endLine": 332,
-          "code": "parameters = parameterArrayPool.Borrow(); parameters[0] = arg1!;; parameters[1] = arg2!;; parameters[2] = arg3!;; parameters[3] = arg4!;; parameter..."
-        },
-        {
-          "id": 2,
-          "kind": "exit",
-          "startLine": 333,
-          "endLine": 333,
-          "code": "Exit Invoke"
-        }
-      ],
-      "edges": [
-        {
-          "fromId": 0,
-          "toId": 1,
-          "label": "sequential"
-        },
-        {
-          "fromId": 1,
-          "toId": 2,
-          "label": "return"
-        }
-      ]
-    },
-    {
-      "methodName": "Invoke",
-      "file": "RateLimiter.Overloads.cs",
-      "methodStartLine": 335,
-      "methodEndLine": 348,
-      "violationLines": [
-        337
-      ],
-      "nodes": [
-        {
-          "id": 0,
-          "kind": "entry",
-          "startLine": 335,
-          "endLine": 335,
-          "code": "Enter Invoke"
-        },
-        {
-          "id": 1,
-          "kind": "return",
-          "startLine": 336,
-          "endLine": 347,
-          "code": "parameters = parameterArrayPool.Borrow(); parameters[0] = arg1!;; parameters[1] = arg2!;; parameters[2] = arg3!;; parameters[3] = arg4!;; parameter..."
-        },
-        {
-          "id": 2,
-          "kind": "exit",
-          "startLine": 348,
-          "endLine": 348,
-          "code": "Exit Invoke"
-        }
-      ],
-      "edges": [
-        {
-          "fromId": 0,
-          "toId": 1,
-          "label": "sequential"
-        },
-        {
-          "fromId": 1,
-          "toId": 2,
-          "label": "return"
-        }
-      ]
-    },
-    {
-      "methodName": "Invoke",
-      "file": "RateLimiter.Overloads.cs",
-      "methodStartLine": 366,
-      "methodEndLine": 382,
-      "violationLines": [
-        369
-      ],
-      "nodes": [
-        {
-          "id": 0,
-          "kind": "entry",
-          "startLine": 366,
-          "endLine": 366,
-          "code": "Enter Invoke"
-        },
-        {
-          "id": 1,
-          "kind": "return",
-          "startLine": 368,
-          "endLine": 381,
-          "code": "parameters = parameterArrayPool.Borrow(); parameters[0] = arg1!;; parameters[1] = arg2!;; parameters[2] = arg3!;; parameters[3] = arg4!;; parameter..."
-        },
-        {
-          "id": 2,
-          "kind": "exit",
-          "startLine": 382,
-          "endLine": 382,
-          "code": "Exit Invoke"
-        }
-      ],
-      "edges": [
-        {
-          "fromId": 0,
-          "toId": 1,
-          "label": "sequential"
-        },
-        {
-          "fromId": 1,
-          "toId": 2,
-          "label": "return"
-        }
-      ]
-    },
-    {
-      "methodName": "Invoke",
-      "file": "RateLimiter.Overloads.cs",
-      "methodStartLine": 384,
-      "methodEndLine": 401,
-      "violationLines": [
-        387
-      ],
-      "nodes": [
-        {
-          "id": 0,
-          "kind": "entry",
-          "startLine": 384,
-          "endLine": 384,
-          "code": "Enter Invoke"
-        },
-        {
-          "id": 1,
-          "kind": "return",
-          "startLine": 386,
-          "endLine": 400,
-          "code": "parameters = parameterArrayPool.Borrow(); parameters[0] = arg1!;; parameters[1] = arg2!;; parameters[2] = arg3!;; parameters[3] = arg4!;; parameter..."
-        },
-        {
-          "id": 2,
-          "kind": "exit",
-          "startLine": 401,
-          "endLine": 401,
-          "code": "Exit Invoke"
-        }
-      ],
-      "edges": [
-        {
-          "fromId": 0,
-          "toId": 1,
-          "label": "sequential"
-        },
-        {
-          "fromId": 1,
-          "toId": 2,
-          "label": "return"
-        }
-      ]
-    },
-    {
-      "methodName": "Invoke",
-      "file": "RateLimiter.Overloads.cs",
-      "methodStartLine": 444,
-      "methodEndLine": 464,
-      "violationLines": [
-        447
-      ],
-      "nodes": [
-        {
-          "id": 0,
-          "kind": "entry",
-          "startLine": 444,
-          "endLine": 444,
-          "code": "Enter Invoke"
-        },
-        {
-          "id": 1,
-          "kind": "return",
-          "startLine": 446,
-          "endLine": 463,
-          "code": "parameters = parameterArrayPool.Borrow(); parameters[0] = arg1!;; parameters[1] = arg2!;; parameters[2] = arg3!;; parameters[3] = arg4!;; parameter..."
-        },
-        {
-          "id": 2,
-          "kind": "exit",
-          "startLine": 464,
-          "endLine": 464,
-          "code": "Exit Invoke"
-        }
-      ],
-      "edges": [
-        {
-          "fromId": 0,
-          "toId": 1,
-          "label": "sequential"
-        },
-        {
-          "fromId": 1,
-          "toId": 2,
-          "label": "return"
-        }
-      ]
-    },
     {
       "methodName": "Throttle",
       "file": "Throttler.cs",
@@ -517,50 +33,6 @@
           "startLine": 12,
           "endLine": 12,
           "code": "Exit Throttle"
-        }
-      ],
-      "edges": [
-        {
-          "fromId": 0,
-          "toId": 1,
-          "label": "sequential"
-        },
-        {
-          "fromId": 1,
-          "toId": 2,
-          "label": "return"
-        }
-      ]
-    },
-    {
-      "methodName": "Debounce",
-      "file": "Debouncer.cs",
-      "methodStartLine": 7,
-      "methodEndLine": 10,
-      "violationLines": [
-        7
-      ],
-      "nodes": [
-        {
-          "id": 0,
-          "kind": "entry",
-          "startLine": 7,
-          "endLine": 7,
-          "code": "Enter Debounce"
-        },
-        {
-          "id": 1,
-          "kind": "return",
-          "startLine": 8,
-          "endLine": 9,
-          "code": "new RateLimiter<object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, obj..."
-        },
-        {
-          "id": 2,
-          "kind": "exit",
-          "startLine": 10,
-          "endLine": 10,
-          "code": "Exit Debounce"
         }
       ],
       "edges": [
@@ -1916,6 +1388,50 @@
         {
           "fromId": 21,
           "toId": 23,
+          "label": "return"
+        }
+      ]
+    },
+    {
+      "methodName": "Debounce",
+      "file": "Debouncer.cs",
+      "methodStartLine": 7,
+      "methodEndLine": 10,
+      "violationLines": [
+        7
+      ],
+      "nodes": [
+        {
+          "id": 0,
+          "kind": "entry",
+          "startLine": 7,
+          "endLine": 7,
+          "code": "Enter Debounce"
+        },
+        {
+          "id": 1,
+          "kind": "return",
+          "startLine": 8,
+          "endLine": 9,
+          "code": "new RateLimiter<object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, obj..."
+        },
+        {
+          "id": 2,
+          "kind": "exit",
+          "startLine": 10,
+          "endLine": 10,
+          "code": "Exit Debounce"
+        }
+      ],
+      "edges": [
+        {
+          "fromId": 0,
+          "toId": 1,
+          "label": "sequential"
+        },
+        {
+          "fromId": 1,
+          "toId": 2,
           "label": "return"
         }
       ]
