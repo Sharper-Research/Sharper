@@ -2,7 +2,18 @@
 
 > **Status: Complete.** The instrumenter works end-to-end. Outputs feed into [Step 2 (Constraints)](../Step2_Constraints/README.md).
 
-This module injects runtime logging into a target C# project's source tree so we can capture a detailed execution trace (control flow, variable updates, heap activity, type casts, arithmetic overflows, and exceptions) while the program runs.
+This is the *concrete execution* stage of the professor's "Proactive Repair from One Fault" pipeline. It injects runtime logging into a target C# project's source tree so we can capture a detailed execution trace (control-flow decisions, heap state, variable values, type casts, arithmetic overflows, exceptions) while the program runs.
+
+## Last verified run (ThrottleDebounce)
+
+| Metric | Value |
+|---|---|
+| Source files instrumented | 7 |
+| Tests executed | 110 (all passing) |
+| Events written to `trace_logs.jsonl` | **10,446** |
+| File size | ~2 MB |
+
+Most frequent event categories captured: `Variable Update` (4,582), `Array Snapshot` (1,171), `If-True Branch` (925), `Return` (519), `Array Argument Alias` (472), `Array Parameter` (336), `Else Branch` (327), plus method-entry events.
 
 ---
 
@@ -25,13 +36,14 @@ This module injects runtime logging into a target C# project's source tree so we
 .\AutoRepair\Step1_Tracing\generate_trace.ps1
 ```
 
-By default, this targets `BrightHrKata/Checkout` and runs its MSTest suite. You can override:
+By default, this targets `ThrottleDebounce/ThrottleDebounce` and runs its test suite. You can override:
 
 ```powershell
 .\AutoRepair\Step1_Tracing\generate_trace.ps1 `
-    -TargetSourceDir "path\to\source" `
-    -DriverProject   "path\to\tests.csproj"
+    -TargetSourceDir "path\to\source"
 ```
+
+The script auto-discovers the companion `Tests.csproj` in a sibling folder.
 
 ### Restoring the Target
 
