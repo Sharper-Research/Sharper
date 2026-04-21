@@ -69,11 +69,9 @@ public static class ProjectAnalyzer
                     cfg = null;
                 }
 
-                if (cfg != null)
-                {
-                    methodCfgs[symbol] = cfg;
-                    methodAnalysisResults[symbol] = new MethodAnalysisResult(cfg, new List<CallSite>());
-                }
+                if (cfg == null) continue;
+                methodCfgs[symbol] = cfg;
+                methodAnalysisResults[symbol] = new MethodAnalysisResult(cfg, new List<CallSite>());
             }
         }
 

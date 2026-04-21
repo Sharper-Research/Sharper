@@ -5,7 +5,7 @@ namespace AutoRepair.CFGAnalyzer.Analysis;
 
 public static class CallGraphJsonExporter
 {
-    public static CallGraphJsonDto ToDto(CallGraph callGraph, string? projectName = null)
+    private static CallGraphJsonDto ToDto(CallGraph callGraph, string? projectName = null)
     {
         var nodes = callGraph.Nodes.Values
             .OrderBy(node => node.Symbol.ToDisplayString(), StringComparer.Ordinal)

@@ -43,8 +43,7 @@ public class CallGraphBuilder
         var callSites = new List<CallSite>();
         var targets = new HashSet<IMethodSymbol>(SymbolEqualityComparer.Default);
         foreach (var block in cfg.Blocks)
-        foreach (var op in block.Operations)
-        foreach (var descendant in op.DescendantsAndSelf())
+        foreach (var descendant in block.Operations.SelectMany(op => op.DescendantsAndSelf()))
         {
             targets.Clear();
             foreach (var resolver in _resolvers)
@@ -55,23 +54,19 @@ public class CallGraphBuilder
                 if (targets.Count > 0) break;
             }
 
-            foreach (var target in targets)
-            {
-                var internalTarget = ResolveInternalTarget(target, internalCfgs);
-                var effectiveTarget = internalTarget ?? target;
-
-                if (ShouldSkipTarget(effectiveTarget, internalCfgs)) continue;
-
-                var callerLineNumber = GetCallerLineNumber(descendant);
-                var calleeLineNumber = GetCalleeLineNumber(effectiveTarget);
-                var site = new CallSite(
-                    block.Ordinal,
+            callSites.AddRange(from target in targets
+                let internalTarget = ResolveInternalTarget(target,
+                    internalCfgs)
+                let effectiveTarget = internalTarget ?? target
+                where !ShouldSkipTarget(effectiveTarget,
+                    internalCfgs)
+                let callerLineNumber = GetCallerLineNumber(descendant)
+                let calleeLineNumber = GetCalleeLineNumber(effectiveTarget)
+                select new CallSite(block.Ordinal,
                     effectiveTarget,
                     internalTarget != null,
                     callerLineNumber,
-                    calleeLineNumber);
-                callSites.Add(site);
-            }
+                    calleeLineNumber));
         }
 
         return callSites;
