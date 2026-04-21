@@ -82,9 +82,7 @@ public class CallGraphBuilder
         if (internalCfgs.ContainsKey(originalDefinition)) return originalDefinition;
 
         var constructedFrom = target.ConstructedFrom;
-        if (constructedFrom != null && internalCfgs.ContainsKey(constructedFrom)) return constructedFrom;
-
-        return null;
+        return internalCfgs.ContainsKey(constructedFrom) ? constructedFrom : null;
     }
 
     private static int? GetCallerLineNumber(IOperation operation)
