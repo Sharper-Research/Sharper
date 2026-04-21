@@ -72,6 +72,12 @@ namespace Instrumenter.Rewriters
         // Compound assignments: +=, -=, *=
         public override SyntaxNode? VisitAssignmentExpression(AssignmentExpressionSyntax node)
         {
+            // Skip event handler subscriptions (delegate/lambda on right side)
+            if (node.Right is AnonymousMethodExpressionSyntax ||
+                node.Right is LambdaExpressionSyntax ||
+                node.Right is ParenthesizedLambdaExpressionSyntax)
+                return base.VisitAssignmentExpression(node);
+
             if (base.VisitAssignmentExpression(node) is not AssignmentExpressionSyntax updatedNode) return node;
 
             string? op = updatedNode.Kind() switch

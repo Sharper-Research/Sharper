@@ -115,6 +115,15 @@ namespace Instrumenter.Rewriters
 
         public override SyntaxNode? VisitAssignmentExpression(AssignmentExpressionSyntax node)
         {
+            // Don't instrument assignments inside object/collection initializers
+            if (node.Parent is InitializerExpressionSyntax)
+                return base.VisitAssignmentExpression(node);
+
+            // Skip event handler += / -= (right side is delegate/lambda — returns void, can't wrap in LogValue<T>)
+            if ((node.IsKind(SyntaxKind.AddAssignmentExpression) || node.IsKind(SyntaxKind.SubtractAssignmentExpression)) &&
+                (node.Right is AnonymousMethodExpressionSyntax || node.Right is LambdaExpressionSyntax || node.Right is ParenthesizedLambdaExpressionSyntax))
+                return base.VisitAssignmentExpression(node);
+
             var line = GetLineNumber(node);
             var updatedNode = base.VisitAssignmentExpression(node) as AssignmentExpressionSyntax;
             if (updatedNode == null) return node;
