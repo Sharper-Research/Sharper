@@ -103,11 +103,8 @@ public static class ProjectAnalyzer
 
         // 3. Perform Data Flow Analysis
         var dataFlowAnalyzer = new DataFlowAnalyzer();
-        foreach (var kvp in methodAnalysisResults)
+        foreach (var (symbol, analysisResult) in methodAnalysisResults)
         {
-            var symbol = kvp.Key;
-            var analysisResult = kvp.Value;
-
             analysisResult.DataFlow = dataFlowAnalyzer.Analyze(analysisResult.Cfg);
             callGraph.GetOrAddNode(symbol).Analysis = analysisResult;
         }
