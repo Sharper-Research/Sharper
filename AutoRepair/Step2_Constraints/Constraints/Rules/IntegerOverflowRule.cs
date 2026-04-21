@@ -3,13 +3,15 @@ using AutoRepair.Step2Constraints.Runtime;
 
 namespace AutoRepair.Step2Constraints.Rules;
 
-// ── FUTURE WORK: Narrowing-conversion (truncation) overflow ─────────────
-//
-// If a NarrowingOverflow path is added to the Instrumenter in the future,
-// handle those events here (or in a dedicated NarrowingOverflowRule) with
-// msg = "NarrowingOverflow" and bindings for source value, source type,
-// and target type.
-// ─────────────────────────────────────────────────────────────────────────
+/// <summary>
+/// Forward integer-overflow detection.
+/// The "Overflow" event is emitted by the instrumenter's checked-arithmetic
+/// wrapper at the exact point of the operation — this IS forward detection
+/// (it fires at the operation site, before an exception propagates).
+/// OverflowException events are kept as a fallback confirmation path.
+/// Additionally, when variable values approach type boundaries, the rule
+/// flags them as overflow risks for subsequent arithmetic.
+/// </summary>
 public sealed class IntegerOverflowRule : IRule
 {
     private TraceEvent? _lastOverflowEvent;
@@ -18,22 +20,23 @@ public sealed class IntegerOverflowRule : IRule
     {
         violation = null!;
 
-        // Direct overflow
+        // ── Forward path 1: checked-arithmetic overflow detected at operation site ──
         // msg = "Overflow"
-        // var.name = "overflow:<operator>"       -> "overflow:+"
-        // var.value = "left|right|resultType"    -> "123456788889|1|Int32"
+        // var.name = "overflow:<operator>"  e.g. "overflow:+"
+        // var.value = "left|right|resultType"  e.g. "123456788889|1|Int32"
         if (string.Equals(evt.Message, "Overflow", StringComparison.OrdinalIgnoreCase)
             && evt.Variable is { Name: { } name, Value: { } value }
             && name.StartsWith("overflow:", StringComparison.OrdinalIgnoreCase))
         {
             _lastOverflowEvent = evt;
 
-            var op = name[9..]; // operator after "overflow:"
+            var op = name[9..];
             var parts = value.Split('|');
 
             var bindings = new Dictionary<string, object?>
             {
-                ["operator"] = op
+                ["operator"] = op,
+                ["detection"] = "forward-checked-arithmetic"
             };
 
             if (parts.Length >= 3)
@@ -56,14 +59,22 @@ public sealed class IntegerOverflowRule : IRule
             return true;
         }
 
-        // OverflowException from exception logging
+        // (Removed: forward-boundary-check clause that flagged any long >
+        // int.MaxValue as a potential overflow.  It produced false positives
+        // for legitimate large values such as DateTime.Ticks, file sizes,
+        // Stopwatch counters, etc., where the value never participates in
+        // an Int32 operation.  We now rely solely on the instrumenter's
+        // checked-arithmetic Overflow events and OverflowException fallback.)
+
+        // ── Fallback: OverflowException from exception logging ──
         if (string.Equals(evt.Message, "Exception Type", StringComparison.OrdinalIgnoreCase)
             && evt.Variable is { Value: { } exType }
             && exType.Contains("OverflowException", StringComparison.OrdinalIgnoreCase))
         {
             var bindings = new Dictionary<string, object?>
             {
-                ["exception.type"] = exType
+                ["exception.type"] = exType,
+                ["detection"] = "fallback"
             };
 
             string predicate;
