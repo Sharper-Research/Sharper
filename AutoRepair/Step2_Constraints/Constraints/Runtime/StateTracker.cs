@@ -7,36 +7,39 @@ namespace AutoRepair.Step2Constraints.Runtime;
 public sealed class StateTracker
 {
     private static readonly Regex HeapRegex = new(@"Heap State:\s*(?<name>[^\s\(]+).+size=(?<size>\d+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+    private static readonly Regex HeapNameRegex = new(@"Heap State:\s*(?<name>[^\s\(]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
     private static readonly Regex IndexedVarRegex = new(@"^(?<buf>[^\[]+)\[(?<idx>\d+)\]$", RegexOptions.Compiled);
 
     private readonly Dictionary<string, int> _ints = new(StringComparer.OrdinalIgnoreCase);
     private readonly Dictionary<string, int> _buffers = new(StringComparer.OrdinalIgnoreCase);
 
     // Shadow buffer contents: bufferName -> (index -> value)
-    // Updated from "Variable Update" events like buffer[0]=1 and "Array Snapshot" events
     private readonly Dictionary<string, Dictionary<int, object>> _bufferContents = new(StringComparer.OrdinalIgnoreCase);
 
     // Alias resolution: maps parameter name -> caller argument name
-    // Like: "buffer" -> "buf1" when RunLoop1(buf1) is called with param named buffer
     private readonly Dictionary<string, string> _paramToArgAlias = new(StringComparer.OrdinalIgnoreCase);
 
     // Temporary cache: aliasKey -> argument expression name
-    // Like: "RunLoop1#arg1" -> "buf1" (from caller side)
     private readonly Dictionary<string, string> _argumentAliasCache = new(StringComparer.OrdinalIgnoreCase);
 
-    // Tracks the most recent variable assignment where val was null — used by NullDereferenceRule
+    // Forward analysis state: variables known to be null/default
+    private readonly HashSet<string> _nullVars = new(StringComparer.OrdinalIgnoreCase);
+
+    // Forward analysis state: last known type string per variable
+    private readonly Dictionary<string, string> _varTypes = new(StringComparer.OrdinalIgnoreCase);
+
+    // Tracks the most recent variable assignment where val was null - used by NullDereferenceRule
     // to pinpoint the exact line where null was born, not just where the crash occurred.
     private (string VarName, string File, int Line, string TraceId)? _lastNullAssignment;
 
     public void Update(TraceEvent evt)
     {
-        // Track null assignments: Variable Update with val=null → record origin for NullDereferenceRule
+        // Track null assignments: Variable Update with val=null - record origin for NullDereferenceRule
         if (evt.Message.Equals("Variable Update", StringComparison.OrdinalIgnoreCase)
             && evt.Variable is { Name: { } nullVarName, Value: null })
         {
             _lastNullAssignment = (nullVarName, evt.File, evt.Line, evt.Id);
         }
-
         if (evt.Variable is { Name: { } name, Value: { } value })
         {
             if (int.TryParse(value, NumberStyles.Integer, CultureInfo.InvariantCulture, out var parsed))
@@ -60,6 +63,33 @@ public sealed class StateTracker
                     _bufferContents[bufName] = new Dictionary<int, object>();
                 _bufferContents[bufName][idx] = value;
             }
+
+            // Forward: track null/default variables from Variable Update events.
+            // val="" means .ToString() returned empty (null/default for reference types).
+            // val="null" from cast attempts means explicitly null.
+            if (evt.Message.Equals("Variable Update", StringComparison.OrdinalIgnoreCase))
+            {
+                if (string.IsNullOrEmpty(value)
+                    || value.Equals("null", StringComparison.OrdinalIgnoreCase))
+                {
+                    _nullVars.Add(name);
+                }
+                else
+                {
+                    _nullVars.Remove(name);
+                    // Track type from fully-qualified type names (e.g. "System.String")
+                    if (value.Contains('.') && !value.Contains(' '))
+                        _varTypes[name] = value;
+                }
+            }
+        }
+
+        // Forward: track null from cast attempts with null source
+        if (evt.Message.Equals("Cast Attempt", StringComparison.OrdinalIgnoreCase)
+            && evt.Variable is { Value: { } castVal }
+            && castVal.Equals("null", StringComparison.OrdinalIgnoreCase))
+        {
+            _nullVars.Add("_lastCastSource");
         }
 
         // Track heap allocations: "Heap State: buf1 (int[] size=x)"
@@ -72,6 +102,17 @@ public sealed class StateTracker
                 var bufferName = match.Groups["name"].Value;
                 _buffers[bufferName] = size;
             }
+            else
+            {
+                // Register buffer name even without explicit size; size inferred from snapshots later
+                var nameMatch = HeapNameRegex.Match(evt.Message);
+                if (nameMatch.Success)
+                {
+                    var bufferName = nameMatch.Groups["name"].Value;
+                    if (!_buffers.ContainsKey(bufferName))
+                        _buffers[bufferName] = -1; // sentinel: size unknown until snapshot
+                }
+            }
         }
 
         // Track full array snapshots: "Array Snapshot" var={name:"buffer", val:"[1, 2, 0, ...]"}
@@ -83,13 +124,13 @@ public sealed class StateTracker
             if (contents is not null)
             {
                 _bufferContents[resolvedName] = contents;
+                // Forward: infer buffer size from snapshot element count
+                _buffers[resolvedName] = contents.Count;
             }
         }
 
         // Track initial buffer contents at method entry:
         // msg="Array Parameter", var={name:"RunLoop2#arg0:buffer", val:"[0, 0, 0, ...]"}
-        // The argument alias cache already has RunLoop2#arg0 -> buf2 at this point,
-        // so we can resolve the caller-side name to store contents correctly.
         if (evt.Message.Equals("Array Parameter", StringComparison.OrdinalIgnoreCase)
             && evt.Variable is { Name: { } paramFullKey, Value: { } paramArrayVal })
         {
@@ -101,31 +142,27 @@ public sealed class StateTracker
                 var contents = ParseArrayValues(paramArrayVal);
                 if (contents is not null)
                 {
-                    // Store under the parameter name
                     _bufferContents[paramName2] = contents;
+                    _buffers[paramName2] = contents.Count;
 
-                    // Also store under the caller's argument name via alias cache
-                    // e.g. RunLoop2#arg0 -> buf2, so store under buf2 too
                     if (_argumentAliasCache.TryGetValue(argKey, out var callerName))
+                    {
                         _bufferContents[callerName] = contents;
+                        _buffers[callerName] = contents.Count;
+                    }
                 }
             }
         }
 
         // Intra-method aliasing:
-        // msg="Array Local Alias", var={name:"alias", val:"buf1"}
-        // Records that within the same method, "alias" refers to "buf1"
         if (evt.Message.Equals("Array Local Alias", StringComparison.OrdinalIgnoreCase)
             && evt.Variable is { Name: { } localAliasName, Value: { } localAliasSource })
         {
-            // Resolve transitively: if buf1 itself is an alias for something else, follow the chain
             var resolved = ResolveBufferName(localAliasSource);
             _paramToArgAlias[localAliasName] = resolved;
         }
 
         // Alias resolution step 1 (caller side):
-        // msg="Array Argument Alias", var={name:"RunLoop1#arg1", val:"buf1"}
-        // Records that the caller passed "buf1" as argument position arg1
         if (evt.Message.Equals("Array Argument Alias", StringComparison.OrdinalIgnoreCase)
             && evt.Variable is { Name: { } aliasKey, Value: { } argName })
         {
@@ -133,9 +170,6 @@ public sealed class StateTracker
         }
 
         // Alias resolution step 2 (callee side):
-        // msg="Array Parameter Alias", var={name:"RunLoop1#arg1", val:"buffer"}
-        // Records that the callee receives it as parameter "buffer"
-        // Combine with step 1 to create:  buffer -> buf1
         if (evt.Message.Equals("Array Parameter Alias", StringComparison.OrdinalIgnoreCase)
             && evt.Variable is { Name: { } paramAliasKey, Value: { } paramName })
         {
@@ -145,6 +179,12 @@ public sealed class StateTracker
             }
         }
     }
+
+    public bool TryGetInt(string name, out int value) => _ints.TryGetValue(name, out value);
+
+    public bool IsNullTracked(string name) => _nullVars.Contains(name);
+
+    public bool TryGetVarType(string name, out string type) => _varTypes.TryGetValue(name, out type!);
 
     public bool TryGetLastNullAssignment(out string varName, out string file, out int line, out string traceId)
     {
@@ -157,27 +197,19 @@ public sealed class StateTracker
         return false;
     }
 
-    public bool TryGetInt(string name, out int value) => _ints.TryGetValue(name, out value);
-
     public bool TryGetBufferSize(string bufferName, out int size)
     {
-        // Direct lookup first, example: "buf1" -> 10
-        if (_buffers.TryGetValue(bufferName, out size))
+        if (_buffers.TryGetValue(bufferName, out size) && size >= 0)
             return true;
 
-        // Alias resolution, exmaple: "buffer" -> "buf1" -> 10
         if (_paramToArgAlias.TryGetValue(bufferName, out var resolvedName)
-            && _buffers.TryGetValue(resolvedName, out size))
+            && _buffers.TryGetValue(resolvedName, out size) && size >= 0)
             return true;
 
         size = 0;
         return false;
     }
 
-    /// <summary>
-    /// Get value at a specific index in the buffer's shadow contents.
-    /// Returns the last known value at that position, or null if not tracked.
-    /// </summary>
     public bool TryGetValueAt(string bufferName, int index, out object? value)
     {
         var resolved = ResolveBufferName(bufferName);
@@ -189,10 +221,6 @@ public sealed class StateTracker
         return false;
     }
 
-    /// <summary>
-    /// Get the full shadow contents of a buffer as a snapshot.
-    /// Returns null if the buffer has no tracked contents.
-    /// </summary>
     public IReadOnlyDictionary<int, object>? GetBufferContents(string bufferName)
     {
         var resolved = ResolveBufferName(bufferName);

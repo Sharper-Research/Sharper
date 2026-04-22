@@ -3,15 +3,7 @@ param([string]$targetDir)
 $ErrorActionPreference = "Stop"
 
 if ([string]::IsNullOrEmpty($targetDir)) {
-    # Default to MicrosoftBugDemo source folder; fallback to TargetApp.
-    $microsoftBugDemoDefault = Join-Path $PSScriptRoot "..\..\MicrosoftBugDemo\RuntimeCode"
-    $targetAppDefault = Join-Path $PSScriptRoot "..\..\TargetApp"
-    if (Test-Path $microsoftBugDemoDefault) {
-        $targetDir = $microsoftBugDemoDefault
-    }
-    else {
-        $targetDir = $targetAppDefault
-    }
+    $targetDir = Join-Path $PSScriptRoot "..\..\ThrottleDebounce\ThrottleDebounce"
 }
 
 if (!(Test-Path $targetDir)) {

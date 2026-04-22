@@ -289,196 +289,136 @@ namespace Instrumenter
         static void GenerateTraceLogger(string rootPath)
         {
             string traceLoggerPath = Path.Combine(rootPath, "TraceLogger.cs");
-            string code = @"
-using System.Linq;
+            // Use char codes to avoid any backslash/quote escaping in generated strings
+            // (char)34 = double-quote, (char)92 = backslash
+            string Q = "\"";  // double-quote for use in outer C# strings (safe here)
 
-namespace AutoRepairTracing
-{
-    public static class TraceLogger
-    {
-        private static readonly string LogJsonPath;
-
-        static TraceLogger()
-        {
-            var envPath = System.Environment.GetEnvironmentVariable(""TRACE_LOG_JSON_PATH"");
-            LogJsonPath = string.IsNullOrEmpty(envPath) ? ""trace_logs.jsonl"" : envPath;
-        }
-
-        public static void Log(string uniqueId, string file, int line, string message, object? variableValue = null, string? variableName = null)
-        {
-            var timestamp = System.DateTime.Now.ToString(""yyyy-MM-dd HH:mm:ss.fff"");
-            var threadId = System.Threading.Thread.CurrentThread.ManagedThreadId;
-
-            try
+            var lines = new List<string>
             {
-                // JSON Output
-                var jsonEntryObj = new 
-                {
-                    id = uniqueId,
-                    ts = timestamp,
-                    tid = threadId,
-                    file = file,
-                    line = line,
-                    msg = message,
-                    var = variableName != null ? new { name = variableName, val = variableValue?.ToString() } : null
-                };
-                
-                string jsonLine = System.Text.Json.JsonSerializer.Serialize(jsonEntryObj);
-                
-                lock (LogJsonPath) // Simple file lock
-                {
-                   System.IO.File.AppendAllText(LogJsonPath, jsonLine + System.Environment.NewLine);
-                }
-            }
-            catch {}
-        }
+                "using System.Linq;",
+                "",
+                "namespace AutoRepairTracing",
+                "{",
+                "    public static class TraceLogger",
+                "    {",
+                "        private static readonly string LogJsonPath;",
+                "        private static readonly char DQ = (char)34;",
+                "",
+                "        static TraceLogger()",
+                "        {",
+                "            var envPath = System.Environment.GetEnvironmentVariable(" + Q + "TRACE_LOG_JSON_PATH" + Q + ");",
+                "            LogJsonPath = string.IsNullOrEmpty(envPath) ? " + Q + "trace_logs.jsonl" + Q + " : envPath;",
+                "        }",
+                "",
+                "        private static string EJ(string v)",
+                "        {",
+                "            if (v == null) return " + Q + Q + ";",
+                "            var r = new System.Text.StringBuilder();",
+                "            foreach (char c in v)",
+                "            {",
+                "                if (c == (char)34) { r.Append((char)92); r.Append((char)34); }",
+                "                else if (c == (char)92) { r.Append((char)92); r.Append((char)92); }",
+                "                else if (c == (char)10) { r.Append((char)92); r.Append('n'); }",
+                "                else if (c == (char)13) { r.Append((char)92); r.Append('r'); }",
+                "                else if (c == (char)9)  { r.Append((char)92); r.Append('t'); }",
+                "                else r.Append(c);",
+                "            }",
+                "            return r.ToString();",
+                "        }",
+                "",
+                "        private static string JStr(string s) { return DQ + s + DQ; }",
+                "",
+                "        public static void Log(string uniqueId, string file, int line, string message, object variableValue = null, string variableName = null)",
+                "        {",
+                "            var ts = System.DateTime.Now.ToString(" + Q + "yyyy-MM-dd HH:mm:ss.fff" + Q + ");",
+                "            var tid = System.Threading.Thread.CurrentThread.ManagedThreadId;",
+                "            try",
+                "            {",
+                "                string varPart = variableName != null",
+                "                    ? " + Q + "{" + Q + " + JStr(" + Q + "name" + Q + ") + " + Q + ":" + Q + " + JStr(EJ(variableName)) + " + Q + "," + Q + " + JStr(" + Q + "val" + Q + ") + " + Q + ":" + Q + " + (variableValue != null ? JStr(EJ(variableValue.ToString())) : " + Q + "null" + Q + ") + " + Q + "}" + Q,
+                "                    : " + Q + "null" + Q + ";",
+                "                string j = " + Q + "{" + Q,
+                "                    + JStr(" + Q + "id"   + Q + ") + " + Q + ":" + Q + " + JStr(EJ(uniqueId))",
+                "                    + " + Q + "," + Q + " + JStr(" + Q + "ts"   + Q + ") + " + Q + ":" + Q + " + JStr(EJ(ts))",
+                "                    + " + Q + "," + Q + " + JStr(" + Q + "tid"  + Q + ") + " + Q + ":" + Q + " + tid",
+                "                    + " + Q + "," + Q + " + JStr(" + Q + "file" + Q + ") + " + Q + ":" + Q + " + JStr(EJ(file))",
+                "                    + " + Q + "," + Q + " + JStr(" + Q + "line" + Q + ") + " + Q + ":" + Q + " + line",
+                "                    + " + Q + "," + Q + " + JStr(" + Q + "msg"  + Q + ") + " + Q + ":" + Q + " + JStr(EJ(message))",
+                "                    + " + Q + "," + Q + " + JStr(" + Q + "var"  + Q + ") + " + Q + ":" + Q + " + varPart + " + Q + "}" + Q + ";",
+                "                lock (LogJsonPath) { System.IO.File.AppendAllText(LogJsonPath, j + System.Environment.NewLine); }",
+                "            }",
+                "            catch {}",
+                "        }",
+                "",
+                "        public static T LogValue<T>(string uniqueId, string file, int line, string message, T value, string variableName = null)",
+                "        {",
+                "            Log(uniqueId, file, line, message, value, variableName);",
+                "            return value;",
+                "        }",
+                "",
+                "        public static void LogArray(string uniqueId, string file, int line, string message, System.Array array, string variableName = null)",
+                "        {",
+                "            object snapshot = null;",
+                "            if (array != null)",
+                "            {",
+                "                var values = array.Cast<object>().Select(v => v != null ? v.ToString() : " + Q + "null" + Q + ");",
+                "                snapshot = " + Q + "[" + Q + " + string.Join(" + Q + ", " + Q + ", values) + " + Q + "]" + Q + ";",
+                "            }",
+                "            Log(uniqueId, file, line, message, snapshot, variableName);",
+                "        }",
+                "",
+                "        public static void LogArrayAliasParameter(string uniqueId, string file, int line, string methodName, int position, System.Array array, string parameterName)",
+                "        { Log(uniqueId, file, line, " + Q + "Array Parameter Alias" + Q + ", parameterName, methodName + " + Q + "#arg" + Q + " + position); }",
+                "",
+                "        public static void LogArrayAliasArgument(string uniqueId, string file, int line, string methodName, int position, object argumentValue, string argumentExpression)",
+                "        { Log(uniqueId, file, line, " + Q + "Array Argument Alias" + Q + ", argumentExpression, methodName + " + Q + "#arg" + Q + " + position); }",
+                "",
+                "        public static object LogCastSource(string uniqueId, string file, int line, object source, string targetType)",
+                "        {",
+                "            var sourceType = source != null ? source.GetType().FullName : " + Q + "null" + Q + ";",
+                "            Log(uniqueId, file, line, " + Q + "Cast Attempt" + Q + ", sourceType, " + Q + "cast:" + Q + " + targetType);",
+                "            return source;",
+                "        }",
+                "",
+                "        public static T LogAsCast<T>(string uniqueId, string file, int line, object source, string targetType) where T : class",
+                "        {",
+                "            var result = source as T;",
+                "            var sourceType = source != null ? source.GetType().FullName : " + Q + "null" + Q + ";",
+                "            if (result == null && source != null)",
+                "                Log(uniqueId, file, line, " + Q + "Invalid Cast" + Q + ", sourceType, " + Q + "cast:" + Q + " + targetType);",
+                "            else",
+                "                Log(uniqueId, file, line, " + Q + "Cast Attempt" + Q + ", sourceType, " + Q + "cast:" + Q + " + targetType);",
+                "            return result;",
+                "        }",
+                "",
+                "        public static long LogCheckedBinary(string uniqueId, string file, int line, long left, long right, string op)",
+                "        {",
+                "            try { long r = op == " + Q + "+" + Q + " ? checked(left+right) : op == " + Q + "-" + Q + " ? checked(left-right) : op == " + Q + "*" + Q + " ? checked(left*right) : left; return r; }",
+                "            catch (System.OverflowException) { Log(uniqueId, file, line, " + Q + "Overflow" + Q + ", left + " + Q + "|" + Q + " + right + " + Q + "|Int64" + Q + ", " + Q + "overflow:" + Q + " + op); return op == " + Q + "+" + Q + " ? unchecked(left+right) : op == " + Q + "-" + Q + " ? unchecked(left-right) : op == " + Q + "*" + Q + " ? unchecked(left*right) : left; }",
+                "        }",
+                "",
+                "        public static int LogCheckedBinary(string uniqueId, string file, int line, int left, int right, string op)",
+                "        {",
+                "            try { int r = op == " + Q + "+" + Q + " ? checked(left+right) : op == " + Q + "-" + Q + " ? checked(left-right) : op == " + Q + "*" + Q + " ? checked(left*right) : left; return r; }",
+                "            catch (System.OverflowException) { Log(uniqueId, file, line, " + Q + "Overflow" + Q + ", left + " + Q + "|" + Q + " + right + " + Q + "|Int32" + Q + ", " + Q + "overflow:" + Q + " + op); return op == " + Q + "+" + Q + " ? unchecked(left+right) : op == " + Q + "-" + Q + " ? unchecked(left-right) : op == " + Q + "*" + Q + " ? unchecked(left*right) : left; }",
+                "        }",
+                "",
+                "        public static uint? LogCheckedBinary(string uniqueId, string file, int line, uint? left, uint? right, string op)",
+                "        {",
+                "            try { uint? r = op == " + Q + "+" + Q + " ? left+right : op == " + Q + "-" + Q + " ? left-right : op == " + Q + "*" + Q + " ? left*right : left; return r; }",
+                "            catch (System.OverflowException) { Log(uniqueId, file, line, " + Q + "Overflow" + Q + ", left + " + Q + "|" + Q + " + right + " + Q + "|uint?" + Q + ", " + Q + "overflow:" + Q + " + op); return left; }",
+                "        }",
+                "",
+                "        public static decimal LogCheckedBinary(string uniqueId, string file, int line, decimal left, decimal right, string op)",
+                "        {",
+                "            try { decimal r = op == " + Q + "+" + Q + " ? checked(left+right) : op == " + Q + "-" + Q + " ? checked(left-right) : op == " + Q + "*" + Q + " ? checked(left*right) : left; return r; }",
+                "            catch (System.OverflowException) { Log(uniqueId, file, line, " + Q + "Overflow" + Q + ", left + " + Q + "|" + Q + " + right + " + Q + "|Decimal" + Q + ", " + Q + "overflow:" + Q + " + op); return left; }",
+                "        }",
+                "    }",
+                "}"
+            };
 
-        public static T LogValue<T>(string uniqueId, string file, int line, string message, T value, string? variableName = null)
-        {
-            Log(uniqueId, file, line, message, value, variableName);
-            return value;
-        }
-
-        public static void LogArray(string uniqueId, string file, int line, string message, System.Array array, string? variableName = null)
-        {
-            object? snapshot = null;
-            if (array != null)
-            {
-                var values = array.Cast<object?>()
-                    .Select(v => v?.ToString() ?? ""null"");
-                snapshot = ""["" + string.Join("", "", values) + ""]"";
-            }
-            Log(uniqueId, file, line, message, snapshot, variableName);
-        }
-
-        public static void LogArrayAliasParameter(string uniqueId, string file, int line, string methodName, int position, System.Array array, string parameterName)
-        {
-            var aliasLabel = $""{methodName}#arg{position}"";
-            Log(uniqueId, file, line, ""Array Parameter Alias"", parameterName, aliasLabel);
-        }
-
-        public static void LogArrayAliasArgument(string uniqueId, string file, int line, string methodName, int position, object argumentValue, string argumentExpression)
-        {
-            var aliasLabel = $""{methodName}#arg{position}"";
-            Log(uniqueId, file, line, ""Array Argument Alias"", argumentExpression, aliasLabel);
-        }
-
-        /// <summary>
-        /// Logs the source runtime type before an explicit cast and returns the source unchanged.
-        /// The outer (T) cast in the instrumented code performs the real conversion.
-        /// </summary>
-        public static object LogCastSource(string uniqueId, string file, int line, object source, string targetType)
-        {
-            var sourceType = source?.GetType()?.FullName ?? ""null"";
-            Log(uniqueId, file, line, ""Cast Attempt"", sourceType, ""cast:"" + targetType);
-            return source;
-        }
-
-        /// <summary>
-        /// Performs an 'as' cast, logging ""Invalid Cast"" when the result is null but the source was non-null.
-        /// </summary>
-        public static T LogAsCast<T>(string uniqueId, string file, int line, object source, string targetType) where T : class
-        {
-            var result = source as T;
-            var sourceType = source?.GetType()?.FullName ?? ""null"";
-            if (result == null && source != null)
-            {
-                Log(uniqueId, file, line, ""Invalid Cast"", sourceType, ""cast:"" + targetType);
-            }
-            else
-            {
-                Log(uniqueId, file, line, ""Cast Attempt"", sourceType, ""cast:"" + targetType);
-            }
-            return result;
-        }
-
-        /// <summary>
-        /// Evaluates a binary arithmetic operation inside a checked context.
-        /// If overflow occurs, logs an ""Overflow"" event with operand values and returns
-        /// the unchecked result so execution can continue for further tracing.
-        /// </summary>
-        public static long LogCheckedBinary(string uniqueId, string file, int line, long left, long right, string op)
-        {
-            try
-            {
-                long result = op switch
-                {
-                    ""+"" => checked(left + right),
-                    ""-"" => checked(left - right),
-                    ""*"" => checked(left * right),
-                    _ => left
-                };
-                return result;
-            }
-            catch (System.OverflowException)
-            {
-                var payload = $""{left}|{right}|Int64"";
-                Log(uniqueId, file, line, ""Overflow"", payload, ""overflow:"" + op);
-                return op switch
-                {
-                    ""+"" => unchecked(left + right),
-                    ""-"" => unchecked(left - right),
-                    ""*"" => unchecked(left * right),
-                    _ => left
-                };
-            }
-        }
-
-        /// <summary>int overload - promotes to long for range checking then casts back.</summary>
-        public static int LogCheckedBinary(string uniqueId, string file, int line, int left, int right, string op)
-        {
-            try
-            {
-                int result = op switch
-                {
-                    ""+"" => checked(left + right),
-                    ""-"" => checked(left - right),
-                    ""*"" => checked(left * right),
-                    _ => left
-                };
-                return result;
-            }
-            catch (System.OverflowException)
-            {
-                var payload = $""{left}|{right}|Int32"";
-                Log(uniqueId, file, line, ""Overflow"", payload, ""overflow:"" + op);
-                return op switch
-                {
-                    ""+"" => unchecked(left + right),
-                    ""-"" => unchecked(left - right),
-                    ""*"" => unchecked(left * right),
-                    _ => left
-                };
-            }
-        }
-
-        /// <summary>decimal overload for financial arithmetic.</summary>
-        public static decimal LogCheckedBinary(string uniqueId, string file, int line, decimal left, decimal right, string op)
-        {
-            try
-            {
-                decimal result = op switch
-                {
-                    ""+"" => checked(left + right),
-                    ""-"" => checked(left - right),
-                    ""*"" => checked(left * right),
-                    _ => left
-                };
-                return result;
-            }
-            catch (System.OverflowException)
-            {
-                var payload = $""{left}|{right}|Decimal"";
-                Log(uniqueId, file, line, ""Overflow"", payload, ""overflow:"" + op);
-
-                // Decimal arithmetic cannot provide a wrapped unchecked result.
-                return left;
-            }
-        }
-    }
-}
-";
-            File.WriteAllText(traceLoggerPath, code);
+            File.WriteAllText(traceLoggerPath, string.Join(System.Environment.NewLine, lines));
             Console.WriteLine($"Generated TraceLogger.cs at {traceLoggerPath}");
         }
     }

@@ -82,7 +82,11 @@ namespace Instrumenter.Rewriters
             // add a generated identifier so we can reference the exception.
             if (declaration.Identifier.IsMissing || string.IsNullOrEmpty(declaration.Identifier.Text))
             {
-                declaration = declaration.WithIdentifier(SyntaxFactory.Identifier("__autoRepairCaughtEx"));
+                declaration = declaration.WithIdentifier(
+                    SyntaxFactory.Identifier(
+                        SyntaxFactory.TriviaList(SyntaxFactory.Space),
+                        "__autoRepairCaughtEx",
+                        SyntaxFactory.TriviaList()));
             }
 
             updatedNode = updatedNode.WithDeclaration(declaration);
@@ -96,7 +100,9 @@ namespace Instrumenter.Rewriters
             var escapedFileName = TargetFileName.Replace("\\", "\\\\");
             var lineNumber = GetLineNumber(node);
 
-            var logStatements = CreateExceptionCatchLogs(exIdentifier, escapedFileName, lineNumber);
+            // For existing catch clauses: only add logging, do NOT add Debug.Fail or rethrow
+            // (the developer intentionally wrote this catch to handle/swallow the exception)
+            var logStatements = CreateExistingCatchLogs(exIdentifier, escapedFileName, lineNumber);
             var newStatements = updatedNode.Block.Statements.InsertRange(0, logStatements);
             return updatedNode.WithBlock(updatedNode.Block.WithStatements(newStatements));
         }
@@ -318,6 +324,18 @@ namespace Instrumenter.Rewriters
             return template.Catches[0].WithBlock(catchBlock);
         }
 
+        private IEnumerable<StatementSyntax> CreateExistingCatchLogs(string identifier, string escapedFileName, int lineNumber)
+        {
+            yield return SyntaxFactory.ParseStatement(
+                $"global::AutoRepairTracing.TraceLogger.Log(\"{Guid.NewGuid()}\", \"{escapedFileName}\", {lineNumber}, \"Exception Caught\", {identifier}.Message, \"{identifier}.Message\");");
+            yield return SyntaxFactory.ParseStatement(
+                $"if ({identifier} is System.NullReferenceException) {{ global::AutoRepairTracing.TraceLogger.Log(\"{Guid.NewGuid()}\", \"{escapedFileName}\", {lineNumber}, \"Null Dereference\", {identifier}.Message, \"null.dereference\"); }}");
+            yield return SyntaxFactory.ParseStatement(
+                $"global::AutoRepairTracing.TraceLogger.Log(\"{Guid.NewGuid()}\", \"{escapedFileName}\", {lineNumber}, \"Exception Type\", {identifier}.GetType().FullName, \"{identifier}.Type\");");
+            yield return SyntaxFactory.ParseStatement(
+                $"global::AutoRepairTracing.TraceLogger.Log(\"{Guid.NewGuid()}\", \"{escapedFileName}\", {lineNumber}, \"Exception Stack\", {identifier}.StackTrace ?? string.Empty, \"{identifier}.Stack\");");
+        }
+
         private IEnumerable<StatementSyntax> CreateExceptionCatchLogs(string identifier, string escapedFileName, int lineNumber)
         {
             yield return SyntaxFactory.ParseStatement(
@@ -328,8 +346,6 @@ namespace Instrumenter.Rewriters
                 $"global::AutoRepairTracing.TraceLogger.Log(\"{Guid.NewGuid()}\", \"{escapedFileName}\", {lineNumber}, \"Exception Type\", {identifier}.GetType().FullName, \"{identifier}.Type\");");
             yield return SyntaxFactory.ParseStatement(
                 $"global::AutoRepairTracing.TraceLogger.Log(\"{Guid.NewGuid()}\", \"{escapedFileName}\", {lineNumber}, \"Exception Stack\", {identifier}.StackTrace ?? string.Empty, \"{identifier}.Stack\");");
-            yield return SyntaxFactory.ParseStatement(
-                $"System.Diagnostics.Debug.Fail(\"Unhandled exception\", {identifier}.ToString());");
             yield return SyntaxFactory.ParseStatement("throw;\n");
         }
     }

@@ -4,6 +4,13 @@ using AutoRepair.Step2Constraints.Runtime;
 
 namespace AutoRepair.Step2Constraints.Rules;
 
+/// <summary>
+/// Forward buffer-bounds analysis.
+/// Checks index values against known buffer sizes at the point of index
+/// computation (Variable Update for "index:bufferName"), BEFORE the array
+/// access executes.  Buffer sizes are resolved from Heap State events and
+/// inferred from Array Snapshot element counts.
+/// </summary>
 public sealed class BufferBoundsRule : IRule
 {
     public bool TryEvaluate(TraceEvent evt, StateTracker state, out ConstraintViolation violation)
@@ -12,41 +19,38 @@ public sealed class BufferBoundsRule : IRule
 
         var payload = evt.Variable;
         if (payload is null || payload.Name is null || payload.Value is null)
-        {
             return false;
-        }
 
         if (!payload.Name.StartsWith("index:", StringComparison.OrdinalIgnoreCase))
-        {
             return false;
-        }
 
         var parts = payload.Name.Split(':', StringSplitOptions.RemoveEmptyEntries);
         if (parts.Length != 2)
-        {
             return false;
-        }
 
         var bufferName = parts[1];
         if (!state.TryGetBufferSize(bufferName, out var size))
-        {
             return false;
-        }
+
+        // Skip buffers whose true size is unknown (e.g. arrays returned from
+        // method calls like pool.Borrow() — the instrumenter only emits
+        // Heap State for direct `new T[N]` allocations, so size defaults to 0
+        // and would otherwise produce a false-positive bounds violation).
+        if (size <= 0)
+            return false;
 
         if (!int.TryParse(payload.Value, NumberStyles.Integer, CultureInfo.InvariantCulture, out var index))
-        {
             return false;
-        }
 
         if (index < 0 || index >= size)
         {
             var bindings = new Dictionary<string, object?>
             {
                 [$"index:{bufferName}"] = index,
-                [$"heap.size({bufferName})"] = size
+                [$"heap.size({bufferName})"] = size,
+                ["detection"] = "forward-index-check"
             };
 
-            // Only include value at index if it actually exists in the buffer
             if (state.TryGetValueAt(bufferName, index, out var valAtIndex))
                 bindings[$"{bufferName}[{index}]"] = valAtIndex;
 
