@@ -35,3 +35,7 @@ AutoRepair/pipeline_diagram.mmd
 AutoRepair/pipeline_diagram.png
 AutoRepair/plantuml.jar
 
+
+# PRHunter generated CSVs
+PRHunter/output/
+
