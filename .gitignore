@@ -28,3 +28,10 @@ TraceLogger.cs
 thumbs.db
 desktop.ini
 .DS_Store
+
+# Local-only sandbox folders / artifacts (not part of the repo)
+SharpZipLib/
+AutoRepair/pipeline_diagram.mmd
+AutoRepair/pipeline_diagram.png
+AutoRepair/plantuml.jar
+
