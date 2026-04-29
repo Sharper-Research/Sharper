@@ -38,4 +38,5 @@ AutoRepair/plantuml.jar
 
 # PRHunter generated CSVs
 PRHunter/output/
+PRHunter/__pycache__/
 
