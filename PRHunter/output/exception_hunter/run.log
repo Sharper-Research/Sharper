@@ -1,0 +1,373 @@
+[rejected] NullReferenceException
+  +1000
+[reverted] NullReferenceException
+  +5
+[rejected] InvalidCastException
+  +1000
+[reverted] InvalidCastException
+  +2
+[rejected] IndexOutOfRangeException
+  +1000
+[reverted] IndexOutOfRangeException
+  +0
+[rejected] ArgumentNullException
+  +1000
+[reverted] ArgumentNullException
+  +2
+[rejected] ArgumentOutOfRangeException
+  +898
+[reverted] ArgumentOutOfRangeException
+  +0
+[rejected] ArgumentException
+  +896
+[reverted] ArgumentException
+  +3
+[rejected] InvalidOperationException
+  +1000
+[reverted] InvalidOperationException
+  +5
+[rejected] KeyNotFoundException
+  +1000
+[reverted] KeyNotFoundException
+  +4
+[rejected] FormatException
+  +399
+[reverted] FormatException
+  +0
+[rejected] OverflowException
+
+===== run started =====
+Resuming: rejected_csv=0 rows, reverted_csv=0 rows, done_keywords=0
+[rejected] NullReferenceException
+  +1000
+[reverted] NullReferenceException
+  +5
+[rejected] InvalidCastException
+  +1000
+[reverted] InvalidCastException
+  +2
+[rejected] IndexOutOfRangeException
+  +1000
+[reverted] IndexOutOfRangeException
+  +0
+[rejected] ArgumentNullException
+  +1000
+[reverted] ArgumentNullException
+  +2
+[rejected] ArgumentOutOfRangeException
+  +996
+[reverted] ArgumentOutOfRangeException
+  +0
+[rejected] ArgumentException
+  +995
+[reverted] ArgumentException
+  +3
+[rejected] InvalidOperationException
+
+===== run started =====
+Resuming: rejected_csv=6591 rows, reverted_csv=12 rows, done_keywords=12
+[rejected] NullReferenceException  (skip, done)
+[reverted] NullReferenceException  (skip, done)
+[rejected] InvalidCastException  (skip, done)
+[reverted] InvalidCastException  (skip, done)
+[rejected] IndexOutOfRangeException  (skip, done)
+[reverted] IndexOutOfRangeException  (skip, done)
+[rejected] ArgumentNullException  (skip, done)
+[reverted] ArgumentNullException  (skip, done)
+[rejected] ArgumentOutOfRangeException  (skip, done)
+[reverted] ArgumentOutOfRangeException  (skip, done)
+[rejected] ArgumentException  (skip, done)
+[reverted] ArgumentException  (skip, done)
+[rejected] InvalidOperationException
+  +1000
+[reverted] InvalidOperationException
+  +5
+[rejected] KeyNotFoundException
+  +1000
+[reverted] KeyNotFoundException
+  +4
+[rejected] FormatException
+  +498
+[reverted] FormatException
+  +0
+[rejected] OverflowException
+  +1000
+[reverted] OverflowException
+  +0
+[rejected] StackOverflowException
+  +1000
+[reverted] StackOverflowException
+  +0
+[rejected] DivideByZeroException
+  +68
+[reverted] DivideByZeroException
+  +0
+[rejected] NotSupportedException
+  +1000
+[reverted] NotSupportedException
+  +1
+[rejected] NotImplementedException
+  +699
+[reverted] NotImplementedException
+  +6
+[rejected] ObjectDisposedException
+  +398
+[reverted] ObjectDisposedException
+  +1
+[rejected] AggregateException
+  +399
+[reverted] AggregateException
+  +3
+[rejected] TaskCanceledException
+  +598
+[reverted] TaskCanceledException
+  +0
+[rejected] OperationCanceledException
+  +1000
+[reverted] OperationCanceledException
+  +2
+[rejected] TimeoutException
+  +486
+[reverted] TimeoutException
+  +1
+[rejected] FileNotFoundException
+  +198
+[reverted] FileNotFoundException
+  +1
+[rejected] DirectoryNotFoundException
+  +244
+[reverted] DirectoryNotFoundException
+  +0
+[rejected] IOException
+  +1000
+[reverted] IOException
+  +0
+[rejected] UnauthorizedAccessException
+  +1000
+[reverted] UnauthorizedAccessException
+  +0
+[rejected] OutOfMemoryException
+  +294
+[reverted] OutOfMemoryException
+  +1
+[rejected] TypeLoadException
+  +99
+[reverted] TypeLoadException
+  +0
+[rejected] MissingMethodException
+  +1000
+[reverted] MissingMethodException
+  +1
+[rejected] MissingFieldException
+  +11
+[reverted] MissingFieldException
+  +0
+[rejected] AccessViolationException
+  +199
+[reverted] AccessViolationException
+  +2
+[rejected] BadImageFormatException
+  +638
+[reverted] BadImageFormatException
+  +1
+[rejected] JsonException
+  +627
+[reverted] JsonException
+  +0
+[rejected] XmlException
+  +499
+[reverted] XmlException
+  +0
+[rejected] SerializationException
+  +39
+[reverted] SerializationException
+  +1
+[rejected] HttpRequestException
+  +354
+[reverted] HttpRequestException
+  +0
+[rejected] SocketException
+  +174
+[reverted] SocketException
+  +1
+[rejected] DbUpdateException
+  +40
+[reverted] DbUpdateException
+  +0
+
+Unique rejected PRs: 17159
+Unique reverted PRs: 37
+
+Phase 2: 17196 PRs total, 0 already resolved
+  resolving PR 25/17196  new_open_issues=0
+  resolving PR 50/17196  new_open_issues=0
+  resolving PR 75/17196  new_open_issues=0
+  resolving PR 100/17196  new_open_issues=0
+  resolving PR 125/17196  new_open_issues=0
+  resolving PR 150/17196  new_open_issues=0
+  resolving PR 175/17196  new_open_issues=1
+  resolving PR 200/17196  new_open_issues=1
+  resolving PR 225/17196  new_open_issues=1
+  resolving PR 250/17196  new_open_issues=1
+  resolving PR 275/17196  new_open_issues=1
+  resolving PR 300/17196  new_open_issues=1
+  resolving PR 325/17196  new_open_issues=2
+  resolving PR 350/17196  new_open_issues=2
+  resolving PR 375/17196  new_open_issues=3
+  resolving PR 400/17196  new_open_issues=4
+  resolving PR 425/17196  new_open_issues=4
+  resolving PR 450/17196  new_open_issues=4
+  resolving PR 475/17196  new_open_issues=4
+  resolving PR 500/17196  new_open_issues=4
+  resolving PR 525/17196  new_open_issues=4
+  resolving PR 550/17196  new_open_issues=4
+  resolving PR 575/17196  new_open_issues=5
+  resolving PR 600/17196  new_open_issues=5
+  resolving PR 625/17196  new_open_issues=5
+  resolving PR 650/17196  new_open_issues=5
+  resolving PR 675/17196  new_open_issues=5
+  resolving PR 700/17196  new_open_issues=5
+  resolving PR 725/17196  new_open_issues=5
+  resolving PR 750/17196  new_open_issues=5
+  resolving PR 775/17196  new_open_issues=5
+  resolving PR 800/17196  new_open_issues=5
+  resolving PR 825/17196  new_open_issues=5
+  resolving PR 850/17196  new_open_issues=5
+  resolving PR 875/17196  new_open_issues=5
+  resolving PR 900/17196  new_open_issues=5
+  resolving PR 925/17196  new_open_issues=6
+  resolving PR 950/17196  new_open_issues=6
+  resolving PR 975/17196  new_open_issues=7
+  resolving PR 1000/17196  new_open_issues=7
+  resolving PR 1025/17196  new_open_issues=7
+  resolving PR 1050/17196  new_open_issues=7
+  resolving PR 1075/17196  new_open_issues=7
+  resolving PR 1100/17196  new_open_issues=7
+  resolving PR 1125/17196  new_open_issues=7
+  resolving PR 1150/17196  new_open_issues=7
+  resolving PR 1175/17196  new_open_issues=7
+  resolving PR 1200/17196  new_open_issues=7
+  resolving PR 1225/17196  new_open_issues=7
+  resolving PR 1250/17196  new_open_issues=7
+  resolving PR 1275/17196  new_open_issues=7
+  resolving PR 1300/17196  new_open_issues=7
+  resolving PR 1325/17196  new_open_issues=7
+  resolving PR 1350/17196  new_open_issues=7
+  resolving PR 1375/17196  new_open_issues=7
+  resolving PR 1400/17196  new_open_issues=7
+  resolving PR 1425/17196  new_open_issues=7
+  resolving PR 1450/17196  new_open_issues=7
+  resolving PR 1475/17196  new_open_issues=7
+  resolving PR 1500/17196  new_open_issues=7
+  resolving PR 1525/17196  new_open_issues=7
+  resolving PR 1550/17196  new_open_issues=7
+  resolving PR 1575/17196  new_open_issues=7
+  resolving PR 1600/17196  new_open_issues=7
+  resolving PR 1625/17196  new_open_issues=7
+  resolving PR 1650/17196  new_open_issues=7
+  resolving PR 1675/17196  new_open_issues=7
+  resolving PR 1700/17196  new_open_issues=7
+  resolving PR 1725/17196  new_open_issues=7
+  resolving PR 1750/17196  new_open_issues=7
+  resolving PR 1775/17196  new_open_issues=7
+  resolving PR 1800/17196  new_open_issues=7
+  resolving PR 1825/17196  new_open_issues=7
+  resolving PR 1850/17196  new_open_issues=7
+  resolving PR 1875/17196  new_open_issues=7
+  resolving PR 1900/17196  new_open_issues=7
+  resolving PR 1925/17196  new_open_issues=7
+  resolving PR 1950/17196  new_open_issues=7
+  resolving PR 1975/17196  new_open_issues=7
+  resolving PR 2000/17196  new_open_issues=7
+  resolving PR 2025/17196  new_open_issues=7
+  resolving PR 2050/17196  new_open_issues=7
+  resolving PR 2075/17196  new_open_issues=7
+  resolving PR 2100/17196  new_open_issues=7
+  resolving PR 2125/17196  new_open_issues=7
+  resolving PR 2150/17196  new_open_issues=7
+  resolving PR 2175/17196  new_open_issues=7
+  resolving PR 2200/17196  new_open_issues=7
+  resolving PR 2225/17196  new_open_issues=7
+  resolving PR 2250/17196  new_open_issues=7
+  resolving PR 2275/17196  new_open_issues=7
+  resolving PR 2300/17196  new_open_issues=7
+  resolving PR 2325/17196  new_open_issues=7
+  resolving PR 2350/17196  new_open_issues=7
+  resolving PR 2375/17196  new_open_issues=7
+  resolving PR 2400/17196  new_open_issues=7
+  resolving PR 2425/17196  new_open_issues=7
+  resolving PR 2450/17196  new_open_issues=7
+  resolving PR 2475/17196  new_open_issues=7
+  resolving PR 2500/17196  new_open_issues=7
+  resolving PR 2525/17196  new_open_issues=7
+  resolving PR 2550/17196  new_open_issues=7
+  resolving PR 2575/17196  new_open_issues=7
+  resolving PR 2600/17196  new_open_issues=7
+  resolving PR 2625/17196  new_open_issues=7
+  resolving PR 2650/17196  new_open_issues=7
+  resolving PR 2675/17196  new_open_issues=7
+  resolving PR 2700/17196  new_open_issues=7
+  resolving PR 2725/17196  new_open_issues=7
+  resolving PR 2750/17196  new_open_issues=7
+  resolving PR 2775/17196  new_open_issues=7
+  resolving PR 2800/17196  new_open_issues=7
+  resolving PR 2825/17196  new_open_issues=7
+  resolving PR 2850/17196  new_open_issues=7
+  resolving PR 2875/17196  new_open_issues=7
+  resolving PR 2900/17196  new_open_issues=7
+  resolving PR 2925/17196  new_open_issues=7
+  resolving PR 2950/17196  new_open_issues=7
+  resolving PR 2975/17196  new_open_issues=7
+  resolving PR 3000/17196  new_open_issues=7
+  resolving PR 3025/17196  new_open_issues=7
+  resolving PR 3050/17196  new_open_issues=8
+  resolving PR 3075/17196  new_open_issues=8
+  resolving PR 3100/17196  new_open_issues=8
+  resolving PR 3125/17196  new_open_issues=8
+  resolving PR 3150/17196  new_open_issues=8
+  resolving PR 3175/17196  new_open_issues=8
+  resolving PR 3200/17196  new_open_issues=8
+  resolving PR 3225/17196  new_open_issues=8
+  resolving PR 3250/17196  new_open_issues=8
+  resolving PR 3275/17196  new_open_issues=8
+  resolving PR 3300/17196  new_open_issues=8
+  resolving PR 3325/17196  new_open_issues=8
+  resolving PR 3350/17196  new_open_issues=8
+  resolving PR 3375/17196  new_open_issues=8
+  resolving PR 3400/17196  new_open_issues=8
+  resolving PR 3425/17196  new_open_issues=8
+  resolving PR 3450/17196  new_open_issues=8
+  resolving PR 3475/17196  new_open_issues=8
+  resolving PR 3500/17196  new_open_issues=8
+  resolving PR 3525/17196  new_open_issues=9
+  resolving PR 3550/17196  new_open_issues=9
+  resolving PR 3575/17196  new_open_issues=9
+  resolving PR 3600/17196  new_open_issues=9
+  resolving PR 3625/17196  new_open_issues=9
+  resolving PR 3650/17196  new_open_issues=9
+  resolving PR 3675/17196  new_open_issues=9
+  resolving PR 3700/17196  new_open_issues=9
+  resolving PR 3725/17196  new_open_issues=9
+  resolving PR 3750/17196  new_open_issues=9
+  resolving PR 3775/17196  new_open_issues=9
+  resolving PR 3800/17196  new_open_issues=9
+  resolving PR 3825/17196  new_open_issues=9
+  resolving PR 3850/17196  new_open_issues=9
+  resolving PR 3875/17196  new_open_issues=10
+  resolving PR 3900/17196  new_open_issues=10
+  resolving PR 3925/17196  new_open_issues=10
+  resolving PR 3950/17196  new_open_issues=10
+  resolving PR 3975/17196  new_open_issues=11
+  resolving PR 4000/17196  new_open_issues=11
+  resolving PR 4025/17196  new_open_issues=11
+  resolving PR 4050/17196  new_open_issues=11
+  resolving PR 4075/17196  new_open_issues=11
+  resolving PR 4100/17196  new_open_issues=11
+  resolving PR 4125/17196  new_open_issues=11
+  resolving PR 4150/17196  new_open_issues=11
+  resolving PR 4175/17196  new_open_issues=11
+  resolving PR 4200/17196  new_open_issues=11
+  resolving PR 4225/17196  new_open_issues=12
+  resolving PR 4250/17196  new_open_issues=12
+  resolving PR 4275/17196  new_open_issues=12
+  resolving PR 4300/17196  new_open_issues=13

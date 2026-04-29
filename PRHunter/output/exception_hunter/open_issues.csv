@@ -1,0 +1,12 @@
+repo,issue_number,issue_title,issue_url,state,matched_keyword,linked_prs
+Facepunch/sbox-public,10408,NRE on Doo Invoke Block,https://github.com/Facepunch/sbox-public/issues/10408,open,NullReferenceException,Facepunch/sbox-public#10430 (rejected)
+tghamm/Anthropic.SDK,197,MissingMethodException: HostedMcpServerTool.get_AuthorizationToken() with stable Microsoft.Extensions.AI 10.4.1,https://github.com/tghamm/Anthropic.SDK/issues/197,open,MissingMethodException,tghamm/Anthropic.SDK#198 (rejected)
+microsoft/perfview,951,System.NullReferenceException while taking heap snapshot,https://github.com/microsoft/perfview/issues/951,open,NullReferenceException,microsoft/perfview#2391 (rejected)
+dotnet/runtime,125803,MultiThreadedGetExportsWorkWithImportingConstructor failed with NullReferenceException,https://github.com/dotnet/runtime/issues/125803,open,NullReferenceException,dotnet/runtime#125804 (rejected)
+AvaloniaUI/Avalonia,20293,NullReferenceException in Avalonia.X11.X11EventDispatcher.DispatchX11Events,https://github.com/AvaloniaUI/Avalonia/issues/20293,open,NullReferenceException,AvaloniaUI/Avalonia#20657 (rejected)
+dotnet/maui,33709,SourceGen NullReferenceException,https://github.com/dotnet/maui/issues/33709,open,NullReferenceException,dotnet/maui#33864 (rejected)
+riok/mapperly,2178,Non-required `init` properties with initializers should be omittable from object initializer when source is null,https://github.com/riok/mapperly/issues/2178,open,ArgumentNullException,riok/mapperly#2179 (rejected)
+atenfyr/UAssetAPI,144,UE5.7 assets fail to load ArgumentOutOfRangeException in ReadHeader,https://github.com/atenfyr/UAssetAPI/issues/144,open,ArgumentOutOfRangeException,atenfyr/UAssetAPI#145 (rejected)
+dotnet/runtime,80256,Manual bounds checks are less efficient,https://github.com/dotnet/runtime/issues/80256,open,ArgumentOutOfRangeException,dotnet/runtime#124706 (rejected)
+dotnet/runtime,110450,System.Text.Json.JsonException thrown when deserializing asynchronously to nullable types,https://github.com/dotnet/runtime/issues/110450,open,JsonException,dotnet/runtime#120871 (rejected)
+nodirmcsd/WordNinjaSharp,3,ArgumentOutOfRangeException,https://github.com/nodirmcsd/WordNinjaSharp/issues/3,open,ArgumentOutOfRangeException,nodirmcsd/WordNinjaSharp#4 (rejected)

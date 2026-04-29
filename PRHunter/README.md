@@ -65,5 +65,48 @@ body; `evidence` cites the revert commit / closing reason.
 2. Dimitrios runs his equivalent search, exports the same CSV schema.
 3. Merge both CSVs into a single deduped corpus.
 4. Apply the AutoRepair tool to the linked issues, manually verify, open draft PRs.
+
+---
+
+## `exception_hunter.py` (Dimitrios's exhaustive search)
+
+Companion script that does a **global** GitHub search (not just the default
+repo list above) for C# PRs whose title/body mentions one of 35 well-known
+exception types, then resolves every PR's linked issues to surface the ones
+that are still **open**.
+
+Outputs land in `PRHunter/output/exception_hunter/` so they don't collide
+with the per-repo `pr_hunter.py` outputs above.
+
+### Run it
+
+```powershell
+$env:GITHUB_TOKEN = "ghp_xxxxxxxxxxxxxxxxxxxx"
+python PRHunter\exception_hunter.py
+```
+
+The script is fully resumable — it checkpoints to `done_keywords.txt`,
+`resolved_prs.txt`, and the three CSVs after every keyword / PR, so it is
+safe to Ctrl-C and re-run.
+
+### Bug fixes vs. the original `hunt.py`
+
+Two correctness issues were found in the prototype before the first full
+exhaustive run; both are fixed here:
+
+1. **Cross-repo false-positive linked issues.** The previous `LINK_URL_RE`
+   matched any GitHub issue URL in a PR body, even drive-by mentions. A
+   `dotnet/razor` issue ended up tagged as "linked from `JeevanJames/IniFile#211`",
+   which is obviously wrong. The fixed regex only matches a URL when it is
+   preceded by a `closes/fixes/resolves` verb within ~80 chars.
+2. **Revert title regex never fired.** Real revert PR titles are
+   `Revert "Foo (#123)"` — they end with a quote, not a paren. The old
+   regex `\(#(\d+)\)\s*$` therefore never matched, and every revert was
+   logged against the *revert* PR's number instead of the *original*. The
+   fixed regex tolerates an optional trailing quote.
+
+Verified with a 10-case unit test (see commit message); both bogus rows in
+the partial `open_issues.csv` were eliminated by re-cleaning under the new
+rules.
 </content>
 </invoke>
