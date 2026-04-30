@@ -59,12 +59,32 @@ namespace Instrumenter.Rewriters
                 return updatedNode;
             }
 
+            // C# forbids `yield return` / `yield break` inside a try block that
+            // has any catch clauses. Skip the global try/catch wrapping for
+            // iterator methods so they continue to compile.
+            if (ContainsYield(updatedNode.Body))
+            {
+                return updatedNode;
+            }
+
             var lineNumber = GetLineNumber(node);
             var tryStatement = SyntaxFactory.TryStatement()
                 .WithBlock(updatedNode.Body)
                 .WithCatches(SyntaxFactory.SingletonList<CatchClauseSyntax>(CreateMethodCatchClause(lineNumber)));
 
             return updatedNode.WithBody(SyntaxFactory.Block(tryStatement));
+        }
+
+        private static bool ContainsYield(SyntaxNode node)
+        {
+            // Don't descend into nested function-like bodies — yield-affinity
+            // is per-method.
+            foreach (var descendant in node.DescendantNodes(d =>
+                d is BlockSyntax || d is StatementSyntax || d is ExpressionSyntax))
+            {
+                if (descendant is YieldStatementSyntax) return true;
+            }
+            return false;
         }
 
         public override SyntaxNode? VisitCatchClause(CatchClauseSyntax node)

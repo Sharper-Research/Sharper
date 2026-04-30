@@ -1,0 +1,1042 @@
+[
+  {
+    "repo": "tghamm/Anthropic.SDK",
+    "issue_number": 197,
+    "issue_title": "MissingMethodException: HostedMcpServerTool.get_AuthorizationToken() with stable Microsoft.Extensions.AI 10.4.1",
+    "issue_url": "https://github.com/tghamm/Anthropic.SDK/issues/197",
+    "exception": "MissingMethodException",
+    "linked_prs": [
+      {
+        "repo": "tghamm/Anthropic.SDK",
+        "number": 198,
+        "kind": "rejected"
+      }
+    ],
+    "repo_size_kb": 3758,
+    "score": 40
+  },
+  {
+    "repo": "nodirmcsd/WordNinjaSharp",
+    "issue_number": 3,
+    "issue_title": "ArgumentOutOfRangeException",
+    "issue_url": "https://github.com/nodirmcsd/WordNinjaSharp/issues/3",
+    "exception": "ArgumentOutOfRangeException",
+    "linked_prs": [
+      {
+        "repo": "nodirmcsd/WordNinjaSharp",
+        "number": 4,
+        "kind": "rejected"
+      }
+    ],
+    "repo_size_kb": 567,
+    "score": 40
+  },
+  {
+    "repo": "AngleSharp/AngleSharp.Css",
+    "issue_number": 183,
+    "issue_title": "StyleDeclarationExtensions.GetColor throws when there is no color assigned",
+    "issue_url": "https://github.com/AngleSharp/AngleSharp.Css/issues/183",
+    "exception": "InvalidOperationException",
+    "linked_prs": [
+      {
+        "repo": "AngleSharp/AngleSharp.Css",
+        "number": 197,
+        "kind": "rejected"
+      }
+    ],
+    "repo_size_kb": 2811,
+    "score": 40
+  },
+  {
+    "repo": "nesrak1/AddressablesTools",
+    "issue_number": 10,
+    "issue_title": "I can't create a mod from the catalog.json file",
+    "issue_url": "https://github.com/nesrak1/AddressablesTools/issues/10",
+    "exception": "FormatException",
+    "linked_prs": [
+      {
+        "repo": "nesrak1/AddressablesTools",
+        "number": 12,
+        "kind": "rejected"
+      }
+    ],
+    "repo_size_kb": 102,
+    "score": 40
+  },
+  {
+    "repo": "nesrak1/AddressablesTools",
+    "issue_number": 6,
+    "issue_title": "I get an error on some files",
+    "issue_url": "https://github.com/nesrak1/AddressablesTools/issues/6",
+    "exception": "NullReferenceException",
+    "linked_prs": [
+      {
+        "repo": "nesrak1/AddressablesTools",
+        "number": 12,
+        "kind": "rejected"
+      }
+    ],
+    "repo_size_kb": 102,
+    "score": 40
+  },
+  {
+    "repo": "samsp-msft/debug-demo-app",
+    "issue_number": 6,
+    "issue_title": "The aspire dashboard is randomly throwing exceptions",
+    "issue_url": "https://github.com/samsp-msft/debug-demo-app/issues/6",
+    "exception": "DivideByZeroException",
+    "linked_prs": [
+      {
+        "repo": "samsp-msft/debug-demo-app",
+        "number": 8,
+        "kind": "rejected"
+      }
+    ],
+    "repo_size_kb": 1618,
+    "score": 40
+  },
+  {
+    "repo": "samsp-msft/debug-demo-app",
+    "issue_number": 5,
+    "issue_title": "The aspire dashboard seems to be randomly throwing exceptions",
+    "issue_url": "https://github.com/samsp-msft/debug-demo-app/issues/5",
+    "exception": "DivideByZeroException",
+    "linked_prs": [
+      {
+        "repo": "samsp-msft/debug-demo-app",
+        "number": 7,
+        "kind": "rejected"
+      }
+    ],
+    "repo_size_kb": 1618,
+    "score": 40
+  },
+  {
+    "repo": "ShaydeNofziger/jumpmetrics-ai",
+    "issue_number": 17,
+    "issue_title": "Azure.RequestFailedException during Import-FlySightData to Azure Function",
+    "issue_url": "https://github.com/ShaydeNofziger/jumpmetrics-ai/issues/17",
+    "exception": "ObjectDisposedException",
+    "linked_prs": [
+      {
+        "repo": "ShaydeNofziger/jumpmetrics-ai",
+        "number": 18,
+        "kind": "rejected"
+      }
+    ],
+    "repo_size_kb": 301,
+    "score": 40
+  },
+  {
+    "repo": "hammar/LocalAgent",
+    "issue_number": 22,
+    "issue_title": "LLM timeouts when running locally",
+    "issue_url": "https://github.com/hammar/LocalAgent/issues/22",
+    "exception": "TaskCanceledException",
+    "linked_prs": [
+      {
+        "repo": "hammar/LocalAgent",
+        "number": 23,
+        "kind": "rejected"
+      }
+    ],
+    "repo_size_kb": 874,
+    "score": 40
+  },
+  {
+    "repo": "IntelliTect/Multitool",
+    "issue_number": 137,
+    "issue_title": "temp file gets deleted, handle case",
+    "issue_url": "https://github.com/IntelliTect/Multitool/issues/137",
+    "exception": "FileNotFoundException",
+    "linked_prs": [
+      {
+        "repo": "IntelliTect/Multitool",
+        "number": 151,
+        "kind": "rejected"
+      }
+    ],
+    "repo_size_kb": 327,
+    "score": 40
+  },
+  {
+    "repo": "kiapanahi/KuriousLabs.WallpaperHarvester",
+    "issue_number": 14,
+    "issue_title": "Add cross-platform directory handling and validation",
+    "issue_url": "https://github.com/kiapanahi/KuriousLabs.WallpaperHarvester/issues/14",
+    "exception": "ArgumentException",
+    "linked_prs": [
+      {
+        "repo": "kiapanahi/KuriousLabs.WallpaperHarvester",
+        "number": 25,
+        "kind": "rejected"
+      }
+    ],
+    "repo_size_kb": 62,
+    "score": 40
+  },
+  {
+    "repo": "kiapanahi/KuriousLabs.WallpaperHarvester",
+    "issue_number": 11,
+    "issue_title": "Improve error handling with retry logic and result tracking",
+    "issue_url": "https://github.com/kiapanahi/KuriousLabs.WallpaperHarvester/issues/11",
+    "exception": "IOException",
+    "linked_prs": [
+      {
+        "repo": "kiapanahi/KuriousLabs.WallpaperHarvester",
+        "number": 23,
+        "kind": "rejected"
+      }
+    ],
+    "repo_size_kb": 62,
+    "score": 40
+  },
+  {
+    "repo": "adamsitnik/ProcessPlayground",
+    "issue_number": 103,
+    "issue_title": "Try to reproduce AccessViolationException on arm64",
+    "issue_url": "https://github.com/adamsitnik/ProcessPlayground/issues/103",
+    "exception": "AccessViolationException",
+    "linked_prs": [
+      {
+        "repo": "adamsitnik/ProcessPlayground",
+        "number": 104,
+        "kind": "rejected"
+      }
+    ],
+    "repo_size_kb": 514,
+    "score": 40
+  },
+  {
+    "repo": "dougmsft/microsoft-avro",
+    "issue_number": 18,
+    "issue_title": "Broken Serialization/Deserialization of complicated object",
+    "issue_url": "https://github.com/dougmsft/microsoft-avro/issues/18",
+    "exception": "ArgumentNullException",
+    "linked_prs": [
+      {
+        "repo": "dougmsft/microsoft-avro",
+        "number": 19,
+        "kind": "rejected"
+      }
+    ],
+    "repo_size_kb": 2132,
+    "score": 40
+  },
+  {
+    "repo": "apache/iotdb-client-csharp",
+    "issue_number": 50,
+    "issue_title": "\u6700\u65b0\u76842.0.8\u7248\u672c\u5728linux\u4e2d\u4f1a\u51fa\u73b0Name or service not known\u9519\u8bef",
+    "issue_url": "https://github.com/apache/iotdb-client-csharp/issues/50",
+    "exception": "SocketException",
+    "linked_prs": [
+      {
+        "repo": "apache/iotdb-client-csharp",
+        "number": 51,
+        "kind": "rejected"
+      }
+    ],
+    "repo_size_kb": 1447,
+    "score": 40
+  },
+  {
+    "repo": "Facepunch/sbox-public",
+    "issue_number": 10408,
+    "issue_title": "NRE on Doo Invoke Block",
+    "issue_url": "https://github.com/Facepunch/sbox-public/issues/10408",
+    "exception": "NullReferenceException",
+    "linked_prs": [
+      {
+        "repo": "Facepunch/sbox-public",
+        "number": 10430,
+        "kind": "rejected"
+      }
+    ],
+    "repo_size_kb": 14494,
+    "score": 25
+  },
+  {
+    "repo": "riok/mapperly",
+    "issue_number": 2178,
+    "issue_title": "Non-required `init` properties with initializers should be omittable from object initializer when source is null",
+    "issue_url": "https://github.com/riok/mapperly/issues/2178",
+    "exception": "ArgumentNullException",
+    "linked_prs": [
+      {
+        "repo": "riok/mapperly",
+        "number": 2179,
+        "kind": "rejected"
+      }
+    ],
+    "repo_size_kb": 6576,
+    "score": 25
+  },
+  {
+    "repo": "Eppie-io/Eppie-App",
+    "issue_number": 1136,
+    "issue_title": "[BUG] Impossible to send Web2 to Web3 emails...via eppie client on Linux",
+    "issue_url": "https://github.com/Eppie-io/Eppie-App/issues/1136",
+    "exception": "InvalidOperationException",
+    "linked_prs": [
+      {
+        "repo": "Eppie-io/Eppie-App",
+        "number": 337,
+        "kind": "rejected"
+      }
+    ],
+    "repo_size_kb": 18442,
+    "score": 25
+  },
+  {
+    "repo": "CommunityToolkit/Datasync",
+    "issue_number": 452,
+    "issue_title": "Push: System.InvalidOperationException: A second operation was started on this context instance before a previous operation completed",
+    "issue_url": "https://github.com/CommunityToolkit/Datasync/issues/452",
+    "exception": "InvalidOperationException",
+    "linked_prs": [
+      {
+        "repo": "CommunityToolkit/Datasync",
+        "number": 455,
+        "kind": "rejected"
+      }
+    ],
+    "repo_size_kb": 12107,
+    "score": 25
+  },
+  {
+    "repo": "dotnet/dev-proxy",
+    "issue_number": 1273,
+    "issue_title": "Improve Dev Proxy API port conflict handling",
+    "issue_url": "https://github.com/dotnet/dev-proxy/issues/1273",
+    "exception": "TaskCanceledException",
+    "linked_prs": [
+      {
+        "repo": "dotnet/dev-proxy",
+        "number": 1274,
+        "kind": "rejected"
+      }
+    ],
+    "repo_size_kb": 9100,
+    "score": 25
+  },
+  {
+    "repo": "bloxstraplabs/bloxstrap",
+    "issue_number": 6386,
+    "issue_title": "[REQ] Don't show bug report button for HttpRequestExceptions",
+    "issue_url": "https://github.com/bloxstraplabs/bloxstrap/issues/6386",
+    "exception": "HttpRequestException",
+    "linked_prs": [
+      {
+        "repo": "bloxstraplabs/bloxstrap",
+        "number": 6397,
+        "kind": "rejected"
+      }
+    ],
+    "repo_size_kb": 8269,
+    "score": 25
+  },
+  {
+    "repo": "Adyen/adyen-dotnet-api-library",
+    "issue_number": 1187,
+    "issue_title": "[Bug]: Local requests: Can't establish SSL connection (arm64 / bookworm 12)",
+    "issue_url": "https://github.com/Adyen/adyen-dotnet-api-library/issues/1187",
+    "exception": "HttpRequestException",
+    "linked_prs": [
+      {
+        "repo": "Adyen/adyen-dotnet-api-library",
+        "number": 1224,
+        "kind": "rejected"
+      }
+    ],
+    "repo_size_kb": 27118,
+    "score": 25
+  },
+  {
+    "repo": "bitwarden/server",
+    "issue_number": 6792,
+    "issue_title": "Unexpected behaviour when mailserver DNS name does not exist",
+    "issue_url": "https://github.com/bitwarden/server/issues/6792",
+    "exception": "SocketException",
+    "linked_prs": [
+      {
+        "repo": "bitwarden/server",
+        "number": 7150,
+        "kind": "rejected"
+      }
+    ],
+    "repo_size_kb": 49098,
+    "score": 25
+  },
+  {
+    "repo": "atenfyr/UAssetAPI",
+    "issue_number": 144,
+    "issue_title": "UE5.7 assets fail to load ArgumentOutOfRangeException in ReadHeader",
+    "issue_url": "https://github.com/atenfyr/UAssetAPI/issues/144",
+    "exception": "ArgumentOutOfRangeException",
+    "linked_prs": [
+      {
+        "repo": "atenfyr/UAssetAPI",
+        "number": 145,
+        "kind": "rejected"
+      }
+    ],
+    "repo_size_kb": 69689,
+    "score": 15
+  },
+  {
+    "repo": "tmalyuch/jellyfin",
+    "issue_number": 4,
+    "issue_title": "Issuing invalid plugin repository URL makes plugin page unavailabe",
+    "issue_url": "https://github.com/tmalyuch/jellyfin/issues/4",
+    "exception": "NotSupportedException",
+    "linked_prs": [
+      {
+        "repo": "tmalyuch/jellyfin",
+        "number": 5,
+        "kind": "rejected"
+      }
+    ],
+    "repo_size_kb": 68777,
+    "score": 15
+  },
+  {
+    "repo": "FirelyTeam/firely-cql-sdk",
+    "issue_number": 1119,
+    "issue_title": "Runtime Error - NotSupportedException - Division of different units is not supported; only division by a numeric value (units = \"1\") is supported",
+    "issue_url": "https://github.com/FirelyTeam/firely-cql-sdk/issues/1119",
+    "exception": "NotSupportedException",
+    "linked_prs": [
+      {
+        "repo": "FirelyTeam/firely-cql-sdk",
+        "number": 1154,
+        "kind": "rejected"
+      }
+    ],
+    "repo_size_kb": 193950,
+    "score": 15
+  },
+  {
+    "repo": "microsoft/aspire",
+    "issue_number": 12505,
+    "issue_title": "Failing test: Aspire.Hosting.Tests.WithUrlsTests.MultipleUrlsForSingleEndpointAreIncludedInUrlSnapshot",
+    "issue_url": "https://github.com/microsoft/aspire/issues/12505",
+    "exception": "TaskCanceledException",
+    "linked_prs": [
+      {
+        "repo": "microsoft/aspire",
+        "number": 12804,
+        "kind": "rejected"
+      }
+    ],
+    "repo_size_kb": 92797,
+    "score": 15
+  },
+  {
+    "repo": "Azure/azure-cosmos-dotnet-v3",
+    "issue_number": 5641,
+    "issue_title": "[Encryption]: Avoiding contention on `EncryptionSettingForProperty`.",
+    "issue_url": "https://github.com/Azure/azure-cosmos-dotnet-v3/issues/5641",
+    "exception": "OperationCanceledException",
+    "linked_prs": [
+      {
+        "repo": "Azure/azure-cosmos-dotnet-v3",
+        "number": 5645,
+        "kind": "rejected"
+      }
+    ],
+    "repo_size_kb": 170077,
+    "score": 15
+  },
+  {
+    "repo": "microsoft/aspire",
+    "issue_number": 10977,
+    "issue_title": "[Failing test]: DependentResourceWaitsForOpenAIModelResourceWithHealthCheckToBeHealthy",
+    "issue_url": "https://github.com/microsoft/aspire/issues/10977",
+    "exception": "OperationCanceledException",
+    "linked_prs": [
+      {
+        "repo": "microsoft/aspire",
+        "number": 14602,
+        "kind": "rejected"
+      }
+    ],
+    "repo_size_kb": 92797,
+    "score": 15
+  },
+  {
+    "repo": "microsoft/aspire",
+    "issue_number": 15223,
+    "issue_title": "Aspire.Hosting.Tests.DistributedApplicationTests.BeforeResourceStartedEvent_FiredForNormalResourcesOnInitialStartup",
+    "issue_url": "https://github.com/microsoft/aspire/issues/15223",
+    "exception": "TimeoutException",
+    "linked_prs": [
+      {
+        "repo": "microsoft/aspire",
+        "number": 15226,
+        "kind": "rejected"
+      }
+    ],
+    "repo_size_kb": 92797,
+    "score": 15
+  },
+  {
+    "repo": "jellyfin/jellyfin",
+    "issue_number": 16628,
+    "issue_title": "Library scan aborts on DirectoryNotFoundException, preventing new media discovery",
+    "issue_url": "https://github.com/jellyfin/jellyfin/issues/16628",
+    "exception": "DirectoryNotFoundException",
+    "linked_prs": [
+      {
+        "repo": "jellyfin/jellyfin",
+        "number": 16629,
+        "kind": "rejected"
+      }
+    ],
+    "repo_size_kb": 72293,
+    "score": 15
+  },
+  {
+    "repo": "dotnet/android",
+    "issue_number": 10913,
+    "issue_title": "[TrimmableTypeMap] Add integration tests for generator-consumed scanner fields",
+    "issue_url": "https://github.com/dotnet/android/issues/10913",
+    "exception": "MissingMethodException",
+    "linked_prs": [
+      {
+        "repo": "dotnet/android",
+        "number": 10920,
+        "kind": "rejected"
+      }
+    ],
+    "repo_size_kb": 178939,
+    "score": 15
+  },
+  {
+    "repo": "Azure/azure-cosmos-dotnet-v3",
+    "issue_number": 5167,
+    "issue_title": "AccessViolationException after upgrading to 3.49.0",
+    "issue_url": "https://github.com/Azure/azure-cosmos-dotnet-v3/issues/5167",
+    "exception": "AccessViolationException",
+    "linked_prs": [
+      {
+        "repo": "Azure/azure-cosmos-dotnet-v3",
+        "number": 5283,
+        "kind": "rejected"
+      }
+    ],
+    "repo_size_kb": 170077,
+    "score": 15
+  },
+  {
+    "repo": "microsoft/aspire",
+    "issue_number": 15113,
+    "issue_title": "[Failing test]: Aspire.Cli.EndToEnd.Tests.MultipleAppHostTests.DetachFormatJsonProducesValidJson",
+    "issue_url": "https://github.com/microsoft/aspire/issues/15113",
+    "exception": "TimeoutException",
+    "linked_prs": [
+      {
+        "repo": "microsoft/aspire",
+        "number": 15180,
+        "kind": "rejected"
+      }
+    ],
+    "repo_size_kb": 92797,
+    "score": 15
+  },
+  {
+    "repo": "microsoft/semantic-kernel",
+    "issue_number": 13589,
+    "issue_title": ".Net: Bug: JSON serializer options don't match between tool schema and tool calls, causing enum parameters to fail.",
+    "issue_url": "https://github.com/microsoft/semantic-kernel/issues/13589",
+    "exception": "ArgumentException",
+    "linked_prs": [
+      {
+        "repo": "microsoft/semantic-kernel",
+        "number": 13623,
+        "kind": "rejected"
+      }
+    ],
+    "repo_size_kb": 99459,
+    "score": 15
+  },
+  {
+    "repo": "elsa-workflows/elsa-core",
+    "issue_number": 6278,
+    "issue_title": "[BUG] v3.2.3 - Workflow variables with cyclical properties cause instance persistance to fail",
+    "issue_url": "https://github.com/elsa-workflows/elsa-core/issues/6278",
+    "exception": "JsonException",
+    "linked_prs": [
+      {
+        "repo": "elsa-workflows/elsa-core",
+        "number": 6694,
+        "kind": "rejected"
+      }
+    ],
+    "repo_size_kb": 101722,
+    "score": 15
+  },
+  {
+    "repo": "AvaloniaUI/Avalonia",
+    "issue_number": 20293,
+    "issue_title": "NullReferenceException in Avalonia.X11.X11EventDispatcher.DispatchX11Events",
+    "issue_url": "https://github.com/AvaloniaUI/Avalonia/issues/20293",
+    "exception": "NullReferenceException",
+    "linked_prs": [
+      {
+        "repo": "AvaloniaUI/Avalonia",
+        "number": 21272,
+        "kind": "rejected"
+      }
+    ],
+    "repo_size_kb": 227703,
+    "score": 10
+  },
+  {
+    "repo": "microsoft/perfview",
+    "issue_number": 951,
+    "issue_title": "System.NullReferenceException while taking heap snapshot",
+    "issue_url": "https://github.com/microsoft/perfview/issues/951",
+    "exception": "NullReferenceException",
+    "linked_prs": [
+      {
+        "repo": "microsoft/perfview",
+        "number": 2391,
+        "kind": "rejected"
+      }
+    ],
+    "repo_size_kb": 291913,
+    "score": 10
+  },
+  {
+    "repo": "dotnet/runtime",
+    "issue_number": 125803,
+    "issue_title": "MultiThreadedGetExportsWorkWithImportingConstructor failed with NullReferenceException",
+    "issue_url": "https://github.com/dotnet/runtime/issues/125803",
+    "exception": "NullReferenceException",
+    "linked_prs": [
+      {
+        "repo": "dotnet/runtime",
+        "number": 125804,
+        "kind": "rejected"
+      }
+    ],
+    "repo_size_kb": 1118561,
+    "score": 10
+  },
+  {
+    "repo": "dotnet/maui",
+    "issue_number": 33709,
+    "issue_title": "SourceGen NullReferenceException",
+    "issue_url": "https://github.com/dotnet/maui/issues/33709",
+    "exception": "NullReferenceException",
+    "linked_prs": [
+      {
+        "repo": "dotnet/maui",
+        "number": 33864,
+        "kind": "rejected"
+      }
+    ],
+    "repo_size_kb": 1342119,
+    "score": 10
+  },
+  {
+    "repo": "dotnet/runtime",
+    "issue_number": 80256,
+    "issue_title": "Manual bounds checks are less efficient",
+    "issue_url": "https://github.com/dotnet/runtime/issues/80256",
+    "exception": "ArgumentOutOfRangeException",
+    "linked_prs": [
+      {
+        "repo": "dotnet/runtime",
+        "number": 124706,
+        "kind": "rejected"
+      }
+    ],
+    "repo_size_kb": 1118561,
+    "score": 10
+  },
+  {
+    "repo": "dotnet/runtime",
+    "issue_number": 110450,
+    "issue_title": "System.Text.Json.JsonException thrown when deserializing asynchronously to nullable types",
+    "issue_url": "https://github.com/dotnet/runtime/issues/110450",
+    "exception": "JsonException",
+    "linked_prs": [
+      {
+        "repo": "dotnet/runtime",
+        "number": 120871,
+        "kind": "rejected"
+      }
+    ],
+    "repo_size_kb": 1118561,
+    "score": 10
+  },
+  {
+    "repo": "NethermindEth/nethermind",
+    "issue_number": 11415,
+    "issue_title": "Crash on shutdown: ArgumentException in Discv5Protocol.StopAsync when stopped before init completes",
+    "issue_url": "https://github.com/NethermindEth/nethermind/issues/11415",
+    "exception": "ArgumentException",
+    "linked_prs": [
+      {
+        "repo": "NethermindEth/nethermind",
+        "number": 11416,
+        "kind": "rejected"
+      }
+    ],
+    "repo_size_kb": 653821,
+    "score": 10
+  },
+  {
+    "repo": "dotnet/maui",
+    "issue_number": 34917,
+    "issue_title": "[net 11.0][iOS,MacCatalyst] SwipeView.Open() throws ArgumentException on second programmatic call",
+    "issue_url": "https://github.com/dotnet/maui/issues/34917",
+    "exception": "ArgumentException",
+    "linked_prs": [
+      {
+        "repo": "dotnet/maui",
+        "number": 34983,
+        "kind": "rejected"
+      }
+    ],
+    "repo_size_kb": 1342119,
+    "score": 10
+  },
+  {
+    "repo": "dotnet/runtime",
+    "issue_number": 87171,
+    "issue_title": "Provide a new NumberStyles option to stop parsing after the first invalid character",
+    "issue_url": "https://github.com/dotnet/runtime/issues/87171",
+    "exception": "ArgumentException",
+    "linked_prs": [
+      {
+        "repo": "dotnet/runtime",
+        "number": 123942,
+        "kind": "rejected"
+      }
+    ],
+    "repo_size_kb": 1118561,
+    "score": 10
+  },
+  {
+    "repo": "dotnet/runtime",
+    "issue_number": 122800,
+    "issue_title": "[area-Tools-ILLink]: The given key 'Maui.Health.Services.HealthService/<WriteHealthData>d__17`1' was not present in the dictionary",
+    "issue_url": "https://github.com/dotnet/runtime/issues/122800",
+    "exception": "KeyNotFoundException",
+    "linked_prs": [
+      {
+        "repo": "dotnet/runtime",
+        "number": 123095,
+        "kind": "rejected"
+      }
+    ],
+    "repo_size_kb": 1118561,
+    "score": 10
+  },
+  {
+    "repo": "dotnet/aspnetcore",
+    "issue_number": 35594,
+    "issue_title": "Model binding fails with FormatException if dictionary key is numeric type and value is missing from POST",
+    "issue_url": "https://github.com/dotnet/aspnetcore/issues/35594",
+    "exception": "FormatException",
+    "linked_prs": [
+      {
+        "repo": "dotnet/aspnetcore",
+        "number": 59911,
+        "kind": "rejected"
+      }
+    ],
+    "repo_size_kb": 377518,
+    "score": 10
+  },
+  {
+    "repo": "microsoft/PowerToys",
+    "issue_number": 46960,
+    "issue_title": "[Peek] NumberOfDigits(int.MinValue) throws unhandled OverflowException",
+    "issue_url": "https://github.com/microsoft/PowerToys/issues/46960",
+    "exception": "OverflowException",
+    "linked_prs": [
+      {
+        "repo": "microsoft/PowerToys",
+        "number": 46988,
+        "kind": "rejected"
+      }
+    ],
+    "repo_size_kb": 498315,
+    "score": 10
+  },
+  {
+    "repo": "Azure/azure-sdk-for-net",
+    "issue_number": 57287,
+    "issue_title": "[Generator Bug] @@alternateType to armResourceType emits WriteObjectValue instead of WriteStringValue",
+    "issue_url": "https://github.com/Azure/azure-sdk-for-net/issues/57287",
+    "exception": "NotSupportedException",
+    "linked_prs": [
+      {
+        "repo": "Azure/azure-sdk-for-net",
+        "number": 57288,
+        "kind": "rejected"
+      }
+    ],
+    "repo_size_kb": 4425718,
+    "score": 10
+  },
+  {
+    "repo": "dotnet/runtime",
+    "issue_number": 123878,
+    "issue_title": "CustomAttribute.DecodeValue doesn't handle generic type instantiations",
+    "issue_url": "https://github.com/dotnet/runtime/issues/123878",
+    "exception": "FormatException",
+    "linked_prs": [
+      {
+        "repo": "dotnet/runtime",
+        "number": 123879,
+        "kind": "rejected"
+      }
+    ],
+    "repo_size_kb": 1118561,
+    "score": 10
+  },
+  {
+    "repo": "unoplatform/uno",
+    "issue_number": 22447,
+    "issue_title": "Feature Request: Implement Geolocator for Skia Desktop targets",
+    "issue_url": "https://github.com/unoplatform/uno/issues/22447",
+    "exception": "NotImplementedException",
+    "linked_prs": [
+      {
+        "repo": "unoplatform/uno",
+        "number": 22493,
+        "kind": "rejected"
+      }
+    ],
+    "repo_size_kb": 328128,
+    "score": 10
+  },
+  {
+    "repo": "jtschuster/runtime",
+    "issue_number": 21,
+    "issue_title": "[Crossgen2 CI] Crossgen2 crash during composite Interop compilation: \"Multiple nodes of this type are not supported\"",
+    "issue_url": "https://github.com/jtschuster/runtime/issues/21",
+    "exception": "AggregateException",
+    "linked_prs": [
+      {
+        "repo": "jtschuster/runtime",
+        "number": 26,
+        "kind": "rejected"
+      }
+    ],
+    "repo_size_kb": 1085187,
+    "score": 10
+  },
+  {
+    "repo": "dotnet/maui",
+    "issue_number": 28684,
+    "issue_title": "TaskCanceledException on IStreamImageSource.GetStreamAsync(CancellationToken userToken)",
+    "issue_url": "https://github.com/dotnet/maui/issues/28684",
+    "exception": "TaskCanceledException",
+    "linked_prs": [
+      {
+        "repo": "dotnet/maui",
+        "number": 28685,
+        "kind": "rejected"
+      }
+    ],
+    "repo_size_kb": 1342119,
+    "score": 10
+  },
+  {
+    "repo": "unoplatform/uno",
+    "issue_number": 21311,
+    "issue_title": "`StorageFile.Local.OpenStreamAsync` always use `File.Open` instead of the `FileAccessMode` argument",
+    "issue_url": "https://github.com/unoplatform/uno/issues/21311",
+    "exception": "FileNotFoundException",
+    "linked_prs": [
+      {
+        "repo": "unoplatform/uno",
+        "number": 21663,
+        "kind": "rejected"
+      }
+    ],
+    "repo_size_kb": 328128,
+    "score": 10
+  },
+  {
+    "repo": "dotnet/sdk",
+    "issue_number": 49719,
+    "issue_title": "Running API diff without specifying `-eattr` makes it fail to load non-existent AttributesToExclude.txt file",
+    "issue_url": "https://github.com/dotnet/sdk/issues/49719",
+    "exception": "FileNotFoundException",
+    "linked_prs": [
+      {
+        "repo": "dotnet/sdk",
+        "number": 51013,
+        "kind": "rejected"
+      }
+    ],
+    "repo_size_kb": 422771,
+    "score": 10
+  },
+  {
+    "repo": "dotnet/maui",
+    "issue_number": 27167,
+    "issue_title": "Intermittent Problem with Preferences on Windows",
+    "issue_url": "https://github.com/dotnet/maui/issues/27167",
+    "exception": "IOException",
+    "linked_prs": [
+      {
+        "repo": "dotnet/maui",
+        "number": 33182,
+        "kind": "rejected"
+      }
+    ],
+    "repo_size_kb": 1342119,
+    "score": 10
+  },
+  {
+    "repo": "dotnet/runtime",
+    "issue_number": 27729,
+    "issue_title": "SerialPort Open fails with 0x8007001f",
+    "issue_url": "https://github.com/dotnet/runtime/issues/27729",
+    "exception": "IOException",
+    "linked_prs": [
+      {
+        "repo": "dotnet/runtime",
+        "number": 121468,
+        "kind": "rejected"
+      }
+    ],
+    "repo_size_kb": 1118561,
+    "score": 10
+  },
+  {
+    "repo": "dotnet/maui",
+    "issue_number": 34661,
+    "issue_title": "MediaPicker.CapturePhotoAsync() fails with UnauthorisedAccessException on IOS despite successfully being Granted Access",
+    "issue_url": "https://github.com/dotnet/maui/issues/34661",
+    "exception": "UnauthorizedAccessException",
+    "linked_prs": [
+      {
+        "repo": "dotnet/maui",
+        "number": 34695,
+        "kind": "rejected"
+      }
+    ],
+    "repo_size_kb": 1342119,
+    "score": 10
+  },
+  {
+    "repo": "QL-Win/QuickLook",
+    "issue_number": 1734,
+    "issue_title": "Error log",
+    "issue_url": "https://github.com/QL-Win/QuickLook/issues/1734",
+    "exception": "ArgumentException",
+    "linked_prs": [
+      {
+        "repo": "QL-Win/QuickLook",
+        "number": 1736,
+        "kind": "rejected"
+      }
+    ],
+    "repo_size_kb": 344641,
+    "score": 10
+  },
+  {
+    "repo": "dotnet/runtime",
+    "issue_number": 123503,
+    "issue_title": "ILLink analyzer crashes with MissingMethodException",
+    "issue_url": "https://github.com/dotnet/runtime/issues/123503",
+    "exception": "MissingMethodException",
+    "linked_prs": [
+      {
+        "repo": "dotnet/runtime",
+        "number": 123509,
+        "kind": "rejected"
+      }
+    ],
+    "repo_size_kb": 1118561,
+    "score": 10
+  },
+  {
+    "repo": "dotnet/winforms",
+    "issue_number": 14113,
+    "issue_title": "Crash (AccessViolationException/ExecutionEngineException) graphics.FillRectangle into Bitmap with Format24bppRgb",
+    "issue_url": "https://github.com/dotnet/winforms/issues/14113",
+    "exception": "AccessViolationException",
+    "linked_prs": [
+      {
+        "repo": "dotnet/winforms",
+        "number": 14117,
+        "kind": "rejected"
+      }
+    ],
+    "repo_size_kb": 270558,
+    "score": 10
+  },
+  {
+    "repo": "dotnet/dotnet",
+    "issue_number": 4733,
+    "issue_title": "[Operational Issue] Crossgen crash",
+    "issue_url": "https://github.com/dotnet/runtime/issues/124181",
+    "exception": "FormatException",
+    "linked_prs": [
+      {
+        "repo": "dotnet/runtime",
+        "number": 124228,
+        "kind": "rejected"
+      }
+    ],
+    "repo_size_kb": 2028776,
+    "score": 10
+  },
+  {
+    "repo": "dotnet/runtime",
+    "issue_number": 121769,
+    "issue_title": "Test failure: Interop/PInvoke/CriticalHandles/StructTest/StructTest/StructTest.cmd",
+    "issue_url": "https://github.com/dotnet/runtime/issues/121769",
+    "exception": "FormatException",
+    "linked_prs": [
+      {
+        "repo": "dotnet/runtime",
+        "number": 121891,
+        "kind": "rejected"
+      }
+    ],
+    "repo_size_kb": 1118561,
+    "score": 10
+  },
+  {
+    "repo": "dotnet/runtime",
+    "issue_number": 4852,
+    "issue_title": "Tests fail with System.BadImageFormatException",
+    "issue_url": "https://github.com/dotnet/runtime/issues/4852",
+    "exception": "FormatException",
+    "linked_prs": [
+      {
+        "repo": "dotnet/runtime",
+        "number": 107236,
+        "kind": "rejected"
+      }
+    ],
+    "repo_size_kb": 1118561,
+    "score": 10
+  },
+  {
+    "repo": "dotnet/runtime",
+    "issue_number": 105700,
+    "issue_title": "Forward StatusCode to HttpRequestException whenever possible",
+    "issue_url": "https://github.com/dotnet/runtime/issues/105700",
+    "exception": "HttpRequestException",
+    "linked_prs": [
+      {
+        "repo": "dotnet/runtime",
+        "number": 116257,
+        "kind": "rejected"
+      }
+    ],
+    "repo_size_kb": 1118561,
+    "score": 10
+  }
+]
