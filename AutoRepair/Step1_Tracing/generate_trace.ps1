@@ -1,5 +1,6 @@
 param(
     [string]$TargetSourceDir = "",
+    [string]$TestProject = "",
     [switch]$SkipRestore
 )
 
@@ -46,7 +47,11 @@ if (Test-Path $traceLogPath) {
 $env:TRACE_LOG_JSON_PATH = $traceLogPath
 
 # Run tests
-$testProject = Join-Path $repoRoot "ThrottleDebounce\Tests\Tests.csproj"
+if ([string]::IsNullOrWhiteSpace($TestProject)) {
+    $testProject = Join-Path $repoRoot "ThrottleDebounce\Tests\Tests.csproj"
+} else {
+    $testProject = Resolve-Path $TestProject
+}
 
 Write-Host ""
 Write-Host "=== Running Tests ===" -ForegroundColor Cyan

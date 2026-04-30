@@ -39,4 +39,8 @@ AutoRepair/plantuml.jar
 # PRHunter generated CSVs
 PRHunter/output/
 PRHunter/__pycache__/
+# PRHunter e2e demo: ignore cloned repos + per-case build artifacts,
+# but allow the small report files to be force-added when ready.
+PRHunter/e2e/cases/*/repo/
+PRHunter/e2e/cases/*/autorepair.log
 

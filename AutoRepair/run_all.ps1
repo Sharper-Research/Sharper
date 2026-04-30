@@ -29,10 +29,12 @@ Write-Host "=============================================" -ForegroundColor Mage
 Write-Host ""
 
 #--- STEP 1: Concrete execution - capture trace + state from the test suite
-# Note: generate_trace.ps1 currently uses a hardcoded Tests.csproj path; the
-# $DriverProject parameter on this orchestrator is reserved for future use.
 Write-Host ">>> STEP 1: Instrument + Trace <<<" -ForegroundColor Cyan
-& $step1Script -TargetSourceDir $SourceDir
+if ($DriverProject) {
+    & $step1Script -TargetSourceDir $SourceDir -TestProject $DriverProject
+} else {
+    & $step1Script -TargetSourceDir $SourceDir
+}
 if ($LASTEXITCODE -ne 0) { Write-Host "Step 1 failed!" -ForegroundColor Red; exit 1 }
 Write-Host ""
 
