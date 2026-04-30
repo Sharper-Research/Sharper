@@ -245,9 +245,10 @@ def run_case(gh: GH, cand: dict, idx: int) -> dict:
     print(f"    tests : {test_proj.relative_to(repo_dir)}")
 
     log_path = case_dir / "autorepair.log"
+    pwsh = shutil.which("pwsh") or shutil.which("powershell")
     with log_path.open("w", encoding="utf-8") as log:
         proc = subprocess.run(
-            ["pwsh", "-NoProfile", "-File", str(RUN_ALL),
+            [pwsh, "-NoProfile", "-File", str(RUN_ALL),
              "-SourceDir", str(src_dir),
              "-DriverProject", str(test_proj),
              "-Solution", str(test_proj)],
