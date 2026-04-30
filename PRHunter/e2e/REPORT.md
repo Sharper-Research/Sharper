@@ -6,4 +6,4 @@ AutoRepair was run against the buggy base SHA of each failed PR.
 
 | # | Repo / Issue | Exception | Status | Report |
 |---|---|---|---|---|
-| 0 | [tghamm/Anthropic.SDK#197](https://github.com/tghamm/Anthropic.SDK/issues/197) | MissingMethodException | ok | [case](cases/00_tghamm_Anthropic.SDK_issue197/report.md) |
+| 0 | [AngleSharp/AngleSharp.Css#183](https://github.com/AngleSharp/AngleSharp.Css/issues/183) | InvalidOperationException | autorepair-exit-1 | [case](cases/02_AngleSharp_AngleSharp.Css_issue183/report.md) |
