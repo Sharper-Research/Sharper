@@ -9,6 +9,7 @@
 *.userprefs
 .claude/
 
+
 # Generated traces
 trace_logs.jsonl
 trace_logs.txt
@@ -25,6 +26,7 @@ TraceLogger.cs
 # Temporary & System Files
 *.log
 *.tmp
+*.yaml
 thumbs.db
 desktop.ini
 .DS_Store
@@ -34,4 +36,26 @@ SharpZipLib/
 AutoRepair/pipeline_diagram.mmd
 AutoRepair/pipeline_diagram.png
 AutoRepair/plantuml.jar
+
+# SonarQube
+.sonarqube/
+.sonar/
+.scannerwork/
+
+# PVS-Studio output
+pvs-results.plog
+pvs-results.plog.html
+pvs-results.json
+pvs-report.html
+
+# Semgrep output
+semgrep-results.json
+
+# Competitor tool result files (keep YAML rules, ignore raw output)
+*-results.json
+*-results.sarif
+*-report.html
+
+# Environment / secrets
+.env
 
