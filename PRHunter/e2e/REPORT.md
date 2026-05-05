@@ -6,4 +6,4 @@ AutoRepair was run against the buggy base SHA of each failed PR.
 
 | # | Repo / Issue | Exception | Status | Report |
 |---|---|---|---|---|
-| 0 | [AngleSharp/AngleSharp.Css#183](https://github.com/AngleSharp/AngleSharp.Css/issues/183) | InvalidOperationException | ok | [case](cases/02_AngleSharp_AngleSharp.Css_issue183/report.md) |
+| 0 | [nodirmcsd/WordNinjaSharp#3](https://github.com/nodirmcsd/WordNinjaSharp/issues/3) | ArgumentOutOfRangeException | ok | [case](cases/01_nodirmcsd_WordNinjaSharp_issue3/report.md) |

@@ -96,7 +96,9 @@ namespace Instrumenter.Rewriters
             }
 
             var declaration = updatedNode.Declaration ??
-                SyntaxFactory.CatchDeclaration(SyntaxFactory.ParseTypeName("System.Exception"), SyntaxFactory.Identifier("__autoRepairCaughtEx"));
+                SyntaxFactory.CatchDeclaration(
+                    SyntaxFactory.ParseTypeName("System.Exception"),
+                    SyntaxFactory.Identifier(SyntaxFactory.TriviaList(SyntaxFactory.Space), "__autoRepairCaughtEx", SyntaxFactory.TriviaList()));
 
             // If the catch has a type but no variable name (e.g. catch (FormatException)),
             // add a generated identifier so we can reference the exception.
@@ -155,9 +157,7 @@ namespace Instrumenter.Rewriters
                                 $"global::AutoRepairTracing.TraceLogger.Log(\"{uniqueId}\", \"{escapedFileName}\", {lineNumber}, \"Infinite Loop Warning: exceeded {LOOP_LIMIT} iterations\", {counterVarName}, \"loopCounter\")"
                             )
                         ),
-                        SyntaxFactory.ThrowStatement(
-                            SyntaxFactory.ParseExpression("new System.Exception(\"AutoRepair: loop safety limit exceeded\")")
-                        )
+                        SyntaxFactory.ParseStatement("throw new System.Exception(\"AutoRepair: loop safety limit exceeded\");")
                     )
                 )
             );
@@ -217,9 +217,7 @@ namespace Instrumenter.Rewriters
                                 $"global::AutoRepairTracing.TraceLogger.Log(\"{uniqueId}\", \"{escapedFileName}\", {lineNumber}, \"Infinite Loop Warning: exceeded {LOOP_LIMIT} iterations\", {counterVarName}, \"loopCounter\")"
                             )
                         ),
-                        SyntaxFactory.ThrowStatement(
-                            SyntaxFactory.ParseExpression("new System.Exception(\"AutoRepair: loop safety limit exceeded\")")
-                        )
+                        SyntaxFactory.ParseStatement("throw new System.Exception(\"AutoRepair: loop safety limit exceeded\");")
                     )
                 )
             );
@@ -279,9 +277,7 @@ namespace Instrumenter.Rewriters
                                 $"global::AutoRepairTracing.TraceLogger.Log(\"{uniqueId}\", \"{escapedFileName}\", {lineNumber}, \"Infinite Loop Warning: exceeded {LOOP_LIMIT} iterations\", {counterVarName}, \"loopCounter\")"
                             )
                         ),
-                        SyntaxFactory.ThrowStatement(
-                            SyntaxFactory.ParseExpression("new System.Exception(\"AutoRepair: loop safety limit exceeded\")")
-                        )
+                        SyntaxFactory.ParseStatement("throw new System.Exception(\"AutoRepair: loop safety limit exceeded\");")
                     )
                 )
             );

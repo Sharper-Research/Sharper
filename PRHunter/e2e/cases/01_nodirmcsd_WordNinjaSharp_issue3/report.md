@@ -1,4 +1,4 @@
-# nodirmcsd/WordNinjaSharp#3 — ArgumentOutOfRangeException
+# nodirmcsd/WordNinjaSharp#3 - ArgumentOutOfRangeException
 
 - **Issue**: [ArgumentOutOfRangeException](https://github.com/nodirmcsd/WordNinjaSharp/issues/3)
 - **Failed PR** (rejected): https://github.com/nodirmcsd/WordNinjaSharp/pull/4
@@ -12,8 +12,8 @@
 
 `violations.json`: **2 violations** captured from the live test trace.
 
-- `MessagesEndpoint.cs:27` — NoUnhandledException(event)  →  False
-- `MessagesEndpoint.cs:226` — NoUnhandledException(event)  →  False
+- `WordNinja.cs:179` - NoUnhandledException(event)  ->  False
+- `WordNinja.cs:34` - NoUnhandledException(event)  ->  False
 
 ## Why SonarQube misses this
 
@@ -22,5 +22,5 @@ patterns and shallow data-flow facts. The bug above only manifests on
 a specific runtime path: the variable bindings, buffer sizes, or cast
 targets that produce the violation are not recoverable from source
 alone. AutoRepair instruments the code, runs the existing test suite,
-and observes the actual failing trace — the violation is reported
+and observes the actual failing trace - the violation is reported
 with concrete evidence (file, line, predicate, observed values).

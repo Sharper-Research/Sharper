@@ -59,7 +59,7 @@ Write-Host "Test project: $testProject"
 Write-Host "Trace log:    $traceLogPath"
 Write-Host ""
 
-dotnet test $testProject --verbosity normal -- xUnit.MaxParallelThreads=1
+dotnet test $testProject /p:GeneratePackageOnBuild=false --verbosity normal -- xUnit.MaxParallelThreads=1
 
 $testExitCode = $LASTEXITCODE
 
