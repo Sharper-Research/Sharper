@@ -14,7 +14,7 @@ are the next thing to fix.
 | :--: | :----------------------------------------------------------- | :----------- | :---------- |
 | 1    | [Tracing](AutoRepair/Step1_Tracing/README.md)                | Done         | Roslyn instrumenter injects logging into any C# project; produces a structured JSONL execution trace. |
 | 2    | [Constraints](AutoRepair/Step2_Constraints/README.md)        | Done         | Rule engine reads the trace and emits `violations.json` (buffer-bounds, exceptions, invalid casts, integer overflow, null deref). |
-| 3    | [Repair / CFGAnalyzer](AutoRepair/Step3_Repair/README.md)    | Task 1 done  | [`AutoRepair/CFGAnalyzer/`](AutoRepair/CFGAnalyzer/) (by **@jpksh90**) builds Roslyn CFGs, an interprocedural call graph, and prints path conditions. Task 2 (consume `violations.json`) and Task 3 (patch synthesis) are next. |
+| 3    | [Repair / CFGAnalyzer](AutoRepair/Step3_Repair/README.md)    | Task 1 done, runs end-to-end | [`AutoRepair/Step3_Repair/CFGAnalyzer/`](AutoRepair/Step3_Repair/CFGAnalyzer/) (by **@jpksh90**) builds Roslyn CFGs, an interprocedural call graph, and prints path conditions. Verified inside `run_all.ps1`. Task 2 (consume `violations.json` to target the traversal at flagged methods) and Task 3 (patch synthesis) are next. |
 
 Auxiliary tooling:
 
@@ -48,7 +48,7 @@ Or run the steps individually:
 .\AutoRepair\Step1_Tracing\restore_project.ps1
 
 # 4. Run the CFG analyzer (Step 3)
-dotnet run --project AutoRepair\CFGAnalyzer\CFGAnalyzer.csproj `
+dotnet run --project AutoRepair\Step3_Repair\CFGAnalyzer\CFGAnalyzer.csproj `
   -- ThrottleDebounce\ThrottleDebounce\ThrottleDebounce.csproj
 ```
 
@@ -73,8 +73,8 @@ Patching/
 |-- AutoRepair/
 |   |-- Step1_Tracing/          (Instrumenter + generate_trace.ps1)
 |   |-- Step2_Constraints/      (Constraints analyzer + analyze_trace.ps1)
-|   |-- Step3_Repair/           (Pointer + reports/cfg_analyzer.log)
-|   |-- CFGAnalyzer/            (Step 3 implementation, by @jpksh90)
+|   |-- Step3_Repair/           (CFGAnalyzer + reports/cfg_analyzer.log)
+|   |   `-- CFGAnalyzer/        (Step 3 implementation, by @jpksh90)
 |   `-- run_all.ps1             (Orchestrator: Step1 -> 2 -> restore -> 3)
 |
 |-- ThrottleDebounce/           (Primary integration target; 110 xUnit tests)
@@ -95,7 +95,7 @@ Patching/
 | `ThrottleDebounce`                    | Primary integration target | Real rate-limiting library, 110-test xUnit suite. Pipeline instruments it, runs the tests, derives violations, then runs the CFG analyzer. |
 | `TargetApp`                           | Smoke test                 | Tiny app with deliberate buffer overflows / casts / overflows; used during early development of the Instrumenter. |
 | `MicrosoftBugDemo/`                   | Real-world repro           | Reproduces dotnet/runtime#120561 (NRE in `ReflectionXmlSerializationWriter`). |
-| `AutoRepair/CFGAnalyzer/samples/`     | CFG analyzer fixtures      | Small projects validating the Step 3 call-graph resolvers. |
+| `AutoRepair/Step3_Repair/CFGAnalyzer/samples/` | CFG analyzer fixtures | Small projects validating the Step 3 call-graph resolvers. |
 
 ## Prerequisites
 

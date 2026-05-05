@@ -10,7 +10,7 @@ $repoRoot         = Resolve-Path (Join-Path $PSScriptRoot "..")
 $step1Script      = Join-Path $repoRoot "AutoRepair\Step1_Tracing\generate_trace.ps1"
 $restoreScript    = Join-Path $repoRoot "AutoRepair\Step1_Tracing\restore_project.ps1"
 $step2Script      = Join-Path $repoRoot "AutoRepair\Step2_Constraints\analyze_trace.ps1"
-$cfgAnalyzerProj  = Join-Path $repoRoot "AutoRepair\CFGAnalyzer\CFGAnalyzer.csproj"
+$cfgAnalyzerProj  = Join-Path $repoRoot "AutoRepair\Step3_Repair\CFGAnalyzer\CFGAnalyzer.csproj"
 $cfgReportDir     = Join-Path $repoRoot "AutoRepair\Step3_Repair\reports"
 $cfgReportLog     = Join-Path $cfgReportDir "cfg_analyzer.log"
 

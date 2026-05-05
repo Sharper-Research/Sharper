@@ -1,21 +1,23 @@
 ﻿# Step 3: Repair (CFG + Path Conditions)
 
-The Step 3 implementation is `AutoRepair/CFGAnalyzer/` (authored by **@jpksh90**).
-It loads the target C# project with `MSBuildWorkspace`, builds a Roslyn
-`ControlFlowGraph` for each method, builds an interprocedural call graph, and
-prints path constraints and call sites starting from a configurable entry point.
+The Step 3 implementation lives in [`CFGAnalyzer/`](CFGAnalyzer/) (authored by
+**@jpksh90**). It loads the target C# project with `MSBuildWorkspace`, builds
+a Roslyn `ControlFlowGraph` for each method, builds an interprocedural call
+graph, and prints path constraints and call sites starting from a configurable
+entry point.
 
-This folder (`Step3_Repair/`) only holds the per-run output log:
+Layout:
 
 ```
 Step3_Repair/
-├── README.md                   (this file)
-└── reports/
-    └── cfg_analyzer.log        (generated; gitignored)
+|-- README.md                   (this file)
+|-- CFGAnalyzer/                (the analyzer; see CFGAnalyzer/README.md)
+`-- reports/
+    `-- cfg_analyzer.log        (generated; gitignored)
 ```
 
 For analyzer documentation, samples, and the full resolver list see
-[`AutoRepair/CFGAnalyzer/README.md`](../CFGAnalyzer/README.md).
+[`CFGAnalyzer/README.md`](CFGAnalyzer/README.md).
 
 ## How the pipeline feeds Step 3
 
@@ -40,7 +42,10 @@ powershell -ExecutionPolicy Bypass -File AutoRepair\run_all.ps1
 ## Status
 
 * Task 1 (build CFG + call graph + path conditions): **done** in `CFGAnalyzer/`.
-* Task 2 (consume `violations.json` and target the CFG traversal at the
-  reported faulty methods): not started.
+  Verified end-to-end by `run_all.ps1` against ThrottleDebounce: produces
+  `reports/cfg_analyzer.log` after the trace is collected and constraints are
+  derived.
+* Task 2 (consume `violations.json` so the CFG traversal targets the methods
+  Step 2 actually flagged, instead of the hard-coded entry point): not started.
 * Task 3 (synthesise a guarded patch from the path condition and re-run
   Step 1 to confirm): not started.
