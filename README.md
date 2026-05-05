@@ -1,46 +1,44 @@
-# AutoRepair
+# Patching / AutoRepair
 
-Automated C# program repair system using runtime tracing, constraint solving, and CFG-based path-condition analysis.
+Automated C# program repair: runtime tracing + constraint solving + CFG-based
+path-condition analysis.
 
-> **📍 All three pipeline steps now run end-to-end against ThrottleDebounce.**
-> Run `powershell -ExecutionPolicy Bypass -File AutoRepair\run_all.ps1` to execute the full Step 1 → 2 → 3 chain.
-
----
+The pipeline runs end-to-end on `ThrottleDebounce` (110-test xUnit suite) and
+on at least one external real-world target (`tghamm/Anthropic.SDK#197`, via
+PRHunter). Some larger third-party repos still hit Instrumenter limits and
+are the next thing to fix.
 
 ## Status
 
-| Step | Module | Status | Description |
-| :--: | :--- | :--- | :--- |
-| **1** | [Tracing](AutoRepair/Step1_Tracing/README.md) | **Done** | Roslyn-based instrumenter injects logging into any C# project; produces a structured JSONL execution trace. |
-| **2** | [Constraints](AutoRepair/Step2_Constraints/README.md) | **Done** | Rule engine reads the trace and emits `violations.json` (buffer-bounds, exceptions, invalid casts, integer overflow, null dereference). FP fixes from `demo-test-repo` merged with null-origin tracking. |
-| **3** | [Repair (CFGAnalyzer)](AutoRepair/Step3_Repair/README.md) | **Task 1 done** | [`AutoRepair/CFGAnalyzer/`](AutoRepair/CFGAnalyzer/) (by **@jpksh90**) builds Roslyn CFGs and traverses the call graph to print path constraints. Task 2 (consume `violations.json`) and Task 3 (patch synthesis) are next. |
+| Step | Module                                                       | State        | Description |
+| :--: | :----------------------------------------------------------- | :----------- | :---------- |
+| 1    | [Tracing](AutoRepair/Step1_Tracing/README.md)                | Done         | Roslyn instrumenter injects logging into any C# project; produces a structured JSONL execution trace. |
+| 2    | [Constraints](AutoRepair/Step2_Constraints/README.md)        | Done         | Rule engine reads the trace and emits `violations.json` (buffer-bounds, exceptions, invalid casts, integer overflow, null deref). |
+| 3    | [Repair / CFGAnalyzer](AutoRepair/Step3_Repair/README.md)    | Task 1 done  | [`AutoRepair/CFGAnalyzer/`](AutoRepair/CFGAnalyzer/) (by **@jpksh90**) builds Roslyn CFGs, an interprocedural call graph, and prints path conditions. Task 2 (consume `violations.json`) and Task 3 (patch synthesis) are next. |
 
----
+Auxiliary tooling:
 
-## Architecture & Scalability
-
-The system is designed to **work with any open-source C# project**, not just one hardcoded target.
-
-| Principle | How |
-| :--- | :--- |
-| **Recursive scanning** | The Instrumenter accepts a root directory and instruments every `*.cs` file it finds, skipping `bin/` and `obj/`. |
-| **In-place instrumentation** | Source files are backed up (`*.bak`) and overwritten directly, no `.csproj` edits needed. Works with MSBuild, `dotnet CLI`, etc. |
-| **Universal logger** | A shared `TraceLogger.cs` is generated in the project root using `global::` qualified calls to avoid namespace conflicts. |
-| **Safe restoration** | `restore_project.ps1` instantly reverts all source files from backups and removes `TraceLogger.cs`. |
-
----
+* [`PRHunter/`](PRHunter/README.md): mines GitHub for failed C# bug-fix
+  attempts (rejected / reverted PRs that left an open issue) and drives the
+  AutoRepair pipeline against each candidate. Used for external validation,
+  not part of the core repair loop.
+* [`Research/CompetitorTools/`](Research/CompetitorTools): setup notes for
+  SonarQube, CodeQL, Semgrep, and InferSharp (used to compare against
+  AutoRepair findings).
 
 ## Quick Start
 
+Run the full pipeline (Step 1 -> Step 2 -> restore -> Step 3) against
+ThrottleDebounce:
+
 ```powershell
-# Run the full pipeline (Step 1 → Step 2 → restore → Step 3) against ThrottleDebounce
 powershell -ExecutionPolicy Bypass -File AutoRepair\run_all.ps1
 ```
 
 Or run the steps individually:
 
 ```powershell
-# 1. Instrument & trace (instruments target, runs tests, collects JSONL trace)
+# 1. Instrument & trace
 .\AutoRepair\Step1_Tracing\generate_trace.ps1
 
 # 2. Analyze the trace for constraint violations
@@ -50,85 +48,57 @@ Or run the steps individually:
 .\AutoRepair\Step1_Tracing\restore_project.ps1
 
 # 4. Run the CFG analyzer (Step 3)
-dotnet run --project AutoRepair\CFGAnalyzer\CFGAnalyzer.csproj -- ThrottleDebounce\ThrottleDebounce\ThrottleDebounce.csproj
+dotnet run --project AutoRepair\CFGAnalyzer\CFGAnalyzer.csproj `
+  -- ThrottleDebounce\ThrottleDebounce\ThrottleDebounce.csproj
 ```
 
-Each step has its own detailed README. See the links in the Status table above.
-
----
-
-## Pipeline Overview
+## Pipeline overview
 
 ```
-┌─────────────────┐      ┌──────────────────────┐       ┌──────────────────────┐
-│  Step 1: Trace  │ ───▶ │ Step 2: Constraints │ ───▶  │ Step 3: CFGAnalyzer  │
-│  (Instrumenter) │      │  (Rule Engine)       │       │ (Roslyn CFG + paths) │
-└─────────────────┘      └──────────────────────┘       └──────────────────────┘
-        │                         │                              │
-   trace_logs.jsonl         violations.json               cfg_analyzer.log
++---------------+     +-------------------+     +--------------------+
+| Step 1: Trace | --> | Step 2: Constraints| --> | Step 3: CFGAnalyzer|
+| (Instrumenter)|     | (Rule engine)      |     | (Roslyn CFG+paths) |
++---------------+     +-------------------+     +--------------------+
+        |                    |                          |
+trace_logs.jsonl       violations.json           cfg_analyzer.log
 ```
 
-*Step 3 currently runs as a standalone analyzer; consuming `violations.json` to drive targeted CFG traversal is the next task.*
+Step 3 currently runs as a standalone analyzer; consuming `violations.json`
+to drive a targeted CFG traversal is the next task.
 
-<!-- SCREENSHOT SUGGESTION: terminal showing the full pipeline run (Steps 1 → 2) -->
+## Repository layout
 
----
-
-## Project Structure
-
-```text
+```
 Patching/
-├── AutoRepair/
-│   ├── Step1_Tracing/                  # Instrumentation & trace collection
-│   │   ├── generate_trace.ps1          # Run instrumentation + execute target
-│   │   ├── restore_project.ps1         # Revert target to original state
-│   │   ├── trace_logs.jsonl            # (Generated) structured execution trace
-│   │   ├── trace_logs.txt              # (Generated) raw stdout capture
-│   │   └── Instrumenter/              # Roslyn-based C# rewriting tool
-│   │       ├── Program.cs
-│   │       └── Rewriters/             # 7 SyntaxRewriters (see Step 1 README)
-│   │
-│   ├── Step2_Constraints/              # Constraint analysis
-│   │   ├── analyze_trace.ps1           # Build & run the analyzer
-│   │   ├── reports/violations.json     # (Generated) detected violations
-│   │   └── Constraints/               # C# analyzer project
-│   │       ├── Program.cs
-│   │       ├── Models/                 # TraceEvent, ConstraintViolation
-│   │       ├── Runtime/                # TraceReader, StateTracker
-│   │       └── Rules/                  # IRule + 5 rule implementations
-│   │
-│   ├── Step3_Repair/                   # Output drop zone for Step 3
-│   │   ├── README.md                   # Pointer to AutoRepair/CFGAnalyzer/
-│   │   └── reports/cfg_analyzer.log    # (Generated) CFG traversal output
-│   │
-│   ├── CFGAnalyzer/                    # Step 3: Roslyn CFG + path conditions (by @jpksh90)
-│   │
-│   └── run_all.ps1                     # Orchestrator: Step 1 → 2 → restore → 3
-│
-├── ThrottleDebounce/                   # Integration target (110-test xUnit suite)
-│   ├── ThrottleDebounce/               # Library under analysis (net10.0)
-│   └── Tests/                          # xUnit test driver
-│
-├── TargetApp/                          # Minimal demo app with known bugs
-│   ├── Program.cs
-│   └── Worker.cs
-│
-└── Patching.sln
+|-- AutoRepair/
+|   |-- Step1_Tracing/          (Instrumenter + generate_trace.ps1)
+|   |-- Step2_Constraints/      (Constraints analyzer + analyze_trace.ps1)
+|   |-- Step3_Repair/           (Pointer + reports/cfg_analyzer.log)
+|   |-- CFGAnalyzer/            (Step 3 implementation, by @jpksh90)
+|   `-- run_all.ps1             (Orchestrator: Step1 -> 2 -> restore -> 3)
+|
+|-- ThrottleDebounce/           (Primary integration target; 110 xUnit tests)
+|-- TargetApp/                  (Tiny demo app with deliberate bugs)
+|-- MicrosoftBugDemo/           (dotnet/runtime#120561 reproduction)
+|
+|-- PRHunter/                   (GitHub miner + e2e demo orchestrator)
+|-- Research/
+|   `-- CompetitorTools/        (SonarQube, CodeQL, Semgrep, InferSharp setup)
+|
+`-- Patching.sln
 ```
 
----
+## Targets
 
-## Target Applications
-
-| Target | Role | Details |
-| :--- | :--- | :--- |
-| **ThrottleDebounce** | Primary integration target | Real-world rate-limiting/debouncing library with a 110-test xUnit suite. The pipeline instruments it, runs the tests, derives violations, and feeds the restored source to the CFG analyzer. |
-| **TargetApp** | Demo / smoke-test | A tiny app with deliberate bugs (buffer overflows, invalid casts, integer overflows) used during early development to validate the instrumenter and rules. |
-| **AutoRepair/CFGAnalyzer/samples/** | CFG analyzer fixtures | Small projects (DelegateDemo, GenericsDemo, etc.) used by **@jpksh90** to validate the Step 3 call-graph resolvers. |
-
----
+| Target                                | Role                       | Notes |
+| :------------------------------------ | :------------------------- | :---- |
+| `ThrottleDebounce`                    | Primary integration target | Real rate-limiting library, 110-test xUnit suite. Pipeline instruments it, runs the tests, derives violations, then runs the CFG analyzer. |
+| `TargetApp`                           | Smoke test                 | Tiny app with deliberate buffer overflows / casts / overflows; used during early development of the Instrumenter. |
+| `MicrosoftBugDemo/`                   | Real-world repro           | Reproduces dotnet/runtime#120561 (NRE in `ReflectionXmlSerializationWriter`). |
+| `AutoRepair/CFGAnalyzer/samples/`     | CFG analyzer fixtures      | Small projects validating the Step 3 call-graph resolvers. |
 
 ## Prerequisites
 
-- [.NET 10 SDK](https://dotnet.microsoft.com/download) (preview)
-- PowerShell 5.1+ (ships with Windows)
+* [.NET 10 SDK](https://dotnet.microsoft.com/download) (preview).
+* Windows PowerShell 5.1+ (ships with Windows). PowerShell 7 also works.
+* Python 3.10+ if you want to use PRHunter.

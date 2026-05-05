@@ -48,15 +48,23 @@ python PRHunter\e2e_demo.py --all --max 3
 - **Reverted PR**: merged, then a later PR with `Revert "... (#N)"` undid it.
 - **Linked issue**: only counted when preceded by `closes`/`fixes`/`resolves`.
 
+## Status
+
+PRHunter is auxiliary tooling for **external validation** of AutoRepair, not
+part of the core repair loop. The mining script and the e2e orchestrator
+both work, but the AutoRepair Instrumenter currently chokes on some larger
+third-party repos, so coverage is uneven. See the case folders under
+`PRHunter/e2e/cases/` for the verified runs.
+
 ## Output
 
 `PRHunter/output/exception_hunter/`:
-- `rejected_prs.csv`, `reverted_prs.csv` — candidate PRs.
-- `open_issues.csv` — open issues those failed PRs claimed to fix.
-- `done_keywords.txt`, `resolved_prs.txt`, `run.log` — resume + audit.
+- `rejected_prs.csv`, `reverted_prs.csv`: candidate PRs.
+- `open_issues.csv`: open issues those failed PRs claimed to fix.
+- `done_keywords.txt`, `resolved_prs.txt`, `run.log`: resume + audit.
 
 `PRHunter/e2e/`:
-- `candidates.json` — ranked demo candidates.
-- `cases/<n>_<owner>_<repo>_issue<N>/` — per-case workspace
+- `candidates.json`: ranked demo candidates.
+- `cases/<n>_<owner>_<repo>_issue<N>/`: per-case workspace
   (manifest, cloned repo, AutoRepair log, `violations.json`, `report.md`).
-- `REPORT.md` — index across all cases.
+- `REPORT.md`: index across all cases.

@@ -49,10 +49,10 @@ int? result = debouncedFunc.Invoke();
 ```
 
 1. Call **`Throttler.Throttle`** to throttle your delegate, or **`Debouncer.Debounce`** to debounce it. Pass
-    1. **`Action action`/`Func func`** — your delegate to rate-limit
-    1. **`TimeSpan wait`** — how long to wait between executions
-    1. **`bool leading`** — `true` if the first invocation should be executed immediately, or `false` if it should be queued. Optional, defaults to `true` for throttling and `false` for debouncing.
-    1. **`bool trailing`** — `true` if subsequent invocations in the waiting period should be enqueued for later execution once the waiting interval is over, or `false` if they should be discarded. Optional, defaults to `true`.
+    1. **`Action action`/`Func func`** : your delegate to rate-limit
+    1. **`TimeSpan wait`** : how long to wait between executions
+    1. **`bool leading`** : `true` if the first invocation should be executed immediately, or `false` if it should be queued. Optional, defaults to `true` for throttling and `false` for debouncing.
+    1. **`bool trailing`** : `true` if subsequent invocations in the waiting period should be enqueued for later execution once the waiting interval is over, or `false` if they should be discarded. Optional, defaults to `true`.
 1. Call the resulting `RateLimitedAction`/`RateLimitedFunc` object's **`Invoke`** method to enqueue an invocation.
     - `RateLimitedFunc.Invoke` will return `default` (e.g. `null`) if `leading` is `false` and the rate-limited `Func` has not been executed before. Otherwise, it will return the `Func`'s most recent return value.
 1. Your delegate will be executed at the desired rate.
@@ -154,12 +154,12 @@ Retrier.Attempt(attempt => MyErrorProneAction(), maxAttempts: 2);
 ```
 
 1. Call **`Retrier.Attempt`**. Pass
-    1. **`Action<int> action`/`Func<int, T> func`** — your delegate to attempt, and possibly retry if it throws exceptions. The attempt number will be passed as the `int` parameter, starting with `0` before the first attempt, and `1` before the first retry. If this func returns a `Task`, it will be awaited to determine if it threw an exception.
-    1. **`int? maxAttempts`** — the total number of times the delegate is allowed to run in this invocation, equal to `1` initial attempt plus up to `maxAttempts - 1` retries if it throws an exception. Must be at least 1, if you pass 0 it will clip to 1. Defaults to 2. For infinite retries, pass `null`.
-    1. **`Func<int, TimeSpan>? delay`** — how long to wait between attempts, as a function of the number of retries that have already run, starting with `0` after the first attempt and before the first retry. You can return a constant `TimeSpan` for a fixed delay, or pass longer values for subsequent attempts to implement, for example, exponential backoff. Optional, defaults to `null`, which means no delay. The minimum value is `0`, the maximum value is `int.MaxValue` (`uint.MaxValue - 1` starting in .NET 6), and values outside this range will be clipped.
-    1. **`Func<Exception, bool>? isRetryAllowed`** — whether the delegate is permitted to execute again after a given `Exception` instance. Return `true` to allow or `false` to deny retries. For example, you may want to retry after HTTP 500 errors since subsequent requests may succeed, but stop after the first failure for an HTTP 403 error which probably won't succeed if the same request is sent again. Optional, `null` defaults to retrying on all exceptions besides `OutOfMemoryException`.
-    1. **`Action beforeRetry`/`Func<Task> beforeRetry`** — a delegate to run extra logic between attempts, for example, if you want to log a message or perform any cleanup before the next attempt. Optional, defaults to not running anything between attempts.
-    1. **`CancellationToken cancellationToken`** — used to cancel the attempts and delays before they have all completed. Optional, defaults to no cancellation token. When cancelled, `Attempt` throws a `TaskCancelledException`.
+    1. **`Action<int> action`/`Func<int, T> func`** : your delegate to attempt, and possibly retry if it throws exceptions. The attempt number will be passed as the `int` parameter, starting with `0` before the first attempt, and `1` before the first retry. If this func returns a `Task`, it will be awaited to determine if it threw an exception.
+    1. **`int? maxAttempts`** : the total number of times the delegate is allowed to run in this invocation, equal to `1` initial attempt plus up to `maxAttempts - 1` retries if it throws an exception. Must be at least 1, if you pass 0 it will clip to 1. Defaults to 2. For infinite retries, pass `null`.
+    1. **`Func<int, TimeSpan>? delay`** : how long to wait between attempts, as a function of the number of retries that have already run, starting with `0` after the first attempt and before the first retry. You can return a constant `TimeSpan` for a fixed delay, or pass longer values for subsequent attempts to implement, for example, exponential backoff. Optional, defaults to `null`, which means no delay. The minimum value is `0`, the maximum value is `int.MaxValue` (`uint.MaxValue - 1` starting in .NET 6), and values outside this range will be clipped.
+    1. **`Func<Exception, bool>? isRetryAllowed`** : whether the delegate is permitted to execute again after a given `Exception` instance. Return `true` to allow or `false` to deny retries. For example, you may want to retry after HTTP 500 errors since subsequent requests may succeed, but stop after the first failure for an HTTP 403 error which probably won't succeed if the same request is sent again. Optional, `null` defaults to retrying on all exceptions besides `OutOfMemoryException`.
+    1. **`Action beforeRetry`/`Func<Task> beforeRetry`** : a delegate to run extra logic between attempts, for example, if you want to log a message or perform any cleanup before the next attempt. Optional, defaults to not running anything between attempts.
+    1. **`CancellationToken cancellationToken`** : used to cancel the attempts and delays before they have all completed. Optional, defaults to no cancellation token. When cancelled, `Attempt` throws a `TaskCancelledException`.
 1. If your delegate returns a value, it will be returned by `Attempt`.
 
 ### Example

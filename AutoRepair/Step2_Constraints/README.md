@@ -57,7 +57,7 @@ Breakdown of `bindings.detection`:
 `Exception Type` event that the four dedicated rules didn't already flag
 (null-deref, bad cast, overflow, out-of-bounds), it records one violation
 with `detection = "reachable-exception"`. This is the forward evidence that
-"an exception propagated out of a method along an executed path" — Step 3
+"an exception propagated out of a method along an executed path". Step 3
 uses it to decide where to insert guards.
 
 (Previously this tag was `fallback-general`; renamed so the output reads as
