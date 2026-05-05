@@ -9,6 +9,9 @@
 *.userprefs
 .claude/
 
+# Diagrams (local only - export as PNG instead)
+*.puml
+*.jar
 
 # Generated traces
 trace_logs.jsonl
