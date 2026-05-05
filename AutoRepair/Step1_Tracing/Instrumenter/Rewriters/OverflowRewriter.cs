@@ -78,6 +78,13 @@ namespace Instrumenter.Rewriters
                 node.Right is ParenthesizedLambdaExpressionSyntax)
                 return base.VisitAssignmentExpression(node);
 
+            // Skip += and -= when the left side is a member access (e.g. obj.Event += handler).
+            // Events can only appear on the left of += or -= so rewriting them to = would be illegal.
+            if ((node.Kind() == SyntaxKind.AddAssignmentExpression ||
+                 node.Kind() == SyntaxKind.SubtractAssignmentExpression) &&
+                node.Left is MemberAccessExpressionSyntax)
+                return base.VisitAssignmentExpression(node);
+
             if (base.VisitAssignmentExpression(node) is not AssignmentExpressionSyntax updatedNode) return node;
 
             string? op = updatedNode.Kind() switch

@@ -155,7 +155,9 @@ namespace Instrumenter.Rewriters
                                 $"global::AutoRepairTracing.TraceLogger.Log(\"{uniqueId}\", \"{escapedFileName}\", {lineNumber}, \"Infinite Loop Warning: exceeded {LOOP_LIMIT} iterations\", {counterVarName}, \"loopCounter\")"
                             )
                         ),
-                        SyntaxFactory.BreakStatement()
+                        SyntaxFactory.ThrowStatement(
+                            SyntaxFactory.ParseExpression("new System.Exception(\"AutoRepair: loop safety limit exceeded\")")
+                        )
                     )
                 )
             );
@@ -215,7 +217,9 @@ namespace Instrumenter.Rewriters
                                 $"global::AutoRepairTracing.TraceLogger.Log(\"{uniqueId}\", \"{escapedFileName}\", {lineNumber}, \"Infinite Loop Warning: exceeded {LOOP_LIMIT} iterations\", {counterVarName}, \"loopCounter\")"
                             )
                         ),
-                        SyntaxFactory.BreakStatement()
+                        SyntaxFactory.ThrowStatement(
+                            SyntaxFactory.ParseExpression("new System.Exception(\"AutoRepair: loop safety limit exceeded\")")
+                        )
                     )
                 )
             );
@@ -275,7 +279,9 @@ namespace Instrumenter.Rewriters
                                 $"global::AutoRepairTracing.TraceLogger.Log(\"{uniqueId}\", \"{escapedFileName}\", {lineNumber}, \"Infinite Loop Warning: exceeded {LOOP_LIMIT} iterations\", {counterVarName}, \"loopCounter\")"
                             )
                         ),
-                        SyntaxFactory.BreakStatement()
+                        SyntaxFactory.ThrowStatement(
+                            SyntaxFactory.ParseExpression("new System.Exception(\"AutoRepair: loop safety limit exceeded\")")
+                        )
                     )
                 )
             );

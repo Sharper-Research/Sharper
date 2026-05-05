@@ -181,18 +181,48 @@ def find_test_project(repo_dir: Path) -> Optional[Path]:
     return candidates[0]
 
 
-def common_parent(paths: list[Path]) -> Path:
-    if not paths:
-        raise ValueError("empty paths")
-    parts = [p.parts for p in paths]
-    common = []
-    for i in range(min(len(p) for p in parts)):
-        col = {p[i] for p in parts}
-        if len(col) == 1:
-            common.append(col.pop())
-        else:
-            break
-    return Path(*common) if common else paths[0].parent
+def find_project_dir_for_file(cs_file: Path, repo_dir: Path) -> Optional[Path]:
+    """Walk up from cs_file to find the nearest .csproj; return its directory."""
+    candidate = cs_file.parent
+    while candidate != repo_dir.parent:
+        if any(candidate.glob("*.csproj")):
+            return candidate
+        candidate = candidate.parent
+    return None
+
+
+def find_source_dir(cs_files: list[str], repo_dir: Path) -> tuple[Path, Optional[Path]]:
+    """
+    Return (src_dir, src_csproj) where src_dir is the directory that should be
+    passed as -SourceDir to run_all.ps1, and src_csproj is the .csproj file
+    for Step 3 (CFGAnalyzer).  We prefer the non-test project that contains
+    the most touched .cs files.
+    """
+    # Map each touched file -> project dir
+    by_proj: dict[Path, list[str]] = {}
+    for f in cs_files:
+        proj_dir = find_project_dir_for_file(repo_dir / f, repo_dir)
+        if proj_dir:
+            by_proj.setdefault(proj_dir, []).append(f)
+
+    if not by_proj:
+        # Fallback: lowest common ancestor (original behaviour)
+        paths = [repo_dir / f for f in cs_files]
+        candidate = paths[0].parent
+        for p in paths[1:]:
+            while not str(p).startswith(str(candidate)):
+                candidate = candidate.parent
+        return candidate, None
+
+    # Prefer non-test project with most touched files
+    def proj_score(item):
+        proj_dir, files = item
+        is_test = bool(re.search(r"(test|tests|spec)", proj_dir.name, re.IGNORECASE))
+        return (0 if is_test else 1, len(files))
+
+    best_dir = max(by_proj.items(), key=proj_score)[0]
+    csproj = next(best_dir.glob("*.csproj"), None)
+    return best_dir, csproj
 
 
 def run_case(gh: GH, cand: dict, idx: int) -> dict:
@@ -237,12 +267,16 @@ def run_case(gh: GH, cand: dict, idx: int) -> dict:
     if not test_proj:
         return {"case": case_id, "status": "no-test-project"}
 
-    src_dir = common_parent([repo_dir / f for f in cs_files])
+    src_dir, src_csproj = find_source_dir(cs_files, repo_dir)
     if src_dir.is_file():
         src_dir = src_dir.parent
+    # Fall back to the test project .csproj for Step 3 if we couldn't find
+    # the source project (CFGAnalyzer handles .csproj or .sln).
+    solution_arg = str(src_csproj) if src_csproj else str(test_proj)
 
     print(f"    src   : {src_dir.relative_to(repo_dir)}")
     print(f"    tests : {test_proj.relative_to(repo_dir)}")
+    print(f"    csproj: {Path(solution_arg).relative_to(repo_dir)}")
 
     log_path = case_dir / "autorepair.log"
     pwsh = shutil.which("pwsh") or shutil.which("powershell")
@@ -251,7 +285,7 @@ def run_case(gh: GH, cand: dict, idx: int) -> dict:
             [pwsh, "-NoProfile", "-File", str(RUN_ALL),
              "-SourceDir", str(src_dir),
              "-DriverProject", str(test_proj),
-             "-Solution", str(test_proj)],
+             "-Solution", solution_arg],
             stdout=log, stderr=subprocess.STDOUT, text=True,
         )
     status = "ok" if proc.returncode == 0 else f"autorepair-exit-{proc.returncode}"
@@ -282,7 +316,7 @@ def render_case_report(case_dir: Path) -> str:
             violations = []
 
     lines = [
-        f"# {cand['repo']}#{cand['issue_number']} — {cand['exception']}",
+        f"# {cand['repo']}#{cand['issue_number']} - {cand['exception']}",
         "",
         f"- **Issue**: [{cand['issue_title']}]({cand['issue_url']})",
         f"- **Failed PR** ({pr['kind']}): https://github.com/{pr['repo']}/pull/{pr['number']}",
@@ -300,8 +334,8 @@ def render_case_report(case_dir: Path) -> str:
         "",
     ]
     for v in violations[:10]:
-        lines.append(f"- `{v.get('file','?')}:{v.get('line','?')}` — "
-                     f"{v.get('predicate','?')}  →  {v.get('result','?')}")
+        lines.append(f"- `{v.get('file','?')}:{v.get('line','?')}` - "
+                     f"{v.get('predicate','?')}  ->  {v.get('result','?')}")
     if len(violations) > 10:
         lines.append(f"- ... and {len(violations) - 10} more")
 
@@ -314,7 +348,7 @@ def render_case_report(case_dir: Path) -> str:
         "a specific runtime path: the variable bindings, buffer sizes, or cast",
         "targets that produce the violation are not recoverable from source",
         "alone. AutoRepair instruments the code, runs the existing test suite,",
-        "and observes the actual failing trace — the violation is reported",
+        "and observes the actual failing trace - the violation is reported",
         "with concrete evidence (file, line, predicate, observed values).",
         "",
     ]

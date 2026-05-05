@@ -11,6 +11,11 @@ namespace Instrumenter.Rewriters
     // Provides consistent log/line helpers used by all rewriters.
     public abstract class TraceRewriterBase : CSharpSyntaxRewriter
     {
+        // Annotation added to BlockSyntax nodes that were created by the instrumenter
+        // (as statement wrappers) rather than existing in the original source.
+        // VisitBlock flattens these back into the parent block to prevent out-var scoping issues.
+        protected static readonly SyntaxAnnotation InstrBlock = new SyntaxAnnotation("AutoRepair.InstrBlock");
+
         public string TargetFileName { get; set; } = "UnknownFile.cs";
 
         protected StatementSyntax CreateLogStatement(string context, int line)

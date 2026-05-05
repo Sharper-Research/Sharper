@@ -23,9 +23,10 @@ public static class TraceReader
             {
                 evt = JsonSerializer.Deserialize<TraceEvent>(line);
             }
-            catch (JsonException ex)
+            catch (JsonException)
             {
-                throw new InvalidDataException($"Failed to parse trace line: {line}", ex);
+                // skip malformed lines (e.g. control characters in string values)
+                continue;
             }
 
             if (evt != null)

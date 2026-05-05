@@ -124,6 +124,12 @@ namespace Instrumenter.Rewriters
                 (node.Right is AnonymousMethodExpressionSyntax || node.Right is LambdaExpressionSyntax || node.Right is ParenthesizedLambdaExpressionSyntax))
                 return base.VisitAssignmentExpression(node);
 
+            // Also skip += / -= on member access left sides (event subscriptions like obj.Event += handler)
+            // — these return void and cannot be wrapped in LogValue<T>.
+            if ((node.IsKind(SyntaxKind.AddAssignmentExpression) || node.IsKind(SyntaxKind.SubtractAssignmentExpression)) &&
+                node.Left is MemberAccessExpressionSyntax)
+                return base.VisitAssignmentExpression(node);
+
             var line = GetLineNumber(node);
             var updatedNode = base.VisitAssignmentExpression(node) as AssignmentExpressionSyntax;
             if (updatedNode == null) return node;

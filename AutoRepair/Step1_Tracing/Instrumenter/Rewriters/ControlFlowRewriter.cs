@@ -202,7 +202,7 @@ namespace Instrumenter.Rewriters
         {
             var line = GetLineNumber(node);
             var log = CreateLogStatement("Break", line);
-            return SyntaxFactory.Block(log, node);
+            return SyntaxFactory.Block(log, node).WithAdditionalAnnotations(InstrBlock);
         }
 
         // 9. Continue Statements
@@ -210,8 +210,7 @@ namespace Instrumenter.Rewriters
         {
             var line = GetLineNumber(node);
             var log = CreateLogStatement("Continue", line);
-
-            return SyntaxFactory.Block(log, node);
+            return SyntaxFactory.Block(log, node).WithAdditionalAnnotations(InstrBlock);
         }
 
         public override SyntaxNode? VisitExpressionStatement(ExpressionStatementSyntax node)
@@ -232,7 +231,7 @@ namespace Instrumenter.Rewriters
             if (aliasLogs.Count > 0)
             {
                 aliasLogs.Add(updated);
-                return SyntaxFactory.Block(aliasLogs);
+                return SyntaxFactory.Block(aliasLogs).WithAdditionalAnnotations(InstrBlock);
             }
 
             return updated;
@@ -243,7 +242,29 @@ namespace Instrumenter.Rewriters
         {
             var line = GetLineNumber(node);
             var log = CreateLogStatement("Return", line);
-            return SyntaxFactory.Block(log, node);
+            return SyntaxFactory.Block(log, node).WithAdditionalAnnotations(InstrBlock);
+        }
+
+        // Flatten instrumented wrapper blocks back into their parent block so that
+        // variables declared with `out var` inside a wrapped statement remain in scope
+        // for subsequent statements at the same level.
+        public override SyntaxNode? VisitBlock(BlockSyntax node)
+        {
+            var updated = base.VisitBlock(node) as BlockSyntax;
+            if (updated == null) return node;
+
+            if (!updated.Statements.Any(s => s is BlockSyntax b && b.HasAnnotation(InstrBlock)))
+                return updated;
+
+            var flat = new List<StatementSyntax>();
+            foreach (var stmt in updated.Statements)
+            {
+                if (stmt is BlockSyntax inner && inner.HasAnnotation(InstrBlock))
+                    flat.AddRange(inner.Statements);
+                else
+                    flat.Add(stmt);
+            }
+            return updated.WithStatements(SyntaxFactory.List(flat));
         }
 
 
@@ -304,7 +325,10 @@ namespace Instrumenter.Rewriters
                 var argLiteral = EscapeString(argExpr);
                 string uniqueId = Guid.NewGuid().ToString();
                 var escapedFileName = TargetFileName.Replace("\\", "\\\\");
-                var code = $"global::AutoRepairTracing.TraceLogger.LogArrayAliasArgument(\"{uniqueId}\", \"{escapedFileName}\", {line}, \"{methodName}\", {i}, {argExpr}, \"{argLiteral}\");";
+                // Pass argLiteral (string) as argumentValue to avoid CS1503 when the
+                // expression is a method group or delegate (which can't convert to object).
+                // LogArrayAliasArgument ignores argumentValue and logs argumentExpression anyway.
+                var code = $"global::AutoRepairTracing.TraceLogger.LogArrayAliasArgument(\"{uniqueId}\", \"{escapedFileName}\", {line}, \"{methodName}\", {i}, \"{argLiteral}\", \"{argLiteral}\");";
                 yield return SyntaxFactory.ParseStatement(code + "\n");
             }
         }
