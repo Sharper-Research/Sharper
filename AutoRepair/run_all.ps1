@@ -1,7 +1,9 @@
 ﻿param(
     [string]$SourceDir = "",
     [string]$DriverProject = "",
-    [string]$Solution = ""
+    [string]$Solution = "",
+    [switch]$ApplyPatches,
+    [switch]$RestorePatches
 )
 
 $ErrorActionPreference = "Stop"
@@ -13,6 +15,7 @@ $step2Script      = Join-Path $repoRoot "AutoRepair\Step2_Constraints\analyze_tr
 $cfgAnalyzerProj  = Join-Path $repoRoot "AutoRepair\Step3_Repair\CFGAnalyzer\CFGAnalyzer.csproj"
 $cfgReportDir     = Join-Path $repoRoot "AutoRepair\Step3_Repair\reports"
 $cfgReportLog     = Join-Path $cfgReportDir "cfg_analyzer.log"
+$violationsPath   = Join-Path $repoRoot "AutoRepair\Step2_Constraints\reports\violations.json"
 
 if (-not $SourceDir)     { $SourceDir     = Join-Path $repoRoot "ThrottleDebounce\ThrottleDebounce" }
 if (-not $DriverProject) { $DriverProject = Join-Path $repoRoot "ThrottleDebounce\Tests\Tests.csproj" }
@@ -57,7 +60,16 @@ if ($LASTEXITCODE -ne 0) { Write-Host "CFGAnalyzer build failed!" -ForegroundCol
 
 Write-Host "Running CFGAnalyzer on $Solution" -ForegroundColor Gray
 Write-Host "(output captured to $cfgReportLog)" -ForegroundColor Gray
-$cfgOutput = & dotnet run --project $cfgAnalyzerProj --no-build -- "$Solution" 2>&1
+
+$cfgArgs = @("$Solution")
+if (Test-Path $violationsPath) {
+    Write-Host "Driving CFGAnalyzer from violations: $violationsPath" -ForegroundColor Gray
+    $cfgArgs += @("--violations", $violationsPath, "--output-dir", $cfgReportDir)
+    if ($ApplyPatches)   { $cfgArgs += "--apply-patches" }
+    if ($RestorePatches) { $cfgArgs += "--restore" }
+}
+
+$cfgOutput = & dotnet run --project $cfgAnalyzerProj --no-build -- @cfgArgs 2>&1
 $cfgExit = $LASTEXITCODE
 $cfgOutput | Tee-Object -FilePath $cfgReportLog
 if ($cfgExit -ne 0) { Write-Host "CFGAnalyzer run failed (exit $cfgExit)!" -ForegroundColor Red; exit 1 }
@@ -71,3 +83,5 @@ Write-Host "Outputs:" -ForegroundColor Yellow
 Write-Host "  Trace (Step 1):       AutoRepair\Step1_Tracing\trace_logs.jsonl"
 Write-Host "  Constraints (Step 2): AutoRepair\Step2_Constraints\reports\violations.json"
 Write-Host "  CFG (Step 3):         AutoRepair\Step3_Repair\reports\cfg_analyzer.log"
+Write-Host "  Repair plan (Step 3): AutoRepair\Step3_Repair\reports\repair_plan.json"
+Write-Host "  Patches (Step 3):     AutoRepair\Step3_Repair\reports\patches\"

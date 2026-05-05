@@ -14,7 +14,7 @@ are the next thing to fix.
 | :--: | :----------------------------------------------------------- | :----------- | :---------- |
 | 1    | [Tracing](AutoRepair/Step1_Tracing/README.md)                | Done         | Roslyn instrumenter injects logging into any C# project; produces a structured JSONL execution trace. |
 | 2    | [Constraints](AutoRepair/Step2_Constraints/README.md)        | Done         | Rule engine reads the trace and emits `violations.json` (buffer-bounds, exceptions, invalid casts, integer overflow, null deref). |
-| 3    | [Repair / CFGAnalyzer](AutoRepair/Step3_Repair/README.md)    | Task 1 done, runs end-to-end | [`AutoRepair/Step3_Repair/CFGAnalyzer/`](AutoRepair/Step3_Repair/CFGAnalyzer/) (by **@jpksh90**) builds Roslyn CFGs, an interprocedural call graph, and prints path conditions. Verified inside `run_all.ps1`. Task 2 (consume `violations.json` to target the traversal at flagged methods) and Task 3 (patch synthesis) are next. |
+| 3    | [Repair / CFGAnalyzer](AutoRepair/Step3_Repair/README.md)    | Done         | [`AutoRepair/Step3_Repair/CFGAnalyzer/`](AutoRepair/Step3_Repair/CFGAnalyzer/) builds Roslyn CFGs + interprocedural call graph + path conditions (Task 1, by **@jpksh90**), then consumes `violations.json` to locate flagged methods (Task 2) and synthesises forward-only `try/catch` patches as side-by-side `.patched.cs` files plus unified diffs (Task 3). Opt-in `-ApplyPatches` / `-RestorePatches` switches in `run_all.ps1`. |
 
 Auxiliary tooling:
 
@@ -63,8 +63,10 @@ dotnet run --project AutoRepair\Step3_Repair\CFGAnalyzer\CFGAnalyzer.csproj `
 trace_logs.jsonl       violations.json           cfg_analyzer.log
 ```
 
-Step 3 currently runs as a standalone analyzer; consuming `violations.json`
-to drive a targeted CFG traversal is the next task.
+Step 3 reads `violations.json` (when present), classifies each violation, and
+emits side-by-side patched files plus unified diffs in
+`AutoRepair/Step3_Repair/reports/patches/`. It only edits source in-place when
+`run_all.ps1 -ApplyPatches` is passed.
 
 ## Repository layout
 
