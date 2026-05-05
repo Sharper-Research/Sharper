@@ -4,17 +4,22 @@ Automated C# program repair: runtime tracing + constraint solving + CFG-based
 path-condition analysis.
 
 The pipeline runs end-to-end on `ThrottleDebounce` (110-test xUnit suite) and
-on at least one external real-world target (`tghamm/Anthropic.SDK#197`, via
-PRHunter). Some larger third-party repos still hit Instrumenter limits and
-are the next thing to fix.
+on real external repos mined via PRHunter - validated on `WordNinjaSharp#3`
+(ArgumentOutOfRangeException, patch generated) and `AngleSharp.Css#183`
+(934 ValidCast violations detected). The Instrumenter is now compatible with
+net6 / net8 / net10 target frameworks.
 
-## Status
+## Pipeline Status
+
+![Pipeline Status](AutoRepair/pipeline_status.png)
+
+## Step Status
 
 | Step | Module                                                       | State        | Description |
 | :--: | :----------------------------------------------------------- | :----------- | :---------- |
-| 1    | [Tracing](AutoRepair/Step1_Tracing/README.md)                | Done         | Roslyn instrumenter injects logging into any C# project; produces a structured JSONL execution trace. |
-| 2    | [Constraints](AutoRepair/Step2_Constraints/README.md)        | Done         | Rule engine reads the trace and emits `violations.json` (buffer-bounds, exceptions, invalid casts, integer overflow, null deref). |
-| 3    | [Repair / CFGAnalyzer](AutoRepair/Step3_Repair/README.md)    | Done         | [`AutoRepair/Step3_Repair/CFGAnalyzer/`](AutoRepair/Step3_Repair/CFGAnalyzer/) builds Roslyn CFGs + interprocedural call graph + path conditions (Task 1, by **@jpksh90**), then consumes `violations.json` to locate flagged methods (Task 2) and synthesises forward-only `try/catch` patches as side-by-side `.patched.cs` files plus unified diffs (Task 3). Opt-in `-ApplyPatches` / `-RestorePatches` switches in `run_all.ps1`. |
+| 1    | [Tracing](AutoRepair/Step1_Tracing/README.md)                | Done         | Roslyn instrumenter injects logging into any C# project; produces a structured JSONL execution trace. Compatible with net6/net8/net10; handles loop safety, exception catch, cast instrumentation, overflow and variable tracking. |
+| 2    | [Constraints](AutoRepair/Step2_Constraints/README.md)        | Done         | Rule engine reads the trace and emits `violations.json` (buffer-bounds, exceptions, invalid casts, integer overflow, null deref). Malformed JSON lines are skipped safely. |
+| 3    | [Repair / CFGAnalyzer](AutoRepair/Step3_Repair/README.md)    | Done (partial patch coverage) | Builds Roslyn CFG + interprocedural call graph + path conditions (by **@jpksh90**), classifies violations (`AutoPatchable`, `IntentionalValidator`, `DocumentedCancellation`, `TestFixtureException`, `UnsupportedPredicate`), and synthesises `try/catch` patches as `.diff` + `.patched.cs` for `NoUnhandledException` violations. `ValidCast` violations are detected but patch synthesis not yet implemented. |
 
 Auxiliary tooling:
 
@@ -94,7 +99,9 @@ Patching/
 
 | Target                                | Role                       | Notes |
 | :------------------------------------ | :------------------------- | :---- |
-| `ThrottleDebounce`                    | Primary integration target | Real rate-limiting library, 110-test xUnit suite. Pipeline instruments it, runs the tests, derives violations, then runs the CFG analyzer. |
+| `ThrottleDebounce`                    | Primary integration target | Real rate-limiting library, 110-test xUnit suite. Pipeline instruments it, runs the tests, derives violations, then runs the CFG analyzer and emits patches. |
+| `PRHunter/e2e/cases/01` - `WordNinjaSharp#3` | External validation | ArgumentOutOfRangeException. 123,947 trace events, 2 violations, 1 AutoPatchable patch generated (`WordNinja.cs:172` dictionary-load guard). |
+| `PRHunter/e2e/cases/02` - `AngleSharp.Css#183` | External validation | 934 ValidCast violations detected at `DeclarationInfo.cs:30`. Detection confirmed; patch synthesis for ValidCast is the next work item. |
 | `TargetApp`                           | Smoke test                 | Tiny app with deliberate buffer overflows / casts / overflows; used during early development of the Instrumenter. |
 | `MicrosoftBugDemo/`                   | Real-world repro           | Reproduces dotnet/runtime#120561 (NRE in `ReflectionXmlSerializationWriter`). |
 | `AutoRepair/Step3_Repair/CFGAnalyzer/samples/` | CFG analyzer fixtures | Small projects validating the Step 3 call-graph resolvers. |
