@@ -4,16 +4,22 @@
 
 This is the *concrete execution* stage of the professor's "Proactive Repair from One Fault" pipeline. It injects runtime logging into a target C# project's source tree so we can capture a detailed execution trace (control-flow decisions, heap state, variable values, type casts, arithmetic overflows, exceptions) while the program runs.
 
-## Last verified run (ThrottleDebounce)
+## Verified runs
 
-| Metric | Value |
+| Target | Files | Tests | Trace events | Notes |
+|---|---|---|---|---|
+| `ThrottleDebounce` (net8) | 7 | 110 passing | **10,446** | Primary integration target |
+| `nodirmcsd/WordNinjaSharp#3` (net6) | 1 | 8 passing / some failing (signal) | **123,947** | Patch generated at WordNinja.cs:172 |
+| `AngleSharp/AngleSharp.Css#183` (net8) | 8 | passing | large | 934 ValidCast violations detected |
+
+### Instrumenter compatibility fixes (May 2026)
+
+| Bug | Fix |
 |---|---|
-| Source files instrumented | 7 |
-| Tests executed | 110 (all passing) |
-| Events written to `trace_logs.jsonl` | **10,446** |
-| File size | ~2 MB |
-
-Most frequent event categories captured: `Variable Update` (4,582), `Array Snapshot` (1,171), `If-True Branch` (925), `Return` (519), `Array Argument Alias` (472), `Array Parameter` (336), `Else Branch` (327), plus method-entry events.
+| `thrownew` - loop safety `ThrowStatement` had no trailing space | Use `ParseStatement("throw new ...")` instead of `ThrowStatement(ParseExpression(...))` |
+| `catch (System.Exception__autoRepairCaughtEx)` - missing space | Add leading whitespace trivia to `CatchDeclaration` identifier |
+| Pack step crashes on repos with `GeneratePackageOnBuild=true` and hardcoded developer paths | Pass `/p:GeneratePackageOnBuild=false` to `dotnet test` |
+| Null byte (0x00) in JSON trace from control-char strings | `EJ()` now escapes all chars < 0x20 as `\uXXXX` |
 
 ---
 

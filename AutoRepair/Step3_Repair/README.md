@@ -90,6 +90,21 @@ current design.
 
 ## End-to-end demos
 
+### nodirmcsd/WordNinjaSharp#3 (ArgumentOutOfRangeException) - patch generated
+
+PRHunter case 01. 123,947 trace events, 2 violations:
+
+| Violation | Line | Classification | Patched? |
+|---|---|---|---|
+| `NoUnhandledException` | WordNinja.cs:179 | `AutoPatchable` | yes - `WordNinja.L172.diff` |
+| `NoUnhandledException` | WordNinja.cs:34 | `IntentionalValidator` | no (explicit `throw new ArgumentException`) |
+
+Patch wraps the dictionary-load loop (`LoadDictionary`, lines 172-182) in a `try/catch (System.Exception)` guard. Output in `PRHunter/e2e/cases/01_nodirmcsd_WordNinjaSharp_issue3/patches/`.
+
+### AngleSharp/AngleSharp.Css#183 - violations detected, no patch yet
+
+PRHunter case 02. 934 `ValidCast` violations at `DeclarationInfo.cs:30` (`Aggregator = converter as IValueAggregator`). All correctly classified as `UnsupportedPredicate` - ValidCast patch synthesis is the next work item.
+
 ### ThrottleDebounce (no real bugs)
 
 `run_all.ps1` finds 6 violations and classifies all 6 as non-bugs, so the

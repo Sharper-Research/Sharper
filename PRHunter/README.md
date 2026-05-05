@@ -52,9 +52,14 @@ python PRHunter\e2e_demo.py --all --max 3
 
 PRHunter is auxiliary tooling for **external validation** of AutoRepair, not
 part of the core repair loop. The mining script and the e2e orchestrator
-both work, but the AutoRepair Instrumenter currently chokes on some larger
-third-party repos, so coverage is uneven. See the case folders under
-`PRHunter/e2e/cases/` for the verified runs.
+both work. The Instrumenter is now compatible with net6/net8/net10 repos.
+
+| Case | Repo | Exception | Result |
+|---|---|---|---|
+| 01 | nodirmcsd/WordNinjaSharp#3 | ArgumentOutOfRangeException | **Patch generated** - `WordNinja.L172.diff` |
+| 02 | AngleSharp/AngleSharp.Css#183 | InvalidOperationException | 934 ValidCast violations detected; patch pending |
+
+See `PRHunter/e2e/cases/` for per-case output (log, violations.json, patches/, report.md).
 
 ## Output
 

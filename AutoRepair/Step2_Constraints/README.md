@@ -24,14 +24,17 @@ that program point.
 
 ---
 
-## Last verified run (ThrottleDebounce)
+## Verified runs
 
-| Metric | Value |
-|---|---|
-| Trace events replayed | 10,446 |
-| Violations emitted | **6** |
-| Distinct methods flagged | 6 |
-| Rules that fired | 1 of 5 (see below) |
+| Target | Events replayed | Violations emitted | Notes |
+|---|---|---|---|
+| `ThrottleDebounce` | 10,446 | **6** | All `reachable-exception`; all classified as non-bugs by Step 3 |
+| `nodirmcsd/WordNinjaSharp#3` | 123,947 | **2** | `NoUnhandledException` at WordNinja.cs:179 (AutoPatchable) + WordNinja.cs:34 (IntentionalValidator) |
+| `AngleSharp/AngleSharp.Css#183` | large | **934** | All `ValidCast` at DeclarationInfo.cs:30; detection confirmed, patch synthesis pending |
+
+Malformed JSON lines (e.g. from null-byte control characters in string values) are skipped with `continue` rather than crashing the reader.
+
+### ThrottleDebounce breakdown
 
 Breakdown of `bindings.detection`:
 
