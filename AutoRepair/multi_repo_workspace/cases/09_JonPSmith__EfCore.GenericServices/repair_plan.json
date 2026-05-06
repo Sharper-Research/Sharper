@@ -1,0 +1,59 @@
+{
+  "GeneratedAt": "2026-05-06T22:44:02.6877710Z",
+  "ViolationsFile": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\09_JonPSmith__EfCore.GenericServices\\violations.json",
+  "TotalViolations": 2,
+  "ByAction": {
+    "IntentionalValidator": 1,
+    "AutoPatchable": 1
+  },
+  "Items": [
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentNullException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EfClasses\\Book.cs",
+        "Line": 115,
+        "TraceId": "99661db4-de19-4a76-afeb-ba305a2a2290",
+        "ExceptionType": "System.ArgumentNullException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "AddReview",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\09_JonPSmith__EfCore.GenericServices\\repo\\DataLayer\\EfClasses\\Book.cs",
+      "StatementStartLine": 117,
+      "StatementEndLine": 133,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.InvalidOperationException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EfClasses\\Book.cs",
+        "Line": 144,
+        "TraceId": "6af5a80a-6e69-4d57-892a-3bcb99c3b636",
+        "ExceptionType": "System.InvalidOperationException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "RemoveReview",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\09_JonPSmith__EfCore.GenericServices\\repo\\DataLayer\\EfClasses\\Book.cs",
+      "StatementStartLine": 146,
+      "StatementEndLine": 165,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.InvalidOperationException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\09_JonPSmith__EfCore.GenericServices\\patches\\Book.L146.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\09_JonPSmith__EfCore.GenericServices\\patches\\Book.L146.diff"
+    }
+  ]
+}

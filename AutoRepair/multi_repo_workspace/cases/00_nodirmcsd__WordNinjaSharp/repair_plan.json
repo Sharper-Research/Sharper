@@ -1,0 +1,59 @@
+{
+  "GeneratedAt": "2026-05-06T22:43:25.4582215Z",
+  "ViolationsFile": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\00_nodirmcsd__WordNinjaSharp\\violations.json",
+  "TotalViolations": 2,
+  "ByAction": {
+    "AutoPatchable": 1,
+    "IntentionalValidator": 1
+  },
+  "Items": [
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.Exception",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "WordNinja.cs",
+        "Line": 179,
+        "TraceId": "e172f176-67dc-487f-b52d-37109b4f9d9c",
+        "ExceptionType": "System.Exception",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "LoadDictionary",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\00_nodirmcsd__WordNinjaSharp\\repo\\WordNinja.App\\WordNinja.cs",
+      "StatementStartLine": 172,
+      "StatementEndLine": 182,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.Exception",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\00_nodirmcsd__WordNinjaSharp\\patches\\WordNinja.L172.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\00_nodirmcsd__WordNinjaSharp\\patches\\WordNinja.L172.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "WordNinja.cs",
+        "Line": 34,
+        "TraceId": "4c117da6-d2a9-4fe2-9ec1-363f8dea15c0",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "Split",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\00_nodirmcsd__WordNinjaSharp\\repo\\WordNinja.App\\WordNinja.cs",
+      "StatementStartLine": 36,
+      "StatementEndLine": 36,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    }
+  ]
+}

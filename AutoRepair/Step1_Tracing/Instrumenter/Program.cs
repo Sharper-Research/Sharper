@@ -295,6 +295,15 @@ namespace Instrumenter
 
             var lines = new List<string>
             {
+                // Many host repos enable <Nullable>enable</Nullable> with
+                // warnings-as-errors. "#nullable disable" makes the
+                // TraceLogger's parameters oblivious so neither the
+                // declaration nor the call sites emit CS86xx warnings.
+                // Note: this requires C# 8+, so very old repos (e.g. on
+                // C# 7.3) will emit CS8370. The orchestrator is expected
+                // to skip / replace those candidates.
+                "#nullable disable",
+                "#pragma warning disable CS8600, CS8601, CS8602, CS8603, CS8604, CS8618, CS8625",
                 "using System.Linq;",
                 "using System.Collections;",
                 "",

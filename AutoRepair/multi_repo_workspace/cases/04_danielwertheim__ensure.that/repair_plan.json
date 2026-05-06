@@ -1,0 +1,3456 @@
+{
+  "GeneratedAt": "2026-05-06T22:43:41.0674908Z",
+  "ViolationsFile": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\violations.json",
+  "TotalViolations": 143,
+  "ByAction": {
+    "IntentionalValidator": 65,
+    "AutoPatchable": 78
+  },
+  "Items": [
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\GuidArg.cs",
+        "Line": 10,
+        "TraceId": "07d65cf6-4986-4951-944b-de1404b9183a",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsNotEmpty",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\GuidArg.cs",
+      "StatementStartLine": 12,
+      "StatementEndLine": 15,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\AnyArg.cs",
+        "Line": 32,
+        "TraceId": "0ded835f-4039-4d99-8932-21876236fcc3",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsNotDefault",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\AnyArg.cs",
+      "StatementStartLine": 34,
+      "StatementEndLine": 35,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentNullException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\AnyArg.cs",
+        "Line": 22,
+        "TraceId": "a0eb0ac0-a089-4fa5-bdf5-0ab9fa353846",
+        "ExceptionType": "System.ArgumentNullException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsNotNull",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\AnyArg.cs",
+      "StatementStartLine": 26,
+      "StatementEndLine": 27,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\CollectionArg.cs",
+        "Line": 116,
+        "TraceId": "affa0ecf-5b32-437e-82e6-ac460f93a85e",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "HasItems",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\CollectionArg.cs",
+      "StatementStartLine": 120,
+      "StatementEndLine": 120,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\TypeArg.cs",
+        "Line": 125,
+        "TraceId": "2a3d3e80-945e-4c38-955d-57668946c254",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsOfType",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\TypeArg.cs",
+      "StatementStartLine": 129,
+      "StatementEndLine": 129,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatValueTypeExtensions.cs",
+        "Line": 21,
+        "TraceId": "59437a44-feb7-4c0e-9356-ebd8ff9b8756",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsNotDefault",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatValueTypeExtensions.cs",
+      "StatementStartLine": 23,
+      "StatementEndLine": 23,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatValueTypeExtensions.L23.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatValueTypeExtensions.L23.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatValueTypeExtensions.cs",
+        "Line": 35,
+        "TraceId": "959a9af6-6feb-44b4-a3ba-d1dc1afd537e",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsNotEmpty",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatValueTypeExtensions.cs",
+      "StatementStartLine": 37,
+      "StatementEndLine": 37,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatValueTypeExtensions.L37.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatValueTypeExtensions.L37.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\StringArg.cs",
+        "Line": 47,
+        "TraceId": "0d3eb7db-265f-4199-9cff-fa573c931c41",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsNotEmptyOrWhiteSpace",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\StringArg.cs",
+      "StatementStartLine": 49,
+      "StatementEndLine": 52,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentNullException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatValueTypeExtensions.cs",
+        "Line": 28,
+        "TraceId": "8508efd0-c1fe-49cf-8ce3-b88a8d891cef",
+        "ExceptionType": "System.ArgumentNullException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsNotNull",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatValueTypeExtensions.cs",
+      "StatementStartLine": 30,
+      "StatementEndLine": 30,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentNullException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatValueTypeExtensions.L30.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatValueTypeExtensions.L30.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\BoolArg.cs",
+        "Line": 20,
+        "TraceId": "65396d32-2bb8-4506-9a3f-512b2c69f458",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsFalse",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\BoolArg.cs",
+      "StatementStartLine": 23,
+      "StatementEndLine": 24,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\EnumerableArg.cs",
+        "Line": 21,
+        "TraceId": "ab45b07f-c47d-42a4-a90e-37b91ecf64d4",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "HasItems",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\EnumerableArg.cs",
+      "StatementStartLine": 25,
+      "StatementEndLine": 25,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatCollectionExtensions.cs",
+        "Line": 73,
+        "TraceId": "0ae1265d-912f-41a0-963c-7f452c1fe113",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "HasItems",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatCollectionExtensions.cs",
+      "StatementStartLine": 75,
+      "StatementEndLine": 75,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatCollectionExtensions.L75.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatCollectionExtensions.L75.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\TypeArg.cs",
+        "Line": 114,
+        "TraceId": "d154964d-8fc6-4552-8692-6c6f78ef26a9",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsOfType",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\TypeArg.cs",
+      "StatementStartLine": 118,
+      "StatementEndLine": 118,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\TypeArg.L118.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\TypeArg.L118.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\CollectionArg.cs",
+        "Line": 46,
+        "TraceId": "dfc603ec-e7f0-415c-90c9-3a17197e3dfa",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "HasItems",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\CollectionArg.cs",
+      "StatementStartLine": 50,
+      "StatementEndLine": 50,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentOutOfRangeException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\ComparableArg.cs",
+        "Line": 120,
+        "TraceId": "74cbea46-580f-404b-97cd-b8843401c2e9",
+        "ExceptionType": "System.ArgumentOutOfRangeException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsInRange",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\ComparableArg.cs",
+      "StatementStartLine": 122,
+      "StatementEndLine": 124,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\CollectionArg.cs",
+        "Line": 186,
+        "TraceId": "b8f9412b-8c46-42c3-85ff-1814512492b8",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "SizeIs",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\CollectionArg.cs",
+      "StatementStartLine": 190,
+      "StatementEndLine": 190,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentOutOfRangeException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\EnumArg.cs",
+        "Line": 48,
+        "TraceId": "50e8a2e6-e5a7-4181-9256-ee853a07fc36",
+        "ExceptionType": "System.ArgumentOutOfRangeException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsDefinedWithFlagsSupport",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\EnumArg.cs",
+      "StatementStartLine": 50,
+      "StatementEndLine": 50,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatStringExtensions.cs",
+        "Line": 31,
+        "TraceId": "5579f680-6375-47de-b395-2d4431303af6",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsNotEmptyOrWhiteSpace",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatStringExtensions.cs",
+      "StatementStartLine": 33,
+      "StatementEndLine": 33,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatStringExtensions.L33.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatStringExtensions.L33.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatValueTypeExtensions.cs",
+        "Line": 14,
+        "TraceId": "c7462a25-8f8f-47b6-a04a-b631dff972b6",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsFalse",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatValueTypeExtensions.cs",
+      "StatementStartLine": 16,
+      "StatementEndLine": 16,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatValueTypeExtensions.L16.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatValueTypeExtensions.L16.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatCollectionExtensions.cs",
+        "Line": 80,
+        "TraceId": "562ed9de-7d69-4f80-941b-8644248b8fbf",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "HasItems",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatCollectionExtensions.cs",
+      "StatementStartLine": 82,
+      "StatementEndLine": 82,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatCollectionExtensions.L82.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatCollectionExtensions.L82.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\BoolArg.cs",
+        "Line": 11,
+        "TraceId": "a91e88e6-2243-4612-bf24-da4102d3b686",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsTrue",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\BoolArg.cs",
+      "StatementStartLine": 14,
+      "StatementEndLine": 15,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentOutOfRangeException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatComparableExtensions.cs",
+        "Line": 92,
+        "TraceId": "52cfb4c9-70ea-43b3-81cf-f734898d3e9c",
+        "ExceptionType": "System.ArgumentOutOfRangeException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsInRange",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatComparableExtensions.cs",
+      "StatementStartLine": 94,
+      "StatementEndLine": 94,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentOutOfRangeException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatComparableExtensions.L94.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatComparableExtensions.L94.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentOutOfRangeException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatEnumExtensions.cs",
+        "Line": 36,
+        "TraceId": "1ed2edb7-6623-40b8-81a2-8a8b6734bea5",
+        "ExceptionType": "System.ArgumentOutOfRangeException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsDefinedWithFlagsSupport",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatEnumExtensions.cs",
+      "StatementStartLine": 38,
+      "StatementEndLine": 38,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentOutOfRangeException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatEnumExtensions.L38.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatEnumExtensions.L38.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatCollectionExtensions.cs",
+        "Line": 94,
+        "TraceId": "52132804-6c35-462d-bccf-9175c9ed346e",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "SizeIs",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatCollectionExtensions.cs",
+      "StatementStartLine": 96,
+      "StatementEndLine": 96,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatCollectionExtensions.L96.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatCollectionExtensions.L96.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatValueTypeExtensions.cs",
+        "Line": 7,
+        "TraceId": "58c15f18-37a4-4e62-9e03-7ae595cd72df",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsTrue",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatValueTypeExtensions.cs",
+      "StatementStartLine": 9,
+      "StatementEndLine": 9,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatValueTypeExtensions.L9.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatValueTypeExtensions.L9.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\CollectionArg.cs",
+        "Line": 60,
+        "TraceId": "fac5583f-5914-4ae4-91fa-1eea389a2894",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "HasItems",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\CollectionArg.cs",
+      "StatementStartLine": 64,
+      "StatementEndLine": 64,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatTypeExtensions.cs",
+        "Line": 50,
+        "TraceId": "77b3e633-52b1-44f6-8288-57af9c623136",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsDateTime",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatTypeExtensions.cs",
+      "StatementStartLine": 52,
+      "StatementEndLine": 52,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatTypeExtensions.L52.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatTypeExtensions.L52.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\ComparableArg.cs",
+        "Line": 39,
+        "TraceId": "e50c1787-5a01-4a12-8787-cf8351695aac",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsNot",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\ComparableArg.cs",
+      "StatementStartLine": 41,
+      "StatementEndLine": 43,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\EnumerableArg.cs",
+        "Line": 67,
+        "TraceId": "061f7430-f4d0-4a84-a41d-80cd31e50dee",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "HasAny",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\EnumerableArg.cs",
+      "StatementStartLine": 71,
+      "StatementEndLine": 71,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentNullException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\AnyArg.cs",
+        "Line": 12,
+        "TraceId": "91db53ec-83a9-42e6-88ff-487d8ce16f0a",
+        "ExceptionType": "System.ArgumentNullException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsNotNull",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\AnyArg.cs",
+      "StatementStartLine": 16,
+      "StatementEndLine": 17,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\CollectionArg.cs",
+        "Line": 340,
+        "TraceId": "f9c1aa06-92c6-4559-ab09-d2b6fe746284",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "HasAny",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\CollectionArg.cs",
+      "StatementStartLine": 344,
+      "StatementEndLine": 344,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\StringArg.cs",
+        "Line": 174,
+        "TraceId": "ca453d0a-6b2a-4091-bc7b-60083a982d68",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsNotEqualTo",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\StringArg.cs",
+      "StatementStartLine": 176,
+      "StatementEndLine": 179,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatCollectionExtensions.cs",
+        "Line": 87,
+        "TraceId": "94165b14-23f9-45b5-ad55-95b3e7a2fb9c",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "HasItems",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatCollectionExtensions.cs",
+      "StatementStartLine": 89,
+      "StatementEndLine": 89,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatCollectionExtensions.L89.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatCollectionExtensions.L89.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentNullException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatAnyExtensions.cs",
+        "Line": 7,
+        "TraceId": "87fb5392-2a8e-4d37-af9d-5f243a5944a8",
+        "ExceptionType": "System.ArgumentNullException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsNotNull",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatAnyExtensions.cs",
+      "StatementStartLine": 9,
+      "StatementEndLine": 9,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentNullException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatAnyExtensions.L9.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatAnyExtensions.L9.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatCollectionExtensions.cs",
+        "Line": 178,
+        "TraceId": "3b1c4c86-6f75-448f-80df-d927eb80eb93",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "HasAny",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatCollectionExtensions.cs",
+      "StatementStartLine": 180,
+      "StatementEndLine": 180,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatCollectionExtensions.L180.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatCollectionExtensions.L180.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatStringExtensions.cs",
+        "Line": 130,
+        "TraceId": "00228c59-e9ea-45ab-ab5e-1b57ea75ed14",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsNotEqualTo",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatStringExtensions.cs",
+      "StatementStartLine": 132,
+      "StatementEndLine": 132,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatStringExtensions.L132.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatStringExtensions.L132.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentNullException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\CollectionArg.cs",
+        "Line": 88,
+        "TraceId": "bacb3448-4099-4050-8dbc-2e4a77cbcdee",
+        "ExceptionType": "System.ArgumentNullException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "HasItems",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\CollectionArg.cs",
+      "StatementStartLine": 92,
+      "StatementEndLine": 92,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentOutOfRangeException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\ComparableArg.cs",
+        "Line": 84,
+        "TraceId": "bb407ef9-b7e6-44cc-923f-c254e7700be7",
+        "ExceptionType": "System.ArgumentOutOfRangeException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsGt",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\ComparableArg.cs",
+      "StatementStartLine": 86,
+      "StatementEndLine": 88,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentNullException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatCollectionExtensions.cs",
+        "Line": 31,
+        "TraceId": "bf2b26da-c0d4-42de-acc0-c7d63350ec7a",
+        "ExceptionType": "System.ArgumentNullException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "HasItems",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatCollectionExtensions.cs",
+      "StatementStartLine": 33,
+      "StatementEndLine": 33,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentNullException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatCollectionExtensions.L33.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatCollectionExtensions.L33.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentOutOfRangeException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatComparableExtensions.cs",
+        "Line": 64,
+        "TraceId": "b8c38b0b-22df-44a6-bc70-adaf0a55456e",
+        "ExceptionType": "System.ArgumentOutOfRangeException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsGt",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatComparableExtensions.cs",
+      "StatementStartLine": 66,
+      "StatementEndLine": 66,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentOutOfRangeException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatComparableExtensions.L66.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatComparableExtensions.L66.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentNullException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\EnumerableArg.cs",
+        "Line": 35,
+        "TraceId": "46ff313d-1f2b-46bf-87ba-4f4bf20dbf8c",
+        "ExceptionType": "System.ArgumentNullException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "SizeIs",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\EnumerableArg.cs",
+      "StatementStartLine": 39,
+      "StatementEndLine": 39,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentNullException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\CollectionArg.cs",
+        "Line": 242,
+        "TraceId": "db2c0a7d-55ff-463c-afdd-2fc63820c4c5",
+        "ExceptionType": "System.ArgumentNullException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "SizeIs",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\CollectionArg.cs",
+      "StatementStartLine": 246,
+      "StatementEndLine": 246,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentOutOfRangeException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\ComparableArg.cs",
+        "Line": 48,
+        "TraceId": "a0feae03-1605-4533-a0fd-1d57567d72db",
+        "ExceptionType": "System.ArgumentOutOfRangeException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsLt",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\ComparableArg.cs",
+      "StatementStartLine": 50,
+      "StatementEndLine": 52,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentNullException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatCollectionExtensions.cs",
+        "Line": 122,
+        "TraceId": "2862717c-ebff-46bb-abe1-9b2ae8e756df",
+        "ExceptionType": "System.ArgumentNullException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "SizeIs",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatCollectionExtensions.cs",
+      "StatementStartLine": 124,
+      "StatementEndLine": 124,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentNullException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatCollectionExtensions.L124.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatCollectionExtensions.L124.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentOutOfRangeException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatComparableExtensions.cs",
+        "Line": 36,
+        "TraceId": "e3123e43-1667-4ad8-94be-f1a839105506",
+        "ExceptionType": "System.ArgumentOutOfRangeException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsLt",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatComparableExtensions.cs",
+      "StatementStartLine": 38,
+      "StatementEndLine": 38,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentOutOfRangeException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatComparableExtensions.L38.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatComparableExtensions.L38.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentOutOfRangeException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\ComparableArg.cs",
+        "Line": 66,
+        "TraceId": "352c627f-1f70-4659-b326-04c9c616a264",
+        "ExceptionType": "System.ArgumentOutOfRangeException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsLte",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\ComparableArg.cs",
+      "StatementStartLine": 68,
+      "StatementEndLine": 70,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentOutOfRangeException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatComparableExtensions.cs",
+        "Line": 50,
+        "TraceId": "7bd44c04-8884-44d6-812c-858e64ec3282",
+        "ExceptionType": "System.ArgumentOutOfRangeException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsLte",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatComparableExtensions.cs",
+      "StatementStartLine": 52,
+      "StatementEndLine": 52,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentOutOfRangeException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatComparableExtensions.L52.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatComparableExtensions.L52.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentOutOfRangeException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\ComparableArg.cs",
+        "Line": 102,
+        "TraceId": "6d9a3af1-d324-4859-b6d4-b07a6b2cd191",
+        "ExceptionType": "System.ArgumentOutOfRangeException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsGte",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\ComparableArg.cs",
+      "StatementStartLine": 104,
+      "StatementEndLine": 106,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\CollectionArg.cs",
+        "Line": 172,
+        "TraceId": "6c4d2e84-eea7-4e34-af3a-eea2291bf851",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "HasItems",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\CollectionArg.cs",
+      "StatementStartLine": 176,
+      "StatementEndLine": 176,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentNullException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\CollectionArg.cs",
+        "Line": 368,
+        "TraceId": "dc6a0133-a305-4ad3-8a1d-084ed917ce13",
+        "ExceptionType": "System.ArgumentNullException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "HasAny",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\CollectionArg.cs",
+      "StatementStartLine": 372,
+      "StatementEndLine": 372,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\CollectionArg.cs",
+        "Line": 18,
+        "TraceId": "f7e558ab-8e29-496e-872b-bad8d0448271",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "HasItems",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\CollectionArg.cs",
+      "StatementStartLine": 22,
+      "StatementEndLine": 22,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentOutOfRangeException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatComparableExtensions.cs",
+        "Line": 78,
+        "TraceId": "3912fefd-9ba3-4129-a4a6-9553f5d0ca36",
+        "ExceptionType": "System.ArgumentOutOfRangeException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsGte",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatComparableExtensions.cs",
+      "StatementStartLine": 80,
+      "StatementEndLine": 80,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentOutOfRangeException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatComparableExtensions.L80.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatComparableExtensions.L80.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentNullException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatCollectionExtensions.cs",
+        "Line": 220,
+        "TraceId": "6c9d2af1-18bd-4207-a6ae-a2c610fb122a",
+        "ExceptionType": "System.ArgumentNullException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "HasAny",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatCollectionExtensions.cs",
+      "StatementStartLine": 222,
+      "StatementEndLine": 222,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentNullException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatCollectionExtensions.L222.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatCollectionExtensions.L222.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatCollectionExtensions.cs",
+        "Line": 66,
+        "TraceId": "7e5c1f01-9ecb-43fe-9be5-00febef19c25",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "HasItems",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatCollectionExtensions.cs",
+      "StatementStartLine": 68,
+      "StatementEndLine": 68,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatCollectionExtensions.L68.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatCollectionExtensions.L68.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentOutOfRangeException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\EnumArg.cs",
+        "Line": 31,
+        "TraceId": "e790d966-3af9-45cc-8387-4cb383c3f26e",
+        "ExceptionType": "System.ArgumentOutOfRangeException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsDefined",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\EnumArg.cs",
+      "StatementStartLine": 33,
+      "StatementEndLine": 39,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentNullException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\StringArg.cs",
+        "Line": 76,
+        "TraceId": "fafe56b6-0d24-4d25-8410-220938e0907e",
+        "ExceptionType": "System.ArgumentNullException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "HasLength",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\StringArg.cs",
+      "StatementStartLine": 80,
+      "StatementEndLine": 80,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentOutOfRangeException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatEnumExtensions.cs",
+        "Line": 25,
+        "TraceId": "af52c95c-3a18-42e9-ba6d-0b6ae1d5037e",
+        "ExceptionType": "System.ArgumentOutOfRangeException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsDefined",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatEnumExtensions.cs",
+      "StatementStartLine": 27,
+      "StatementEndLine": 27,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentOutOfRangeException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatEnumExtensions.L27.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatEnumExtensions.L27.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentNullException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatStringExtensions.cs",
+        "Line": 73,
+        "TraceId": "4b124c46-bb72-4d09-a518-bb19ce6bf424",
+        "ExceptionType": "System.ArgumentNullException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "SizeIs",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatStringExtensions.cs",
+      "StatementStartLine": 76,
+      "StatementEndLine": 76,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentNullException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatStringExtensions.L76.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatStringExtensions.L76.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\ComparableArg.cs",
+        "Line": 21,
+        "TraceId": "6df7a724-cafb-4bd1-b6a9-1359d1d1a1ec",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "Is",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\ComparableArg.cs",
+      "StatementStartLine": 23,
+      "StatementEndLine": 25,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\StringArg.cs",
+        "Line": 148,
+        "TraceId": "791ac713-1cb7-4c80-9fa6-0f73bb32e3e5",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsEqualTo",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\StringArg.cs",
+      "StatementStartLine": 150,
+      "StatementEndLine": 153,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\CollectionArg.cs",
+        "Line": 298,
+        "TraceId": "b31b5c13-cf4f-4c5f-9d8c-230eebdf990a",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "SizeIs",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\CollectionArg.cs",
+      "StatementStartLine": 302,
+      "StatementEndLine": 302,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatStringExtensions.cs",
+        "Line": 102,
+        "TraceId": "f82770f2-98ea-4738-9a90-7af77e8aa627",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsEqualTo",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatStringExtensions.cs",
+      "StatementStartLine": 104,
+      "StatementEndLine": 104,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatStringExtensions.L104.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatStringExtensions.L104.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatCollectionExtensions.cs",
+        "Line": 150,
+        "TraceId": "f2bec9f8-988f-4751-bb2e-15d502a35bb1",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "SizeIs",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatCollectionExtensions.cs",
+      "StatementStartLine": 152,
+      "StatementEndLine": 152,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatCollectionExtensions.L152.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatCollectionExtensions.L152.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\ComparableArg.cs",
+        "Line": 12,
+        "TraceId": "49ce7de9-4ea6-4890-be5b-58100b25e752",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "Is",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\ComparableArg.cs",
+      "StatementStartLine": 14,
+      "StatementEndLine": 16,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentNullException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatCollectionExtensions.cs",
+        "Line": 185,
+        "TraceId": "f1b9f0ce-bed8-4770-b170-ad465936993a",
+        "ExceptionType": "System.ArgumentNullException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "HasAny",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatCollectionExtensions.cs",
+      "StatementStartLine": 187,
+      "StatementEndLine": 187,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentNullException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatCollectionExtensions.L187.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatCollectionExtensions.L187.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatComparableExtensions.cs",
+        "Line": 8,
+        "TraceId": "85427e1b-a314-447f-b0fb-557d5920894f",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "Is",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatComparableExtensions.cs",
+      "StatementStartLine": 10,
+      "StatementEndLine": 10,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatComparableExtensions.L10.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatComparableExtensions.L10.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentOutOfRangeException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\ComparableArg.cs",
+        "Line": 111,
+        "TraceId": "abaf031e-2987-40e4-b629-b3e0cf33eaa0",
+        "ExceptionType": "System.ArgumentOutOfRangeException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsGte",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\ComparableArg.cs",
+      "StatementStartLine": 113,
+      "StatementEndLine": 115,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentOutOfRangeException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\StringArg.cs",
+        "Line": 251,
+        "TraceId": "0bff5b1c-7012-4eb0-b1a3-34bb752ed7c5",
+        "ExceptionType": "System.ArgumentOutOfRangeException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsGte",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\StringArg.cs",
+      "StatementStartLine": 253,
+      "StatementEndLine": 255,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatTypeExtensions.cs",
+        "Line": 22,
+        "TraceId": "0e02a599-52e5-4b5a-af89-efc064532a01",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsDecimal",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatTypeExtensions.cs",
+      "StatementStartLine": 24,
+      "StatementEndLine": 24,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatTypeExtensions.L24.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatTypeExtensions.L24.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentOutOfRangeException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatStringExtensions.cs",
+        "Line": 179,
+        "TraceId": "89aebe57-d864-4c41-8c57-a8775eea718a",
+        "ExceptionType": "System.ArgumentOutOfRangeException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsGte",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatStringExtensions.cs",
+      "StatementStartLine": 181,
+      "StatementEndLine": 181,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentOutOfRangeException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatStringExtensions.L181.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatStringExtensions.L181.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\StringArg.cs",
+        "Line": 273,
+        "TraceId": "23c73bad-ff05-415b-82c0-32e915cabcdb",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsAllLettersOrDigits",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\StringArg.cs",
+      "StatementStartLine": 277,
+      "StatementEndLine": 277,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\CollectionArg.cs",
+        "Line": 326,
+        "TraceId": "cc12f0fb-7888-4657-b7d6-1d0198808dff",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "ContainsKey",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\CollectionArg.cs",
+      "StatementStartLine": 330,
+      "StatementEndLine": 330,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatStringExtensions.cs",
+        "Line": 193,
+        "TraceId": "48b7352d-5ca1-46e2-8a72-8428bd826193",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsAllLettersOrDigits",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatStringExtensions.cs",
+      "StatementStartLine": 195,
+      "StatementEndLine": 195,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatStringExtensions.L195.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatStringExtensions.L195.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\StringArg.cs",
+        "Line": 90,
+        "TraceId": "c49c8ab4-5e32-42a8-95b2-f2ae993ec984",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "HasLengthBetween",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\StringArg.cs",
+      "StatementStartLine": 94,
+      "StatementEndLine": 94,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatCollectionExtensions.cs",
+        "Line": 171,
+        "TraceId": "7e7293ca-2ced-4f72-8501-4a54185d09fe",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "ContainsKey",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatCollectionExtensions.cs",
+      "StatementStartLine": 173,
+      "StatementEndLine": 173,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatCollectionExtensions.L173.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatCollectionExtensions.L173.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\ComparableArg.cs",
+        "Line": 30,
+        "TraceId": "26602e8c-38f5-47eb-a6d9-c5cb99c6bb1c",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsNot",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\ComparableArg.cs",
+      "StatementStartLine": 32,
+      "StatementEndLine": 34,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatStringExtensions.cs",
+        "Line": 52,
+        "TraceId": "0a3e0653-4048-4fdc-840c-808d7a4545c1",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "HasLengthBetween",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatStringExtensions.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 54,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatStringExtensions.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatStringExtensions.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatComparableExtensions.cs",
+        "Line": 22,
+        "TraceId": "23f4925a-5566-4d84-b7cf-c250dc5e22cc",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsNot",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatComparableExtensions.cs",
+      "StatementStartLine": 24,
+      "StatementEndLine": 24,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatComparableExtensions.L24.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatComparableExtensions.L24.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\StringArg.cs",
+        "Line": 24,
+        "TraceId": "ba2a9813-0f52-4ffe-bd22-a07316373592",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsNotNullOrWhiteSpace",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\StringArg.cs",
+      "StatementStartLine": 28,
+      "StatementEndLine": 28,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatStringExtensions.cs",
+        "Line": 17,
+        "TraceId": "79fa412f-f75b-49a7-ae89-80814433aa52",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsNotNullOrWhiteSpace",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatStringExtensions.cs",
+      "StatementStartLine": 19,
+      "StatementEndLine": 19,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatStringExtensions.L19.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatStringExtensions.L19.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\TypeArg.cs",
+        "Line": 203,
+        "TraceId": "88ea1a03-4d34-4ff4-a283-2c96a7253232",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsNotAssignableToType",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\TypeArg.cs",
+      "StatementStartLine": 207,
+      "StatementEndLine": 207,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentOutOfRangeException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\ComparableArg.cs",
+        "Line": 75,
+        "TraceId": "3a76a08b-1803-475e-b839-e3c45c76c4c4",
+        "ExceptionType": "System.ArgumentOutOfRangeException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsLte",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\ComparableArg.cs",
+      "StatementStartLine": 77,
+      "StatementEndLine": 79,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\TypeArg.cs",
+        "Line": 192,
+        "TraceId": "8baa8920-1b03-4c31-ab5c-42cc16c43d92",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsNotAssignableToType",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\TypeArg.cs",
+      "StatementStartLine": 196,
+      "StatementEndLine": 196,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\TypeArg.L196.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\TypeArg.L196.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentOutOfRangeException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\StringArg.cs",
+        "Line": 233,
+        "TraceId": "04eea882-4a80-498f-b3a3-7e73e6994956",
+        "ExceptionType": "System.ArgumentOutOfRangeException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsLte",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\StringArg.cs",
+      "StatementStartLine": 235,
+      "StatementEndLine": 237,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentNullException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\CollectionArg.cs",
+        "Line": 270,
+        "TraceId": "eb7839e6-98d8-4605-9cbd-e3a92a501cd1",
+        "ExceptionType": "System.ArgumentNullException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "SizeIs",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\CollectionArg.cs",
+      "StatementStartLine": 274,
+      "StatementEndLine": 274,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentOutOfRangeException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatStringExtensions.cs",
+        "Line": 165,
+        "TraceId": "38ab7148-b8db-46a8-b516-c0eaa260548f",
+        "ExceptionType": "System.ArgumentOutOfRangeException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsLte",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatStringExtensions.cs",
+      "StatementStartLine": 167,
+      "StatementEndLine": 167,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentOutOfRangeException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatStringExtensions.L167.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatStringExtensions.L167.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentNullException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatCollectionExtensions.cs",
+        "Line": 136,
+        "TraceId": "48558367-82ca-4cf2-aa4d-765c12f4666c",
+        "ExceptionType": "System.ArgumentNullException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "SizeIs",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatCollectionExtensions.cs",
+      "StatementStartLine": 138,
+      "StatementEndLine": 138,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentNullException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatCollectionExtensions.L138.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatCollectionExtensions.L138.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatTypeExtensions.cs",
+        "Line": 85,
+        "TraceId": "b68d8e0b-6814-4612-ada1-54df62fd9693",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsNotAssignableToType",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatTypeExtensions.cs",
+      "StatementStartLine": 87,
+      "StatementEndLine": 87,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatTypeExtensions.L87.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatTypeExtensions.L87.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentOutOfRangeException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\ComparableArg.cs",
+        "Line": 133,
+        "TraceId": "1937f207-216b-4d28-8e76-ac2ab244d448",
+        "ExceptionType": "System.ArgumentOutOfRangeException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsInRange",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\ComparableArg.cs",
+      "StatementStartLine": 135,
+      "StatementEndLine": 137,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentOutOfRangeException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\StringArg.cs",
+        "Line": 260,
+        "TraceId": "5aab05db-b922-413f-9e1d-2c50b9ce25ba",
+        "ExceptionType": "System.ArgumentOutOfRangeException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsInRange",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\StringArg.cs",
+      "StatementStartLine": 262,
+      "StatementEndLine": 264,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentOutOfRangeException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatStringExtensions.cs",
+        "Line": 186,
+        "TraceId": "eac57c9c-7fa8-45fb-9ee7-681d58009f27",
+        "ExceptionType": "System.ArgumentOutOfRangeException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsInRange",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatStringExtensions.cs",
+      "StatementStartLine": 188,
+      "StatementEndLine": 188,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentOutOfRangeException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatStringExtensions.L188.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatStringExtensions.L188.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\CollectionArg.cs",
+        "Line": 144,
+        "TraceId": "155ba3ca-e84c-4eaa-88ca-46b7b424dc88",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "HasItems",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\CollectionArg.cs",
+      "StatementStartLine": 148,
+      "StatementEndLine": 148,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatCollectionExtensions.cs",
+        "Line": 38,
+        "TraceId": "1258e8a4-0ef3-49d2-a2e3-55b644bd5c32",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "HasItems",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatCollectionExtensions.cs",
+      "StatementStartLine": 40,
+      "StatementEndLine": 40,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatCollectionExtensions.L40.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatCollectionExtensions.L40.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatCollectionExtensions.cs",
+        "Line": 164,
+        "TraceId": "27090a3c-043e-4870-979e-f9da046363f2",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "ContainsKey",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatCollectionExtensions.cs",
+      "StatementStartLine": 166,
+      "StatementEndLine": 166,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatCollectionExtensions.L166.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatCollectionExtensions.L166.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatTypeExtensions.cs",
+        "Line": 43,
+        "TraceId": "f4ad2e24-d59c-4195-96ae-52fc8c441fbe",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsBool",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatTypeExtensions.cs",
+      "StatementStartLine": 45,
+      "StatementEndLine": 45,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatTypeExtensions.L45.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatTypeExtensions.L45.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatCollectionExtensions.cs",
+        "Line": 199,
+        "TraceId": "56d7a4fc-e11f-4d44-a63b-e74a2f37d775",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "HasAny",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatCollectionExtensions.cs",
+      "StatementStartLine": 201,
+      "StatementEndLine": 201,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatCollectionExtensions.L201.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatCollectionExtensions.L201.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentNullException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\StringArg.cs",
+        "Line": 15,
+        "TraceId": "8ed0c2bf-12c0-4f75-95b7-bcf385bb2f7b",
+        "ExceptionType": "System.ArgumentNullException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsNotNull",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\StringArg.cs",
+      "StatementStartLine": 19,
+      "StatementEndLine": 19,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentNullException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\StringArg.L19.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\StringArg.L19.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentNullException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\CollectionArg.cs",
+        "Line": 354,
+        "TraceId": "09a49007-f243-420e-b307-fde008510ef8",
+        "ExceptionType": "System.ArgumentNullException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "HasAny",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\CollectionArg.cs",
+      "StatementStartLine": 358,
+      "StatementEndLine": 358,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentNullException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatStringExtensions.cs",
+        "Line": 10,
+        "TraceId": "9ae54137-b114-4cac-8060-deaff87d769e",
+        "ExceptionType": "System.ArgumentNullException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsNotNull",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatStringExtensions.cs",
+      "StatementStartLine": 12,
+      "StatementEndLine": 12,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentNullException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatStringExtensions.L12.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatStringExtensions.L12.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentNullException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatCollectionExtensions.cs",
+        "Line": 213,
+        "TraceId": "8e434cea-434e-4f80-abdc-a56ad669ccd3",
+        "ExceptionType": "System.ArgumentNullException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "HasAny",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatCollectionExtensions.cs",
+      "StatementStartLine": 215,
+      "StatementEndLine": 215,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentNullException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatCollectionExtensions.L215.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatCollectionExtensions.L215.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentNullException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\CollectionArg.cs",
+        "Line": 130,
+        "TraceId": "b1677c82-661a-4aa0-a350-4589adce9986",
+        "ExceptionType": "System.ArgumentNullException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "HasItems",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\CollectionArg.cs",
+      "StatementStartLine": 134,
+      "StatementEndLine": 134,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentNullException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatCollectionExtensions.cs",
+        "Line": 17,
+        "TraceId": "f2746fe7-4734-4d21-8963-a6ca9d061e7c",
+        "ExceptionType": "System.ArgumentNullException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "HasItems",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatCollectionExtensions.cs",
+      "StatementStartLine": 19,
+      "StatementEndLine": 19,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentNullException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatCollectionExtensions.L19.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatCollectionExtensions.L19.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentNullException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\CollectionArg.cs",
+        "Line": 214,
+        "TraceId": "36cfda94-9d68-4088-b3c2-ed0d18e3fbf0",
+        "ExceptionType": "System.ArgumentNullException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "SizeIs",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\CollectionArg.cs",
+      "StatementStartLine": 218,
+      "StatementEndLine": 218,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentNullException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatCollectionExtensions.cs",
+        "Line": 108,
+        "TraceId": "d00d14c3-d405-4e8e-8ef7-b78d2054588b",
+        "ExceptionType": "System.ArgumentNullException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "SizeIs",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatCollectionExtensions.cs",
+      "StatementStartLine": 110,
+      "StatementEndLine": 110,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentNullException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatCollectionExtensions.L110.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatCollectionExtensions.L110.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\CollectionArg.cs",
+        "Line": 32,
+        "TraceId": "7a387f43-440f-4964-bd25-01f6238228f8",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "HasItems",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\CollectionArg.cs",
+      "StatementStartLine": 36,
+      "StatementEndLine": 36,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatCollectionExtensions.cs",
+        "Line": 24,
+        "TraceId": "150f856e-4a5b-4243-b013-0a741a7bf210",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "HasItems",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatCollectionExtensions.cs",
+      "StatementStartLine": 26,
+      "StatementEndLine": 26,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatCollectionExtensions.L26.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatCollectionExtensions.L26.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentNullException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatStringExtensions.cs",
+        "Line": 45,
+        "TraceId": "5ac5565a-6b72-4d16-b042-69413058c8f4",
+        "ExceptionType": "System.ArgumentNullException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "HasLength",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatStringExtensions.cs",
+      "StatementStartLine": 47,
+      "StatementEndLine": 47,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentNullException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatStringExtensions.L47.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatStringExtensions.L47.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\StringArg.cs",
+        "Line": 68,
+        "TraceId": "be686340-1de8-4707-9a32-ae2a13eacb4e",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsNotEmpty",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\StringArg.cs",
+      "StatementStartLine": 70,
+      "StatementEndLine": 71,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\TypeArg.cs",
+        "Line": 151,
+        "TraceId": "d3a1f10c-9b26-4f8f-a54e-769106563a70",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsNotOfType",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\TypeArg.cs",
+      "StatementStartLine": 155,
+      "StatementEndLine": 155,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatStringExtensions.cs",
+        "Line": 38,
+        "TraceId": "88be5eee-3fea-40dd-870f-bf7575045fb8",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsNotEmpty",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatStringExtensions.cs",
+      "StatementStartLine": 40,
+      "StatementEndLine": 40,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatStringExtensions.L40.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatStringExtensions.L40.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\TypeArg.cs",
+        "Line": 140,
+        "TraceId": "40bfe749-40cb-4f47-9a7d-98ffe867ac25",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsNotOfType",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\TypeArg.cs",
+      "StatementStartLine": 144,
+      "StatementEndLine": 144,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\TypeArg.L144.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\TypeArg.L144.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\CollectionArg.cs",
+        "Line": 102,
+        "TraceId": "98d61c96-5ee4-4cbb-8dd8-207b204f5e23",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "HasItems",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\CollectionArg.cs",
+      "StatementStartLine": 106,
+      "StatementEndLine": 106,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatTypeExtensions.cs",
+        "Line": 71,
+        "TraceId": "470d346e-b846-4fef-b221-86cb58a8ad1c",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsNotOfType",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatTypeExtensions.cs",
+      "StatementStartLine": 73,
+      "StatementEndLine": 73,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatTypeExtensions.L73.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatTypeExtensions.L73.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\TypeArg.cs",
+        "Line": 232,
+        "TraceId": "3a6d3b07-4360-4173-8d75-0bb90f5f8330",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsClass",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\TypeArg.cs",
+      "StatementStartLine": 236,
+      "StatementEndLine": 239,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\TypeArg.cs",
+        "Line": 218,
+        "TraceId": "76695663-253c-4cc6-b1bb-772d5fed4054",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsClass",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\TypeArg.cs",
+      "StatementStartLine": 222,
+      "StatementEndLine": 225,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\StringArg.cs",
+        "Line": 115,
+        "TraceId": "b2678b27-8a07-484f-9812-7eb677330a29",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "Matches",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\StringArg.cs",
+      "StatementStartLine": 118,
+      "StatementEndLine": 121,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatTypeExtensions.cs",
+        "Line": 99,
+        "TraceId": "e81fab20-c07e-489c-a7b3-b96b90352c42",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsClass",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatTypeExtensions.cs",
+      "StatementStartLine": 101,
+      "StatementEndLine": 101,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatTypeExtensions.L101.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatTypeExtensions.L101.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\StringArg.cs",
+        "Line": 138,
+        "TraceId": "b2e53ac0-1d56-4151-b995-36dc9a0f4755",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsEqualTo",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\StringArg.cs",
+      "StatementStartLine": 140,
+      "StatementEndLine": 143,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatStringExtensions.cs",
+        "Line": 95,
+        "TraceId": "b756e657-86c5-44d6-a6d1-89db68c07b88",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsEqualTo",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatStringExtensions.cs",
+      "StatementStartLine": 97,
+      "StatementEndLine": 97,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatStringExtensions.L97.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatStringExtensions.L97.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentNullException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\StringArg.cs",
+        "Line": 36,
+        "TraceId": "666929e8-e84b-46ab-a70e-71188021eab6",
+        "ExceptionType": "System.ArgumentNullException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsNotNullOrEmpty",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\StringArg.cs",
+      "StatementStartLine": 39,
+      "StatementEndLine": 39,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentNullException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatStringExtensions.cs",
+        "Line": 24,
+        "TraceId": "8da068ee-3e8b-4dc1-869c-1f530b0e9919",
+        "ExceptionType": "System.ArgumentNullException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsNotNullOrEmpty",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatStringExtensions.cs",
+      "StatementStartLine": 26,
+      "StatementEndLine": 26,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentNullException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatStringExtensions.L26.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatStringExtensions.L26.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\StringArg.cs",
+        "Line": 196,
+        "TraceId": "d8c717f6-b273-4123-9400-b46a65741295",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "StartsWith",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\StringArg.cs",
+      "StatementStartLine": 200,
+      "StatementEndLine": 200,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatStringExtensions.cs",
+        "Line": 144,
+        "TraceId": "f205fca7-80ea-49e9-9769-74ddaf777ae2",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "StartsWith",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatStringExtensions.cs",
+      "StatementStartLine": 146,
+      "StatementEndLine": 146,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatStringExtensions.L146.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatStringExtensions.L146.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatTypeExtensions.cs",
+        "Line": 15,
+        "TraceId": "000b4ee8-61b1-4056-8fa3-08434e43f6a2",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsShort",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatTypeExtensions.cs",
+      "StatementStartLine": 17,
+      "StatementEndLine": 17,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatTypeExtensions.L17.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatTypeExtensions.L17.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatStringExtensions.cs",
+        "Line": 116,
+        "TraceId": "fb07a85a-907a-48d8-b206-7719777a50b4",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsNot",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatStringExtensions.cs",
+      "StatementStartLine": 118,
+      "StatementEndLine": 118,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatStringExtensions.L118.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatStringExtensions.L118.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\TypeArg.cs",
+        "Line": 177,
+        "TraceId": "d4a84edf-0b66-4f6e-8d8d-05a3873e7fb0",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsAssignableToType",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\TypeArg.cs",
+      "StatementStartLine": 181,
+      "StatementEndLine": 181,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\TypeArg.cs",
+        "Line": 166,
+        "TraceId": "87c441a1-e2f8-4de7-937f-d65bb094f443",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsAssignableToType",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\TypeArg.cs",
+      "StatementStartLine": 170,
+      "StatementEndLine": 170,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\TypeArg.L170.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\TypeArg.L170.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\StringArg.cs",
+        "Line": 184,
+        "TraceId": "f9209278-2385-4242-93f7-896d004ab0e7",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsGuid",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\StringArg.cs",
+      "StatementStartLine": 188,
+      "StatementEndLine": 191,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatStringExtensions.cs",
+        "Line": 137,
+        "TraceId": "f041572a-d793-4f6c-baee-2b488b1870f5",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsGuid",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatStringExtensions.cs",
+      "StatementStartLine": 139,
+      "StatementEndLine": 139,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatStringExtensions.L139.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatStringExtensions.L139.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentNullException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatCollectionExtensions.cs",
+        "Line": 206,
+        "TraceId": "7e9d3a64-80fa-4cf4-a244-ae630f71b51c",
+        "ExceptionType": "System.ArgumentNullException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "HasAny",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatCollectionExtensions.cs",
+      "StatementStartLine": 208,
+      "StatementEndLine": 208,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentNullException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatCollectionExtensions.L208.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatCollectionExtensions.L208.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatTypeExtensions.cs",
+        "Line": 78,
+        "TraceId": "0efc8ecc-3bcd-49ea-9d27-38de5489ff27",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsAssignableToType",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatTypeExtensions.cs",
+      "StatementStartLine": 80,
+      "StatementEndLine": 80,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatTypeExtensions.L80.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatTypeExtensions.L80.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentNullException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatCollectionExtensions.cs",
+        "Line": 45,
+        "TraceId": "059f3f01-3330-4276-b05c-7a85c57bca70",
+        "ExceptionType": "System.ArgumentNullException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "HasItems",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatCollectionExtensions.cs",
+      "StatementStartLine": 47,
+      "StatementEndLine": 47,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentNullException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatCollectionExtensions.L47.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatCollectionExtensions.L47.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\StringArg.cs",
+        "Line": 164,
+        "TraceId": "e2615a7d-073c-436e-be08-898cfa4c16f9",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsNotEqualTo",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\StringArg.cs",
+      "StatementStartLine": 166,
+      "StatementEndLine": 169,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatStringExtensions.cs",
+        "Line": 123,
+        "TraceId": "8370397e-7e70-4653-ba2a-3fb3a64dc478",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsNotEqualTo",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatStringExtensions.cs",
+      "StatementStartLine": 125,
+      "StatementEndLine": 125,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatStringExtensions.L125.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatStringExtensions.L125.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatStringExtensions.cs",
+        "Line": 109,
+        "TraceId": "a7d7df38-26e6-4472-b083-f089e695812e",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsNot",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatStringExtensions.cs",
+      "StatementStartLine": 111,
+      "StatementEndLine": 111,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatStringExtensions.L111.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatStringExtensions.L111.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentNullException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatCollectionExtensions.cs",
+        "Line": 192,
+        "TraceId": "98b66613-057d-4bb2-ba2a-63646c49b448",
+        "ExceptionType": "System.ArgumentNullException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "HasAny",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatCollectionExtensions.cs",
+      "StatementStartLine": 194,
+      "StatementEndLine": 194,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentNullException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatCollectionExtensions.L194.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatCollectionExtensions.L194.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatTypeExtensions.cs",
+        "Line": 36,
+        "TraceId": "02d50b51-3df6-47b7-8a55-d00cdeb8af8a",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsFloat",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatTypeExtensions.cs",
+      "StatementStartLine": 38,
+      "StatementEndLine": 38,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatTypeExtensions.L38.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatTypeExtensions.L38.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatTypeExtensions.cs",
+        "Line": 29,
+        "TraceId": "54438a65-aa20-4d94-ab6a-70dd1ebec909",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsDouble",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatTypeExtensions.cs",
+      "StatementStartLine": 31,
+      "StatementEndLine": 31,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatTypeExtensions.L31.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatTypeExtensions.L31.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatTypeExtensions.cs",
+        "Line": 8,
+        "TraceId": "2fa8ced4-f206-4e00-bc7e-f1f9ea4c29fe",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsInt",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatTypeExtensions.cs",
+      "StatementStartLine": 10,
+      "StatementEndLine": 10,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatTypeExtensions.L10.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatTypeExtensions.L10.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatTypeExtensions.cs",
+        "Line": 64,
+        "TraceId": "ec27c130-d537-4e82-b51e-7776bbec167d",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsOfType",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatTypeExtensions.cs",
+      "StatementStartLine": 66,
+      "StatementEndLine": 66,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatTypeExtensions.L66.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatTypeExtensions.L66.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatTypeExtensions.cs",
+        "Line": 57,
+        "TraceId": "c29bca72-c7d1-46f5-ab0a-c3bf9c97ab1a",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsString",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatTypeExtensions.cs",
+      "StatementStartLine": 59,
+      "StatementEndLine": 59,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatTypeExtensions.L59.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatTypeExtensions.L59.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatStringExtensions.cs",
+        "Line": 66,
+        "TraceId": "881c2414-0361-417e-b2d9-b52b874fe864",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "Matches",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatStringExtensions.cs",
+      "StatementStartLine": 68,
+      "StatementEndLine": 68,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatStringExtensions.L68.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatStringExtensions.L68.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatStringExtensions.cs",
+        "Line": 59,
+        "TraceId": "93f2ce0a-cfa3-4e40-bb1d-7193c6410aed",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "Matches",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatStringExtensions.cs",
+      "StatementStartLine": 61,
+      "StatementEndLine": 61,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatStringExtensions.L61.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches\\EnsureThatStringExtensions.L61.diff"
+    }
+  ]
+}

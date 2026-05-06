@@ -1,0 +1,236 @@
+{
+  "GeneratedAt": "2026-05-06T22:43:29.1472779Z",
+  "ViolationsFile": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\01_StephenCleary__Comparers\\violations.json",
+  "TotalViolations": 9,
+  "ByAction": {
+    "AutoPatchable": 5,
+    "IntentionalValidator": 4
+  },
+  "Items": [
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.NotImplementedException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Util\\EqualityComparerBase.cs",
+        "Line": 94,
+        "TraceId": "a826e095-22f1-44b8-bf8e-1d803bf5351f",
+        "ExceptionType": "System.NotImplementedException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "GetHashCode",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\01_StephenCleary__Comparers\\repo\\src\\Nito.Comparers.Core\\Util\\EqualityComparerBase.cs",
+      "StatementStartLine": 96,
+      "StatementEndLine": 100,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.NotImplementedException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\01_StephenCleary__Comparers\\patches\\EqualityComparerBase.L96.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\01_StephenCleary__Comparers\\patches\\EqualityComparerBase.L96.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(dereference.receiver)",
+        "Assertion": "dereference receiver is not null",
+        "Bindings": {
+          "detection": "forward-runtime-signal",
+          "exception.message": "Object reference not set to an instance of an object.",
+          "null.variable": "enumerable",
+          "null.assigned_at_line": 26
+        },
+        "Result": false,
+        "File": "Util\\EqualityComparerHelpers.cs",
+        "Line": 26,
+        "TraceId": "640e5d4e-9b93-47c0-b4e2-e6975f09e9e3",
+        "ExceptionType": "",
+        "Detection": "forward-runtime-signal"
+      },
+      "ContainingMember": "NormalizeDefault",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\01_StephenCleary__Comparers\\repo\\src\\Nito.Comparers.Core\\Util\\EqualityComparerHelpers.cs",
+      "StatementStartLine": 26,
+      "StatementEndLine": 26,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(dereference.receiver)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\01_StephenCleary__Comparers\\patches\\EqualityComparerHelpers.L26.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\01_StephenCleary__Comparers\\patches\\EqualityComparerHelpers.L26.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(dereference.receiver)",
+        "Assertion": "dereference receiver is not null",
+        "Bindings": {
+          "detection": "forward-runtime-signal",
+          "exception.message": "Object reference not set to an instance of an object.",
+          "null.variable": "enumerable",
+          "null.assigned_at_line": 26
+        },
+        "Result": false,
+        "File": "Util\\EqualityComparerHelpers.cs",
+        "Line": 26,
+        "TraceId": "640e5d4e-9b93-47c0-b4e2-e6975f09e9e3",
+        "ExceptionType": "",
+        "Detection": "forward-runtime-signal"
+      },
+      "ContainingMember": "NormalizeDefault",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\01_StephenCleary__Comparers\\repo\\src\\Nito.Comparers.Core\\Util\\EqualityComparerHelpers.cs",
+      "StatementStartLine": 26,
+      "StatementEndLine": 26,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(dereference.receiver)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\01_StephenCleary__Comparers\\patches\\EqualityComparerHelpers.L26.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\01_StephenCleary__Comparers\\patches\\EqualityComparerHelpers.L26.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(dereference.receiver)",
+        "Assertion": "dereference receiver is not null",
+        "Bindings": {
+          "detection": "forward-runtime-signal",
+          "exception.message": "Object reference not set to an instance of an object.",
+          "null.variable": "enumerable",
+          "null.assigned_at_line": 26
+        },
+        "Result": false,
+        "File": "Util\\EqualityComparerHelpers.cs",
+        "Line": 26,
+        "TraceId": "640e5d4e-9b93-47c0-b4e2-e6975f09e9e3",
+        "ExceptionType": "",
+        "Detection": "forward-runtime-signal"
+      },
+      "ContainingMember": "NormalizeDefault",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\01_StephenCleary__Comparers\\repo\\src\\Nito.Comparers.Core\\Util\\EqualityComparerHelpers.cs",
+      "StatementStartLine": 26,
+      "StatementEndLine": 26,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(dereference.receiver)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\01_StephenCleary__Comparers\\patches\\EqualityComparerHelpers.L26.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\01_StephenCleary__Comparers\\patches\\EqualityComparerHelpers.L26.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Util\\EqualityComparerBase.cs",
+        "Line": 44,
+        "TraceId": "ba8eaa84-3996-48eb-98a8-35663db58ae5",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "Equals",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\01_StephenCleary__Comparers\\repo\\src\\Nito.Comparers.Core\\Util\\EqualityComparerBase.cs",
+      "StatementStartLine": 47,
+      "StatementEndLine": 47,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Util\\EqualityComparerBase.cs",
+        "Line": 66,
+        "TraceId": "e2316494-f48d-4dc8-be19-a8af228c17bd",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "GetHashCode",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\01_StephenCleary__Comparers\\repo\\src\\Nito.Comparers.Core\\Util\\EqualityComparerBase.cs",
+      "StatementStartLine": 68,
+      "StatementEndLine": 72,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Util\\ComparerBase.cs",
+        "Line": 33,
+        "TraceId": "cc58882f-2afd-4d9c-8682-fe5a9967b04e",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "Compare",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\01_StephenCleary__Comparers\\repo\\src\\Nito.Comparers.Core\\Util\\ComparerBase.cs",
+      "StatementStartLine": 35,
+      "StatementEndLine": 35,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Util\\ComparableImplementations.cs",
+        "Line": 30,
+        "TraceId": "02f05d59-990b-4443-aac8-0daabe724dfd",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "ImplementCompareTo",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\01_StephenCleary__Comparers\\repo\\src\\Nito.Comparers.Core\\Util\\ComparableImplementations.cs",
+      "StatementStartLine": 32,
+      "StatementEndLine": 32,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(dereference.receiver)",
+        "Assertion": "dereference receiver is not null",
+        "Bindings": {
+          "detection": "forward-runtime-signal",
+          "exception.message": "Object reference not set to an instance of an object.",
+          "null.variable": "xCount",
+          "null.assigned_at_line": 33
+        },
+        "Result": false,
+        "File": "Util\\SequenceEqualityComparer.cs",
+        "Line": 33,
+        "TraceId": "ad5c7b40-65f1-499a-a7e3-0ee481fba7bf",
+        "ExceptionType": "",
+        "Detection": "forward-runtime-signal"
+      },
+      "ContainingMember": "DoEquals",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\01_StephenCleary__Comparers\\repo\\src\\Nito.Comparers.Core\\Util\\SequenceEqualityComparer.cs",
+      "StatementStartLine": 33,
+      "StatementEndLine": 33,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(dereference.receiver)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\01_StephenCleary__Comparers\\patches\\SequenceEqualityComparer.L33.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\01_StephenCleary__Comparers\\patches\\SequenceEqualityComparer.L33.diff"
+    }
+  ]
+}

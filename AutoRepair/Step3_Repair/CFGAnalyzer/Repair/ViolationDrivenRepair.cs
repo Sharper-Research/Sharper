@@ -138,11 +138,27 @@ public static class ViolationDrivenRepair
         Dictionary<string, List<Document>> docsByName,
         string patchesDir)
     {
+        // Step 1's instrumenter records the violation's `file` as a path
+        // relative to the source root (e.g. "Util\\Foo.cs"), but the doc
+        // index keys on the bare filename. Try the bare-filename fallback
+        // before giving up.
         if (!docsByName.TryGetValue(v.File, out var docs) || docs.Count == 0)
         {
-            return new RepairItem(v, "<unknown>", v.File, null, null,
-                RepairAction.NoSyntaxLocated, "Source file not found in solution",
-                new List<string>(), null, null);
+            var baseName = Path.GetFileName(
+                v.File.Replace('\\', Path.DirectorySeparatorChar)
+                      .Replace('/',  Path.DirectorySeparatorChar));
+            if (!string.IsNullOrEmpty(baseName)
+                && !string.Equals(baseName, v.File, StringComparison.OrdinalIgnoreCase)
+                && docsByName.TryGetValue(baseName, out var byBase) && byBase.Count > 0)
+            {
+                docs = byBase;
+            }
+            else
+            {
+                return new RepairItem(v, "<unknown>", v.File, null, null,
+                    RepairAction.NoSyntaxLocated, "Source file not found in solution",
+                    new List<string>(), null, null);
+            }
         }
 
         // Take the first match. Multi-project repos with same-named files are
@@ -175,10 +191,27 @@ public static class ViolationDrivenRepair
         if (member is BaseMethodDeclarationSyntax mds && mds.Identifier() is { } id)
             memberName = id;
 
-        // Find the smallest enclosing statement that's a direct child of a block,
-        // since that's the unit we can safely wrap in try/catch.
+        // Find the smallest enclosing statement we can wrap in try/catch.
+        // Prefer one whose parent is a Block (clean replacement), and fall
+        // back to any enclosing StatementSyntax that is *not itself* a
+        // BlockSyntax — Roslyn's ReplaceNode can swap a single child in
+        // IfStatement.Statement / SwitchSection / LabeledStatement etc.,
+        // but slots typed as BlockSyntax (e.g. MethodDeclaration.Body)
+        // reject a TryStatement and throw InvalidCastException at runtime.
         var statement = node?.AncestorsAndSelf().OfType<StatementSyntax>()
-            .FirstOrDefault(s => s.Parent is BlockSyntax);
+            .FirstOrDefault(s => s.Parent is BlockSyntax)
+            ?? node?.AncestorsAndSelf().OfType<StatementSyntax>()
+                .FirstOrDefault(s => s is not BlockSyntax);
+
+        // Fallback: when the violation's line points to a member declaration
+        // (e.g. the method signature line — Step 1 logs Enter Method using
+        // the declaration's start line), there is no enclosing statement.
+        // In that case, wrap the first statement of the member's body so the
+        // whole method body is guarded.
+        if (statement == null && member is BaseMethodDeclarationSyntax bmds)
+        {
+            statement = bmds.Body?.Statements.FirstOrDefault();
+        }
         var stmtStart = statement?.GetLocation().GetLineSpan().StartLinePosition.Line + 1;
         var stmtEnd = statement?.GetLocation().GetLineSpan().EndLinePosition.Line + 1;
 
@@ -196,8 +229,13 @@ public static class ViolationDrivenRepair
                 stmtStart, stmtEnd, action, reason, pathConstraints, null, null);
         }
 
+        // For NoUnhandledException the catch type comes straight from the
+        // observed exception. For the other predicates we map the predicate
+        // family to the catch type that would actually fire if the violation
+        // re-occurred at runtime (NullReferenceException for NotNull, etc.).
+        var catchType = ResolveCatchType(v);
         var (patchedPath, diffPath) = await PatchSynthesizer.WritePatchAsync(
-            doc, statement, v.ExceptionType, patchesDir);
+            doc, statement, catchType, patchesDir);
 
         return new RepairItem(v, memberName, doc.FilePath ?? v.File,
             stmtStart, stmtEnd, action, reason, pathConstraints, patchedPath, diffPath);
@@ -253,8 +291,42 @@ public static class ViolationDrivenRepair
                 $"Forward-propagation guard for unhandled {ex}");
         }
 
+        // Other Step 2 predicates each map to a runtime exception type that
+        // would surface if the violation re-fired. We synthesise the same
+        // forward-propagation try/catch wrap as for NoUnhandledException —
+        // the catch type comes from ResolveCatchType.
+        if (v.Predicate.StartsWith("NotNull",        StringComparison.Ordinal) ||
+            v.Predicate.StartsWith("ValidCast",      StringComparison.Ordinal) ||
+            v.Predicate.StartsWith("BufferBounds",   StringComparison.Ordinal) ||
+            v.Predicate.StartsWith("IntegerOverflow",StringComparison.Ordinal))
+        {
+            if (statement == null)
+            {
+                return (RepairAction.NoSyntaxLocated,
+                    $"Could not locate a wrappable statement at line {v.Line} for {v.Predicate}");
+            }
+            return (RepairAction.AutoPatchable,
+                $"Forward-propagation guard for {v.Predicate}");
+        }
+
         return (RepairAction.UnsupportedPredicate,
             $"Predicate '{v.Predicate}' is not yet handled by the patch synthesizer");
+    }
+
+    /// <summary>
+    /// Map a violation's predicate to the .NET exception type whose catch
+    /// would intercept the runtime fault if the violation reproduced.
+    /// </summary>
+    private static string ResolveCatchType(Violation v)
+    {
+        var p = v.Predicate;
+        if (p.StartsWith("NoUnhandledException", StringComparison.Ordinal))
+            return string.IsNullOrEmpty(v.ExceptionType) ? "System.Exception" : v.ExceptionType;
+        if (p.StartsWith("NotNull",         StringComparison.Ordinal)) return "System.NullReferenceException";
+        if (p.StartsWith("ValidCast",       StringComparison.Ordinal)) return "System.InvalidCastException";
+        if (p.StartsWith("BufferBounds",    StringComparison.Ordinal)) return "System.ArgumentOutOfRangeException";
+        if (p.StartsWith("IntegerOverflow", StringComparison.Ordinal)) return "System.OverflowException";
+        return "System.Exception";
     }
 
     private static bool ContainsExplicitThrow(MemberDeclarationSyntax? member)
@@ -262,8 +334,46 @@ public static class ViolationDrivenRepair
         if (member == null) return false;
         return member.DescendantNodes()
             .OfType<ThrowStatementSyntax>()
-            .Any(t => t.Expression is ObjectCreationExpressionSyntax oc
-                && oc.Type.ToString().EndsWith("Exception"));
+            .Any(IsArgumentValidationThrow)
+            || member.DescendantNodes()
+            .OfType<ThrowExpressionSyntax>()
+            .Any(t => IsExceptionExpression(t.Expression));
+    }
+
+    /// <summary>
+    /// Recognise both `throw new ArgumentException(...)` and factory-style
+    /// patterns like `throw Ensure.ExceptionFactory.ArgumentException(...)`
+    /// that ensure.that-style libraries use. Without this, factory throws
+    /// would be classified as AutoPatchable and we'd generate patches that
+    /// silently swallow deliberate input validation.
+    /// </summary>
+    private static bool IsArgumentValidationThrow(ThrowStatementSyntax t)
+        => t.Expression != null && IsExceptionExpression(t.Expression);
+
+    private static bool IsExceptionExpression(ExpressionSyntax expr)
+    {
+        switch (expr)
+        {
+            case ObjectCreationExpressionSyntax oc:
+                return oc.Type.ToString().EndsWith("Exception", StringComparison.Ordinal);
+
+            case InvocationExpressionSyntax inv:
+            {
+                // The "method name" of the invocation. For
+                // `Foo.Bar.ArgumentException(...)` this is "ArgumentException".
+                var name = inv.Expression switch
+                {
+                    MemberAccessExpressionSyntax ma => ma.Name.Identifier.Text,
+                    IdentifierNameSyntax id        => id.Identifier.Text,
+                    GenericNameSyntax gn           => gn.Identifier.Text,
+                    _                              => string.Empty,
+                };
+                return name.EndsWith("Exception", StringComparison.Ordinal);
+            }
+
+            default:
+                return false;
+        }
     }
 }
 

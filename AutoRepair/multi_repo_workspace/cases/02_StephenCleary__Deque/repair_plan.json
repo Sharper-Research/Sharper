@@ -1,0 +1,2317 @@
+{
+  "GeneratedAt": "2026-05-06T22:43:33.1299246Z",
+  "ViolationsFile": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\violations.json",
+  "TotalViolations": 81,
+  "ByAction": {
+    "UnsupportedPredicate": 66,
+    "IntentionalValidator": 7,
+    "AutoPatchable": 8
+  },
+  "Items": [
+    {
+      "Violation": {
+        "Predicate": "BufferInBounds(index:_buffer, _buffer)",
+        "Assertion": "0 \u003C= index:_buffer AND index:_buffer \u003C heap.size(_buffer)",
+        "Bindings": {
+          "index:_buffer": 4,
+          "heap.size(_buffer)": 3,
+          "detection": "forward-index-check",
+          "_buffer.contents": [
+            "1",
+            "2",
+            "3"
+          ]
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 611,
+        "TraceId": "4c5c3256-7c3c-4d49-b821-8791d7839f22",
+        "ExceptionType": "",
+        "Detection": "forward-index-check"
+      },
+      "ContainingMember": "DoInsertRange",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 610,
+      "StatementEndLine": 611,
+      "Action": "UnsupportedPredicate",
+      "ActionReason": "Predicate \u0027BufferInBounds(index:_buffer, _buffer)\u0027 is not yet handled by the patch synthesizer",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentOutOfRangeException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 356,
+        "TraceId": "e039c42b-7260-4ef6-bd08-be37783d45c4",
+        "ExceptionType": "System.ArgumentOutOfRangeException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "CheckRangeArguments",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 358,
+      "StatementEndLine": 361,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentOutOfRangeException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 287,
+        "TraceId": "2a769c47-5e5c-4f36-98c7-78d4d4e253e4",
+        "ExceptionType": "System.ArgumentOutOfRangeException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "CopyTo",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 289,
+      "StatementEndLine": 290,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentOutOfRangeException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 326,
+        "TraceId": "18ede5bb-52e4-4c09-9bb1-a6fd2864158f",
+        "ExceptionType": "System.ArgumentOutOfRangeException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "CheckNewIndexArgument",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 328,
+      "StatementEndLine": 331,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentOutOfRangeException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 99,
+        "TraceId": "aaaa52d1-98de-470d-8708-93baef814fff",
+        "ExceptionType": "System.ArgumentOutOfRangeException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "Insert",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 101,
+      "StatementEndLine": 101,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentOutOfRangeException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\patches\\Deque.L101.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\patches\\Deque.L101.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentOutOfRangeException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 146,
+        "TraceId": "9aab801c-a6f4-4671-b2e8-bf239c76fc1b",
+        "ExceptionType": "System.ArgumentOutOfRangeException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "CopyTo",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 149,
+      "StatementEndLine": 149,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.RankException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 164,
+        "TraceId": "191ebc6a-9ea8-4b70-9095-0029d25c55bc",
+        "ExceptionType": "System.RankException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "CopyToArray",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 167,
+      "StatementEndLine": 167,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.RankException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\patches\\Deque.L167.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\patches\\Deque.L167.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.RankException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 301,
+        "TraceId": "f4596114-5d0a-4340-818e-13db94c2231c",
+        "ExceptionType": "System.RankException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "CopyTo",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 293,
+      "StatementEndLine": 304,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.RankException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\patches\\Deque.L293.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\patches\\Deque.L293.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentOutOfRangeException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 739,
+        "TraceId": "454cd865-29d0-46d1-8973-972c9b87004f",
+        "ExceptionType": "System.ArgumentOutOfRangeException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "RemoveRange",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 741,
+      "StatementEndLine": 741,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentOutOfRangeException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\patches\\Deque.L741.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\patches\\Deque.L741.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "BufferInBounds(index:_buffer, _buffer)",
+        "Assertion": "0 \u003C= index:_buffer AND index:_buffer \u003C heap.size(_buffer)",
+        "Bindings": {
+          "index:_buffer": 2,
+          "heap.size(_buffer)": 2,
+          "detection": "forward-index-check",
+          "_buffer.contents": [
+            "1",
+            "2"
+          ]
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 544,
+        "TraceId": "ea65aaf5-c396-448a-a59c-7a642e0687d1",
+        "ExceptionType": "",
+        "Detection": "forward-index-check"
+      },
+      "ContainingMember": "DoAddToBack",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 544,
+      "StatementEndLine": 544,
+      "Action": "UnsupportedPredicate",
+      "ActionReason": "Predicate \u0027BufferInBounds(index:_buffer, _buffer)\u0027 is not yet handled by the patch synthesizer",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentOutOfRangeException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 340,
+        "TraceId": "c1bb4aa9-3078-4997-a15b-79473725b4a1",
+        "ExceptionType": "System.ArgumentOutOfRangeException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "CheckExistingIndexArgument",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 342,
+      "StatementEndLine": 345,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentOutOfRangeException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 106,
+        "TraceId": "71dac065-6cd0-4f35-b3cc-d0471379febe",
+        "ExceptionType": "System.ArgumentOutOfRangeException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "RemoveAt",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 108,
+      "StatementEndLine": 108,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArgumentOutOfRangeException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\patches\\Deque.L108.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\patches\\Deque.L108.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 245,
+        "TraceId": "19e4be77-d73b-4d24-9680-65d6b4c2d2c4",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "Insert",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 247,
+      "StatementEndLine": 248,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "BufferInBounds(index:_buffer, _buffer)",
+        "Assertion": "0 \u003C= index:_buffer AND index:_buffer \u003C heap.size(_buffer)",
+        "Bindings": {
+          "index:_buffer": 3,
+          "heap.size(_buffer)": 2,
+          "detection": "forward-index-check",
+          "_buffer.contents": [
+            "1",
+            "2"
+          ]
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 554,
+        "TraceId": "1200cc46-2ca6-4b57-ba28-cb3eeb5b77d4",
+        "ExceptionType": "",
+        "Detection": "forward-index-check"
+      },
+      "ContainingMember": "DoAddToFront",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 554,
+      "StatementEndLine": 554,
+      "Action": "UnsupportedPredicate",
+      "ActionReason": "Predicate \u0027BufferInBounds(index:_buffer, _buffer)\u0027 is not yet handled by the patch synthesizer",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentNullException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 225,
+        "TraceId": "777d3e7c-9f54-4c64-96a5-ffe569e5dc1b",
+        "ExceptionType": "System.ArgumentNullException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "Add",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 227,
+      "StatementEndLine": 228,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws an argument-validation exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "BufferInBounds(index:_buffer, _buffer)",
+        "Assertion": "0 \u003C= index:_buffer AND index:_buffer \u003C heap.size(_buffer)",
+        "Bindings": {
+          "index:_buffer": 2,
+          "heap.size(_buffer)": 2,
+          "detection": "forward-index-check",
+          "_buffer.contents": [
+            "1",
+            "2"
+          ]
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 544,
+        "TraceId": "ea65aaf5-c396-448a-a59c-7a642e0687d1",
+        "ExceptionType": "",
+        "Detection": "forward-index-check"
+      },
+      "ContainingMember": "DoAddToBack",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 544,
+      "StatementEndLine": 544,
+      "Action": "UnsupportedPredicate",
+      "ActionReason": "Predicate \u0027BufferInBounds(index:_buffer, _buffer)\u0027 is not yet handled by the patch synthesizer",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.InvalidOperationException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 756,
+        "TraceId": "1343de22-2b18-4092-993c-0c572013b294",
+        "ExceptionType": "System.InvalidOperationException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "RemoveFromBack",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 758,
+      "StatementEndLine": 759,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.InvalidOperationException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\patches\\Deque.L758.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\patches\\Deque.L758.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "BufferInBounds(index:_buffer, _buffer)",
+        "Assertion": "0 \u003C= index:_buffer AND index:_buffer \u003C heap.size(_buffer)",
+        "Bindings": {
+          "index:_buffer": 2,
+          "heap.size(_buffer)": 2,
+          "detection": "forward-index-check",
+          "_buffer.contents": [
+            "0",
+            "1"
+          ]
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 544,
+        "TraceId": "ea65aaf5-c396-448a-a59c-7a642e0687d1",
+        "ExceptionType": "",
+        "Detection": "forward-index-check"
+      },
+      "ContainingMember": "DoAddToBack",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 544,
+      "StatementEndLine": 544,
+      "Action": "UnsupportedPredicate",
+      "ActionReason": "Predicate \u0027BufferInBounds(index:_buffer, _buffer)\u0027 is not yet handled by the patch synthesizer",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "BufferInBounds(index:_buffer, _buffer)",
+        "Assertion": "0 \u003C= index:_buffer AND index:_buffer \u003C heap.size(_buffer)",
+        "Bindings": {
+          "index:_buffer": 7,
+          "heap.size(_buffer)": 3,
+          "detection": "forward-index-check",
+          "_buffer.contents": [
+            "1",
+            "0",
+            "3"
+          ]
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 554,
+        "TraceId": "1200cc46-2ca6-4b57-ba28-cb3eeb5b77d4",
+        "ExceptionType": "",
+        "Detection": "forward-index-check"
+      },
+      "ContainingMember": "DoAddToFront",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 554,
+      "StatementEndLine": 554,
+      "Action": "UnsupportedPredicate",
+      "ActionReason": "Predicate \u0027BufferInBounds(index:_buffer, _buffer)\u0027 is not yet handled by the patch synthesizer",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "BufferInBounds(index:_buffer, _buffer)",
+        "Assertion": "0 \u003C= index:_buffer AND index:_buffer \u003C heap.size(_buffer)",
+        "Bindings": {
+          "index:_buffer": 3,
+          "heap.size(_buffer)": 3,
+          "detection": "forward-index-check",
+          "_buffer.contents": [
+            "1",
+            "2",
+            "3"
+          ]
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 618,
+        "TraceId": "dd43c0fa-0b63-407a-b8a6-d3d5a5a5249e",
+        "ExceptionType": "",
+        "Detection": "forward-index-check"
+      },
+      "ContainingMember": "DoInsertRange",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 618,
+      "StatementEndLine": 618,
+      "Action": "UnsupportedPredicate",
+      "ActionReason": "Predicate \u0027BufferInBounds(index:_buffer, _buffer)\u0027 is not yet handled by the patch synthesizer",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "BufferInBounds(index:_buffer, _buffer)",
+        "Assertion": "0 \u003C= index:_buffer AND index:_buffer \u003C heap.size(_buffer)",
+        "Bindings": {
+          "index:_buffer": 4,
+          "heap.size(_buffer)": 3,
+          "detection": "forward-index-check",
+          "_buffer.contents": [
+            "1",
+            "2",
+            "3"
+          ]
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 611,
+        "TraceId": "4c5c3256-7c3c-4d49-b821-8791d7839f22",
+        "ExceptionType": "",
+        "Detection": "forward-index-check"
+      },
+      "ContainingMember": "DoInsertRange",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 610,
+      "StatementEndLine": 611,
+      "Action": "UnsupportedPredicate",
+      "ActionReason": "Predicate \u0027BufferInBounds(index:_buffer, _buffer)\u0027 is not yet handled by the patch synthesizer",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "BufferInBounds(index:_buffer, _buffer)",
+        "Assertion": "0 \u003C= index:_buffer AND index:_buffer \u003C heap.size(_buffer)",
+        "Bindings": {
+          "index:_buffer": 4,
+          "heap.size(_buffer)": 3,
+          "detection": "forward-index-check",
+          "_buffer.contents": [
+            "1",
+            "2",
+            "3"
+          ]
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 611,
+        "TraceId": "4c5c3256-7c3c-4d49-b821-8791d7839f22",
+        "ExceptionType": "",
+        "Detection": "forward-index-check"
+      },
+      "ContainingMember": "DoInsertRange",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 610,
+      "StatementEndLine": 611,
+      "Action": "UnsupportedPredicate",
+      "ActionReason": "Predicate \u0027BufferInBounds(index:_buffer, _buffer)\u0027 is not yet handled by the patch synthesizer",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "BufferInBounds(index:_buffer, _buffer)",
+        "Assertion": "0 \u003C= index:_buffer AND index:_buffer \u003C heap.size(_buffer)",
+        "Bindings": {
+          "index:_buffer": 3,
+          "heap.size(_buffer)": 3,
+          "detection": "forward-index-check",
+          "_buffer.contents": [
+            "1",
+            "2",
+            "3"
+          ]
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 618,
+        "TraceId": "dd43c0fa-0b63-407a-b8a6-d3d5a5a5249e",
+        "ExceptionType": "",
+        "Detection": "forward-index-check"
+      },
+      "ContainingMember": "DoInsertRange",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 618,
+      "StatementEndLine": 618,
+      "Action": "UnsupportedPredicate",
+      "ActionReason": "Predicate \u0027BufferInBounds(index:_buffer, _buffer)\u0027 is not yet handled by the patch synthesizer",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "BufferInBounds(index:_buffer, _buffer)",
+        "Assertion": "0 \u003C= index:_buffer AND index:_buffer \u003C heap.size(_buffer)",
+        "Bindings": {
+          "index:_buffer": 3,
+          "heap.size(_buffer)": 3,
+          "detection": "forward-index-check",
+          "_buffer.contents": [
+            "1",
+            "2",
+            "3"
+          ]
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 544,
+        "TraceId": "ea65aaf5-c396-448a-a59c-7a642e0687d1",
+        "ExceptionType": "",
+        "Detection": "forward-index-check"
+      },
+      "ContainingMember": "DoAddToBack",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 544,
+      "StatementEndLine": 544,
+      "Action": "UnsupportedPredicate",
+      "ActionReason": "Predicate \u0027BufferInBounds(index:_buffer, _buffer)\u0027 is not yet handled by the patch synthesizer",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "BufferInBounds(index:_buffer, _buffer)",
+        "Assertion": "0 \u003C= index:_buffer AND index:_buffer \u003C heap.size(_buffer)",
+        "Bindings": {
+          "index:_buffer": 3,
+          "heap.size(_buffer)": 3,
+          "detection": "forward-index-check",
+          "_buffer.contents": [
+            "1",
+            "2",
+            "3"
+          ]
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 544,
+        "TraceId": "ea65aaf5-c396-448a-a59c-7a642e0687d1",
+        "ExceptionType": "",
+        "Detection": "forward-index-check"
+      },
+      "ContainingMember": "DoAddToBack",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 544,
+      "StatementEndLine": 544,
+      "Action": "UnsupportedPredicate",
+      "ActionReason": "Predicate \u0027BufferInBounds(index:_buffer, _buffer)\u0027 is not yet handled by the patch synthesizer",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "BufferInBounds(index:_buffer, _buffer)",
+        "Assertion": "0 \u003C= index:_buffer AND index:_buffer \u003C heap.size(_buffer)",
+        "Bindings": {
+          "index:_buffer": 3,
+          "heap.size(_buffer)": 3,
+          "detection": "forward-index-check",
+          "_buffer.contents": [
+            "1",
+            "2",
+            "3"
+          ]
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 544,
+        "TraceId": "ea65aaf5-c396-448a-a59c-7a642e0687d1",
+        "ExceptionType": "",
+        "Detection": "forward-index-check"
+      },
+      "ContainingMember": "DoAddToBack",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 544,
+      "StatementEndLine": 544,
+      "Action": "UnsupportedPredicate",
+      "ActionReason": "Predicate \u0027BufferInBounds(index:_buffer, _buffer)\u0027 is not yet handled by the patch synthesizer",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "BufferInBounds(index:_buffer, _buffer)",
+        "Assertion": "0 \u003C= index:_buffer AND index:_buffer \u003C heap.size(_buffer)",
+        "Bindings": {
+          "index:_buffer": 3,
+          "heap.size(_buffer)": 3,
+          "detection": "forward-index-check",
+          "_buffer.contents": [
+            "1",
+            "2",
+            "3"
+          ]
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 544,
+        "TraceId": "ea65aaf5-c396-448a-a59c-7a642e0687d1",
+        "ExceptionType": "",
+        "Detection": "forward-index-check"
+      },
+      "ContainingMember": "DoAddToBack",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 544,
+      "StatementEndLine": 544,
+      "Action": "UnsupportedPredicate",
+      "ActionReason": "Predicate \u0027BufferInBounds(index:_buffer, _buffer)\u0027 is not yet handled by the patch synthesizer",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "BufferInBounds(index:_buffer, _buffer)",
+        "Assertion": "0 \u003C= index:_buffer AND index:_buffer \u003C heap.size(_buffer)",
+        "Bindings": {
+          "index:_buffer": 3,
+          "heap.size(_buffer)": 3,
+          "detection": "forward-index-check",
+          "_buffer.contents": [
+            "1",
+            "2",
+            "3"
+          ]
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 544,
+        "TraceId": "ea65aaf5-c396-448a-a59c-7a642e0687d1",
+        "ExceptionType": "",
+        "Detection": "forward-index-check"
+      },
+      "ContainingMember": "DoAddToBack",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 544,
+      "StatementEndLine": 544,
+      "Action": "UnsupportedPredicate",
+      "ActionReason": "Predicate \u0027BufferInBounds(index:_buffer, _buffer)\u0027 is not yet handled by the patch synthesizer",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "BufferInBounds(index:_buffer, _buffer)",
+        "Assertion": "0 \u003C= index:_buffer AND index:_buffer \u003C heap.size(_buffer)",
+        "Bindings": {
+          "index:_buffer": 3,
+          "heap.size(_buffer)": 3,
+          "detection": "forward-index-check",
+          "_buffer.contents": [
+            "1",
+            "2",
+            "3"
+          ]
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 544,
+        "TraceId": "ea65aaf5-c396-448a-a59c-7a642e0687d1",
+        "ExceptionType": "",
+        "Detection": "forward-index-check"
+      },
+      "ContainingMember": "DoAddToBack",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 544,
+      "StatementEndLine": 544,
+      "Action": "UnsupportedPredicate",
+      "ActionReason": "Predicate \u0027BufferInBounds(index:_buffer, _buffer)\u0027 is not yet handled by the patch synthesizer",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "BufferInBounds(index:_buffer, _buffer)",
+        "Assertion": "0 \u003C= index:_buffer AND index:_buffer \u003C heap.size(_buffer)",
+        "Bindings": {
+          "index:_buffer": 3,
+          "heap.size(_buffer)": 3,
+          "detection": "forward-index-check",
+          "_buffer.contents": [
+            "1",
+            "2",
+            "3"
+          ]
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 544,
+        "TraceId": "ea65aaf5-c396-448a-a59c-7a642e0687d1",
+        "ExceptionType": "",
+        "Detection": "forward-index-check"
+      },
+      "ContainingMember": "DoAddToBack",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 544,
+      "StatementEndLine": 544,
+      "Action": "UnsupportedPredicate",
+      "ActionReason": "Predicate \u0027BufferInBounds(index:_buffer, _buffer)\u0027 is not yet handled by the patch synthesizer",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "BufferInBounds(index:_buffer, _buffer)",
+        "Assertion": "0 \u003C= index:_buffer AND index:_buffer \u003C heap.size(_buffer)",
+        "Bindings": {
+          "index:_buffer": 3,
+          "heap.size(_buffer)": 3,
+          "detection": "forward-index-check",
+          "_buffer.contents": [
+            "1",
+            "2",
+            "3"
+          ]
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 544,
+        "TraceId": "ea65aaf5-c396-448a-a59c-7a642e0687d1",
+        "ExceptionType": "",
+        "Detection": "forward-index-check"
+      },
+      "ContainingMember": "DoAddToBack",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 544,
+      "StatementEndLine": 544,
+      "Action": "UnsupportedPredicate",
+      "ActionReason": "Predicate \u0027BufferInBounds(index:_buffer, _buffer)\u0027 is not yet handled by the patch synthesizer",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "BufferInBounds(index:_buffer, _buffer)",
+        "Assertion": "0 \u003C= index:_buffer AND index:_buffer \u003C heap.size(_buffer)",
+        "Bindings": {
+          "index:_buffer": 3,
+          "heap.size(_buffer)": 3,
+          "detection": "forward-index-check",
+          "_buffer.contents": [
+            "1",
+            "2",
+            "3"
+          ]
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 544,
+        "TraceId": "ea65aaf5-c396-448a-a59c-7a642e0687d1",
+        "ExceptionType": "",
+        "Detection": "forward-index-check"
+      },
+      "ContainingMember": "DoAddToBack",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 544,
+      "StatementEndLine": 544,
+      "Action": "UnsupportedPredicate",
+      "ActionReason": "Predicate \u0027BufferInBounds(index:_buffer, _buffer)\u0027 is not yet handled by the patch synthesizer",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "BufferInBounds(index:_buffer, _buffer)",
+        "Assertion": "0 \u003C= index:_buffer AND index:_buffer \u003C heap.size(_buffer)",
+        "Bindings": {
+          "index:_buffer": 3,
+          "heap.size(_buffer)": 3,
+          "detection": "forward-index-check",
+          "_buffer.contents": [
+            "1",
+            "2",
+            "3"
+          ]
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 544,
+        "TraceId": "ea65aaf5-c396-448a-a59c-7a642e0687d1",
+        "ExceptionType": "",
+        "Detection": "forward-index-check"
+      },
+      "ContainingMember": "DoAddToBack",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 544,
+      "StatementEndLine": 544,
+      "Action": "UnsupportedPredicate",
+      "ActionReason": "Predicate \u0027BufferInBounds(index:_buffer, _buffer)\u0027 is not yet handled by the patch synthesizer",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "BufferInBounds(index:_buffer, _buffer)",
+        "Assertion": "0 \u003C= index:_buffer AND index:_buffer \u003C heap.size(_buffer)",
+        "Bindings": {
+          "index:_buffer": 3,
+          "heap.size(_buffer)": 3,
+          "detection": "forward-index-check",
+          "_buffer.contents": [
+            "1",
+            "2",
+            "3"
+          ]
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 544,
+        "TraceId": "ea65aaf5-c396-448a-a59c-7a642e0687d1",
+        "ExceptionType": "",
+        "Detection": "forward-index-check"
+      },
+      "ContainingMember": "DoAddToBack",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 544,
+      "StatementEndLine": 544,
+      "Action": "UnsupportedPredicate",
+      "ActionReason": "Predicate \u0027BufferInBounds(index:_buffer, _buffer)\u0027 is not yet handled by the patch synthesizer",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "BufferInBounds(index:_buffer, _buffer)",
+        "Assertion": "0 \u003C= index:_buffer AND index:_buffer \u003C heap.size(_buffer)",
+        "Bindings": {
+          "index:_buffer": 3,
+          "heap.size(_buffer)": 3,
+          "detection": "forward-index-check",
+          "_buffer.contents": [
+            "1",
+            "2",
+            "3"
+          ]
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 544,
+        "TraceId": "ea65aaf5-c396-448a-a59c-7a642e0687d1",
+        "ExceptionType": "",
+        "Detection": "forward-index-check"
+      },
+      "ContainingMember": "DoAddToBack",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 544,
+      "StatementEndLine": 544,
+      "Action": "UnsupportedPredicate",
+      "ActionReason": "Predicate \u0027BufferInBounds(index:_buffer, _buffer)\u0027 is not yet handled by the patch synthesizer",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "BufferInBounds(index:_buffer, _buffer)",
+        "Assertion": "0 \u003C= index:_buffer AND index:_buffer \u003C heap.size(_buffer)",
+        "Bindings": {
+          "index:_buffer": 3,
+          "heap.size(_buffer)": 3,
+          "detection": "forward-index-check",
+          "_buffer.contents": [
+            "1",
+            "2",
+            "3"
+          ]
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 544,
+        "TraceId": "ea65aaf5-c396-448a-a59c-7a642e0687d1",
+        "ExceptionType": "",
+        "Detection": "forward-index-check"
+      },
+      "ContainingMember": "DoAddToBack",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 544,
+      "StatementEndLine": 544,
+      "Action": "UnsupportedPredicate",
+      "ActionReason": "Predicate \u0027BufferInBounds(index:_buffer, _buffer)\u0027 is not yet handled by the patch synthesizer",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "BufferInBounds(index:_buffer, _buffer)",
+        "Assertion": "0 \u003C= index:_buffer AND index:_buffer \u003C heap.size(_buffer)",
+        "Bindings": {
+          "index:_buffer": 3,
+          "heap.size(_buffer)": 3,
+          "detection": "forward-index-check",
+          "_buffer.contents": [
+            "1",
+            "2",
+            "3"
+          ]
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 544,
+        "TraceId": "ea65aaf5-c396-448a-a59c-7a642e0687d1",
+        "ExceptionType": "",
+        "Detection": "forward-index-check"
+      },
+      "ContainingMember": "DoAddToBack",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 544,
+      "StatementEndLine": 544,
+      "Action": "UnsupportedPredicate",
+      "ActionReason": "Predicate \u0027BufferInBounds(index:_buffer, _buffer)\u0027 is not yet handled by the patch synthesizer",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "BufferInBounds(index:_buffer, _buffer)",
+        "Assertion": "0 \u003C= index:_buffer AND index:_buffer \u003C heap.size(_buffer)",
+        "Bindings": {
+          "index:_buffer": 3,
+          "heap.size(_buffer)": 3,
+          "detection": "forward-index-check",
+          "_buffer.contents": [
+            "1",
+            "2",
+            "3"
+          ]
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 544,
+        "TraceId": "ea65aaf5-c396-448a-a59c-7a642e0687d1",
+        "ExceptionType": "",
+        "Detection": "forward-index-check"
+      },
+      "ContainingMember": "DoAddToBack",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 544,
+      "StatementEndLine": 544,
+      "Action": "UnsupportedPredicate",
+      "ActionReason": "Predicate \u0027BufferInBounds(index:_buffer, _buffer)\u0027 is not yet handled by the patch synthesizer",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "BufferInBounds(index:_buffer, _buffer)",
+        "Assertion": "0 \u003C= index:_buffer AND index:_buffer \u003C heap.size(_buffer)",
+        "Bindings": {
+          "index:_buffer": 3,
+          "heap.size(_buffer)": 3,
+          "detection": "forward-index-check",
+          "_buffer.contents": [
+            "1",
+            "2",
+            "3"
+          ]
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 544,
+        "TraceId": "ea65aaf5-c396-448a-a59c-7a642e0687d1",
+        "ExceptionType": "",
+        "Detection": "forward-index-check"
+      },
+      "ContainingMember": "DoAddToBack",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 544,
+      "StatementEndLine": 544,
+      "Action": "UnsupportedPredicate",
+      "ActionReason": "Predicate \u0027BufferInBounds(index:_buffer, _buffer)\u0027 is not yet handled by the patch synthesizer",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "BufferInBounds(index:_buffer, _buffer)",
+        "Assertion": "0 \u003C= index:_buffer AND index:_buffer \u003C heap.size(_buffer)",
+        "Bindings": {
+          "index:_buffer": 3,
+          "heap.size(_buffer)": 3,
+          "detection": "forward-index-check",
+          "_buffer.contents": [
+            "1",
+            "2",
+            "3"
+          ]
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 544,
+        "TraceId": "ea65aaf5-c396-448a-a59c-7a642e0687d1",
+        "ExceptionType": "",
+        "Detection": "forward-index-check"
+      },
+      "ContainingMember": "DoAddToBack",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 544,
+      "StatementEndLine": 544,
+      "Action": "UnsupportedPredicate",
+      "ActionReason": "Predicate \u0027BufferInBounds(index:_buffer, _buffer)\u0027 is not yet handled by the patch synthesizer",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "BufferInBounds(index:_buffer, _buffer)",
+        "Assertion": "0 \u003C= index:_buffer AND index:_buffer \u003C heap.size(_buffer)",
+        "Bindings": {
+          "index:_buffer": 3,
+          "heap.size(_buffer)": 3,
+          "detection": "forward-index-check",
+          "_buffer.contents": [
+            "1",
+            "2",
+            "3"
+          ]
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 544,
+        "TraceId": "ea65aaf5-c396-448a-a59c-7a642e0687d1",
+        "ExceptionType": "",
+        "Detection": "forward-index-check"
+      },
+      "ContainingMember": "DoAddToBack",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 544,
+      "StatementEndLine": 544,
+      "Action": "UnsupportedPredicate",
+      "ActionReason": "Predicate \u0027BufferInBounds(index:_buffer, _buffer)\u0027 is not yet handled by the patch synthesizer",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "BufferInBounds(index:_buffer, _buffer)",
+        "Assertion": "0 \u003C= index:_buffer AND index:_buffer \u003C heap.size(_buffer)",
+        "Bindings": {
+          "index:_buffer": 3,
+          "heap.size(_buffer)": 3,
+          "detection": "forward-index-check",
+          "_buffer.contents": [
+            "1",
+            "2",
+            "3"
+          ]
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 544,
+        "TraceId": "ea65aaf5-c396-448a-a59c-7a642e0687d1",
+        "ExceptionType": "",
+        "Detection": "forward-index-check"
+      },
+      "ContainingMember": "DoAddToBack",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 544,
+      "StatementEndLine": 544,
+      "Action": "UnsupportedPredicate",
+      "ActionReason": "Predicate \u0027BufferInBounds(index:_buffer, _buffer)\u0027 is not yet handled by the patch synthesizer",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "BufferInBounds(index:_buffer, _buffer)",
+        "Assertion": "0 \u003C= index:_buffer AND index:_buffer \u003C heap.size(_buffer)",
+        "Bindings": {
+          "index:_buffer": 3,
+          "heap.size(_buffer)": 3,
+          "detection": "forward-index-check",
+          "_buffer.contents": [
+            "1",
+            "2",
+            "3"
+          ]
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 544,
+        "TraceId": "ea65aaf5-c396-448a-a59c-7a642e0687d1",
+        "ExceptionType": "",
+        "Detection": "forward-index-check"
+      },
+      "ContainingMember": "DoAddToBack",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 544,
+      "StatementEndLine": 544,
+      "Action": "UnsupportedPredicate",
+      "ActionReason": "Predicate \u0027BufferInBounds(index:_buffer, _buffer)\u0027 is not yet handled by the patch synthesizer",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "BufferInBounds(index:_buffer, _buffer)",
+        "Assertion": "0 \u003C= index:_buffer AND index:_buffer \u003C heap.size(_buffer)",
+        "Bindings": {
+          "index:_buffer": 4,
+          "heap.size(_buffer)": 4,
+          "detection": "forward-index-check",
+          "_buffer.contents": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ]
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 618,
+        "TraceId": "dd43c0fa-0b63-407a-b8a6-d3d5a5a5249e",
+        "ExceptionType": "",
+        "Detection": "forward-index-check"
+      },
+      "ContainingMember": "DoInsertRange",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 618,
+      "StatementEndLine": 618,
+      "Action": "UnsupportedPredicate",
+      "ActionReason": "Predicate \u0027BufferInBounds(index:_buffer, _buffer)\u0027 is not yet handled by the patch synthesizer",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "BufferInBounds(index:_buffer, _buffer)",
+        "Assertion": "0 \u003C= index:_buffer AND index:_buffer \u003C heap.size(_buffer)",
+        "Bindings": {
+          "index:_buffer": 4,
+          "heap.size(_buffer)": 4,
+          "detection": "forward-index-check",
+          "_buffer.contents": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ]
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 598,
+        "TraceId": "ba7900f2-07fa-44cd-9fc6-74be43cfedac",
+        "ExceptionType": "",
+        "Detection": "forward-index-check"
+      },
+      "ContainingMember": "DoInsertRange",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 597,
+      "StatementEndLine": 598,
+      "Action": "UnsupportedPredicate",
+      "ActionReason": "Predicate \u0027BufferInBounds(index:_buffer, _buffer)\u0027 is not yet handled by the patch synthesizer",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "BufferInBounds(index:_buffer, _buffer)",
+        "Assertion": "0 \u003C= index:_buffer AND index:_buffer \u003C heap.size(_buffer)",
+        "Bindings": {
+          "index:_buffer": 5,
+          "heap.size(_buffer)": 4,
+          "detection": "forward-index-check",
+          "_buffer.contents": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ]
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 611,
+        "TraceId": "4c5c3256-7c3c-4d49-b821-8791d7839f22",
+        "ExceptionType": "",
+        "Detection": "forward-index-check"
+      },
+      "ContainingMember": "DoInsertRange",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 610,
+      "StatementEndLine": 611,
+      "Action": "UnsupportedPredicate",
+      "ActionReason": "Predicate \u0027BufferInBounds(index:_buffer, _buffer)\u0027 is not yet handled by the patch synthesizer",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "BufferInBounds(index:_buffer, _buffer)",
+        "Assertion": "0 \u003C= index:_buffer AND index:_buffer \u003C heap.size(_buffer)",
+        "Bindings": {
+          "index:_buffer": 5,
+          "heap.size(_buffer)": 4,
+          "detection": "forward-index-check",
+          "_buffer.contents": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ]
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 611,
+        "TraceId": "4c5c3256-7c3c-4d49-b821-8791d7839f22",
+        "ExceptionType": "",
+        "Detection": "forward-index-check"
+      },
+      "ContainingMember": "DoInsertRange",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 610,
+      "StatementEndLine": 611,
+      "Action": "UnsupportedPredicate",
+      "ActionReason": "Predicate \u0027BufferInBounds(index:_buffer, _buffer)\u0027 is not yet handled by the patch synthesizer",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "BufferInBounds(index:_buffer, _buffer)",
+        "Assertion": "0 \u003C= index:_buffer AND index:_buffer \u003C heap.size(_buffer)",
+        "Bindings": {
+          "index:_buffer": 4,
+          "heap.size(_buffer)": 4,
+          "detection": "forward-index-check",
+          "_buffer.contents": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ]
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 618,
+        "TraceId": "dd43c0fa-0b63-407a-b8a6-d3d5a5a5249e",
+        "ExceptionType": "",
+        "Detection": "forward-index-check"
+      },
+      "ContainingMember": "DoInsertRange",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 618,
+      "StatementEndLine": 618,
+      "Action": "UnsupportedPredicate",
+      "ActionReason": "Predicate \u0027BufferInBounds(index:_buffer, _buffer)\u0027 is not yet handled by the patch synthesizer",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "BufferInBounds(index:_buffer, _buffer)",
+        "Assertion": "0 \u003C= index:_buffer AND index:_buffer \u003C heap.size(_buffer)",
+        "Bindings": {
+          "index:_buffer": 4,
+          "heap.size(_buffer)": 4,
+          "detection": "forward-index-check",
+          "_buffer.contents": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ]
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 544,
+        "TraceId": "ea65aaf5-c396-448a-a59c-7a642e0687d1",
+        "ExceptionType": "",
+        "Detection": "forward-index-check"
+      },
+      "ContainingMember": "DoAddToBack",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 544,
+      "StatementEndLine": 544,
+      "Action": "UnsupportedPredicate",
+      "ActionReason": "Predicate \u0027BufferInBounds(index:_buffer, _buffer)\u0027 is not yet handled by the patch synthesizer",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "BufferInBounds(index:_buffer, _buffer)",
+        "Assertion": "0 \u003C= index:_buffer AND index:_buffer \u003C heap.size(_buffer)",
+        "Bindings": {
+          "index:_buffer": 4,
+          "heap.size(_buffer)": 4,
+          "detection": "forward-index-check",
+          "_buffer.contents": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ]
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 544,
+        "TraceId": "ea65aaf5-c396-448a-a59c-7a642e0687d1",
+        "ExceptionType": "",
+        "Detection": "forward-index-check"
+      },
+      "ContainingMember": "DoAddToBack",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 544,
+      "StatementEndLine": 544,
+      "Action": "UnsupportedPredicate",
+      "ActionReason": "Predicate \u0027BufferInBounds(index:_buffer, _buffer)\u0027 is not yet handled by the patch synthesizer",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "BufferInBounds(index:_buffer, _buffer)",
+        "Assertion": "0 \u003C= index:_buffer AND index:_buffer \u003C heap.size(_buffer)",
+        "Bindings": {
+          "index:_buffer": 4,
+          "heap.size(_buffer)": 4,
+          "detection": "forward-index-check",
+          "_buffer.contents": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ]
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 544,
+        "TraceId": "ea65aaf5-c396-448a-a59c-7a642e0687d1",
+        "ExceptionType": "",
+        "Detection": "forward-index-check"
+      },
+      "ContainingMember": "DoAddToBack",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 544,
+      "StatementEndLine": 544,
+      "Action": "UnsupportedPredicate",
+      "ActionReason": "Predicate \u0027BufferInBounds(index:_buffer, _buffer)\u0027 is not yet handled by the patch synthesizer",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "BufferInBounds(index:_buffer, _buffer)",
+        "Assertion": "0 \u003C= index:_buffer AND index:_buffer \u003C heap.size(_buffer)",
+        "Bindings": {
+          "index:_buffer": 4,
+          "heap.size(_buffer)": 4,
+          "detection": "forward-index-check",
+          "_buffer.contents": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ]
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 544,
+        "TraceId": "ea65aaf5-c396-448a-a59c-7a642e0687d1",
+        "ExceptionType": "",
+        "Detection": "forward-index-check"
+      },
+      "ContainingMember": "DoAddToBack",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 544,
+      "StatementEndLine": 544,
+      "Action": "UnsupportedPredicate",
+      "ActionReason": "Predicate \u0027BufferInBounds(index:_buffer, _buffer)\u0027 is not yet handled by the patch synthesizer",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "BufferInBounds(index:_buffer, _buffer)",
+        "Assertion": "0 \u003C= index:_buffer AND index:_buffer \u003C heap.size(_buffer)",
+        "Bindings": {
+          "index:_buffer": 4,
+          "heap.size(_buffer)": 4,
+          "detection": "forward-index-check",
+          "_buffer.contents": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ]
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 544,
+        "TraceId": "ea65aaf5-c396-448a-a59c-7a642e0687d1",
+        "ExceptionType": "",
+        "Detection": "forward-index-check"
+      },
+      "ContainingMember": "DoAddToBack",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 544,
+      "StatementEndLine": 544,
+      "Action": "UnsupportedPredicate",
+      "ActionReason": "Predicate \u0027BufferInBounds(index:_buffer, _buffer)\u0027 is not yet handled by the patch synthesizer",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "BufferInBounds(index:_buffer, _buffer)",
+        "Assertion": "0 \u003C= index:_buffer AND index:_buffer \u003C heap.size(_buffer)",
+        "Bindings": {
+          "index:_buffer": 4,
+          "heap.size(_buffer)": 4,
+          "detection": "forward-index-check",
+          "_buffer.contents": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ]
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 544,
+        "TraceId": "ea65aaf5-c396-448a-a59c-7a642e0687d1",
+        "ExceptionType": "",
+        "Detection": "forward-index-check"
+      },
+      "ContainingMember": "DoAddToBack",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 544,
+      "StatementEndLine": 544,
+      "Action": "UnsupportedPredicate",
+      "ActionReason": "Predicate \u0027BufferInBounds(index:_buffer, _buffer)\u0027 is not yet handled by the patch synthesizer",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "BufferInBounds(index:_buffer, _buffer)",
+        "Assertion": "0 \u003C= index:_buffer AND index:_buffer \u003C heap.size(_buffer)",
+        "Bindings": {
+          "index:_buffer": 4,
+          "heap.size(_buffer)": 4,
+          "detection": "forward-index-check",
+          "_buffer.contents": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ]
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 544,
+        "TraceId": "ea65aaf5-c396-448a-a59c-7a642e0687d1",
+        "ExceptionType": "",
+        "Detection": "forward-index-check"
+      },
+      "ContainingMember": "DoAddToBack",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 544,
+      "StatementEndLine": 544,
+      "Action": "UnsupportedPredicate",
+      "ActionReason": "Predicate \u0027BufferInBounds(index:_buffer, _buffer)\u0027 is not yet handled by the patch synthesizer",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "BufferInBounds(index:_buffer, _buffer)",
+        "Assertion": "0 \u003C= index:_buffer AND index:_buffer \u003C heap.size(_buffer)",
+        "Bindings": {
+          "index:_buffer": 4,
+          "heap.size(_buffer)": 4,
+          "detection": "forward-index-check",
+          "_buffer.contents": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ]
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 544,
+        "TraceId": "ea65aaf5-c396-448a-a59c-7a642e0687d1",
+        "ExceptionType": "",
+        "Detection": "forward-index-check"
+      },
+      "ContainingMember": "DoAddToBack",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 544,
+      "StatementEndLine": 544,
+      "Action": "UnsupportedPredicate",
+      "ActionReason": "Predicate \u0027BufferInBounds(index:_buffer, _buffer)\u0027 is not yet handled by the patch synthesizer",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "BufferInBounds(index:_buffer, _buffer)",
+        "Assertion": "0 \u003C= index:_buffer AND index:_buffer \u003C heap.size(_buffer)",
+        "Bindings": {
+          "index:_buffer": 4,
+          "heap.size(_buffer)": 4,
+          "detection": "forward-index-check",
+          "_buffer.contents": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ]
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 544,
+        "TraceId": "ea65aaf5-c396-448a-a59c-7a642e0687d1",
+        "ExceptionType": "",
+        "Detection": "forward-index-check"
+      },
+      "ContainingMember": "DoAddToBack",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 544,
+      "StatementEndLine": 544,
+      "Action": "UnsupportedPredicate",
+      "ActionReason": "Predicate \u0027BufferInBounds(index:_buffer, _buffer)\u0027 is not yet handled by the patch synthesizer",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "BufferInBounds(index:_buffer, _buffer)",
+        "Assertion": "0 \u003C= index:_buffer AND index:_buffer \u003C heap.size(_buffer)",
+        "Bindings": {
+          "index:_buffer": 4,
+          "heap.size(_buffer)": 4,
+          "detection": "forward-index-check",
+          "_buffer.contents": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ]
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 544,
+        "TraceId": "ea65aaf5-c396-448a-a59c-7a642e0687d1",
+        "ExceptionType": "",
+        "Detection": "forward-index-check"
+      },
+      "ContainingMember": "DoAddToBack",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 544,
+      "StatementEndLine": 544,
+      "Action": "UnsupportedPredicate",
+      "ActionReason": "Predicate \u0027BufferInBounds(index:_buffer, _buffer)\u0027 is not yet handled by the patch synthesizer",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "BufferInBounds(index:_buffer, _buffer)",
+        "Assertion": "0 \u003C= index:_buffer AND index:_buffer \u003C heap.size(_buffer)",
+        "Bindings": {
+          "index:_buffer": 4,
+          "heap.size(_buffer)": 4,
+          "detection": "forward-index-check",
+          "_buffer.contents": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ]
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 544,
+        "TraceId": "ea65aaf5-c396-448a-a59c-7a642e0687d1",
+        "ExceptionType": "",
+        "Detection": "forward-index-check"
+      },
+      "ContainingMember": "DoAddToBack",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 544,
+      "StatementEndLine": 544,
+      "Action": "UnsupportedPredicate",
+      "ActionReason": "Predicate \u0027BufferInBounds(index:_buffer, _buffer)\u0027 is not yet handled by the patch synthesizer",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "BufferInBounds(index:_buffer, _buffer)",
+        "Assertion": "0 \u003C= index:_buffer AND index:_buffer \u003C heap.size(_buffer)",
+        "Bindings": {
+          "index:_buffer": 4,
+          "heap.size(_buffer)": 4,
+          "detection": "forward-index-check",
+          "_buffer.contents": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ]
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 544,
+        "TraceId": "ea65aaf5-c396-448a-a59c-7a642e0687d1",
+        "ExceptionType": "",
+        "Detection": "forward-index-check"
+      },
+      "ContainingMember": "DoAddToBack",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 544,
+      "StatementEndLine": 544,
+      "Action": "UnsupportedPredicate",
+      "ActionReason": "Predicate \u0027BufferInBounds(index:_buffer, _buffer)\u0027 is not yet handled by the patch synthesizer",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "BufferInBounds(index:_buffer, _buffer)",
+        "Assertion": "0 \u003C= index:_buffer AND index:_buffer \u003C heap.size(_buffer)",
+        "Bindings": {
+          "index:_buffer": 4,
+          "heap.size(_buffer)": 4,
+          "detection": "forward-index-check",
+          "_buffer.contents": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ]
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 544,
+        "TraceId": "ea65aaf5-c396-448a-a59c-7a642e0687d1",
+        "ExceptionType": "",
+        "Detection": "forward-index-check"
+      },
+      "ContainingMember": "DoAddToBack",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 544,
+      "StatementEndLine": 544,
+      "Action": "UnsupportedPredicate",
+      "ActionReason": "Predicate \u0027BufferInBounds(index:_buffer, _buffer)\u0027 is not yet handled by the patch synthesizer",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "BufferInBounds(index:_buffer, _buffer)",
+        "Assertion": "0 \u003C= index:_buffer AND index:_buffer \u003C heap.size(_buffer)",
+        "Bindings": {
+          "index:_buffer": 4,
+          "heap.size(_buffer)": 4,
+          "detection": "forward-index-check",
+          "_buffer.contents": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ]
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 544,
+        "TraceId": "ea65aaf5-c396-448a-a59c-7a642e0687d1",
+        "ExceptionType": "",
+        "Detection": "forward-index-check"
+      },
+      "ContainingMember": "DoAddToBack",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 544,
+      "StatementEndLine": 544,
+      "Action": "UnsupportedPredicate",
+      "ActionReason": "Predicate \u0027BufferInBounds(index:_buffer, _buffer)\u0027 is not yet handled by the patch synthesizer",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "BufferInBounds(index:_buffer, _buffer)",
+        "Assertion": "0 \u003C= index:_buffer AND index:_buffer \u003C heap.size(_buffer)",
+        "Bindings": {
+          "index:_buffer": 4,
+          "heap.size(_buffer)": 4,
+          "detection": "forward-index-check",
+          "_buffer.contents": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ]
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 544,
+        "TraceId": "ea65aaf5-c396-448a-a59c-7a642e0687d1",
+        "ExceptionType": "",
+        "Detection": "forward-index-check"
+      },
+      "ContainingMember": "DoAddToBack",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 544,
+      "StatementEndLine": 544,
+      "Action": "UnsupportedPredicate",
+      "ActionReason": "Predicate \u0027BufferInBounds(index:_buffer, _buffer)\u0027 is not yet handled by the patch synthesizer",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "BufferInBounds(index:_buffer, _buffer)",
+        "Assertion": "0 \u003C= index:_buffer AND index:_buffer \u003C heap.size(_buffer)",
+        "Bindings": {
+          "index:_buffer": 4,
+          "heap.size(_buffer)": 4,
+          "detection": "forward-index-check",
+          "_buffer.contents": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ]
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 544,
+        "TraceId": "ea65aaf5-c396-448a-a59c-7a642e0687d1",
+        "ExceptionType": "",
+        "Detection": "forward-index-check"
+      },
+      "ContainingMember": "DoAddToBack",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 544,
+      "StatementEndLine": 544,
+      "Action": "UnsupportedPredicate",
+      "ActionReason": "Predicate \u0027BufferInBounds(index:_buffer, _buffer)\u0027 is not yet handled by the patch synthesizer",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "BufferInBounds(index:_buffer, _buffer)",
+        "Assertion": "0 \u003C= index:_buffer AND index:_buffer \u003C heap.size(_buffer)",
+        "Bindings": {
+          "index:_buffer": 4,
+          "heap.size(_buffer)": 4,
+          "detection": "forward-index-check",
+          "_buffer.contents": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ]
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 544,
+        "TraceId": "ea65aaf5-c396-448a-a59c-7a642e0687d1",
+        "ExceptionType": "",
+        "Detection": "forward-index-check"
+      },
+      "ContainingMember": "DoAddToBack",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 544,
+      "StatementEndLine": 544,
+      "Action": "UnsupportedPredicate",
+      "ActionReason": "Predicate \u0027BufferInBounds(index:_buffer, _buffer)\u0027 is not yet handled by the patch synthesizer",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "BufferInBounds(index:_buffer, _buffer)",
+        "Assertion": "0 \u003C= index:_buffer AND index:_buffer \u003C heap.size(_buffer)",
+        "Bindings": {
+          "index:_buffer": 4,
+          "heap.size(_buffer)": 4,
+          "detection": "forward-index-check",
+          "_buffer.contents": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ]
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 544,
+        "TraceId": "ea65aaf5-c396-448a-a59c-7a642e0687d1",
+        "ExceptionType": "",
+        "Detection": "forward-index-check"
+      },
+      "ContainingMember": "DoAddToBack",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 544,
+      "StatementEndLine": 544,
+      "Action": "UnsupportedPredicate",
+      "ActionReason": "Predicate \u0027BufferInBounds(index:_buffer, _buffer)\u0027 is not yet handled by the patch synthesizer",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "BufferInBounds(index:_buffer, _buffer)",
+        "Assertion": "0 \u003C= index:_buffer AND index:_buffer \u003C heap.size(_buffer)",
+        "Bindings": {
+          "index:_buffer": 4,
+          "heap.size(_buffer)": 4,
+          "detection": "forward-index-check",
+          "_buffer.contents": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ]
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 544,
+        "TraceId": "ea65aaf5-c396-448a-a59c-7a642e0687d1",
+        "ExceptionType": "",
+        "Detection": "forward-index-check"
+      },
+      "ContainingMember": "DoAddToBack",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 544,
+      "StatementEndLine": 544,
+      "Action": "UnsupportedPredicate",
+      "ActionReason": "Predicate \u0027BufferInBounds(index:_buffer, _buffer)\u0027 is not yet handled by the patch synthesizer",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "BufferInBounds(index:_buffer, _buffer)",
+        "Assertion": "0 \u003C= index:_buffer AND index:_buffer \u003C heap.size(_buffer)",
+        "Bindings": {
+          "index:_buffer": 4,
+          "heap.size(_buffer)": 4,
+          "detection": "forward-index-check",
+          "_buffer.contents": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ]
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 544,
+        "TraceId": "ea65aaf5-c396-448a-a59c-7a642e0687d1",
+        "ExceptionType": "",
+        "Detection": "forward-index-check"
+      },
+      "ContainingMember": "DoAddToBack",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 544,
+      "StatementEndLine": 544,
+      "Action": "UnsupportedPredicate",
+      "ActionReason": "Predicate \u0027BufferInBounds(index:_buffer, _buffer)\u0027 is not yet handled by the patch synthesizer",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "BufferInBounds(index:_buffer, _buffer)",
+        "Assertion": "0 \u003C= index:_buffer AND index:_buffer \u003C heap.size(_buffer)",
+        "Bindings": {
+          "index:_buffer": 4,
+          "heap.size(_buffer)": 4,
+          "detection": "forward-index-check",
+          "_buffer.contents": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ]
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 544,
+        "TraceId": "ea65aaf5-c396-448a-a59c-7a642e0687d1",
+        "ExceptionType": "",
+        "Detection": "forward-index-check"
+      },
+      "ContainingMember": "DoAddToBack",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 544,
+      "StatementEndLine": 544,
+      "Action": "UnsupportedPredicate",
+      "ActionReason": "Predicate \u0027BufferInBounds(index:_buffer, _buffer)\u0027 is not yet handled by the patch synthesizer",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "BufferInBounds(index:_buffer, _buffer)",
+        "Assertion": "0 \u003C= index:_buffer AND index:_buffer \u003C heap.size(_buffer)",
+        "Bindings": {
+          "index:_buffer": 4,
+          "heap.size(_buffer)": 4,
+          "detection": "forward-index-check",
+          "_buffer.contents": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ]
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 544,
+        "TraceId": "ea65aaf5-c396-448a-a59c-7a642e0687d1",
+        "ExceptionType": "",
+        "Detection": "forward-index-check"
+      },
+      "ContainingMember": "DoAddToBack",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 544,
+      "StatementEndLine": 544,
+      "Action": "UnsupportedPredicate",
+      "ActionReason": "Predicate \u0027BufferInBounds(index:_buffer, _buffer)\u0027 is not yet handled by the patch synthesizer",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "BufferInBounds(index:_buffer, _buffer)",
+        "Assertion": "0 \u003C= index:_buffer AND index:_buffer \u003C heap.size(_buffer)",
+        "Bindings": {
+          "index:_buffer": 4,
+          "heap.size(_buffer)": 4,
+          "detection": "forward-index-check",
+          "_buffer.contents": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ]
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 544,
+        "TraceId": "ea65aaf5-c396-448a-a59c-7a642e0687d1",
+        "ExceptionType": "",
+        "Detection": "forward-index-check"
+      },
+      "ContainingMember": "DoAddToBack",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 544,
+      "StatementEndLine": 544,
+      "Action": "UnsupportedPredicate",
+      "ActionReason": "Predicate \u0027BufferInBounds(index:_buffer, _buffer)\u0027 is not yet handled by the patch synthesizer",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "BufferInBounds(index:_buffer, _buffer)",
+        "Assertion": "0 \u003C= index:_buffer AND index:_buffer \u003C heap.size(_buffer)",
+        "Bindings": {
+          "index:_buffer": 4,
+          "heap.size(_buffer)": 4,
+          "detection": "forward-index-check",
+          "_buffer.contents": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ]
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 544,
+        "TraceId": "ea65aaf5-c396-448a-a59c-7a642e0687d1",
+        "ExceptionType": "",
+        "Detection": "forward-index-check"
+      },
+      "ContainingMember": "DoAddToBack",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 544,
+      "StatementEndLine": 544,
+      "Action": "UnsupportedPredicate",
+      "ActionReason": "Predicate \u0027BufferInBounds(index:_buffer, _buffer)\u0027 is not yet handled by the patch synthesizer",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "BufferInBounds(index:_buffer, _buffer)",
+        "Assertion": "0 \u003C= index:_buffer AND index:_buffer \u003C heap.size(_buffer)",
+        "Bindings": {
+          "index:_buffer": 4,
+          "heap.size(_buffer)": 4,
+          "detection": "forward-index-check",
+          "_buffer.contents": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ]
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 544,
+        "TraceId": "ea65aaf5-c396-448a-a59c-7a642e0687d1",
+        "ExceptionType": "",
+        "Detection": "forward-index-check"
+      },
+      "ContainingMember": "DoAddToBack",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 544,
+      "StatementEndLine": 544,
+      "Action": "UnsupportedPredicate",
+      "ActionReason": "Predicate \u0027BufferInBounds(index:_buffer, _buffer)\u0027 is not yet handled by the patch synthesizer",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "BufferInBounds(index:_buffer, _buffer)",
+        "Assertion": "0 \u003C= index:_buffer AND index:_buffer \u003C heap.size(_buffer)",
+        "Bindings": {
+          "index:_buffer": 4,
+          "heap.size(_buffer)": 4,
+          "detection": "forward-index-check",
+          "_buffer.contents": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ]
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 544,
+        "TraceId": "ea65aaf5-c396-448a-a59c-7a642e0687d1",
+        "ExceptionType": "",
+        "Detection": "forward-index-check"
+      },
+      "ContainingMember": "DoAddToBack",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 544,
+      "StatementEndLine": 544,
+      "Action": "UnsupportedPredicate",
+      "ActionReason": "Predicate \u0027BufferInBounds(index:_buffer, _buffer)\u0027 is not yet handled by the patch synthesizer",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "BufferInBounds(index:_buffer, _buffer)",
+        "Assertion": "0 \u003C= index:_buffer AND index:_buffer \u003C heap.size(_buffer)",
+        "Bindings": {
+          "index:_buffer": 4,
+          "heap.size(_buffer)": 4,
+          "detection": "forward-index-check",
+          "_buffer.contents": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ]
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 544,
+        "TraceId": "ea65aaf5-c396-448a-a59c-7a642e0687d1",
+        "ExceptionType": "",
+        "Detection": "forward-index-check"
+      },
+      "ContainingMember": "DoAddToBack",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 544,
+      "StatementEndLine": 544,
+      "Action": "UnsupportedPredicate",
+      "ActionReason": "Predicate \u0027BufferInBounds(index:_buffer, _buffer)\u0027 is not yet handled by the patch synthesizer",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "BufferInBounds(index:_buffer, _buffer)",
+        "Assertion": "0 \u003C= index:_buffer AND index:_buffer \u003C heap.size(_buffer)",
+        "Bindings": {
+          "index:_buffer": 4,
+          "heap.size(_buffer)": 4,
+          "detection": "forward-index-check",
+          "_buffer.contents": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ]
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 544,
+        "TraceId": "ea65aaf5-c396-448a-a59c-7a642e0687d1",
+        "ExceptionType": "",
+        "Detection": "forward-index-check"
+      },
+      "ContainingMember": "DoAddToBack",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 544,
+      "StatementEndLine": 544,
+      "Action": "UnsupportedPredicate",
+      "ActionReason": "Predicate \u0027BufferInBounds(index:_buffer, _buffer)\u0027 is not yet handled by the patch synthesizer",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "BufferInBounds(index:_buffer, _buffer)",
+        "Assertion": "0 \u003C= index:_buffer AND index:_buffer \u003C heap.size(_buffer)",
+        "Bindings": {
+          "index:_buffer": 4,
+          "heap.size(_buffer)": 4,
+          "detection": "forward-index-check",
+          "_buffer.contents": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ]
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 544,
+        "TraceId": "ea65aaf5-c396-448a-a59c-7a642e0687d1",
+        "ExceptionType": "",
+        "Detection": "forward-index-check"
+      },
+      "ContainingMember": "DoAddToBack",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 544,
+      "StatementEndLine": 544,
+      "Action": "UnsupportedPredicate",
+      "ActionReason": "Predicate \u0027BufferInBounds(index:_buffer, _buffer)\u0027 is not yet handled by the patch synthesizer",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "BufferInBounds(index:_buffer, _buffer)",
+        "Assertion": "0 \u003C= index:_buffer AND index:_buffer \u003C heap.size(_buffer)",
+        "Bindings": {
+          "index:_buffer": 4,
+          "heap.size(_buffer)": 4,
+          "detection": "forward-index-check",
+          "_buffer.contents": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ]
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 544,
+        "TraceId": "ea65aaf5-c396-448a-a59c-7a642e0687d1",
+        "ExceptionType": "",
+        "Detection": "forward-index-check"
+      },
+      "ContainingMember": "DoAddToBack",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 544,
+      "StatementEndLine": 544,
+      "Action": "UnsupportedPredicate",
+      "ActionReason": "Predicate \u0027BufferInBounds(index:_buffer, _buffer)\u0027 is not yet handled by the patch synthesizer",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.InvalidOperationException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 769,
+        "TraceId": "3ac332e0-4224-4ab0-86ff-083304cdbab2",
+        "ExceptionType": "System.InvalidOperationException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "RemoveFromFront",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 771,
+      "StatementEndLine": 772,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.InvalidOperationException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\patches\\Deque.L771.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\patches\\Deque.L771.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArrayTypeMismatchException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 297,
+        "TraceId": "1dab25f4-a2c8-48eb-949f-7f384b2e10a3",
+        "ExceptionType": "System.ArrayTypeMismatchException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "CopyTo",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 293,
+      "StatementEndLine": 304,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.ArrayTypeMismatchException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\patches\\Deque.L293.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\patches\\Deque.L293.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "BufferInBounds(index:_buffer, _buffer)",
+        "Assertion": "0 \u003C= index:_buffer AND index:_buffer \u003C heap.size(_buffer)",
+        "Bindings": {
+          "index:_buffer": 2,
+          "heap.size(_buffer)": 2,
+          "detection": "forward-index-check",
+          "_buffer.contents": [
+            "1",
+            "2"
+          ]
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 611,
+        "TraceId": "4c5c3256-7c3c-4d49-b821-8791d7839f22",
+        "ExceptionType": "",
+        "Detection": "forward-index-check"
+      },
+      "ContainingMember": "DoInsertRange",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 610,
+      "StatementEndLine": 611,
+      "Action": "UnsupportedPredicate",
+      "ActionReason": "Predicate \u0027BufferInBounds(index:_buffer, _buffer)\u0027 is not yet handled by the patch synthesizer",
+      "PathConstraints": []
+    }
+  ]
+}

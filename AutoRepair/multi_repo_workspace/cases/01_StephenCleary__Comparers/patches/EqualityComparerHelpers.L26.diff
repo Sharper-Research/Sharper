@@ -1,0 +1,27 @@
+--- a/EqualityComparerHelpers.cs
++++ b/EqualityComparerHelpers.cs
+@@ -26,15 +26,23 @@
++            // [AutoRepair Step 3] Forward-propagated guard against System.NullReferenceException
++            try
++            {
++                var enumerable = ReflectionHelpers.TryGetEnumeratorType(typeof(T));
++            }
++            catch (System.NullReferenceException)
++            {
++            }
++
+-            var enumerable = ReflectionHelpers.TryGetEnumeratorType(typeof(T));
+             if (enumerable == null)
+                 return DefaultComparer<T>.Instance;
+ 
+             // T implements IEnumerable<U>. Extract the U and create a SequenceEqualityComparer<U>.
+             var elementTypes = enumerable.GenericTypeArguments;
+             var genericSequenceComparerType = typeof(SequenceEqualityComparer<>);
+             var sequenceComparerType = genericSequenceComparerType.MakeGenericType(elementTypes);
+             var constructor = sequenceComparerType.GetTypeInfo().DeclaredConstructors.First();
+             var instance = constructor.Invoke(new object[] { null! });
+             return (IEqualityComparer<T>)instance;
+         }
+     }
+ }
+ 

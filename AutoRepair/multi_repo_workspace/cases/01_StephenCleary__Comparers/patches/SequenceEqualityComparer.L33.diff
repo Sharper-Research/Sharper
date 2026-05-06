@@ -1,0 +1,55 @@
+--- a/SequenceEqualityComparer.cs
++++ b/SequenceEqualityComparer.cs
+@@ -33,42 +33,50 @@
++            // [AutoRepair Step 3] Forward-propagated guard against System.NullReferenceException
++            try
++            {
++                var xCount = x!.TryGetCount();
++            }
++            catch (System.NullReferenceException)
++            {
++            }
++
+-            var xCount = x!.TryGetCount();
+             if (xCount != null)
+             {
+                 var yCount = y!.TryGetCount();
+                 if (yCount != null)
+                 {
+                     if (xCount.Value != yCount.Value)
+                         return false;
+                     if (xCount.Value == 0)
+                         return true;
+                 }
+             }
+ 
+             using (var xIter = x!.GetEnumerator())
+             using (var yIter = y!.GetEnumerator())
+             {
+                 while (true)
+                 {
+                     if (!xIter.MoveNext())
+                     {
+                         if (!yIter.MoveNext())
+                             return true;
+                         return false;
+                     }
+ 
+                     if (!yIter.MoveNext())
+                         return false;
+ 
+                     var ret = Source.Equals(xIter.Current, yIter.Current);
+                     if (!ret)
+                         return false;
+                 }
++            }
+-            }            
+         }
+ 
+         /// <summary>
+         /// Returns a short, human-readable description of the comparer. This is intended for debugging and not for other purposes.
+         /// </summary>
+         public override string ToString() => $"Sequence<{typeof(T).Name}>({Source})";
+     }
+ }
+ 

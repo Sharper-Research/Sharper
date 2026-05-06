@@ -1,0 +1,2141 @@
+{
+  "GeneratedAt": "2026-05-06T22:43:51.6117256Z",
+  "ViolationsFile": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\violations.json",
+  "TotalViolations": 85,
+  "ByAction": {
+    "AutoPatchable": 85
+  },
+  "Items": [
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.Exception",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 22,
+        "TraceId": "60beccf0-4357-4f04-aa53-6df912d7b1bd",
+        "ExceptionType": "System.Exception",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 24,
+      "StatementEndLine": 24,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.Exception",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L24.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L24.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.Exception",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "HtmlSanitizer.cs",
+        "Line": 387,
+        "TraceId": "fa862f61-3a02-44f3-af52-a934bd4b40c1",
+        "ExceptionType": "System.Exception",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "Sanitize",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlSanitizer.cs",
+      "StatementStartLine": 389,
+      "StatementEndLine": 389,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.Exception",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlSanitizer.L389.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlSanitizer.L389.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "ValidCast(AngleSharp.Dom.DocumentFragment, IHtmlDocument)",
+        "Assertion": "typeof(source) is IHtmlDocument",
+        "Bindings": {
+          "source.type": "AngleSharp.Dom.DocumentFragment",
+          "target.type": "IHtmlDocument",
+          "detection": "forward-as-cast-null"
+        },
+        "Result": false,
+        "File": "HtmlSanitizer.cs",
+        "Line": 744,
+        "TraceId": "a78899d4-f67c-417d-8435-3aa1a9e09189",
+        "ExceptionType": "",
+        "Detection": "forward-as-cast-null"
+      },
+      "ContainingMember": "SanitizeStyle",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlSanitizer.cs",
+      "StatementStartLine": 727,
+      "StatementEndLine": 727,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for ValidCast(AngleSharp.Dom.DocumentFragment, IHtmlDocument)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlSanitizer.L727.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlSanitizer.L727.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "AngleSharp.Html.Parser.HtmlParseException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "HtmlSanitizer.cs",
+        "Line": 402,
+        "TraceId": "c1337e2b-af25-4632-8e61-d1c7f07268ed",
+        "ExceptionType": "AngleSharp.Html.Parser.HtmlParseException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "SanitizeDom",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlSanitizer.cs",
+      "StatementStartLine": 404,
+      "StatementEndLine": 404,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled AngleSharp.Html.Parser.HtmlParseException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlSanitizer.L404.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlSanitizer.L404.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "ValidCast(AngleSharp.Dom.DocumentFragment, IHtmlDocument)",
+        "Assertion": "typeof(source) is IHtmlDocument",
+        "Bindings": {
+          "source.type": "AngleSharp.Dom.DocumentFragment",
+          "target.type": "IHtmlDocument",
+          "detection": "forward-as-cast-null"
+        },
+        "Result": false,
+        "File": "HtmlSanitizer.cs",
+        "Line": 744,
+        "TraceId": "a78899d4-f67c-417d-8435-3aa1a9e09189",
+        "ExceptionType": "",
+        "Detection": "forward-as-cast-null"
+      },
+      "ContainingMember": "SanitizeStyle",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlSanitizer.cs",
+      "StatementStartLine": 727,
+      "StatementEndLine": 727,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for ValidCast(AngleSharp.Dom.DocumentFragment, IHtmlDocument)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlSanitizer.L727.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlSanitizer.L727.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "ValidCast(AngleSharp.Dom.DocumentFragment, IHtmlDocument)",
+        "Assertion": "typeof(source) is IHtmlDocument",
+        "Bindings": {
+          "source.type": "AngleSharp.Dom.DocumentFragment",
+          "target.type": "IHtmlDocument",
+          "detection": "forward-as-cast-null"
+        },
+        "Result": false,
+        "File": "HtmlSanitizer.cs",
+        "Line": 744,
+        "TraceId": "a78899d4-f67c-417d-8435-3aa1a9e09189",
+        "ExceptionType": "",
+        "Detection": "forward-as-cast-null"
+      },
+      "ContainingMember": "SanitizeStyle",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlSanitizer.cs",
+      "StatementStartLine": 727,
+      "StatementEndLine": 727,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for ValidCast(AngleSharp.Dom.DocumentFragment, IHtmlDocument)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlSanitizer.L727.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlSanitizer.L727.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "ValidCast(AngleSharp.Dom.DocumentFragment, IHtmlDocument)",
+        "Assertion": "typeof(source) is IHtmlDocument",
+        "Bindings": {
+          "source.type": "AngleSharp.Dom.DocumentFragment",
+          "target.type": "IHtmlDocument",
+          "detection": "forward-as-cast-null"
+        },
+        "Result": false,
+        "File": "HtmlSanitizer.cs",
+        "Line": 744,
+        "TraceId": "a78899d4-f67c-417d-8435-3aa1a9e09189",
+        "ExceptionType": "",
+        "Detection": "forward-as-cast-null"
+      },
+      "ContainingMember": "SanitizeStyle",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlSanitizer.cs",
+      "StatementStartLine": 727,
+      "StatementEndLine": 727,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for ValidCast(AngleSharp.Dom.DocumentFragment, IHtmlDocument)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlSanitizer.L727.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlSanitizer.L727.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(value)",
+        "Assertion": "value != null before array indexing",
+        "Bindings": {
+          "value": null,
+          "detection": "forward-null-array"
+        },
+        "Result": false,
+        "File": "HtmlFormatter.cs",
+        "Line": 61,
+        "TraceId": "2a94ffbd-90da-47f0-a2d7-d5bdf30584c4",
+        "ExceptionType": "",
+        "Detection": "forward-null-array"
+      },
+      "ContainingMember": "Attribute",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlFormatter.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 62,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for NotNull(value)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlFormatter.L54.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "ValidCast(AngleSharp.Dom.DocumentFragment, IHtmlDocument)",
+        "Assertion": "typeof(source) is IHtmlDocument",
+        "Bindings": {
+          "source.type": "AngleSharp.Dom.DocumentFragment",
+          "target.type": "IHtmlDocument",
+          "detection": "forward-as-cast-null"
+        },
+        "Result": false,
+        "File": "HtmlSanitizer.cs",
+        "Line": 744,
+        "TraceId": "a78899d4-f67c-417d-8435-3aa1a9e09189",
+        "ExceptionType": "",
+        "Detection": "forward-as-cast-null"
+      },
+      "ContainingMember": "SanitizeStyle",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlSanitizer.cs",
+      "StatementStartLine": 727,
+      "StatementEndLine": 727,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for ValidCast(AngleSharp.Dom.DocumentFragment, IHtmlDocument)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlSanitizer.L727.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlSanitizer.L727.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "ValidCast(AngleSharp.Dom.DocumentFragment, IHtmlDocument)",
+        "Assertion": "typeof(source) is IHtmlDocument",
+        "Bindings": {
+          "source.type": "AngleSharp.Dom.DocumentFragment",
+          "target.type": "IHtmlDocument",
+          "detection": "forward-as-cast-null"
+        },
+        "Result": false,
+        "File": "HtmlSanitizer.cs",
+        "Line": 744,
+        "TraceId": "a78899d4-f67c-417d-8435-3aa1a9e09189",
+        "ExceptionType": "",
+        "Detection": "forward-as-cast-null"
+      },
+      "ContainingMember": "SanitizeStyle",
+      "ContainingFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlSanitizer.cs",
+      "StatementStartLine": 727,
+      "StatementEndLine": 727,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for ValidCast(AngleSharp.Dom.DocumentFragment, IHtmlDocument)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlSanitizer.L727.patched.cs",
+      "DiffPath": "C:\\Users\\jimda\\Desktop\\job\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlSanitizer.L727.diff"
+    }
+  ]
+}

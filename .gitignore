@@ -70,3 +70,11 @@ semgrep-results.json
 # Environment / secrets
 .env
 
+# Multi-repo workspace: keep per-case artefacts (trace_logs.jsonl,
+# violations.json, repair_plan.json, patches/) but never commit the
+# cloned upstream sources or build output. The negations below override
+# the global trace_logs.jsonl rule above so per-case traces survive.
+AutoRepair/multi_repo_workspace/cases/*/repo/
+AutoRepair/multi_repo_workspace/run.log
+!AutoRepair/multi_repo_workspace/cases/*/trace_logs.jsonl
+

@@ -1,0 +1,128 @@
+{"id":"33e043c8-0d2f-4ecb-8b4e-a678383d8de7","ts":"2026-05-06 23:47:36.849","tid":15,"file":"DeferralManager.cs","line":40,"msg":"Enter Method 'DeferralManager'","var":null}
+{"id":"b3082b6f-423f-4333-8620-97b34e692566","ts":"2026-05-06 23:47:36.851","tid":15,"file":"DeferralManager.cs","line":101,"msg":"Enter Method 'ManagedDeferralSource'","var":null}
+{"id":"ee25a22e-e528-4b17-a4a5-e81f0f9be520","ts":"2026-05-06 23:47:36.851","tid":15,"file":"DeferralManager.cs","line":118,"msg":"Variable Update","var":{"name":"_manager","val":"Nito.AsyncEx.DeferralManager"}}
+{"id":"8f84f2c5-a88f-4d4f-930e-25876f6fbb85","ts":"2026-05-06 23:47:36.852","tid":15,"file":"DeferralManager.cs","line":43,"msg":"Variable Update","var":{"name":"_source","val":"Nito.AsyncEx.DeferralManager+ManagedDeferralSource"}}
+{"id":"8c7563ec-4b52-4a93-98cc-2894f813a6da","ts":"2026-05-06 23:47:36.853","tid":15,"file":"DeferralManager.cs","line":44,"msg":"Variable Update","var":{"name":"_mutex","val":"System.Object"}}
+{"id":"51754a83-5c11-45b2-8cbd-e7ab66593e63","ts":"2026-05-06 23:47:36.853","tid":15,"file":"DeferralManager.cs","line":73,"msg":"Return","var":null}
+{"id":"89ee383c-2e4d-4a37-9850-0366ac41e561","ts":"2026-05-06 23:47:36.876","tid":15,"file":"DeferralManager.cs","line":103,"msg":"Enter Method 'GetDeferral'","var":null}
+{"id":"0e948cf7-e2bf-4773-b7a3-bd99fb5798b0","ts":"2026-05-06 23:47:36.897","tid":15,"file":"DeferralManager.cs","line":49,"msg":"Enter Method 'IncrementCount'","var":null}
+{"id":"bb09e3fe-ff78-45e4-bdfc-f79aa68949bd","ts":"2026-05-06 23:47:36.898","tid":15,"file":"DeferralManager.cs","line":54,"msg":"If-True Branch","var":null}
+{"id":"f3adcd77-957d-4a2c-a45e-c5afc7343aba","ts":"2026-05-06 23:47:36.913","tid":15,"file":"DeferralManager.cs","line":57,"msg":"Variable Update","var":{"name":"_ce","val":"Nito.AsyncEx.AsyncCountdownEvent"}}
+{"id":"979f95b2-1faf-458d-aa2b-eb41528630f3","ts":"2026-05-06 23:47:36.913","tid":15,"file":"DeferralManager.cs","line":106,"msg":"Return","var":null}
+{"id":"23842371-1bbd-403a-b48e-453e94955d64","ts":"2026-05-06 23:47:36.914","tid":15,"file":"DeferralManager.cs","line":118,"msg":"Enter Method 'Deferral'","var":null}
+{"id":"51754a83-5c11-45b2-8cbd-e7ab66593e63","ts":"2026-05-06 23:47:36.915","tid":15,"file":"DeferralManager.cs","line":73,"msg":"Return","var":null}
+{"id":"89ee383c-2e4d-4a37-9850-0366ac41e561","ts":"2026-05-06 23:47:36.916","tid":15,"file":"DeferralManager.cs","line":103,"msg":"Enter Method 'GetDeferral'","var":null}
+{"id":"0e948cf7-e2bf-4773-b7a3-bd99fb5798b0","ts":"2026-05-06 23:47:36.916","tid":15,"file":"DeferralManager.cs","line":49,"msg":"Enter Method 'IncrementCount'","var":null}
+{"id":"44e89a9d-7285-42aa-a08b-f032b8d72323","ts":"2026-05-06 23:47:36.916","tid":15,"file":"DeferralManager.cs","line":56,"msg":"Else Branch","var":null}
+{"id":"979f95b2-1faf-458d-aa2b-eb41528630f3","ts":"2026-05-06 23:47:36.917","tid":15,"file":"DeferralManager.cs","line":106,"msg":"Return","var":null}
+{"id":"23842371-1bbd-403a-b48e-453e94955d64","ts":"2026-05-06 23:47:36.917","tid":15,"file":"DeferralManager.cs","line":118,"msg":"Enter Method 'Deferral'","var":null}
+{"id":"ae5c5f02-5475-44d7-bc00-ec2f911de303","ts":"2026-05-06 23:47:36.918","tid":15,"file":"DeferralManager.cs","line":78,"msg":"Enter Method 'WaitForDeferralsAsync'","var":null}
+{"id":"dca1c4ab-04da-47aa-835c-c76fc1ebb8d6","ts":"2026-05-06 23:47:36.919","tid":15,"file":"DeferralManager.cs","line":84,"msg":"Return","var":null}
+{"id":"235464be-7373-4318-afd0-8c8b16503689","ts":"2026-05-06 23:47:36.921","tid":15,"file":"DeferralManager.cs","line":119,"msg":"Enter Method 'Dispose'","var":null}
+{"id":"a6f69702-1a3c-459b-8767-572cead042a1","ts":"2026-05-06 23:47:36.921","tid":15,"file":"DeferralManager.cs","line":63,"msg":"Enter Method 'DecrementCount'","var":null}
+{"id":"235464be-7373-4318-afd0-8c8b16503689","ts":"2026-05-06 23:47:36.921","tid":15,"file":"DeferralManager.cs","line":119,"msg":"Enter Method 'Dispose'","var":null}
+{"id":"a6f69702-1a3c-459b-8767-572cead042a1","ts":"2026-05-06 23:47:36.922","tid":15,"file":"DeferralManager.cs","line":63,"msg":"Enter Method 'DecrementCount'","var":null}
+{"id":"33e043c8-0d2f-4ecb-8b4e-a678383d8de7","ts":"2026-05-06 23:47:36.948","tid":15,"file":"DeferralManager.cs","line":40,"msg":"Enter Method 'DeferralManager'","var":null}
+{"id":"b3082b6f-423f-4333-8620-97b34e692566","ts":"2026-05-06 23:47:36.948","tid":15,"file":"DeferralManager.cs","line":101,"msg":"Enter Method 'ManagedDeferralSource'","var":null}
+{"id":"ee25a22e-e528-4b17-a4a5-e81f0f9be520","ts":"2026-05-06 23:47:36.949","tid":15,"file":"DeferralManager.cs","line":118,"msg":"Variable Update","var":{"name":"_manager","val":"Nito.AsyncEx.DeferralManager"}}
+{"id":"8f84f2c5-a88f-4d4f-930e-25876f6fbb85","ts":"2026-05-06 23:47:36.949","tid":15,"file":"DeferralManager.cs","line":43,"msg":"Variable Update","var":{"name":"_source","val":"Nito.AsyncEx.DeferralManager+ManagedDeferralSource"}}
+{"id":"8c7563ec-4b52-4a93-98cc-2894f813a6da","ts":"2026-05-06 23:47:36.949","tid":15,"file":"DeferralManager.cs","line":44,"msg":"Variable Update","var":{"name":"_mutex","val":"System.Object"}}
+{"id":"51754a83-5c11-45b2-8cbd-e7ab66593e63","ts":"2026-05-06 23:47:36.949","tid":15,"file":"DeferralManager.cs","line":73,"msg":"Return","var":null}
+{"id":"89ee383c-2e4d-4a37-9850-0366ac41e561","ts":"2026-05-06 23:47:36.949","tid":15,"file":"DeferralManager.cs","line":103,"msg":"Enter Method 'GetDeferral'","var":null}
+{"id":"0e948cf7-e2bf-4773-b7a3-bd99fb5798b0","ts":"2026-05-06 23:47:36.950","tid":15,"file":"DeferralManager.cs","line":49,"msg":"Enter Method 'IncrementCount'","var":null}
+{"id":"bb09e3fe-ff78-45e4-bdfc-f79aa68949bd","ts":"2026-05-06 23:47:36.950","tid":15,"file":"DeferralManager.cs","line":54,"msg":"If-True Branch","var":null}
+{"id":"f3adcd77-957d-4a2c-a45e-c5afc7343aba","ts":"2026-05-06 23:47:36.951","tid":15,"file":"DeferralManager.cs","line":57,"msg":"Variable Update","var":{"name":"_ce","val":"Nito.AsyncEx.AsyncCountdownEvent"}}
+{"id":"979f95b2-1faf-458d-aa2b-eb41528630f3","ts":"2026-05-06 23:47:36.951","tid":15,"file":"DeferralManager.cs","line":106,"msg":"Return","var":null}
+{"id":"23842371-1bbd-403a-b48e-453e94955d64","ts":"2026-05-06 23:47:36.951","tid":15,"file":"DeferralManager.cs","line":118,"msg":"Enter Method 'Deferral'","var":null}
+{"id":"ae5c5f02-5475-44d7-bc00-ec2f911de303","ts":"2026-05-06 23:47:36.952","tid":15,"file":"DeferralManager.cs","line":78,"msg":"Enter Method 'WaitForDeferralsAsync'","var":null}
+{"id":"dca1c4ab-04da-47aa-835c-c76fc1ebb8d6","ts":"2026-05-06 23:47:36.952","tid":15,"file":"DeferralManager.cs","line":84,"msg":"Return","var":null}
+{"id":"33e043c8-0d2f-4ecb-8b4e-a678383d8de7","ts":"2026-05-06 23:47:37.461","tid":20,"file":"DeferralManager.cs","line":40,"msg":"Enter Method 'DeferralManager'","var":null}
+{"id":"b3082b6f-423f-4333-8620-97b34e692566","ts":"2026-05-06 23:47:37.462","tid":20,"file":"DeferralManager.cs","line":101,"msg":"Enter Method 'ManagedDeferralSource'","var":null}
+{"id":"ee25a22e-e528-4b17-a4a5-e81f0f9be520","ts":"2026-05-06 23:47:37.462","tid":20,"file":"DeferralManager.cs","line":118,"msg":"Variable Update","var":{"name":"_manager","val":"Nito.AsyncEx.DeferralManager"}}
+{"id":"8f84f2c5-a88f-4d4f-930e-25876f6fbb85","ts":"2026-05-06 23:47:37.462","tid":20,"file":"DeferralManager.cs","line":43,"msg":"Variable Update","var":{"name":"_source","val":"Nito.AsyncEx.DeferralManager+ManagedDeferralSource"}}
+{"id":"8c7563ec-4b52-4a93-98cc-2894f813a6da","ts":"2026-05-06 23:47:37.463","tid":20,"file":"DeferralManager.cs","line":44,"msg":"Variable Update","var":{"name":"_mutex","val":"System.Object"}}
+{"id":"51754a83-5c11-45b2-8cbd-e7ab66593e63","ts":"2026-05-06 23:47:37.463","tid":20,"file":"DeferralManager.cs","line":73,"msg":"Return","var":null}
+{"id":"89ee383c-2e4d-4a37-9850-0366ac41e561","ts":"2026-05-06 23:47:37.463","tid":20,"file":"DeferralManager.cs","line":103,"msg":"Enter Method 'GetDeferral'","var":null}
+{"id":"0e948cf7-e2bf-4773-b7a3-bd99fb5798b0","ts":"2026-05-06 23:47:37.463","tid":20,"file":"DeferralManager.cs","line":49,"msg":"Enter Method 'IncrementCount'","var":null}
+{"id":"bb09e3fe-ff78-45e4-bdfc-f79aa68949bd","ts":"2026-05-06 23:47:37.463","tid":20,"file":"DeferralManager.cs","line":54,"msg":"If-True Branch","var":null}
+{"id":"f3adcd77-957d-4a2c-a45e-c5afc7343aba","ts":"2026-05-06 23:47:37.463","tid":20,"file":"DeferralManager.cs","line":57,"msg":"Variable Update","var":{"name":"_ce","val":"Nito.AsyncEx.AsyncCountdownEvent"}}
+{"id":"979f95b2-1faf-458d-aa2b-eb41528630f3","ts":"2026-05-06 23:47:37.463","tid":20,"file":"DeferralManager.cs","line":106,"msg":"Return","var":null}
+{"id":"23842371-1bbd-403a-b48e-453e94955d64","ts":"2026-05-06 23:47:37.464","tid":20,"file":"DeferralManager.cs","line":118,"msg":"Enter Method 'Deferral'","var":null}
+{"id":"51754a83-5c11-45b2-8cbd-e7ab66593e63","ts":"2026-05-06 23:47:37.464","tid":20,"file":"DeferralManager.cs","line":73,"msg":"Return","var":null}
+{"id":"89ee383c-2e4d-4a37-9850-0366ac41e561","ts":"2026-05-06 23:47:37.464","tid":20,"file":"DeferralManager.cs","line":103,"msg":"Enter Method 'GetDeferral'","var":null}
+{"id":"0e948cf7-e2bf-4773-b7a3-bd99fb5798b0","ts":"2026-05-06 23:47:37.464","tid":20,"file":"DeferralManager.cs","line":49,"msg":"Enter Method 'IncrementCount'","var":null}
+{"id":"44e89a9d-7285-42aa-a08b-f032b8d72323","ts":"2026-05-06 23:47:37.464","tid":20,"file":"DeferralManager.cs","line":56,"msg":"Else Branch","var":null}
+{"id":"979f95b2-1faf-458d-aa2b-eb41528630f3","ts":"2026-05-06 23:47:37.464","tid":20,"file":"DeferralManager.cs","line":106,"msg":"Return","var":null}
+{"id":"23842371-1bbd-403a-b48e-453e94955d64","ts":"2026-05-06 23:47:37.464","tid":20,"file":"DeferralManager.cs","line":118,"msg":"Enter Method 'Deferral'","var":null}
+{"id":"ae5c5f02-5475-44d7-bc00-ec2f911de303","ts":"2026-05-06 23:47:37.465","tid":20,"file":"DeferralManager.cs","line":78,"msg":"Enter Method 'WaitForDeferralsAsync'","var":null}
+{"id":"dca1c4ab-04da-47aa-835c-c76fc1ebb8d6","ts":"2026-05-06 23:47:37.465","tid":20,"file":"DeferralManager.cs","line":84,"msg":"Return","var":null}
+{"id":"235464be-7373-4318-afd0-8c8b16503689","ts":"2026-05-06 23:47:37.465","tid":20,"file":"DeferralManager.cs","line":119,"msg":"Enter Method 'Dispose'","var":null}
+{"id":"a6f69702-1a3c-459b-8767-572cead042a1","ts":"2026-05-06 23:47:37.465","tid":20,"file":"DeferralManager.cs","line":63,"msg":"Enter Method 'DecrementCount'","var":null}
+{"id":"33e043c8-0d2f-4ecb-8b4e-a678383d8de7","ts":"2026-05-06 23:47:37.980","tid":16,"file":"DeferralManager.cs","line":40,"msg":"Enter Method 'DeferralManager'","var":null}
+{"id":"b3082b6f-423f-4333-8620-97b34e692566","ts":"2026-05-06 23:47:37.981","tid":16,"file":"DeferralManager.cs","line":101,"msg":"Enter Method 'ManagedDeferralSource'","var":null}
+{"id":"ee25a22e-e528-4b17-a4a5-e81f0f9be520","ts":"2026-05-06 23:47:37.982","tid":16,"file":"DeferralManager.cs","line":118,"msg":"Variable Update","var":{"name":"_manager","val":"Nito.AsyncEx.DeferralManager"}}
+{"id":"8f84f2c5-a88f-4d4f-930e-25876f6fbb85","ts":"2026-05-06 23:47:37.982","tid":16,"file":"DeferralManager.cs","line":43,"msg":"Variable Update","var":{"name":"_source","val":"Nito.AsyncEx.DeferralManager+ManagedDeferralSource"}}
+{"id":"8c7563ec-4b52-4a93-98cc-2894f813a6da","ts":"2026-05-06 23:47:37.982","tid":16,"file":"DeferralManager.cs","line":44,"msg":"Variable Update","var":{"name":"_mutex","val":"System.Object"}}
+{"id":"51754a83-5c11-45b2-8cbd-e7ab66593e63","ts":"2026-05-06 23:47:37.983","tid":16,"file":"DeferralManager.cs","line":73,"msg":"Return","var":null}
+{"id":"89ee383c-2e4d-4a37-9850-0366ac41e561","ts":"2026-05-06 23:47:37.983","tid":16,"file":"DeferralManager.cs","line":103,"msg":"Enter Method 'GetDeferral'","var":null}
+{"id":"0e948cf7-e2bf-4773-b7a3-bd99fb5798b0","ts":"2026-05-06 23:47:37.983","tid":16,"file":"DeferralManager.cs","line":49,"msg":"Enter Method 'IncrementCount'","var":null}
+{"id":"bb09e3fe-ff78-45e4-bdfc-f79aa68949bd","ts":"2026-05-06 23:47:37.983","tid":16,"file":"DeferralManager.cs","line":54,"msg":"If-True Branch","var":null}
+{"id":"f3adcd77-957d-4a2c-a45e-c5afc7343aba","ts":"2026-05-06 23:47:37.984","tid":16,"file":"DeferralManager.cs","line":57,"msg":"Variable Update","var":{"name":"_ce","val":"Nito.AsyncEx.AsyncCountdownEvent"}}
+{"id":"979f95b2-1faf-458d-aa2b-eb41528630f3","ts":"2026-05-06 23:47:37.984","tid":16,"file":"DeferralManager.cs","line":106,"msg":"Return","var":null}
+{"id":"23842371-1bbd-403a-b48e-453e94955d64","ts":"2026-05-06 23:47:37.984","tid":16,"file":"DeferralManager.cs","line":118,"msg":"Enter Method 'Deferral'","var":null}
+{"id":"51754a83-5c11-45b2-8cbd-e7ab66593e63","ts":"2026-05-06 23:47:37.985","tid":16,"file":"DeferralManager.cs","line":73,"msg":"Return","var":null}
+{"id":"89ee383c-2e4d-4a37-9850-0366ac41e561","ts":"2026-05-06 23:47:37.985","tid":16,"file":"DeferralManager.cs","line":103,"msg":"Enter Method 'GetDeferral'","var":null}
+{"id":"0e948cf7-e2bf-4773-b7a3-bd99fb5798b0","ts":"2026-05-06 23:47:37.985","tid":16,"file":"DeferralManager.cs","line":49,"msg":"Enter Method 'IncrementCount'","var":null}
+{"id":"44e89a9d-7285-42aa-a08b-f032b8d72323","ts":"2026-05-06 23:47:37.985","tid":16,"file":"DeferralManager.cs","line":56,"msg":"Else Branch","var":null}
+{"id":"979f95b2-1faf-458d-aa2b-eb41528630f3","ts":"2026-05-06 23:47:37.985","tid":16,"file":"DeferralManager.cs","line":106,"msg":"Return","var":null}
+{"id":"23842371-1bbd-403a-b48e-453e94955d64","ts":"2026-05-06 23:47:37.986","tid":16,"file":"DeferralManager.cs","line":118,"msg":"Enter Method 'Deferral'","var":null}
+{"id":"ae5c5f02-5475-44d7-bc00-ec2f911de303","ts":"2026-05-06 23:47:37.986","tid":16,"file":"DeferralManager.cs","line":78,"msg":"Enter Method 'WaitForDeferralsAsync'","var":null}
+{"id":"dca1c4ab-04da-47aa-835c-c76fc1ebb8d6","ts":"2026-05-06 23:47:37.986","tid":16,"file":"DeferralManager.cs","line":84,"msg":"Return","var":null}
+{"id":"235464be-7373-4318-afd0-8c8b16503689","ts":"2026-05-06 23:47:37.987","tid":16,"file":"DeferralManager.cs","line":119,"msg":"Enter Method 'Dispose'","var":null}
+{"id":"a6f69702-1a3c-459b-8767-572cead042a1","ts":"2026-05-06 23:47:37.987","tid":16,"file":"DeferralManager.cs","line":63,"msg":"Enter Method 'DecrementCount'","var":null}
+{"id":"33e043c8-0d2f-4ecb-8b4e-a678383d8de7","ts":"2026-05-06 23:47:38.499","tid":21,"file":"DeferralManager.cs","line":40,"msg":"Enter Method 'DeferralManager'","var":null}
+{"id":"b3082b6f-423f-4333-8620-97b34e692566","ts":"2026-05-06 23:47:38.500","tid":21,"file":"DeferralManager.cs","line":101,"msg":"Enter Method 'ManagedDeferralSource'","var":null}
+{"id":"ee25a22e-e528-4b17-a4a5-e81f0f9be520","ts":"2026-05-06 23:47:38.501","tid":21,"file":"DeferralManager.cs","line":118,"msg":"Variable Update","var":{"name":"_manager","val":"Nito.AsyncEx.DeferralManager"}}
+{"id":"8f84f2c5-a88f-4d4f-930e-25876f6fbb85","ts":"2026-05-06 23:47:38.501","tid":21,"file":"DeferralManager.cs","line":43,"msg":"Variable Update","var":{"name":"_source","val":"Nito.AsyncEx.DeferralManager+ManagedDeferralSource"}}
+{"id":"8c7563ec-4b52-4a93-98cc-2894f813a6da","ts":"2026-05-06 23:47:38.502","tid":21,"file":"DeferralManager.cs","line":44,"msg":"Variable Update","var":{"name":"_mutex","val":"System.Object"}}
+{"id":"51754a83-5c11-45b2-8cbd-e7ab66593e63","ts":"2026-05-06 23:47:38.502","tid":21,"file":"DeferralManager.cs","line":73,"msg":"Return","var":null}
+{"id":"89ee383c-2e4d-4a37-9850-0366ac41e561","ts":"2026-05-06 23:47:38.502","tid":21,"file":"DeferralManager.cs","line":103,"msg":"Enter Method 'GetDeferral'","var":null}
+{"id":"0e948cf7-e2bf-4773-b7a3-bd99fb5798b0","ts":"2026-05-06 23:47:38.504","tid":21,"file":"DeferralManager.cs","line":49,"msg":"Enter Method 'IncrementCount'","var":null}
+{"id":"bb09e3fe-ff78-45e4-bdfc-f79aa68949bd","ts":"2026-05-06 23:47:38.504","tid":21,"file":"DeferralManager.cs","line":54,"msg":"If-True Branch","var":null}
+{"id":"f3adcd77-957d-4a2c-a45e-c5afc7343aba","ts":"2026-05-06 23:47:38.505","tid":21,"file":"DeferralManager.cs","line":57,"msg":"Variable Update","var":{"name":"_ce","val":"Nito.AsyncEx.AsyncCountdownEvent"}}
+{"id":"979f95b2-1faf-458d-aa2b-eb41528630f3","ts":"2026-05-06 23:47:38.505","tid":21,"file":"DeferralManager.cs","line":106,"msg":"Return","var":null}
+{"id":"23842371-1bbd-403a-b48e-453e94955d64","ts":"2026-05-06 23:47:38.505","tid":21,"file":"DeferralManager.cs","line":118,"msg":"Enter Method 'Deferral'","var":null}
+{"id":"235464be-7373-4318-afd0-8c8b16503689","ts":"2026-05-06 23:47:38.506","tid":21,"file":"DeferralManager.cs","line":119,"msg":"Enter Method 'Dispose'","var":null}
+{"id":"a6f69702-1a3c-459b-8767-572cead042a1","ts":"2026-05-06 23:47:38.507","tid":21,"file":"DeferralManager.cs","line":63,"msg":"Enter Method 'DecrementCount'","var":null}
+{"id":"51754a83-5c11-45b2-8cbd-e7ab66593e63","ts":"2026-05-06 23:47:38.507","tid":21,"file":"DeferralManager.cs","line":73,"msg":"Return","var":null}
+{"id":"89ee383c-2e4d-4a37-9850-0366ac41e561","ts":"2026-05-06 23:47:38.507","tid":21,"file":"DeferralManager.cs","line":103,"msg":"Enter Method 'GetDeferral'","var":null}
+{"id":"0e948cf7-e2bf-4773-b7a3-bd99fb5798b0","ts":"2026-05-06 23:47:38.508","tid":21,"file":"DeferralManager.cs","line":49,"msg":"Enter Method 'IncrementCount'","var":null}
+{"id":"44e89a9d-7285-42aa-a08b-f032b8d72323","ts":"2026-05-06 23:47:38.508","tid":21,"file":"DeferralManager.cs","line":56,"msg":"Else Branch","var":null}
+{"id":"979f95b2-1faf-458d-aa2b-eb41528630f3","ts":"2026-05-06 23:47:38.509","tid":21,"file":"DeferralManager.cs","line":106,"msg":"Return","var":null}
+{"id":"23842371-1bbd-403a-b48e-453e94955d64","ts":"2026-05-06 23:47:38.509","tid":21,"file":"DeferralManager.cs","line":118,"msg":"Enter Method 'Deferral'","var":null}
+{"id":"ae5c5f02-5475-44d7-bc00-ec2f911de303","ts":"2026-05-06 23:47:38.509","tid":21,"file":"DeferralManager.cs","line":78,"msg":"Enter Method 'WaitForDeferralsAsync'","var":null}
+{"id":"dca1c4ab-04da-47aa-835c-c76fc1ebb8d6","ts":"2026-05-06 23:47:38.509","tid":21,"file":"DeferralManager.cs","line":84,"msg":"Return","var":null}
+{"id":"33e043c8-0d2f-4ecb-8b4e-a678383d8de7","ts":"2026-05-06 23:47:39.047","tid":24,"file":"DeferralManager.cs","line":40,"msg":"Enter Method 'DeferralManager'","var":null}
+{"id":"b3082b6f-423f-4333-8620-97b34e692566","ts":"2026-05-06 23:47:39.048","tid":24,"file":"DeferralManager.cs","line":101,"msg":"Enter Method 'ManagedDeferralSource'","var":null}
+{"id":"ee25a22e-e528-4b17-a4a5-e81f0f9be520","ts":"2026-05-06 23:47:39.048","tid":24,"file":"DeferralManager.cs","line":118,"msg":"Variable Update","var":{"name":"_manager","val":"Nito.AsyncEx.DeferralManager"}}
+{"id":"8f84f2c5-a88f-4d4f-930e-25876f6fbb85","ts":"2026-05-06 23:47:39.048","tid":24,"file":"DeferralManager.cs","line":43,"msg":"Variable Update","var":{"name":"_source","val":"Nito.AsyncEx.DeferralManager+ManagedDeferralSource"}}
+{"id":"8c7563ec-4b52-4a93-98cc-2894f813a6da","ts":"2026-05-06 23:47:39.049","tid":24,"file":"DeferralManager.cs","line":44,"msg":"Variable Update","var":{"name":"_mutex","val":"System.Object"}}
+{"id":"51754a83-5c11-45b2-8cbd-e7ab66593e63","ts":"2026-05-06 23:47:39.049","tid":24,"file":"DeferralManager.cs","line":73,"msg":"Return","var":null}
+{"id":"89ee383c-2e4d-4a37-9850-0366ac41e561","ts":"2026-05-06 23:47:39.050","tid":24,"file":"DeferralManager.cs","line":103,"msg":"Enter Method 'GetDeferral'","var":null}
+{"id":"0e948cf7-e2bf-4773-b7a3-bd99fb5798b0","ts":"2026-05-06 23:47:39.050","tid":24,"file":"DeferralManager.cs","line":49,"msg":"Enter Method 'IncrementCount'","var":null}
+{"id":"bb09e3fe-ff78-45e4-bdfc-f79aa68949bd","ts":"2026-05-06 23:47:39.051","tid":24,"file":"DeferralManager.cs","line":54,"msg":"If-True Branch","var":null}
+{"id":"f3adcd77-957d-4a2c-a45e-c5afc7343aba","ts":"2026-05-06 23:47:39.051","tid":24,"file":"DeferralManager.cs","line":57,"msg":"Variable Update","var":{"name":"_ce","val":"Nito.AsyncEx.AsyncCountdownEvent"}}
+{"id":"979f95b2-1faf-458d-aa2b-eb41528630f3","ts":"2026-05-06 23:47:39.051","tid":24,"file":"DeferralManager.cs","line":106,"msg":"Return","var":null}
+{"id":"23842371-1bbd-403a-b48e-453e94955d64","ts":"2026-05-06 23:47:39.052","tid":24,"file":"DeferralManager.cs","line":118,"msg":"Enter Method 'Deferral'","var":null}
+{"id":"ae5c5f02-5475-44d7-bc00-ec2f911de303","ts":"2026-05-06 23:47:39.052","tid":24,"file":"DeferralManager.cs","line":78,"msg":"Enter Method 'WaitForDeferralsAsync'","var":null}
+{"id":"dca1c4ab-04da-47aa-835c-c76fc1ebb8d6","ts":"2026-05-06 23:47:39.052","tid":24,"file":"DeferralManager.cs","line":84,"msg":"Return","var":null}
+{"id":"235464be-7373-4318-afd0-8c8b16503689","ts":"2026-05-06 23:47:39.053","tid":24,"file":"DeferralManager.cs","line":119,"msg":"Enter Method 'Dispose'","var":null}
+{"id":"a6f69702-1a3c-459b-8767-572cead042a1","ts":"2026-05-06 23:47:39.053","tid":24,"file":"DeferralManager.cs","line":63,"msg":"Enter Method 'DecrementCount'","var":null}
+{"id":"33e043c8-0d2f-4ecb-8b4e-a678383d8de7","ts":"2026-05-06 23:47:39.053","tid":24,"file":"DeferralManager.cs","line":40,"msg":"Enter Method 'DeferralManager'","var":null}
+{"id":"b3082b6f-423f-4333-8620-97b34e692566","ts":"2026-05-06 23:47:39.058","tid":24,"file":"DeferralManager.cs","line":101,"msg":"Enter Method 'ManagedDeferralSource'","var":null}
+{"id":"ee25a22e-e528-4b17-a4a5-e81f0f9be520","ts":"2026-05-06 23:47:39.058","tid":24,"file":"DeferralManager.cs","line":118,"msg":"Variable Update","var":{"name":"_manager","val":"Nito.AsyncEx.DeferralManager"}}
+{"id":"8f84f2c5-a88f-4d4f-930e-25876f6fbb85","ts":"2026-05-06 23:47:39.058","tid":24,"file":"DeferralManager.cs","line":43,"msg":"Variable Update","var":{"name":"_source","val":"Nito.AsyncEx.DeferralManager+ManagedDeferralSource"}}
+{"id":"8c7563ec-4b52-4a93-98cc-2894f813a6da","ts":"2026-05-06 23:47:39.059","tid":24,"file":"DeferralManager.cs","line":44,"msg":"Variable Update","var":{"name":"_mutex","val":"System.Object"}}
+{"id":"ae5c5f02-5475-44d7-bc00-ec2f911de303","ts":"2026-05-06 23:47:39.059","tid":24,"file":"DeferralManager.cs","line":78,"msg":"Enter Method 'WaitForDeferralsAsync'","var":null}
+{"id":"bc3115bf-9200-4e53-a3b8-12390d1c5c92","ts":"2026-05-06 23:47:39.059","tid":24,"file":"DeferralManager.cs","line":83,"msg":"If-True Branch","var":null}
+{"id":"ca48d8c3-6244-4c7e-90b1-9ca5231b1aa7","ts":"2026-05-06 23:47:39.060","tid":24,"file":"DeferralManager.cs","line":83,"msg":"Return","var":null}

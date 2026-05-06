@@ -1,0 +1,18 @@
+--- a/EnsureThatTypeExtensions.cs
++++ b/EnsureThatTypeExtensions.cs
+@@ -101,7 +101,14 @@
++            // [AutoRepair Step 3] Forward-propagated guard against System.ArgumentException
++            try
++            {
++                Ensure.Type.IsClass(param.Type, param.Name);
++            }
++            catch (System.ArgumentException)
++            {
++            }
+-            Ensure.Type.IsClass(param.Type, param.Name);
+ 
+             return param;
+         }
+     }
+ }
+ 

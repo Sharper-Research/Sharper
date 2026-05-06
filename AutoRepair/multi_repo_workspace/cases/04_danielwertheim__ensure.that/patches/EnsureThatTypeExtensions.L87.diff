@@ -1,0 +1,32 @@
+--- a/EnsureThatTypeExtensions.cs
++++ b/EnsureThatTypeExtensions.cs
+@@ -87,21 +87,28 @@
++            // [AutoRepair Step 3] Forward-propagated guard against System.ArgumentException
++            try
++            {
++                Ensure.Type.IsNotAssignableToType(param.Type, expectedType, param.Name);
++            }
++            catch (System.ArgumentException)
++            {
++            }
+-            Ensure.Type.IsNotAssignableToType(param.Type, expectedType, param.Name);
+ 
+             return param;
+         }
+ 
+         public static Param<T> IsClass<T>(this in Param<T> param)
+         {
+             Ensure.Type.IsClass(param.Value, param.Name);
+ 
+             return param;
+         }
+ 
+         public static TypeParam IsClass(this in TypeParam param)
+         {
+             Ensure.Type.IsClass(param.Type, param.Name);
+ 
+             return param;
+         }
+     }
+ }
+ 
