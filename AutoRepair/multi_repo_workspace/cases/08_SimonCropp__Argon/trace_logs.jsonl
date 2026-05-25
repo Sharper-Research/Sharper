@@ -1,462 +1,455 @@
-{"id":"31a11881-40c8-43b9-b253-a00dc4c6cc18","ts":"2026-05-06 23:49:31.922","tid":11,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
-{"id":"0c165514-3bfe-4a46-9b03-e894dff63b9b","ts":"2026-05-06 23:49:31.924","tid":11,"file":"InterfaceCallbacks.cs","line":10,"msg":"If-True Branch","var":null}
-{"id":"7550496a-25b2-4e85-986b-990677ea1985","ts":"2026-05-06 23:49:31.924","tid":11,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg0","val":"originalObject"}}
-{"id":"c61ac548-c8bc-410a-ba34-acbd4cee7cd5","ts":"2026-05-06 23:49:31.925","tid":11,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg1","val":"path"}}
-{"id":"a44ba179-5c45-4b00-83c4-2061152e8492","ts":"2026-05-06 23:49:31.927","tid":11,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg2","val":"member"}}
-{"id":"5696a2f3-f9c4-40ae-8fa0-252e08810d64","ts":"2026-05-06 23:49:31.927","tid":11,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg3","val":"exception"}}
-{"id":"4b1c1e4b-415b-46d4-af2e-a09cbf2e5594","ts":"2026-05-06 23:49:31.927","tid":11,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg4","val":"handled"}}
-{"id":"31a11881-40c8-43b9-b253-a00dc4c6cc18","ts":"2026-05-06 23:49:32.063","tid":11,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
-{"id":"070fe263-b442-4b7c-ae3e-299b18352745","ts":"2026-05-06 23:49:32.064","tid":11,"file":"InterfaceCallbacks.cs","line":24,"msg":"If-True Branch","var":null}
-{"id":"4d278161-bf9c-4a69-a936-610a3dc4d629","ts":"2026-05-06 23:49:32.064","tid":11,"file":"InterfaceCallbacks.cs","line":31,"msg":"If-True Branch","var":null}
-{"id":"ec4f75f4-8a51-4881-8443-8fc73eee1541","ts":"2026-05-06 23:49:32.065","tid":11,"file":"InterfaceCallbacks.cs","line":38,"msg":"If-True Branch","var":null}
-{"id":"214d373e-e677-40bd-a823-807968408d19","ts":"2026-05-06 23:49:32.065","tid":11,"file":"InterfaceCallbacks.cs","line":45,"msg":"If-True Branch","var":null}
-{"id":"31a11881-40c8-43b9-b253-a00dc4c6cc18","ts":"2026-05-06 23:49:32.120","tid":5,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
-{"id":"0c165514-3bfe-4a46-9b03-e894dff63b9b","ts":"2026-05-06 23:49:32.122","tid":5,"file":"InterfaceCallbacks.cs","line":10,"msg":"If-True Branch","var":null}
-{"id":"7550496a-25b2-4e85-986b-990677ea1985","ts":"2026-05-06 23:49:32.122","tid":5,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg0","val":"originalObject"}}
-{"id":"c61ac548-c8bc-410a-ba34-acbd4cee7cd5","ts":"2026-05-06 23:49:32.123","tid":5,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg1","val":"path"}}
-{"id":"a44ba179-5c45-4b00-83c4-2061152e8492","ts":"2026-05-06 23:49:32.123","tid":5,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg2","val":"member"}}
-{"id":"5696a2f3-f9c4-40ae-8fa0-252e08810d64","ts":"2026-05-06 23:49:32.123","tid":5,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg3","val":"exception"}}
-{"id":"4b1c1e4b-415b-46d4-af2e-a09cbf2e5594","ts":"2026-05-06 23:49:32.123","tid":5,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg4","val":"handled"}}
-{"id":"31a11881-40c8-43b9-b253-a00dc4c6cc18","ts":"2026-05-06 23:49:32.187","tid":5,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
-{"id":"070fe263-b442-4b7c-ae3e-299b18352745","ts":"2026-05-06 23:49:32.188","tid":5,"file":"InterfaceCallbacks.cs","line":24,"msg":"If-True Branch","var":null}
-{"id":"4d278161-bf9c-4a69-a936-610a3dc4d629","ts":"2026-05-06 23:49:32.188","tid":5,"file":"InterfaceCallbacks.cs","line":31,"msg":"If-True Branch","var":null}
-{"id":"ec4f75f4-8a51-4881-8443-8fc73eee1541","ts":"2026-05-06 23:49:32.189","tid":5,"file":"InterfaceCallbacks.cs","line":38,"msg":"If-True Branch","var":null}
-{"id":"214d373e-e677-40bd-a823-807968408d19","ts":"2026-05-06 23:49:32.189","tid":5,"file":"InterfaceCallbacks.cs","line":45,"msg":"If-True Branch","var":null}
-{"id":"31a11881-40c8-43b9-b253-a00dc4c6cc18","ts":"2026-05-06 23:49:32.247","tid":5,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
-{"id":"070fe263-b442-4b7c-ae3e-299b18352745","ts":"2026-05-06 23:49:32.247","tid":5,"file":"InterfaceCallbacks.cs","line":24,"msg":"If-True Branch","var":null}
-{"id":"4d278161-bf9c-4a69-a936-610a3dc4d629","ts":"2026-05-06 23:49:32.248","tid":5,"file":"InterfaceCallbacks.cs","line":31,"msg":"If-True Branch","var":null}
-{"id":"ec4f75f4-8a51-4881-8443-8fc73eee1541","ts":"2026-05-06 23:49:32.248","tid":5,"file":"InterfaceCallbacks.cs","line":38,"msg":"If-True Branch","var":null}
-{"id":"214d373e-e677-40bd-a823-807968408d19","ts":"2026-05-06 23:49:32.249","tid":5,"file":"InterfaceCallbacks.cs","line":45,"msg":"If-True Branch","var":null}
-{"id":"31a11881-40c8-43b9-b253-a00dc4c6cc18","ts":"2026-05-06 23:49:32.251","tid":5,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
-{"id":"070fe263-b442-4b7c-ae3e-299b18352745","ts":"2026-05-06 23:49:32.251","tid":5,"file":"InterfaceCallbacks.cs","line":24,"msg":"If-True Branch","var":null}
-{"id":"4d278161-bf9c-4a69-a936-610a3dc4d629","ts":"2026-05-06 23:49:32.252","tid":5,"file":"InterfaceCallbacks.cs","line":31,"msg":"If-True Branch","var":null}
-{"id":"ec4f75f4-8a51-4881-8443-8fc73eee1541","ts":"2026-05-06 23:49:32.252","tid":5,"file":"InterfaceCallbacks.cs","line":38,"msg":"If-True Branch","var":null}
-{"id":"214d373e-e677-40bd-a823-807968408d19","ts":"2026-05-06 23:49:32.253","tid":5,"file":"InterfaceCallbacks.cs","line":45,"msg":"If-True Branch","var":null}
-{"id":"31a11881-40c8-43b9-b253-a00dc4c6cc18","ts":"2026-05-06 23:49:32.253","tid":5,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
-{"id":"ec4f75f4-8a51-4881-8443-8fc73eee1541","ts":"2026-05-06 23:49:32.254","tid":5,"file":"InterfaceCallbacks.cs","line":38,"msg":"If-True Branch","var":null}
-{"id":"214d373e-e677-40bd-a823-807968408d19","ts":"2026-05-06 23:49:32.254","tid":5,"file":"InterfaceCallbacks.cs","line":45,"msg":"If-True Branch","var":null}
-{"id":"070fe263-b442-4b7c-ae3e-299b18352745","ts":"2026-05-06 23:49:32.255","tid":5,"file":"InterfaceCallbacks.cs","line":24,"msg":"If-True Branch","var":null}
-{"id":"4d278161-bf9c-4a69-a936-610a3dc4d629","ts":"2026-05-06 23:49:32.255","tid":5,"file":"InterfaceCallbacks.cs","line":31,"msg":"If-True Branch","var":null}
-{"id":"31a11881-40c8-43b9-b253-a00dc4c6cc18","ts":"2026-05-06 23:49:32.257","tid":7,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
-{"id":"070fe263-b442-4b7c-ae3e-299b18352745","ts":"2026-05-06 23:49:32.258","tid":7,"file":"InterfaceCallbacks.cs","line":24,"msg":"If-True Branch","var":null}
-{"id":"31a11881-40c8-43b9-b253-a00dc4c6cc18","ts":"2026-05-06 23:49:32.259","tid":7,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
-{"id":"070fe263-b442-4b7c-ae3e-299b18352745","ts":"2026-05-06 23:49:32.260","tid":7,"file":"InterfaceCallbacks.cs","line":24,"msg":"If-True Branch","var":null}
-{"id":"0c165514-3bfe-4a46-9b03-e894dff63b9b","ts":"2026-05-06 23:49:32.260","tid":7,"file":"InterfaceCallbacks.cs","line":10,"msg":"If-True Branch","var":null}
-{"id":"7550496a-25b2-4e85-986b-990677ea1985","ts":"2026-05-06 23:49:32.260","tid":7,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg0","val":"originalObject"}}
-{"id":"c61ac548-c8bc-410a-ba34-acbd4cee7cd5","ts":"2026-05-06 23:49:32.260","tid":7,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg1","val":"path"}}
-{"id":"a44ba179-5c45-4b00-83c4-2061152e8492","ts":"2026-05-06 23:49:32.261","tid":7,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg2","val":"member"}}
-{"id":"5696a2f3-f9c4-40ae-8fa0-252e08810d64","ts":"2026-05-06 23:49:32.261","tid":7,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg3","val":"exception"}}
-{"id":"4b1c1e4b-415b-46d4-af2e-a09cbf2e5594","ts":"2026-05-06 23:49:32.261","tid":7,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg4","val":"handled"}}
-{"id":"4d278161-bf9c-4a69-a936-610a3dc4d629","ts":"2026-05-06 23:49:32.261","tid":7,"file":"InterfaceCallbacks.cs","line":31,"msg":"If-True Branch","var":null}
-{"id":"ec4f75f4-8a51-4881-8443-8fc73eee1541","ts":"2026-05-06 23:49:32.261","tid":7,"file":"InterfaceCallbacks.cs","line":38,"msg":"If-True Branch","var":null}
-{"id":"214d373e-e677-40bd-a823-807968408d19","ts":"2026-05-06 23:49:32.262","tid":7,"file":"InterfaceCallbacks.cs","line":45,"msg":"If-True Branch","var":null}
-{"id":"31a11881-40c8-43b9-b253-a00dc4c6cc18","ts":"2026-05-06 23:49:32.263","tid":7,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
-{"id":"b1b5691f-b916-4522-8f38-c4672b1c7dc8","ts":"2026-05-06 23:49:32.263","tid":7,"file":"InterfaceCallbacks.cs","line":17,"msg":"If-True Branch","var":null}
-{"id":"e1eea765-5f18-4e99-bd72-10b30644af65","ts":"2026-05-06 23:49:32.264","tid":7,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg0","val":"originalObject"}}
-{"id":"733b9071-60ed-4aa5-b0e4-94c6b6abd254","ts":"2026-05-06 23:49:32.264","tid":7,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg1","val":"path"}}
-{"id":"73273e56-0d01-4ef9-bb9d-5dad3685111b","ts":"2026-05-06 23:49:32.264","tid":7,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg2","val":"member"}}
-{"id":"8fd03cbe-bc2d-4096-8e06-ddafe48b9ebc","ts":"2026-05-06 23:49:32.265","tid":7,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg3","val":"exception"}}
-{"id":"20064e2b-ca48-4553-aebe-25e2ed7705b8","ts":"2026-05-06 23:49:32.265","tid":7,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg4","val":"handled"}}
-{"id":"31a11881-40c8-43b9-b253-a00dc4c6cc18","ts":"2026-05-06 23:49:32.265","tid":7,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
-{"id":"ec4f75f4-8a51-4881-8443-8fc73eee1541","ts":"2026-05-06 23:49:32.266","tid":7,"file":"InterfaceCallbacks.cs","line":38,"msg":"If-True Branch","var":null}
-{"id":"214d373e-e677-40bd-a823-807968408d19","ts":"2026-05-06 23:49:32.266","tid":7,"file":"InterfaceCallbacks.cs","line":45,"msg":"If-True Branch","var":null}
-{"id":"070fe263-b442-4b7c-ae3e-299b18352745","ts":"2026-05-06 23:49:32.266","tid":7,"file":"InterfaceCallbacks.cs","line":24,"msg":"If-True Branch","var":null}
-{"id":"4d278161-bf9c-4a69-a936-610a3dc4d629","ts":"2026-05-06 23:49:32.266","tid":7,"file":"InterfaceCallbacks.cs","line":31,"msg":"If-True Branch","var":null}
-{"id":"31a11881-40c8-43b9-b253-a00dc4c6cc18","ts":"2026-05-06 23:49:32.267","tid":7,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
-{"id":"070fe263-b442-4b7c-ae3e-299b18352745","ts":"2026-05-06 23:49:32.268","tid":7,"file":"InterfaceCallbacks.cs","line":24,"msg":"If-True Branch","var":null}
-{"id":"0c165514-3bfe-4a46-9b03-e894dff63b9b","ts":"2026-05-06 23:49:32.268","tid":7,"file":"InterfaceCallbacks.cs","line":10,"msg":"If-True Branch","var":null}
-{"id":"7550496a-25b2-4e85-986b-990677ea1985","ts":"2026-05-06 23:49:32.268","tid":7,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg0","val":"originalObject"}}
-{"id":"c61ac548-c8bc-410a-ba34-acbd4cee7cd5","ts":"2026-05-06 23:49:32.268","tid":7,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg1","val":"path"}}
-{"id":"a44ba179-5c45-4b00-83c4-2061152e8492","ts":"2026-05-06 23:49:32.269","tid":7,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg2","val":"member"}}
-{"id":"5696a2f3-f9c4-40ae-8fa0-252e08810d64","ts":"2026-05-06 23:49:32.269","tid":7,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg3","val":"exception"}}
-{"id":"4b1c1e4b-415b-46d4-af2e-a09cbf2e5594","ts":"2026-05-06 23:49:32.269","tid":7,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg4","val":"handled"}}
-{"id":"4d278161-bf9c-4a69-a936-610a3dc4d629","ts":"2026-05-06 23:49:32.269","tid":7,"file":"InterfaceCallbacks.cs","line":31,"msg":"If-True Branch","var":null}
-{"id":"ec4f75f4-8a51-4881-8443-8fc73eee1541","ts":"2026-05-06 23:49:32.270","tid":7,"file":"InterfaceCallbacks.cs","line":38,"msg":"If-True Branch","var":null}
-{"id":"b1b5691f-b916-4522-8f38-c4672b1c7dc8","ts":"2026-05-06 23:49:32.270","tid":7,"file":"InterfaceCallbacks.cs","line":17,"msg":"If-True Branch","var":null}
-{"id":"e1eea765-5f18-4e99-bd72-10b30644af65","ts":"2026-05-06 23:49:32.270","tid":7,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg0","val":"originalObject"}}
-{"id":"733b9071-60ed-4aa5-b0e4-94c6b6abd254","ts":"2026-05-06 23:49:32.270","tid":7,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg1","val":"path"}}
-{"id":"73273e56-0d01-4ef9-bb9d-5dad3685111b","ts":"2026-05-06 23:49:32.270","tid":7,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg2","val":"member"}}
-{"id":"8fd03cbe-bc2d-4096-8e06-ddafe48b9ebc","ts":"2026-05-06 23:49:32.271","tid":7,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg3","val":"exception"}}
-{"id":"20064e2b-ca48-4553-aebe-25e2ed7705b8","ts":"2026-05-06 23:49:32.271","tid":7,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg4","val":"handled"}}
-{"id":"214d373e-e677-40bd-a823-807968408d19","ts":"2026-05-06 23:49:32.271","tid":7,"file":"InterfaceCallbacks.cs","line":45,"msg":"If-True Branch","var":null}
-{"id":"31a11881-40c8-43b9-b253-a00dc4c6cc18","ts":"2026-05-06 23:49:32.272","tid":7,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
-{"id":"070fe263-b442-4b7c-ae3e-299b18352745","ts":"2026-05-06 23:49:32.272","tid":7,"file":"InterfaceCallbacks.cs","line":24,"msg":"If-True Branch","var":null}
-{"id":"0c165514-3bfe-4a46-9b03-e894dff63b9b","ts":"2026-05-06 23:49:32.273","tid":7,"file":"InterfaceCallbacks.cs","line":10,"msg":"If-True Branch","var":null}
-{"id":"7550496a-25b2-4e85-986b-990677ea1985","ts":"2026-05-06 23:49:32.273","tid":7,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg0","val":"originalObject"}}
-{"id":"c61ac548-c8bc-410a-ba34-acbd4cee7cd5","ts":"2026-05-06 23:49:32.274","tid":7,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg1","val":"path"}}
-{"id":"a44ba179-5c45-4b00-83c4-2061152e8492","ts":"2026-05-06 23:49:32.274","tid":7,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg2","val":"member"}}
-{"id":"5696a2f3-f9c4-40ae-8fa0-252e08810d64","ts":"2026-05-06 23:49:32.274","tid":7,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg3","val":"exception"}}
-{"id":"4b1c1e4b-415b-46d4-af2e-a09cbf2e5594","ts":"2026-05-06 23:49:32.274","tid":7,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg4","val":"handled"}}
-{"id":"4d278161-bf9c-4a69-a936-610a3dc4d629","ts":"2026-05-06 23:49:32.275","tid":7,"file":"InterfaceCallbacks.cs","line":31,"msg":"If-True Branch","var":null}
-{"id":"ec4f75f4-8a51-4881-8443-8fc73eee1541","ts":"2026-05-06 23:49:32.275","tid":7,"file":"InterfaceCallbacks.cs","line":38,"msg":"If-True Branch","var":null}
-{"id":"b1b5691f-b916-4522-8f38-c4672b1c7dc8","ts":"2026-05-06 23:49:32.275","tid":7,"file":"InterfaceCallbacks.cs","line":17,"msg":"If-True Branch","var":null}
-{"id":"e1eea765-5f18-4e99-bd72-10b30644af65","ts":"2026-05-06 23:49:32.276","tid":7,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg0","val":"originalObject"}}
-{"id":"733b9071-60ed-4aa5-b0e4-94c6b6abd254","ts":"2026-05-06 23:49:32.276","tid":7,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg1","val":"path"}}
-{"id":"73273e56-0d01-4ef9-bb9d-5dad3685111b","ts":"2026-05-06 23:49:32.276","tid":7,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg2","val":"member"}}
-{"id":"8fd03cbe-bc2d-4096-8e06-ddafe48b9ebc","ts":"2026-05-06 23:49:32.276","tid":7,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg3","val":"exception"}}
-{"id":"20064e2b-ca48-4553-aebe-25e2ed7705b8","ts":"2026-05-06 23:49:32.276","tid":7,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg4","val":"handled"}}
-{"id":"214d373e-e677-40bd-a823-807968408d19","ts":"2026-05-06 23:49:32.277","tid":7,"file":"InterfaceCallbacks.cs","line":45,"msg":"If-True Branch","var":null}
-{"id":"31a11881-40c8-43b9-b253-a00dc4c6cc18","ts":"2026-05-06 23:49:32.278","tid":7,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
-{"id":"070fe263-b442-4b7c-ae3e-299b18352745","ts":"2026-05-06 23:49:32.279","tid":7,"file":"InterfaceCallbacks.cs","line":24,"msg":"If-True Branch","var":null}
-{"id":"4d278161-bf9c-4a69-a936-610a3dc4d629","ts":"2026-05-06 23:49:32.279","tid":7,"file":"InterfaceCallbacks.cs","line":31,"msg":"If-True Branch","var":null}
-{"id":"ec4f75f4-8a51-4881-8443-8fc73eee1541","ts":"2026-05-06 23:49:32.280","tid":7,"file":"InterfaceCallbacks.cs","line":38,"msg":"If-True Branch","var":null}
-{"id":"214d373e-e677-40bd-a823-807968408d19","ts":"2026-05-06 23:49:32.280","tid":7,"file":"InterfaceCallbacks.cs","line":45,"msg":"If-True Branch","var":null}
-{"id":"31a11881-40c8-43b9-b253-a00dc4c6cc18","ts":"2026-05-06 23:49:32.356","tid":7,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
-{"id":"b1b5691f-b916-4522-8f38-c4672b1c7dc8","ts":"2026-05-06 23:49:32.358","tid":7,"file":"InterfaceCallbacks.cs","line":17,"msg":"If-True Branch","var":null}
-{"id":"e1eea765-5f18-4e99-bd72-10b30644af65","ts":"2026-05-06 23:49:32.358","tid":7,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg0","val":"originalObject"}}
-{"id":"733b9071-60ed-4aa5-b0e4-94c6b6abd254","ts":"2026-05-06 23:49:32.358","tid":7,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg1","val":"path"}}
-{"id":"73273e56-0d01-4ef9-bb9d-5dad3685111b","ts":"2026-05-06 23:49:32.358","tid":7,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg2","val":"member"}}
-{"id":"8fd03cbe-bc2d-4096-8e06-ddafe48b9ebc","ts":"2026-05-06 23:49:32.358","tid":7,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg3","val":"exception"}}
-{"id":"20064e2b-ca48-4553-aebe-25e2ed7705b8","ts":"2026-05-06 23:49:32.358","tid":7,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg4","val":"handled"}}
-{"id":"31a11881-40c8-43b9-b253-a00dc4c6cc18","ts":"2026-05-06 23:49:32.369","tid":5,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
-{"id":"0c165514-3bfe-4a46-9b03-e894dff63b9b","ts":"2026-05-06 23:49:32.370","tid":5,"file":"InterfaceCallbacks.cs","line":10,"msg":"If-True Branch","var":null}
-{"id":"7550496a-25b2-4e85-986b-990677ea1985","ts":"2026-05-06 23:49:32.371","tid":5,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg0","val":"originalObject"}}
-{"id":"c61ac548-c8bc-410a-ba34-acbd4cee7cd5","ts":"2026-05-06 23:49:32.371","tid":5,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg1","val":"path"}}
-{"id":"a44ba179-5c45-4b00-83c4-2061152e8492","ts":"2026-05-06 23:49:32.371","tid":5,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg2","val":"member"}}
-{"id":"5696a2f3-f9c4-40ae-8fa0-252e08810d64","ts":"2026-05-06 23:49:32.371","tid":5,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg3","val":"exception"}}
-{"id":"4b1c1e4b-415b-46d4-af2e-a09cbf2e5594","ts":"2026-05-06 23:49:32.372","tid":5,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg4","val":"handled"}}
-{"id":"31a11881-40c8-43b9-b253-a00dc4c6cc18","ts":"2026-05-06 23:49:32.384","tid":5,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
-{"id":"b1b5691f-b916-4522-8f38-c4672b1c7dc8","ts":"2026-05-06 23:49:32.385","tid":5,"file":"InterfaceCallbacks.cs","line":17,"msg":"If-True Branch","var":null}
-{"id":"e1eea765-5f18-4e99-bd72-10b30644af65","ts":"2026-05-06 23:49:32.385","tid":5,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg0","val":"originalObject"}}
-{"id":"733b9071-60ed-4aa5-b0e4-94c6b6abd254","ts":"2026-05-06 23:49:32.385","tid":5,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg1","val":"path"}}
-{"id":"73273e56-0d01-4ef9-bb9d-5dad3685111b","ts":"2026-05-06 23:49:32.386","tid":5,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg2","val":"member"}}
-{"id":"8fd03cbe-bc2d-4096-8e06-ddafe48b9ebc","ts":"2026-05-06 23:49:32.386","tid":5,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg3","val":"exception"}}
-{"id":"20064e2b-ca48-4553-aebe-25e2ed7705b8","ts":"2026-05-06 23:49:32.386","tid":5,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg4","val":"handled"}}
-{"id":"31a11881-40c8-43b9-b253-a00dc4c6cc18","ts":"2026-05-06 23:49:32.389","tid":5,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
-{"id":"b1b5691f-b916-4522-8f38-c4672b1c7dc8","ts":"2026-05-06 23:49:32.390","tid":5,"file":"InterfaceCallbacks.cs","line":17,"msg":"If-True Branch","var":null}
-{"id":"e1eea765-5f18-4e99-bd72-10b30644af65","ts":"2026-05-06 23:49:32.390","tid":5,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg0","val":"originalObject"}}
-{"id":"733b9071-60ed-4aa5-b0e4-94c6b6abd254","ts":"2026-05-06 23:49:32.391","tid":5,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg1","val":"path"}}
-{"id":"73273e56-0d01-4ef9-bb9d-5dad3685111b","ts":"2026-05-06 23:49:32.391","tid":5,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg2","val":"member"}}
-{"id":"8fd03cbe-bc2d-4096-8e06-ddafe48b9ebc","ts":"2026-05-06 23:49:32.391","tid":5,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg3","val":"exception"}}
-{"id":"20064e2b-ca48-4553-aebe-25e2ed7705b8","ts":"2026-05-06 23:49:32.391","tid":5,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg4","val":"handled"}}
-{"id":"b1b5691f-b916-4522-8f38-c4672b1c7dc8","ts":"2026-05-06 23:49:32.392","tid":5,"file":"InterfaceCallbacks.cs","line":17,"msg":"If-True Branch","var":null}
-{"id":"e1eea765-5f18-4e99-bd72-10b30644af65","ts":"2026-05-06 23:49:32.392","tid":5,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg0","val":"originalObject"}}
-{"id":"733b9071-60ed-4aa5-b0e4-94c6b6abd254","ts":"2026-05-06 23:49:32.392","tid":5,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg1","val":"path"}}
-{"id":"73273e56-0d01-4ef9-bb9d-5dad3685111b","ts":"2026-05-06 23:49:32.392","tid":5,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg2","val":"member"}}
-{"id":"8fd03cbe-bc2d-4096-8e06-ddafe48b9ebc","ts":"2026-05-06 23:49:32.392","tid":5,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg3","val":"exception"}}
-{"id":"20064e2b-ca48-4553-aebe-25e2ed7705b8","ts":"2026-05-06 23:49:32.392","tid":5,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg4","val":"handled"}}
-{"id":"b1b5691f-b916-4522-8f38-c4672b1c7dc8","ts":"2026-05-06 23:49:32.393","tid":5,"file":"InterfaceCallbacks.cs","line":17,"msg":"If-True Branch","var":null}
-{"id":"e1eea765-5f18-4e99-bd72-10b30644af65","ts":"2026-05-06 23:49:32.393","tid":5,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg0","val":"originalObject"}}
-{"id":"733b9071-60ed-4aa5-b0e4-94c6b6abd254","ts":"2026-05-06 23:49:32.393","tid":5,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg1","val":"path"}}
-{"id":"73273e56-0d01-4ef9-bb9d-5dad3685111b","ts":"2026-05-06 23:49:32.393","tid":5,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg2","val":"member"}}
-{"id":"8fd03cbe-bc2d-4096-8e06-ddafe48b9ebc","ts":"2026-05-06 23:49:32.393","tid":5,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg3","val":"exception"}}
-{"id":"20064e2b-ca48-4553-aebe-25e2ed7705b8","ts":"2026-05-06 23:49:32.394","tid":5,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg4","val":"handled"}}
-{"id":"31a11881-40c8-43b9-b253-a00dc4c6cc18","ts":"2026-05-06 23:49:32.395","tid":5,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
-{"id":"0c165514-3bfe-4a46-9b03-e894dff63b9b","ts":"2026-05-06 23:49:32.395","tid":5,"file":"InterfaceCallbacks.cs","line":10,"msg":"If-True Branch","var":null}
-{"id":"7550496a-25b2-4e85-986b-990677ea1985","ts":"2026-05-06 23:49:32.395","tid":5,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg0","val":"originalObject"}}
-{"id":"c61ac548-c8bc-410a-ba34-acbd4cee7cd5","ts":"2026-05-06 23:49:32.396","tid":5,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg1","val":"path"}}
-{"id":"a44ba179-5c45-4b00-83c4-2061152e8492","ts":"2026-05-06 23:49:32.396","tid":5,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg2","val":"member"}}
-{"id":"5696a2f3-f9c4-40ae-8fa0-252e08810d64","ts":"2026-05-06 23:49:32.396","tid":5,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg3","val":"exception"}}
-{"id":"4b1c1e4b-415b-46d4-af2e-a09cbf2e5594","ts":"2026-05-06 23:49:32.396","tid":5,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg4","val":"handled"}}
-{"id":"31a11881-40c8-43b9-b253-a00dc4c6cc18","ts":"2026-05-06 23:49:32.415","tid":5,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
-{"id":"b1b5691f-b916-4522-8f38-c4672b1c7dc8","ts":"2026-05-06 23:49:32.416","tid":5,"file":"InterfaceCallbacks.cs","line":17,"msg":"If-True Branch","var":null}
-{"id":"e1eea765-5f18-4e99-bd72-10b30644af65","ts":"2026-05-06 23:49:32.416","tid":5,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg0","val":"originalObject"}}
-{"id":"733b9071-60ed-4aa5-b0e4-94c6b6abd254","ts":"2026-05-06 23:49:32.416","tid":5,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg1","val":"path"}}
-{"id":"73273e56-0d01-4ef9-bb9d-5dad3685111b","ts":"2026-05-06 23:49:32.416","tid":5,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg2","val":"member"}}
-{"id":"8fd03cbe-bc2d-4096-8e06-ddafe48b9ebc","ts":"2026-05-06 23:49:32.417","tid":5,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg3","val":"exception"}}
-{"id":"20064e2b-ca48-4553-aebe-25e2ed7705b8","ts":"2026-05-06 23:49:32.417","tid":5,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg4","val":"handled"}}
-{"id":"31a11881-40c8-43b9-b253-a00dc4c6cc18","ts":"2026-05-06 23:49:33.670","tid":11,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
-{"id":"0c165514-3bfe-4a46-9b03-e894dff63b9b","ts":"2026-05-06 23:49:33.671","tid":11,"file":"InterfaceCallbacks.cs","line":10,"msg":"If-True Branch","var":null}
-{"id":"7550496a-25b2-4e85-986b-990677ea1985","ts":"2026-05-06 23:49:33.672","tid":11,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg0","val":"originalObject"}}
-{"id":"c61ac548-c8bc-410a-ba34-acbd4cee7cd5","ts":"2026-05-06 23:49:33.672","tid":11,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg1","val":"path"}}
-{"id":"a44ba179-5c45-4b00-83c4-2061152e8492","ts":"2026-05-06 23:49:33.672","tid":11,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg2","val":"member"}}
-{"id":"5696a2f3-f9c4-40ae-8fa0-252e08810d64","ts":"2026-05-06 23:49:33.672","tid":11,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg3","val":"exception"}}
-{"id":"4b1c1e4b-415b-46d4-af2e-a09cbf2e5594","ts":"2026-05-06 23:49:33.673","tid":11,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg4","val":"handled"}}
-{"id":"31a11881-40c8-43b9-b253-a00dc4c6cc18","ts":"2026-05-06 23:49:33.951","tid":5,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
-{"id":"214d373e-e677-40bd-a823-807968408d19","ts":"2026-05-06 23:49:33.952","tid":5,"file":"InterfaceCallbacks.cs","line":45,"msg":"If-True Branch","var":null}
-{"id":"31a11881-40c8-43b9-b253-a00dc4c6cc18","ts":"2026-05-06 23:49:35.228","tid":11,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
-{"id":"0c165514-3bfe-4a46-9b03-e894dff63b9b","ts":"2026-05-06 23:49:35.230","tid":11,"file":"InterfaceCallbacks.cs","line":10,"msg":"If-True Branch","var":null}
-{"id":"7550496a-25b2-4e85-986b-990677ea1985","ts":"2026-05-06 23:49:35.230","tid":11,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg0","val":"originalObject"}}
-{"id":"c61ac548-c8bc-410a-ba34-acbd4cee7cd5","ts":"2026-05-06 23:49:35.230","tid":11,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg1","val":"path"}}
-{"id":"a44ba179-5c45-4b00-83c4-2061152e8492","ts":"2026-05-06 23:49:35.230","tid":11,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg2","val":"member"}}
-{"id":"5696a2f3-f9c4-40ae-8fa0-252e08810d64","ts":"2026-05-06 23:49:35.230","tid":11,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg3","val":"exception"}}
-{"id":"4b1c1e4b-415b-46d4-af2e-a09cbf2e5594","ts":"2026-05-06 23:49:35.231","tid":11,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg4","val":"handled"}}
-{"id":"31a11881-40c8-43b9-b253-a00dc4c6cc18","ts":"2026-05-06 23:49:35.288","tid":11,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
-{"id":"070fe263-b442-4b7c-ae3e-299b18352745","ts":"2026-05-06 23:49:35.289","tid":11,"file":"InterfaceCallbacks.cs","line":24,"msg":"If-True Branch","var":null}
-{"id":"4d278161-bf9c-4a69-a936-610a3dc4d629","ts":"2026-05-06 23:49:35.289","tid":11,"file":"InterfaceCallbacks.cs","line":31,"msg":"If-True Branch","var":null}
-{"id":"ec4f75f4-8a51-4881-8443-8fc73eee1541","ts":"2026-05-06 23:49:35.291","tid":11,"file":"InterfaceCallbacks.cs","line":38,"msg":"If-True Branch","var":null}
-{"id":"214d373e-e677-40bd-a823-807968408d19","ts":"2026-05-06 23:49:35.291","tid":11,"file":"InterfaceCallbacks.cs","line":45,"msg":"If-True Branch","var":null}
-{"id":"31a11881-40c8-43b9-b253-a00dc4c6cc18","ts":"2026-05-06 23:49:35.292","tid":11,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
-{"id":"ec4f75f4-8a51-4881-8443-8fc73eee1541","ts":"2026-05-06 23:49:35.292","tid":11,"file":"InterfaceCallbacks.cs","line":38,"msg":"If-True Branch","var":null}
-{"id":"214d373e-e677-40bd-a823-807968408d19","ts":"2026-05-06 23:49:35.293","tid":11,"file":"InterfaceCallbacks.cs","line":45,"msg":"If-True Branch","var":null}
-{"id":"070fe263-b442-4b7c-ae3e-299b18352745","ts":"2026-05-06 23:49:35.293","tid":11,"file":"InterfaceCallbacks.cs","line":24,"msg":"If-True Branch","var":null}
-{"id":"4d278161-bf9c-4a69-a936-610a3dc4d629","ts":"2026-05-06 23:49:35.293","tid":11,"file":"InterfaceCallbacks.cs","line":31,"msg":"If-True Branch","var":null}
-{"id":"31a11881-40c8-43b9-b253-a00dc4c6cc18","ts":"2026-05-06 23:49:35.294","tid":11,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
-{"id":"070fe263-b442-4b7c-ae3e-299b18352745","ts":"2026-05-06 23:49:35.294","tid":11,"file":"InterfaceCallbacks.cs","line":24,"msg":"If-True Branch","var":null}
-{"id":"0c165514-3bfe-4a46-9b03-e894dff63b9b","ts":"2026-05-06 23:49:35.295","tid":11,"file":"InterfaceCallbacks.cs","line":10,"msg":"If-True Branch","var":null}
-{"id":"7550496a-25b2-4e85-986b-990677ea1985","ts":"2026-05-06 23:49:35.295","tid":11,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg0","val":"originalObject"}}
-{"id":"c61ac548-c8bc-410a-ba34-acbd4cee7cd5","ts":"2026-05-06 23:49:35.295","tid":11,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg1","val":"path"}}
-{"id":"a44ba179-5c45-4b00-83c4-2061152e8492","ts":"2026-05-06 23:49:35.295","tid":11,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg2","val":"member"}}
-{"id":"5696a2f3-f9c4-40ae-8fa0-252e08810d64","ts":"2026-05-06 23:49:35.296","tid":11,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg3","val":"exception"}}
-{"id":"4b1c1e4b-415b-46d4-af2e-a09cbf2e5594","ts":"2026-05-06 23:49:35.296","tid":11,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg4","val":"handled"}}
-{"id":"4d278161-bf9c-4a69-a936-610a3dc4d629","ts":"2026-05-06 23:49:35.296","tid":11,"file":"InterfaceCallbacks.cs","line":31,"msg":"If-True Branch","var":null}
-{"id":"ec4f75f4-8a51-4881-8443-8fc73eee1541","ts":"2026-05-06 23:49:35.297","tid":11,"file":"InterfaceCallbacks.cs","line":38,"msg":"If-True Branch","var":null}
-{"id":"214d373e-e677-40bd-a823-807968408d19","ts":"2026-05-06 23:49:35.297","tid":11,"file":"InterfaceCallbacks.cs","line":45,"msg":"If-True Branch","var":null}
-{"id":"31a11881-40c8-43b9-b253-a00dc4c6cc18","ts":"2026-05-06 23:49:35.298","tid":11,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
-{"id":"070fe263-b442-4b7c-ae3e-299b18352745","ts":"2026-05-06 23:49:35.298","tid":11,"file":"InterfaceCallbacks.cs","line":24,"msg":"If-True Branch","var":null}
-{"id":"0c165514-3bfe-4a46-9b03-e894dff63b9b","ts":"2026-05-06 23:49:35.299","tid":11,"file":"InterfaceCallbacks.cs","line":10,"msg":"If-True Branch","var":null}
-{"id":"7550496a-25b2-4e85-986b-990677ea1985","ts":"2026-05-06 23:49:35.299","tid":11,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg0","val":"originalObject"}}
-{"id":"c61ac548-c8bc-410a-ba34-acbd4cee7cd5","ts":"2026-05-06 23:49:35.299","tid":11,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg1","val":"path"}}
-{"id":"a44ba179-5c45-4b00-83c4-2061152e8492","ts":"2026-05-06 23:49:35.299","tid":11,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg2","val":"member"}}
-{"id":"5696a2f3-f9c4-40ae-8fa0-252e08810d64","ts":"2026-05-06 23:49:35.299","tid":11,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg3","val":"exception"}}
-{"id":"4b1c1e4b-415b-46d4-af2e-a09cbf2e5594","ts":"2026-05-06 23:49:35.299","tid":11,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg4","val":"handled"}}
-{"id":"4d278161-bf9c-4a69-a936-610a3dc4d629","ts":"2026-05-06 23:49:35.300","tid":11,"file":"InterfaceCallbacks.cs","line":31,"msg":"If-True Branch","var":null}
-{"id":"ec4f75f4-8a51-4881-8443-8fc73eee1541","ts":"2026-05-06 23:49:35.300","tid":11,"file":"InterfaceCallbacks.cs","line":38,"msg":"If-True Branch","var":null}
-{"id":"b1b5691f-b916-4522-8f38-c4672b1c7dc8","ts":"2026-05-06 23:49:35.300","tid":11,"file":"InterfaceCallbacks.cs","line":17,"msg":"If-True Branch","var":null}
-{"id":"e1eea765-5f18-4e99-bd72-10b30644af65","ts":"2026-05-06 23:49:35.300","tid":11,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg0","val":"originalObject"}}
-{"id":"733b9071-60ed-4aa5-b0e4-94c6b6abd254","ts":"2026-05-06 23:49:35.301","tid":11,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg1","val":"path"}}
-{"id":"73273e56-0d01-4ef9-bb9d-5dad3685111b","ts":"2026-05-06 23:49:35.301","tid":11,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg2","val":"member"}}
-{"id":"8fd03cbe-bc2d-4096-8e06-ddafe48b9ebc","ts":"2026-05-06 23:49:35.301","tid":11,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg3","val":"exception"}}
-{"id":"20064e2b-ca48-4553-aebe-25e2ed7705b8","ts":"2026-05-06 23:49:35.301","tid":11,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg4","val":"handled"}}
-{"id":"214d373e-e677-40bd-a823-807968408d19","ts":"2026-05-06 23:49:35.301","tid":11,"file":"InterfaceCallbacks.cs","line":45,"msg":"If-True Branch","var":null}
-{"id":"31a11881-40c8-43b9-b253-a00dc4c6cc18","ts":"2026-05-06 23:49:35.301","tid":11,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
-{"id":"070fe263-b442-4b7c-ae3e-299b18352745","ts":"2026-05-06 23:49:35.302","tid":11,"file":"InterfaceCallbacks.cs","line":24,"msg":"If-True Branch","var":null}
-{"id":"0c165514-3bfe-4a46-9b03-e894dff63b9b","ts":"2026-05-06 23:49:35.302","tid":11,"file":"InterfaceCallbacks.cs","line":10,"msg":"If-True Branch","var":null}
-{"id":"7550496a-25b2-4e85-986b-990677ea1985","ts":"2026-05-06 23:49:35.302","tid":11,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg0","val":"originalObject"}}
-{"id":"c61ac548-c8bc-410a-ba34-acbd4cee7cd5","ts":"2026-05-06 23:49:35.302","tid":11,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg1","val":"path"}}
-{"id":"a44ba179-5c45-4b00-83c4-2061152e8492","ts":"2026-05-06 23:49:35.303","tid":11,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg2","val":"member"}}
-{"id":"5696a2f3-f9c4-40ae-8fa0-252e08810d64","ts":"2026-05-06 23:49:35.303","tid":11,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg3","val":"exception"}}
-{"id":"4b1c1e4b-415b-46d4-af2e-a09cbf2e5594","ts":"2026-05-06 23:49:35.303","tid":11,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg4","val":"handled"}}
-{"id":"4d278161-bf9c-4a69-a936-610a3dc4d629","ts":"2026-05-06 23:49:35.303","tid":11,"file":"InterfaceCallbacks.cs","line":31,"msg":"If-True Branch","var":null}
-{"id":"ec4f75f4-8a51-4881-8443-8fc73eee1541","ts":"2026-05-06 23:49:35.303","tid":11,"file":"InterfaceCallbacks.cs","line":38,"msg":"If-True Branch","var":null}
-{"id":"b1b5691f-b916-4522-8f38-c4672b1c7dc8","ts":"2026-05-06 23:49:35.303","tid":11,"file":"InterfaceCallbacks.cs","line":17,"msg":"If-True Branch","var":null}
-{"id":"e1eea765-5f18-4e99-bd72-10b30644af65","ts":"2026-05-06 23:49:35.304","tid":11,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg0","val":"originalObject"}}
-{"id":"733b9071-60ed-4aa5-b0e4-94c6b6abd254","ts":"2026-05-06 23:49:35.304","tid":11,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg1","val":"path"}}
-{"id":"73273e56-0d01-4ef9-bb9d-5dad3685111b","ts":"2026-05-06 23:49:35.304","tid":11,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg2","val":"member"}}
-{"id":"8fd03cbe-bc2d-4096-8e06-ddafe48b9ebc","ts":"2026-05-06 23:49:35.304","tid":11,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg3","val":"exception"}}
-{"id":"20064e2b-ca48-4553-aebe-25e2ed7705b8","ts":"2026-05-06 23:49:35.305","tid":11,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg4","val":"handled"}}
-{"id":"214d373e-e677-40bd-a823-807968408d19","ts":"2026-05-06 23:49:35.305","tid":11,"file":"InterfaceCallbacks.cs","line":45,"msg":"If-True Branch","var":null}
-{"id":"31a11881-40c8-43b9-b253-a00dc4c6cc18","ts":"2026-05-06 23:49:35.306","tid":11,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
-{"id":"070fe263-b442-4b7c-ae3e-299b18352745","ts":"2026-05-06 23:49:35.306","tid":11,"file":"InterfaceCallbacks.cs","line":24,"msg":"If-True Branch","var":null}
-{"id":"31a11881-40c8-43b9-b253-a00dc4c6cc18","ts":"2026-05-06 23:49:35.307","tid":11,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
-{"id":"ec4f75f4-8a51-4881-8443-8fc73eee1541","ts":"2026-05-06 23:49:35.307","tid":11,"file":"InterfaceCallbacks.cs","line":38,"msg":"If-True Branch","var":null}
-{"id":"214d373e-e677-40bd-a823-807968408d19","ts":"2026-05-06 23:49:35.307","tid":11,"file":"InterfaceCallbacks.cs","line":45,"msg":"If-True Branch","var":null}
-{"id":"070fe263-b442-4b7c-ae3e-299b18352745","ts":"2026-05-06 23:49:35.308","tid":11,"file":"InterfaceCallbacks.cs","line":24,"msg":"If-True Branch","var":null}
-{"id":"4d278161-bf9c-4a69-a936-610a3dc4d629","ts":"2026-05-06 23:49:35.308","tid":11,"file":"InterfaceCallbacks.cs","line":31,"msg":"If-True Branch","var":null}
-{"id":"31a11881-40c8-43b9-b253-a00dc4c6cc18","ts":"2026-05-06 23:49:35.312","tid":4,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
-{"id":"b1b5691f-b916-4522-8f38-c4672b1c7dc8","ts":"2026-05-06 23:49:35.314","tid":4,"file":"InterfaceCallbacks.cs","line":17,"msg":"If-True Branch","var":null}
-{"id":"e1eea765-5f18-4e99-bd72-10b30644af65","ts":"2026-05-06 23:49:35.314","tid":4,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg0","val":"originalObject"}}
-{"id":"733b9071-60ed-4aa5-b0e4-94c6b6abd254","ts":"2026-05-06 23:49:35.314","tid":4,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg1","val":"path"}}
-{"id":"73273e56-0d01-4ef9-bb9d-5dad3685111b","ts":"2026-05-06 23:49:35.315","tid":4,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg2","val":"member"}}
-{"id":"8fd03cbe-bc2d-4096-8e06-ddafe48b9ebc","ts":"2026-05-06 23:49:35.315","tid":4,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg3","val":"exception"}}
-{"id":"20064e2b-ca48-4553-aebe-25e2ed7705b8","ts":"2026-05-06 23:49:35.315","tid":4,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg4","val":"handled"}}
-{"id":"31a11881-40c8-43b9-b253-a00dc4c6cc18","ts":"2026-05-06 23:49:35.318","tid":4,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
-{"id":"070fe263-b442-4b7c-ae3e-299b18352745","ts":"2026-05-06 23:49:35.319","tid":4,"file":"InterfaceCallbacks.cs","line":24,"msg":"If-True Branch","var":null}
-{"id":"4d278161-bf9c-4a69-a936-610a3dc4d629","ts":"2026-05-06 23:49:35.320","tid":4,"file":"InterfaceCallbacks.cs","line":31,"msg":"If-True Branch","var":null}
-{"id":"ec4f75f4-8a51-4881-8443-8fc73eee1541","ts":"2026-05-06 23:49:35.320","tid":4,"file":"InterfaceCallbacks.cs","line":38,"msg":"If-True Branch","var":null}
-{"id":"214d373e-e677-40bd-a823-807968408d19","ts":"2026-05-06 23:49:35.321","tid":4,"file":"InterfaceCallbacks.cs","line":45,"msg":"If-True Branch","var":null}
-{"id":"31a11881-40c8-43b9-b253-a00dc4c6cc18","ts":"2026-05-06 23:49:35.323","tid":4,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
-{"id":"070fe263-b442-4b7c-ae3e-299b18352745","ts":"2026-05-06 23:49:35.323","tid":4,"file":"InterfaceCallbacks.cs","line":24,"msg":"If-True Branch","var":null}
-{"id":"4d278161-bf9c-4a69-a936-610a3dc4d629","ts":"2026-05-06 23:49:35.324","tid":4,"file":"InterfaceCallbacks.cs","line":31,"msg":"If-True Branch","var":null}
-{"id":"ec4f75f4-8a51-4881-8443-8fc73eee1541","ts":"2026-05-06 23:49:35.324","tid":4,"file":"InterfaceCallbacks.cs","line":38,"msg":"If-True Branch","var":null}
-{"id":"214d373e-e677-40bd-a823-807968408d19","ts":"2026-05-06 23:49:35.324","tid":4,"file":"InterfaceCallbacks.cs","line":45,"msg":"If-True Branch","var":null}
-{"id":"31a11881-40c8-43b9-b253-a00dc4c6cc18","ts":"2026-05-06 23:49:35.648","tid":4,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
-{"id":"0c165514-3bfe-4a46-9b03-e894dff63b9b","ts":"2026-05-06 23:49:35.649","tid":4,"file":"InterfaceCallbacks.cs","line":10,"msg":"If-True Branch","var":null}
-{"id":"7550496a-25b2-4e85-986b-990677ea1985","ts":"2026-05-06 23:49:35.649","tid":4,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg0","val":"originalObject"}}
-{"id":"c61ac548-c8bc-410a-ba34-acbd4cee7cd5","ts":"2026-05-06 23:49:35.649","tid":4,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg1","val":"path"}}
-{"id":"a44ba179-5c45-4b00-83c4-2061152e8492","ts":"2026-05-06 23:49:35.650","tid":4,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg2","val":"member"}}
-{"id":"5696a2f3-f9c4-40ae-8fa0-252e08810d64","ts":"2026-05-06 23:49:35.650","tid":4,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg3","val":"exception"}}
-{"id":"4b1c1e4b-415b-46d4-af2e-a09cbf2e5594","ts":"2026-05-06 23:49:35.650","tid":4,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg4","val":"handled"}}
-{"id":"31a11881-40c8-43b9-b253-a00dc4c6cc18","ts":"2026-05-06 23:49:36.452","tid":9,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
-{"id":"0c165514-3bfe-4a46-9b03-e894dff63b9b","ts":"2026-05-06 23:49:36.453","tid":9,"file":"InterfaceCallbacks.cs","line":10,"msg":"If-True Branch","var":null}
-{"id":"7550496a-25b2-4e85-986b-990677ea1985","ts":"2026-05-06 23:49:36.453","tid":9,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg0","val":"originalObject"}}
-{"id":"c61ac548-c8bc-410a-ba34-acbd4cee7cd5","ts":"2026-05-06 23:49:36.454","tid":9,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg1","val":"path"}}
-{"id":"a44ba179-5c45-4b00-83c4-2061152e8492","ts":"2026-05-06 23:49:36.454","tid":9,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg2","val":"member"}}
-{"id":"5696a2f3-f9c4-40ae-8fa0-252e08810d64","ts":"2026-05-06 23:49:36.454","tid":9,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg3","val":"exception"}}
-{"id":"4b1c1e4b-415b-46d4-af2e-a09cbf2e5594","ts":"2026-05-06 23:49:36.454","tid":9,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg4","val":"handled"}}
-{"id":"31a11881-40c8-43b9-b253-a00dc4c6cc18","ts":"2026-05-06 23:49:36.457","tid":9,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
-{"id":"b1b5691f-b916-4522-8f38-c4672b1c7dc8","ts":"2026-05-06 23:49:36.460","tid":9,"file":"InterfaceCallbacks.cs","line":17,"msg":"If-True Branch","var":null}
-{"id":"e1eea765-5f18-4e99-bd72-10b30644af65","ts":"2026-05-06 23:49:36.460","tid":9,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg0","val":"originalObject"}}
-{"id":"733b9071-60ed-4aa5-b0e4-94c6b6abd254","ts":"2026-05-06 23:49:36.460","tid":9,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg1","val":"path"}}
-{"id":"73273e56-0d01-4ef9-bb9d-5dad3685111b","ts":"2026-05-06 23:49:36.461","tid":9,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg2","val":"member"}}
-{"id":"8fd03cbe-bc2d-4096-8e06-ddafe48b9ebc","ts":"2026-05-06 23:49:36.461","tid":9,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg3","val":"exception"}}
-{"id":"20064e2b-ca48-4553-aebe-25e2ed7705b8","ts":"2026-05-06 23:49:36.461","tid":9,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg4","val":"handled"}}
-{"id":"31a11881-40c8-43b9-b253-a00dc4c6cc18","ts":"2026-05-06 23:49:36.465","tid":9,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
-{"id":"b1b5691f-b916-4522-8f38-c4672b1c7dc8","ts":"2026-05-06 23:49:36.466","tid":9,"file":"InterfaceCallbacks.cs","line":17,"msg":"If-True Branch","var":null}
-{"id":"e1eea765-5f18-4e99-bd72-10b30644af65","ts":"2026-05-06 23:49:36.466","tid":9,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg0","val":"originalObject"}}
-{"id":"733b9071-60ed-4aa5-b0e4-94c6b6abd254","ts":"2026-05-06 23:49:36.467","tid":9,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg1","val":"path"}}
-{"id":"73273e56-0d01-4ef9-bb9d-5dad3685111b","ts":"2026-05-06 23:49:36.467","tid":9,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg2","val":"member"}}
-{"id":"8fd03cbe-bc2d-4096-8e06-ddafe48b9ebc","ts":"2026-05-06 23:49:36.467","tid":9,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg3","val":"exception"}}
-{"id":"20064e2b-ca48-4553-aebe-25e2ed7705b8","ts":"2026-05-06 23:49:36.467","tid":9,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg4","val":"handled"}}
-{"id":"b1b5691f-b916-4522-8f38-c4672b1c7dc8","ts":"2026-05-06 23:49:36.467","tid":9,"file":"InterfaceCallbacks.cs","line":17,"msg":"If-True Branch","var":null}
-{"id":"e1eea765-5f18-4e99-bd72-10b30644af65","ts":"2026-05-06 23:49:36.467","tid":9,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg0","val":"originalObject"}}
-{"id":"733b9071-60ed-4aa5-b0e4-94c6b6abd254","ts":"2026-05-06 23:49:36.467","tid":9,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg1","val":"path"}}
-{"id":"73273e56-0d01-4ef9-bb9d-5dad3685111b","ts":"2026-05-06 23:49:36.468","tid":9,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg2","val":"member"}}
-{"id":"8fd03cbe-bc2d-4096-8e06-ddafe48b9ebc","ts":"2026-05-06 23:49:36.468","tid":9,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg3","val":"exception"}}
-{"id":"20064e2b-ca48-4553-aebe-25e2ed7705b8","ts":"2026-05-06 23:49:36.468","tid":9,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg4","val":"handled"}}
-{"id":"b1b5691f-b916-4522-8f38-c4672b1c7dc8","ts":"2026-05-06 23:49:36.468","tid":9,"file":"InterfaceCallbacks.cs","line":17,"msg":"If-True Branch","var":null}
-{"id":"e1eea765-5f18-4e99-bd72-10b30644af65","ts":"2026-05-06 23:49:36.468","tid":9,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg0","val":"originalObject"}}
-{"id":"733b9071-60ed-4aa5-b0e4-94c6b6abd254","ts":"2026-05-06 23:49:36.468","tid":9,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg1","val":"path"}}
-{"id":"73273e56-0d01-4ef9-bb9d-5dad3685111b","ts":"2026-05-06 23:49:36.468","tid":9,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg2","val":"member"}}
-{"id":"8fd03cbe-bc2d-4096-8e06-ddafe48b9ebc","ts":"2026-05-06 23:49:36.468","tid":9,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg3","val":"exception"}}
-{"id":"20064e2b-ca48-4553-aebe-25e2ed7705b8","ts":"2026-05-06 23:49:36.469","tid":9,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg4","val":"handled"}}
-{"id":"31a11881-40c8-43b9-b253-a00dc4c6cc18","ts":"2026-05-06 23:49:36.471","tid":9,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
-{"id":"b1b5691f-b916-4522-8f38-c4672b1c7dc8","ts":"2026-05-06 23:49:36.473","tid":9,"file":"InterfaceCallbacks.cs","line":17,"msg":"If-True Branch","var":null}
-{"id":"e1eea765-5f18-4e99-bd72-10b30644af65","ts":"2026-05-06 23:49:36.473","tid":9,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg0","val":"originalObject"}}
-{"id":"733b9071-60ed-4aa5-b0e4-94c6b6abd254","ts":"2026-05-06 23:49:36.473","tid":9,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg1","val":"path"}}
-{"id":"73273e56-0d01-4ef9-bb9d-5dad3685111b","ts":"2026-05-06 23:49:36.473","tid":9,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg2","val":"member"}}
-{"id":"8fd03cbe-bc2d-4096-8e06-ddafe48b9ebc","ts":"2026-05-06 23:49:36.473","tid":9,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg3","val":"exception"}}
-{"id":"20064e2b-ca48-4553-aebe-25e2ed7705b8","ts":"2026-05-06 23:49:36.473","tid":9,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg4","val":"handled"}}
-{"id":"31a11881-40c8-43b9-b253-a00dc4c6cc18","ts":"2026-05-06 23:49:36.494","tid":11,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
-{"id":"b1b5691f-b916-4522-8f38-c4672b1c7dc8","ts":"2026-05-06 23:49:36.495","tid":11,"file":"InterfaceCallbacks.cs","line":17,"msg":"If-True Branch","var":null}
-{"id":"e1eea765-5f18-4e99-bd72-10b30644af65","ts":"2026-05-06 23:49:36.495","tid":11,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg0","val":"originalObject"}}
-{"id":"733b9071-60ed-4aa5-b0e4-94c6b6abd254","ts":"2026-05-06 23:49:36.495","tid":11,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg1","val":"path"}}
-{"id":"73273e56-0d01-4ef9-bb9d-5dad3685111b","ts":"2026-05-06 23:49:36.496","tid":11,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg2","val":"member"}}
-{"id":"8fd03cbe-bc2d-4096-8e06-ddafe48b9ebc","ts":"2026-05-06 23:49:36.496","tid":11,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg3","val":"exception"}}
-{"id":"20064e2b-ca48-4553-aebe-25e2ed7705b8","ts":"2026-05-06 23:49:36.496","tid":11,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg4","val":"handled"}}
-{"id":"31a11881-40c8-43b9-b253-a00dc4c6cc18","ts":"2026-05-06 23:49:36.515","tid":11,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
-{"id":"0c165514-3bfe-4a46-9b03-e894dff63b9b","ts":"2026-05-06 23:49:36.515","tid":11,"file":"InterfaceCallbacks.cs","line":10,"msg":"If-True Branch","var":null}
-{"id":"7550496a-25b2-4e85-986b-990677ea1985","ts":"2026-05-06 23:49:36.515","tid":11,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg0","val":"originalObject"}}
-{"id":"c61ac548-c8bc-410a-ba34-acbd4cee7cd5","ts":"2026-05-06 23:49:36.516","tid":11,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg1","val":"path"}}
-{"id":"a44ba179-5c45-4b00-83c4-2061152e8492","ts":"2026-05-06 23:49:36.516","tid":11,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg2","val":"member"}}
-{"id":"5696a2f3-f9c4-40ae-8fa0-252e08810d64","ts":"2026-05-06 23:49:36.516","tid":11,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg3","val":"exception"}}
-{"id":"4b1c1e4b-415b-46d4-af2e-a09cbf2e5594","ts":"2026-05-06 23:49:36.516","tid":11,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg4","val":"handled"}}
-{"id":"31a11881-40c8-43b9-b253-a00dc4c6cc18","ts":"2026-05-06 23:49:37.296","tid":10,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
-{"id":"214d373e-e677-40bd-a823-807968408d19","ts":"2026-05-06 23:49:37.297","tid":10,"file":"InterfaceCallbacks.cs","line":45,"msg":"If-True Branch","var":null}
-{"id":"31a11881-40c8-43b9-b253-a00dc4c6cc18","ts":"2026-05-06 23:49:38.886","tid":10,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
-{"id":"070fe263-b442-4b7c-ae3e-299b18352745","ts":"2026-05-06 23:49:38.887","tid":10,"file":"InterfaceCallbacks.cs","line":24,"msg":"If-True Branch","var":null}
-{"id":"4d278161-bf9c-4a69-a936-610a3dc4d629","ts":"2026-05-06 23:49:38.888","tid":10,"file":"InterfaceCallbacks.cs","line":31,"msg":"If-True Branch","var":null}
-{"id":"ec4f75f4-8a51-4881-8443-8fc73eee1541","ts":"2026-05-06 23:49:38.888","tid":10,"file":"InterfaceCallbacks.cs","line":38,"msg":"If-True Branch","var":null}
-{"id":"214d373e-e677-40bd-a823-807968408d19","ts":"2026-05-06 23:49:38.888","tid":10,"file":"InterfaceCallbacks.cs","line":45,"msg":"If-True Branch","var":null}
-{"id":"31a11881-40c8-43b9-b253-a00dc4c6cc18","ts":"2026-05-07 00:04:44.642","tid":3,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
-{"id":"070fe263-b442-4b7c-ae3e-299b18352745","ts":"2026-05-07 00:04:44.644","tid":3,"file":"InterfaceCallbacks.cs","line":24,"msg":"If-True Branch","var":null}
-{"id":"0c165514-3bfe-4a46-9b03-e894dff63b9b","ts":"2026-05-07 00:04:44.645","tid":3,"file":"InterfaceCallbacks.cs","line":10,"msg":"If-True Branch","var":null}
-{"id":"7550496a-25b2-4e85-986b-990677ea1985","ts":"2026-05-07 00:04:44.646","tid":3,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg0","val":"originalObject"}}
-{"id":"c61ac548-c8bc-410a-ba34-acbd4cee7cd5","ts":"2026-05-07 00:04:44.647","tid":3,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg1","val":"path"}}
-{"id":"a44ba179-5c45-4b00-83c4-2061152e8492","ts":"2026-05-07 00:04:44.647","tid":3,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg2","val":"member"}}
-{"id":"5696a2f3-f9c4-40ae-8fa0-252e08810d64","ts":"2026-05-07 00:04:44.648","tid":3,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg3","val":"exception"}}
-{"id":"4b1c1e4b-415b-46d4-af2e-a09cbf2e5594","ts":"2026-05-07 00:04:44.648","tid":3,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg4","val":"handled"}}
-{"id":"4d278161-bf9c-4a69-a936-610a3dc4d629","ts":"2026-05-07 00:04:44.650","tid":3,"file":"InterfaceCallbacks.cs","line":31,"msg":"If-True Branch","var":null}
-{"id":"ec4f75f4-8a51-4881-8443-8fc73eee1541","ts":"2026-05-07 00:04:44.651","tid":3,"file":"InterfaceCallbacks.cs","line":38,"msg":"If-True Branch","var":null}
-{"id":"214d373e-e677-40bd-a823-807968408d19","ts":"2026-05-07 00:04:44.652","tid":3,"file":"InterfaceCallbacks.cs","line":45,"msg":"If-True Branch","var":null}
-{"id":"31a11881-40c8-43b9-b253-a00dc4c6cc18","ts":"2026-05-07 00:04:44.655","tid":3,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
-{"id":"ec4f75f4-8a51-4881-8443-8fc73eee1541","ts":"2026-05-07 00:04:44.657","tid":3,"file":"InterfaceCallbacks.cs","line":38,"msg":"If-True Branch","var":null}
-{"id":"214d373e-e677-40bd-a823-807968408d19","ts":"2026-05-07 00:04:44.658","tid":3,"file":"InterfaceCallbacks.cs","line":45,"msg":"If-True Branch","var":null}
-{"id":"070fe263-b442-4b7c-ae3e-299b18352745","ts":"2026-05-07 00:04:44.659","tid":3,"file":"InterfaceCallbacks.cs","line":24,"msg":"If-True Branch","var":null}
-{"id":"4d278161-bf9c-4a69-a936-610a3dc4d629","ts":"2026-05-07 00:04:44.660","tid":3,"file":"InterfaceCallbacks.cs","line":31,"msg":"If-True Branch","var":null}
-{"id":"31a11881-40c8-43b9-b253-a00dc4c6cc18","ts":"2026-05-07 00:04:44.663","tid":3,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
-{"id":"070fe263-b442-4b7c-ae3e-299b18352745","ts":"2026-05-07 00:04:44.664","tid":3,"file":"InterfaceCallbacks.cs","line":24,"msg":"If-True Branch","var":null}
-{"id":"0c165514-3bfe-4a46-9b03-e894dff63b9b","ts":"2026-05-07 00:04:44.665","tid":3,"file":"InterfaceCallbacks.cs","line":10,"msg":"If-True Branch","var":null}
-{"id":"7550496a-25b2-4e85-986b-990677ea1985","ts":"2026-05-07 00:04:44.665","tid":3,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg0","val":"originalObject"}}
-{"id":"c61ac548-c8bc-410a-ba34-acbd4cee7cd5","ts":"2026-05-07 00:04:44.666","tid":3,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg1","val":"path"}}
-{"id":"a44ba179-5c45-4b00-83c4-2061152e8492","ts":"2026-05-07 00:04:44.666","tid":3,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg2","val":"member"}}
-{"id":"5696a2f3-f9c4-40ae-8fa0-252e08810d64","ts":"2026-05-07 00:04:44.666","tid":3,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg3","val":"exception"}}
-{"id":"4b1c1e4b-415b-46d4-af2e-a09cbf2e5594","ts":"2026-05-07 00:04:44.667","tid":3,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg4","val":"handled"}}
-{"id":"4d278161-bf9c-4a69-a936-610a3dc4d629","ts":"2026-05-07 00:04:44.668","tid":3,"file":"InterfaceCallbacks.cs","line":31,"msg":"If-True Branch","var":null}
-{"id":"ec4f75f4-8a51-4881-8443-8fc73eee1541","ts":"2026-05-07 00:04:44.668","tid":3,"file":"InterfaceCallbacks.cs","line":38,"msg":"If-True Branch","var":null}
-{"id":"b1b5691f-b916-4522-8f38-c4672b1c7dc8","ts":"2026-05-07 00:04:44.670","tid":3,"file":"InterfaceCallbacks.cs","line":17,"msg":"If-True Branch","var":null}
-{"id":"e1eea765-5f18-4e99-bd72-10b30644af65","ts":"2026-05-07 00:04:44.671","tid":3,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg0","val":"originalObject"}}
-{"id":"733b9071-60ed-4aa5-b0e4-94c6b6abd254","ts":"2026-05-07 00:04:44.671","tid":3,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg1","val":"path"}}
-{"id":"73273e56-0d01-4ef9-bb9d-5dad3685111b","ts":"2026-05-07 00:04:44.672","tid":3,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg2","val":"member"}}
-{"id":"8fd03cbe-bc2d-4096-8e06-ddafe48b9ebc","ts":"2026-05-07 00:04:44.672","tid":3,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg3","val":"exception"}}
-{"id":"20064e2b-ca48-4553-aebe-25e2ed7705b8","ts":"2026-05-07 00:04:44.673","tid":3,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg4","val":"handled"}}
-{"id":"214d373e-e677-40bd-a823-807968408d19","ts":"2026-05-07 00:04:44.674","tid":3,"file":"InterfaceCallbacks.cs","line":45,"msg":"If-True Branch","var":null}
-{"id":"31a11881-40c8-43b9-b253-a00dc4c6cc18","ts":"2026-05-07 00:04:44.675","tid":3,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
-{"id":"070fe263-b442-4b7c-ae3e-299b18352745","ts":"2026-05-07 00:04:44.676","tid":3,"file":"InterfaceCallbacks.cs","line":24,"msg":"If-True Branch","var":null}
-{"id":"0c165514-3bfe-4a46-9b03-e894dff63b9b","ts":"2026-05-07 00:04:44.676","tid":3,"file":"InterfaceCallbacks.cs","line":10,"msg":"If-True Branch","var":null}
-{"id":"7550496a-25b2-4e85-986b-990677ea1985","ts":"2026-05-07 00:04:44.676","tid":3,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg0","val":"originalObject"}}
-{"id":"c61ac548-c8bc-410a-ba34-acbd4cee7cd5","ts":"2026-05-07 00:04:44.677","tid":3,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg1","val":"path"}}
-{"id":"a44ba179-5c45-4b00-83c4-2061152e8492","ts":"2026-05-07 00:04:44.677","tid":3,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg2","val":"member"}}
-{"id":"5696a2f3-f9c4-40ae-8fa0-252e08810d64","ts":"2026-05-07 00:04:44.677","tid":3,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg3","val":"exception"}}
-{"id":"4b1c1e4b-415b-46d4-af2e-a09cbf2e5594","ts":"2026-05-07 00:04:44.678","tid":3,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg4","val":"handled"}}
-{"id":"4d278161-bf9c-4a69-a936-610a3dc4d629","ts":"2026-05-07 00:04:44.678","tid":3,"file":"InterfaceCallbacks.cs","line":31,"msg":"If-True Branch","var":null}
-{"id":"ec4f75f4-8a51-4881-8443-8fc73eee1541","ts":"2026-05-07 00:04:44.678","tid":3,"file":"InterfaceCallbacks.cs","line":38,"msg":"If-True Branch","var":null}
-{"id":"b1b5691f-b916-4522-8f38-c4672b1c7dc8","ts":"2026-05-07 00:04:44.680","tid":3,"file":"InterfaceCallbacks.cs","line":17,"msg":"If-True Branch","var":null}
-{"id":"e1eea765-5f18-4e99-bd72-10b30644af65","ts":"2026-05-07 00:04:44.680","tid":3,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg0","val":"originalObject"}}
-{"id":"733b9071-60ed-4aa5-b0e4-94c6b6abd254","ts":"2026-05-07 00:04:44.681","tid":3,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg1","val":"path"}}
-{"id":"73273e56-0d01-4ef9-bb9d-5dad3685111b","ts":"2026-05-07 00:04:44.681","tid":3,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg2","val":"member"}}
-{"id":"8fd03cbe-bc2d-4096-8e06-ddafe48b9ebc","ts":"2026-05-07 00:04:44.682","tid":3,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg3","val":"exception"}}
-{"id":"20064e2b-ca48-4553-aebe-25e2ed7705b8","ts":"2026-05-07 00:04:44.682","tid":3,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg4","val":"handled"}}
-{"id":"214d373e-e677-40bd-a823-807968408d19","ts":"2026-05-07 00:04:44.683","tid":3,"file":"InterfaceCallbacks.cs","line":45,"msg":"If-True Branch","var":null}
-{"id":"31a11881-40c8-43b9-b253-a00dc4c6cc18","ts":"2026-05-07 00:04:44.685","tid":3,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
-{"id":"ec4f75f4-8a51-4881-8443-8fc73eee1541","ts":"2026-05-07 00:04:44.687","tid":3,"file":"InterfaceCallbacks.cs","line":38,"msg":"If-True Branch","var":null}
-{"id":"214d373e-e677-40bd-a823-807968408d19","ts":"2026-05-07 00:04:44.688","tid":3,"file":"InterfaceCallbacks.cs","line":45,"msg":"If-True Branch","var":null}
-{"id":"070fe263-b442-4b7c-ae3e-299b18352745","ts":"2026-05-07 00:04:44.688","tid":3,"file":"InterfaceCallbacks.cs","line":24,"msg":"If-True Branch","var":null}
-{"id":"4d278161-bf9c-4a69-a936-610a3dc4d629","ts":"2026-05-07 00:04:44.689","tid":3,"file":"InterfaceCallbacks.cs","line":31,"msg":"If-True Branch","var":null}
-{"id":"31a11881-40c8-43b9-b253-a00dc4c6cc18","ts":"2026-05-07 00:04:44.695","tid":7,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
-{"id":"070fe263-b442-4b7c-ae3e-299b18352745","ts":"2026-05-07 00:04:44.696","tid":7,"file":"InterfaceCallbacks.cs","line":24,"msg":"If-True Branch","var":null}
-{"id":"4d278161-bf9c-4a69-a936-610a3dc4d629","ts":"2026-05-07 00:04:44.698","tid":7,"file":"InterfaceCallbacks.cs","line":31,"msg":"If-True Branch","var":null}
-{"id":"ec4f75f4-8a51-4881-8443-8fc73eee1541","ts":"2026-05-07 00:04:44.700","tid":7,"file":"InterfaceCallbacks.cs","line":38,"msg":"If-True Branch","var":null}
-{"id":"214d373e-e677-40bd-a823-807968408d19","ts":"2026-05-07 00:04:44.701","tid":7,"file":"InterfaceCallbacks.cs","line":45,"msg":"If-True Branch","var":null}
-{"id":"31a11881-40c8-43b9-b253-a00dc4c6cc18","ts":"2026-05-07 00:04:44.703","tid":7,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
-{"id":"070fe263-b442-4b7c-ae3e-299b18352745","ts":"2026-05-07 00:04:44.704","tid":7,"file":"InterfaceCallbacks.cs","line":24,"msg":"If-True Branch","var":null}
-{"id":"4d278161-bf9c-4a69-a936-610a3dc4d629","ts":"2026-05-07 00:04:44.706","tid":7,"file":"InterfaceCallbacks.cs","line":31,"msg":"If-True Branch","var":null}
-{"id":"ec4f75f4-8a51-4881-8443-8fc73eee1541","ts":"2026-05-07 00:04:44.707","tid":7,"file":"InterfaceCallbacks.cs","line":38,"msg":"If-True Branch","var":null}
-{"id":"214d373e-e677-40bd-a823-807968408d19","ts":"2026-05-07 00:04:44.708","tid":7,"file":"InterfaceCallbacks.cs","line":45,"msg":"If-True Branch","var":null}
-{"id":"31a11881-40c8-43b9-b253-a00dc4c6cc18","ts":"2026-05-07 00:04:44.709","tid":7,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
-{"id":"b1b5691f-b916-4522-8f38-c4672b1c7dc8","ts":"2026-05-07 00:04:44.710","tid":7,"file":"InterfaceCallbacks.cs","line":17,"msg":"If-True Branch","var":null}
-{"id":"e1eea765-5f18-4e99-bd72-10b30644af65","ts":"2026-05-07 00:04:44.710","tid":7,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg0","val":"originalObject"}}
-{"id":"733b9071-60ed-4aa5-b0e4-94c6b6abd254","ts":"2026-05-07 00:04:44.711","tid":7,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg1","val":"path"}}
-{"id":"73273e56-0d01-4ef9-bb9d-5dad3685111b","ts":"2026-05-07 00:04:44.712","tid":7,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg2","val":"member"}}
-{"id":"8fd03cbe-bc2d-4096-8e06-ddafe48b9ebc","ts":"2026-05-07 00:04:44.712","tid":7,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg3","val":"exception"}}
-{"id":"20064e2b-ca48-4553-aebe-25e2ed7705b8","ts":"2026-05-07 00:04:44.713","tid":7,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg4","val":"handled"}}
-{"id":"31a11881-40c8-43b9-b253-a00dc4c6cc18","ts":"2026-05-07 00:04:44.715","tid":7,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
-{"id":"070fe263-b442-4b7c-ae3e-299b18352745","ts":"2026-05-07 00:04:44.716","tid":7,"file":"InterfaceCallbacks.cs","line":24,"msg":"If-True Branch","var":null}
-{"id":"31a11881-40c8-43b9-b253-a00dc4c6cc18","ts":"2026-05-07 00:04:44.719","tid":7,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
-{"id":"070fe263-b442-4b7c-ae3e-299b18352745","ts":"2026-05-07 00:04:44.720","tid":7,"file":"InterfaceCallbacks.cs","line":24,"msg":"If-True Branch","var":null}
-{"id":"4d278161-bf9c-4a69-a936-610a3dc4d629","ts":"2026-05-07 00:04:44.721","tid":7,"file":"InterfaceCallbacks.cs","line":31,"msg":"If-True Branch","var":null}
-{"id":"ec4f75f4-8a51-4881-8443-8fc73eee1541","ts":"2026-05-07 00:04:44.722","tid":7,"file":"InterfaceCallbacks.cs","line":38,"msg":"If-True Branch","var":null}
-{"id":"214d373e-e677-40bd-a823-807968408d19","ts":"2026-05-07 00:04:44.724","tid":7,"file":"InterfaceCallbacks.cs","line":45,"msg":"If-True Branch","var":null}
-{"id":"31a11881-40c8-43b9-b253-a00dc4c6cc18","ts":"2026-05-07 00:04:45.557","tid":7,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
-{"id":"0c165514-3bfe-4a46-9b03-e894dff63b9b","ts":"2026-05-07 00:04:45.559","tid":7,"file":"InterfaceCallbacks.cs","line":10,"msg":"If-True Branch","var":null}
-{"id":"7550496a-25b2-4e85-986b-990677ea1985","ts":"2026-05-07 00:04:45.560","tid":7,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg0","val":"originalObject"}}
-{"id":"c61ac548-c8bc-410a-ba34-acbd4cee7cd5","ts":"2026-05-07 00:04:45.560","tid":7,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg1","val":"path"}}
-{"id":"a44ba179-5c45-4b00-83c4-2061152e8492","ts":"2026-05-07 00:04:45.561","tid":7,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg2","val":"member"}}
-{"id":"5696a2f3-f9c4-40ae-8fa0-252e08810d64","ts":"2026-05-07 00:04:45.561","tid":7,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg3","val":"exception"}}
-{"id":"4b1c1e4b-415b-46d4-af2e-a09cbf2e5594","ts":"2026-05-07 00:04:45.562","tid":7,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg4","val":"handled"}}
-{"id":"31a11881-40c8-43b9-b253-a00dc4c6cc18","ts":"2026-05-07 00:04:46.078","tid":7,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
-{"id":"214d373e-e677-40bd-a823-807968408d19","ts":"2026-05-07 00:04:46.080","tid":7,"file":"InterfaceCallbacks.cs","line":45,"msg":"If-True Branch","var":null}
-{"id":"31a11881-40c8-43b9-b253-a00dc4c6cc18","ts":"2026-05-07 00:04:46.207","tid":7,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
-{"id":"b1b5691f-b916-4522-8f38-c4672b1c7dc8","ts":"2026-05-07 00:04:46.211","tid":7,"file":"InterfaceCallbacks.cs","line":17,"msg":"If-True Branch","var":null}
-{"id":"e1eea765-5f18-4e99-bd72-10b30644af65","ts":"2026-05-07 00:04:46.211","tid":7,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg0","val":"originalObject"}}
-{"id":"733b9071-60ed-4aa5-b0e4-94c6b6abd254","ts":"2026-05-07 00:04:46.212","tid":7,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg1","val":"path"}}
-{"id":"73273e56-0d01-4ef9-bb9d-5dad3685111b","ts":"2026-05-07 00:04:46.212","tid":7,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg2","val":"member"}}
-{"id":"8fd03cbe-bc2d-4096-8e06-ddafe48b9ebc","ts":"2026-05-07 00:04:46.212","tid":7,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg3","val":"exception"}}
-{"id":"20064e2b-ca48-4553-aebe-25e2ed7705b8","ts":"2026-05-07 00:04:46.213","tid":7,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg4","val":"handled"}}
-{"id":"31a11881-40c8-43b9-b253-a00dc4c6cc18","ts":"2026-05-07 00:04:46.251","tid":3,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
-{"id":"b1b5691f-b916-4522-8f38-c4672b1c7dc8","ts":"2026-05-07 00:04:46.254","tid":3,"file":"InterfaceCallbacks.cs","line":17,"msg":"If-True Branch","var":null}
-{"id":"e1eea765-5f18-4e99-bd72-10b30644af65","ts":"2026-05-07 00:04:46.255","tid":3,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg0","val":"originalObject"}}
-{"id":"733b9071-60ed-4aa5-b0e4-94c6b6abd254","ts":"2026-05-07 00:04:46.256","tid":3,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg1","val":"path"}}
-{"id":"73273e56-0d01-4ef9-bb9d-5dad3685111b","ts":"2026-05-07 00:04:46.257","tid":3,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg2","val":"member"}}
-{"id":"8fd03cbe-bc2d-4096-8e06-ddafe48b9ebc","ts":"2026-05-07 00:04:46.257","tid":3,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg3","val":"exception"}}
-{"id":"20064e2b-ca48-4553-aebe-25e2ed7705b8","ts":"2026-05-07 00:04:46.258","tid":3,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg4","val":"handled"}}
-{"id":"31a11881-40c8-43b9-b253-a00dc4c6cc18","ts":"2026-05-07 00:04:46.285","tid":3,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
-{"id":"b1b5691f-b916-4522-8f38-c4672b1c7dc8","ts":"2026-05-07 00:04:46.288","tid":3,"file":"InterfaceCallbacks.cs","line":17,"msg":"If-True Branch","var":null}
-{"id":"e1eea765-5f18-4e99-bd72-10b30644af65","ts":"2026-05-07 00:04:46.288","tid":3,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg0","val":"originalObject"}}
-{"id":"733b9071-60ed-4aa5-b0e4-94c6b6abd254","ts":"2026-05-07 00:04:46.289","tid":3,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg1","val":"path"}}
-{"id":"73273e56-0d01-4ef9-bb9d-5dad3685111b","ts":"2026-05-07 00:04:46.290","tid":3,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg2","val":"member"}}
-{"id":"8fd03cbe-bc2d-4096-8e06-ddafe48b9ebc","ts":"2026-05-07 00:04:46.291","tid":3,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg3","val":"exception"}}
-{"id":"20064e2b-ca48-4553-aebe-25e2ed7705b8","ts":"2026-05-07 00:04:46.292","tid":3,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg4","val":"handled"}}
-{"id":"31a11881-40c8-43b9-b253-a00dc4c6cc18","ts":"2026-05-07 00:04:46.297","tid":3,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
-{"id":"b1b5691f-b916-4522-8f38-c4672b1c7dc8","ts":"2026-05-07 00:04:46.298","tid":3,"file":"InterfaceCallbacks.cs","line":17,"msg":"If-True Branch","var":null}
-{"id":"e1eea765-5f18-4e99-bd72-10b30644af65","ts":"2026-05-07 00:04:46.299","tid":3,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg0","val":"originalObject"}}
-{"id":"733b9071-60ed-4aa5-b0e4-94c6b6abd254","ts":"2026-05-07 00:04:46.300","tid":3,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg1","val":"path"}}
-{"id":"73273e56-0d01-4ef9-bb9d-5dad3685111b","ts":"2026-05-07 00:04:46.301","tid":3,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg2","val":"member"}}
-{"id":"8fd03cbe-bc2d-4096-8e06-ddafe48b9ebc","ts":"2026-05-07 00:04:46.301","tid":3,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg3","val":"exception"}}
-{"id":"20064e2b-ca48-4553-aebe-25e2ed7705b8","ts":"2026-05-07 00:04:46.302","tid":3,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg4","val":"handled"}}
-{"id":"b1b5691f-b916-4522-8f38-c4672b1c7dc8","ts":"2026-05-07 00:04:46.303","tid":3,"file":"InterfaceCallbacks.cs","line":17,"msg":"If-True Branch","var":null}
-{"id":"e1eea765-5f18-4e99-bd72-10b30644af65","ts":"2026-05-07 00:04:46.304","tid":3,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg0","val":"originalObject"}}
-{"id":"733b9071-60ed-4aa5-b0e4-94c6b6abd254","ts":"2026-05-07 00:04:46.305","tid":3,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg1","val":"path"}}
-{"id":"73273e56-0d01-4ef9-bb9d-5dad3685111b","ts":"2026-05-07 00:04:46.306","tid":3,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg2","val":"member"}}
-{"id":"8fd03cbe-bc2d-4096-8e06-ddafe48b9ebc","ts":"2026-05-07 00:04:46.306","tid":3,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg3","val":"exception"}}
-{"id":"20064e2b-ca48-4553-aebe-25e2ed7705b8","ts":"2026-05-07 00:04:46.307","tid":3,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg4","val":"handled"}}
-{"id":"b1b5691f-b916-4522-8f38-c4672b1c7dc8","ts":"2026-05-07 00:04:46.308","tid":3,"file":"InterfaceCallbacks.cs","line":17,"msg":"If-True Branch","var":null}
-{"id":"e1eea765-5f18-4e99-bd72-10b30644af65","ts":"2026-05-07 00:04:46.309","tid":3,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg0","val":"originalObject"}}
-{"id":"733b9071-60ed-4aa5-b0e4-94c6b6abd254","ts":"2026-05-07 00:04:46.310","tid":3,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg1","val":"path"}}
-{"id":"73273e56-0d01-4ef9-bb9d-5dad3685111b","ts":"2026-05-07 00:04:46.310","tid":3,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg2","val":"member"}}
-{"id":"8fd03cbe-bc2d-4096-8e06-ddafe48b9ebc","ts":"2026-05-07 00:04:46.311","tid":3,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg3","val":"exception"}}
-{"id":"20064e2b-ca48-4553-aebe-25e2ed7705b8","ts":"2026-05-07 00:04:46.312","tid":3,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg4","val":"handled"}}
-{"id":"31a11881-40c8-43b9-b253-a00dc4c6cc18","ts":"2026-05-07 00:04:46.319","tid":3,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
-{"id":"0c165514-3bfe-4a46-9b03-e894dff63b9b","ts":"2026-05-07 00:04:46.323","tid":3,"file":"InterfaceCallbacks.cs","line":10,"msg":"If-True Branch","var":null}
-{"id":"7550496a-25b2-4e85-986b-990677ea1985","ts":"2026-05-07 00:04:46.323","tid":3,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg0","val":"originalObject"}}
-{"id":"c61ac548-c8bc-410a-ba34-acbd4cee7cd5","ts":"2026-05-07 00:04:46.324","tid":3,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg1","val":"path"}}
-{"id":"a44ba179-5c45-4b00-83c4-2061152e8492","ts":"2026-05-07 00:04:46.324","tid":3,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg2","val":"member"}}
-{"id":"5696a2f3-f9c4-40ae-8fa0-252e08810d64","ts":"2026-05-07 00:04:46.325","tid":3,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg3","val":"exception"}}
-{"id":"4b1c1e4b-415b-46d4-af2e-a09cbf2e5594","ts":"2026-05-07 00:04:46.325","tid":3,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg4","val":"handled"}}
-{"id":"31a11881-40c8-43b9-b253-a00dc4c6cc18","ts":"2026-05-07 00:04:46.363","tid":3,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
-{"id":"0c165514-3bfe-4a46-9b03-e894dff63b9b","ts":"2026-05-07 00:04:46.364","tid":3,"file":"InterfaceCallbacks.cs","line":10,"msg":"If-True Branch","var":null}
-{"id":"7550496a-25b2-4e85-986b-990677ea1985","ts":"2026-05-07 00:04:46.365","tid":3,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg0","val":"originalObject"}}
-{"id":"c61ac548-c8bc-410a-ba34-acbd4cee7cd5","ts":"2026-05-07 00:04:46.366","tid":3,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg1","val":"path"}}
-{"id":"a44ba179-5c45-4b00-83c4-2061152e8492","ts":"2026-05-07 00:04:46.367","tid":3,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg2","val":"member"}}
-{"id":"5696a2f3-f9c4-40ae-8fa0-252e08810d64","ts":"2026-05-07 00:04:46.368","tid":3,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg3","val":"exception"}}
-{"id":"4b1c1e4b-415b-46d4-af2e-a09cbf2e5594","ts":"2026-05-07 00:04:46.368","tid":3,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg4","val":"handled"}}
+{"id":"1448715d-570e-41f4-b5ba-edc15a5cef9b","ts":"2026-05-25 19:17:02.701","tid":12,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
+{"id":"2e253d5f-a645-48c8-8664-f34a8b762834","ts":"2026-05-25 19:17:02.707","tid":12,"file":"InterfaceCallbacks.cs","line":24,"msg":"If-True Branch","var":null}
+{"id":"8426c7a9-6b77-438c-b0c2-369b03cd8535","ts":"2026-05-25 19:17:02.708","tid":12,"file":"InterfaceCallbacks.cs","line":31,"msg":"If-True Branch","var":null}
+{"id":"0cc157a4-4b8a-41e4-98f4-31cd207c6f0b","ts":"2026-05-25 19:17:02.708","tid":12,"file":"InterfaceCallbacks.cs","line":38,"msg":"If-True Branch","var":null}
+{"id":"4371139e-713d-4fd0-a387-1a8ee26aaeb7","ts":"2026-05-25 19:17:02.709","tid":12,"file":"InterfaceCallbacks.cs","line":45,"msg":"If-True Branch","var":null}
+{"id":"1448715d-570e-41f4-b5ba-edc15a5cef9b","ts":"2026-05-25 19:17:03.423","tid":12,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
+{"id":"d5c0fe24-5d96-4b59-b93f-1d7398bdd2f2","ts":"2026-05-25 19:17:03.425","tid":12,"file":"InterfaceCallbacks.cs","line":10,"msg":"If-True Branch","var":null}
+{"id":"03f76ec4-99f5-435b-8026-16946f1469ad","ts":"2026-05-25 19:17:03.425","tid":12,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg0","val":"originalObject"}}
+{"id":"2623779e-40d9-41aa-ad20-9ded1c9ff3f0","ts":"2026-05-25 19:17:03.425","tid":12,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg1","val":"path"}}
+{"id":"522a69d7-573c-475c-a92d-177680116ff2","ts":"2026-05-25 19:17:03.426","tid":12,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg2","val":"member"}}
+{"id":"258bdfb5-5422-4018-88d8-4b2433cb2cc4","ts":"2026-05-25 19:17:03.426","tid":12,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg3","val":"exception"}}
+{"id":"df9ad75f-a9ad-4af0-a5f4-b7c1f47cdc42","ts":"2026-05-25 19:17:03.426","tid":12,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg4","val":"handled"}}
+{"id":"1448715d-570e-41f4-b5ba-edc15a5cef9b","ts":"2026-05-25 19:17:03.605","tid":12,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
+{"id":"2e253d5f-a645-48c8-8664-f34a8b762834","ts":"2026-05-25 19:17:03.606","tid":12,"file":"InterfaceCallbacks.cs","line":24,"msg":"If-True Branch","var":null}
+{"id":"8426c7a9-6b77-438c-b0c2-369b03cd8535","ts":"2026-05-25 19:17:03.607","tid":12,"file":"InterfaceCallbacks.cs","line":31,"msg":"If-True Branch","var":null}
+{"id":"0cc157a4-4b8a-41e4-98f4-31cd207c6f0b","ts":"2026-05-25 19:17:03.607","tid":12,"file":"InterfaceCallbacks.cs","line":38,"msg":"If-True Branch","var":null}
+{"id":"4371139e-713d-4fd0-a387-1a8ee26aaeb7","ts":"2026-05-25 19:17:03.607","tid":12,"file":"InterfaceCallbacks.cs","line":45,"msg":"If-True Branch","var":null}
+{"id":"1448715d-570e-41f4-b5ba-edc15a5cef9b","ts":"2026-05-25 19:17:03.608","tid":12,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
+{"id":"2e253d5f-a645-48c8-8664-f34a8b762834","ts":"2026-05-25 19:17:03.609","tid":12,"file":"InterfaceCallbacks.cs","line":24,"msg":"If-True Branch","var":null}
+{"id":"1448715d-570e-41f4-b5ba-edc15a5cef9b","ts":"2026-05-25 19:17:03.611","tid":12,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
+{"id":"2e253d5f-a645-48c8-8664-f34a8b762834","ts":"2026-05-25 19:17:03.612","tid":12,"file":"InterfaceCallbacks.cs","line":24,"msg":"If-True Branch","var":null}
+{"id":"8426c7a9-6b77-438c-b0c2-369b03cd8535","ts":"2026-05-25 19:17:03.612","tid":12,"file":"InterfaceCallbacks.cs","line":31,"msg":"If-True Branch","var":null}
+{"id":"0cc157a4-4b8a-41e4-98f4-31cd207c6f0b","ts":"2026-05-25 19:17:03.613","tid":12,"file":"InterfaceCallbacks.cs","line":38,"msg":"If-True Branch","var":null}
+{"id":"4371139e-713d-4fd0-a387-1a8ee26aaeb7","ts":"2026-05-25 19:17:03.613","tid":12,"file":"InterfaceCallbacks.cs","line":45,"msg":"If-True Branch","var":null}
+{"id":"1448715d-570e-41f4-b5ba-edc15a5cef9b","ts":"2026-05-25 19:17:03.616","tid":12,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
+{"id":"2e253d5f-a645-48c8-8664-f34a8b762834","ts":"2026-05-25 19:17:03.617","tid":12,"file":"InterfaceCallbacks.cs","line":24,"msg":"If-True Branch","var":null}
+{"id":"d5c0fe24-5d96-4b59-b93f-1d7398bdd2f2","ts":"2026-05-25 19:17:03.618","tid":12,"file":"InterfaceCallbacks.cs","line":10,"msg":"If-True Branch","var":null}
+{"id":"03f76ec4-99f5-435b-8026-16946f1469ad","ts":"2026-05-25 19:17:03.618","tid":12,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg0","val":"originalObject"}}
+{"id":"2623779e-40d9-41aa-ad20-9ded1c9ff3f0","ts":"2026-05-25 19:17:03.619","tid":12,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg1","val":"path"}}
+{"id":"522a69d7-573c-475c-a92d-177680116ff2","ts":"2026-05-25 19:17:03.619","tid":12,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg2","val":"member"}}
+{"id":"258bdfb5-5422-4018-88d8-4b2433cb2cc4","ts":"2026-05-25 19:17:03.620","tid":12,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg3","val":"exception"}}
+{"id":"df9ad75f-a9ad-4af0-a5f4-b7c1f47cdc42","ts":"2026-05-25 19:17:03.620","tid":12,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg4","val":"handled"}}
+{"id":"8426c7a9-6b77-438c-b0c2-369b03cd8535","ts":"2026-05-25 19:17:03.621","tid":12,"file":"InterfaceCallbacks.cs","line":31,"msg":"If-True Branch","var":null}
+{"id":"0cc157a4-4b8a-41e4-98f4-31cd207c6f0b","ts":"2026-05-25 19:17:03.621","tid":12,"file":"InterfaceCallbacks.cs","line":38,"msg":"If-True Branch","var":null}
+{"id":"4371139e-713d-4fd0-a387-1a8ee26aaeb7","ts":"2026-05-25 19:17:03.622","tid":12,"file":"InterfaceCallbacks.cs","line":45,"msg":"If-True Branch","var":null}
+{"id":"1448715d-570e-41f4-b5ba-edc15a5cef9b","ts":"2026-05-25 19:17:03.624","tid":12,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
+{"id":"9b7cdc47-bed9-4592-8068-b291ab74726f","ts":"2026-05-25 19:17:03.625","tid":12,"file":"InterfaceCallbacks.cs","line":17,"msg":"If-True Branch","var":null}
+{"id":"8fcd801a-db99-402f-9217-1d40e2a3d22c","ts":"2026-05-25 19:17:03.626","tid":12,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg0","val":"originalObject"}}
+{"id":"c3d7dad8-8777-43b4-a107-bf4965df74eb","ts":"2026-05-25 19:17:03.626","tid":12,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg1","val":"path"}}
+{"id":"df57734b-6987-4f51-868f-d24c48b9166c","ts":"2026-05-25 19:17:03.626","tid":12,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg2","val":"member"}}
+{"id":"48a01784-253d-47ee-8366-68aef0071934","ts":"2026-05-25 19:17:03.627","tid":12,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg3","val":"exception"}}
+{"id":"e0f612da-6732-43e7-a29d-281bf5bca387","ts":"2026-05-25 19:17:03.627","tid":12,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg4","val":"handled"}}
+{"id":"1448715d-570e-41f4-b5ba-edc15a5cef9b","ts":"2026-05-25 19:17:03.629","tid":12,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
+{"id":"0cc157a4-4b8a-41e4-98f4-31cd207c6f0b","ts":"2026-05-25 19:17:03.629","tid":12,"file":"InterfaceCallbacks.cs","line":38,"msg":"If-True Branch","var":null}
+{"id":"4371139e-713d-4fd0-a387-1a8ee26aaeb7","ts":"2026-05-25 19:17:03.630","tid":12,"file":"InterfaceCallbacks.cs","line":45,"msg":"If-True Branch","var":null}
+{"id":"2e253d5f-a645-48c8-8664-f34a8b762834","ts":"2026-05-25 19:17:03.630","tid":12,"file":"InterfaceCallbacks.cs","line":24,"msg":"If-True Branch","var":null}
+{"id":"8426c7a9-6b77-438c-b0c2-369b03cd8535","ts":"2026-05-25 19:17:03.631","tid":12,"file":"InterfaceCallbacks.cs","line":31,"msg":"If-True Branch","var":null}
+{"id":"1448715d-570e-41f4-b5ba-edc15a5cef9b","ts":"2026-05-25 19:17:03.632","tid":12,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
+{"id":"0cc157a4-4b8a-41e4-98f4-31cd207c6f0b","ts":"2026-05-25 19:17:03.632","tid":12,"file":"InterfaceCallbacks.cs","line":38,"msg":"If-True Branch","var":null}
+{"id":"4371139e-713d-4fd0-a387-1a8ee26aaeb7","ts":"2026-05-25 19:17:03.633","tid":12,"file":"InterfaceCallbacks.cs","line":45,"msg":"If-True Branch","var":null}
+{"id":"2e253d5f-a645-48c8-8664-f34a8b762834","ts":"2026-05-25 19:17:03.633","tid":12,"file":"InterfaceCallbacks.cs","line":24,"msg":"If-True Branch","var":null}
+{"id":"8426c7a9-6b77-438c-b0c2-369b03cd8535","ts":"2026-05-25 19:17:03.633","tid":12,"file":"InterfaceCallbacks.cs","line":31,"msg":"If-True Branch","var":null}
+{"id":"1448715d-570e-41f4-b5ba-edc15a5cef9b","ts":"2026-05-25 19:17:03.653","tid":5,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
+{"id":"2e253d5f-a645-48c8-8664-f34a8b762834","ts":"2026-05-25 19:17:03.653","tid":5,"file":"InterfaceCallbacks.cs","line":24,"msg":"If-True Branch","var":null}
+{"id":"8426c7a9-6b77-438c-b0c2-369b03cd8535","ts":"2026-05-25 19:17:03.654","tid":5,"file":"InterfaceCallbacks.cs","line":31,"msg":"If-True Branch","var":null}
+{"id":"0cc157a4-4b8a-41e4-98f4-31cd207c6f0b","ts":"2026-05-25 19:17:03.655","tid":5,"file":"InterfaceCallbacks.cs","line":38,"msg":"If-True Branch","var":null}
+{"id":"4371139e-713d-4fd0-a387-1a8ee26aaeb7","ts":"2026-05-25 19:17:03.655","tid":5,"file":"InterfaceCallbacks.cs","line":45,"msg":"If-True Branch","var":null}
+{"id":"1448715d-570e-41f4-b5ba-edc15a5cef9b","ts":"2026-05-25 19:17:03.657","tid":5,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
+{"id":"2e253d5f-a645-48c8-8664-f34a8b762834","ts":"2026-05-25 19:17:03.657","tid":5,"file":"InterfaceCallbacks.cs","line":24,"msg":"If-True Branch","var":null}
+{"id":"d5c0fe24-5d96-4b59-b93f-1d7398bdd2f2","ts":"2026-05-25 19:17:03.657","tid":5,"file":"InterfaceCallbacks.cs","line":10,"msg":"If-True Branch","var":null}
+{"id":"03f76ec4-99f5-435b-8026-16946f1469ad","ts":"2026-05-25 19:17:03.658","tid":5,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg0","val":"originalObject"}}
+{"id":"2623779e-40d9-41aa-ad20-9ded1c9ff3f0","ts":"2026-05-25 19:17:03.658","tid":5,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg1","val":"path"}}
+{"id":"522a69d7-573c-475c-a92d-177680116ff2","ts":"2026-05-25 19:17:03.658","tid":5,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg2","val":"member"}}
+{"id":"258bdfb5-5422-4018-88d8-4b2433cb2cc4","ts":"2026-05-25 19:17:03.658","tid":5,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg3","val":"exception"}}
+{"id":"df9ad75f-a9ad-4af0-a5f4-b7c1f47cdc42","ts":"2026-05-25 19:17:03.659","tid":5,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg4","val":"handled"}}
+{"id":"8426c7a9-6b77-438c-b0c2-369b03cd8535","ts":"2026-05-25 19:17:03.659","tid":5,"file":"InterfaceCallbacks.cs","line":31,"msg":"If-True Branch","var":null}
+{"id":"0cc157a4-4b8a-41e4-98f4-31cd207c6f0b","ts":"2026-05-25 19:17:03.659","tid":5,"file":"InterfaceCallbacks.cs","line":38,"msg":"If-True Branch","var":null}
+{"id":"9b7cdc47-bed9-4592-8068-b291ab74726f","ts":"2026-05-25 19:17:03.660","tid":5,"file":"InterfaceCallbacks.cs","line":17,"msg":"If-True Branch","var":null}
+{"id":"8fcd801a-db99-402f-9217-1d40e2a3d22c","ts":"2026-05-25 19:17:03.660","tid":5,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg0","val":"originalObject"}}
+{"id":"c3d7dad8-8777-43b4-a107-bf4965df74eb","ts":"2026-05-25 19:17:03.660","tid":5,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg1","val":"path"}}
+{"id":"df57734b-6987-4f51-868f-d24c48b9166c","ts":"2026-05-25 19:17:03.660","tid":5,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg2","val":"member"}}
+{"id":"48a01784-253d-47ee-8366-68aef0071934","ts":"2026-05-25 19:17:03.661","tid":5,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg3","val":"exception"}}
+{"id":"e0f612da-6732-43e7-a29d-281bf5bca387","ts":"2026-05-25 19:17:03.661","tid":5,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg4","val":"handled"}}
+{"id":"4371139e-713d-4fd0-a387-1a8ee26aaeb7","ts":"2026-05-25 19:17:03.661","tid":5,"file":"InterfaceCallbacks.cs","line":45,"msg":"If-True Branch","var":null}
+{"id":"1448715d-570e-41f4-b5ba-edc15a5cef9b","ts":"2026-05-25 19:17:03.662","tid":5,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
+{"id":"2e253d5f-a645-48c8-8664-f34a8b762834","ts":"2026-05-25 19:17:03.662","tid":5,"file":"InterfaceCallbacks.cs","line":24,"msg":"If-True Branch","var":null}
+{"id":"d5c0fe24-5d96-4b59-b93f-1d7398bdd2f2","ts":"2026-05-25 19:17:03.663","tid":5,"file":"InterfaceCallbacks.cs","line":10,"msg":"If-True Branch","var":null}
+{"id":"03f76ec4-99f5-435b-8026-16946f1469ad","ts":"2026-05-25 19:17:03.663","tid":5,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg0","val":"originalObject"}}
+{"id":"2623779e-40d9-41aa-ad20-9ded1c9ff3f0","ts":"2026-05-25 19:17:03.663","tid":5,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg1","val":"path"}}
+{"id":"522a69d7-573c-475c-a92d-177680116ff2","ts":"2026-05-25 19:17:03.664","tid":5,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg2","val":"member"}}
+{"id":"258bdfb5-5422-4018-88d8-4b2433cb2cc4","ts":"2026-05-25 19:17:03.664","tid":5,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg3","val":"exception"}}
+{"id":"df9ad75f-a9ad-4af0-a5f4-b7c1f47cdc42","ts":"2026-05-25 19:17:03.664","tid":5,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg4","val":"handled"}}
+{"id":"8426c7a9-6b77-438c-b0c2-369b03cd8535","ts":"2026-05-25 19:17:03.665","tid":5,"file":"InterfaceCallbacks.cs","line":31,"msg":"If-True Branch","var":null}
+{"id":"0cc157a4-4b8a-41e4-98f4-31cd207c6f0b","ts":"2026-05-25 19:17:03.665","tid":5,"file":"InterfaceCallbacks.cs","line":38,"msg":"If-True Branch","var":null}
+{"id":"9b7cdc47-bed9-4592-8068-b291ab74726f","ts":"2026-05-25 19:17:03.666","tid":5,"file":"InterfaceCallbacks.cs","line":17,"msg":"If-True Branch","var":null}
+{"id":"8fcd801a-db99-402f-9217-1d40e2a3d22c","ts":"2026-05-25 19:17:03.666","tid":5,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg0","val":"originalObject"}}
+{"id":"c3d7dad8-8777-43b4-a107-bf4965df74eb","ts":"2026-05-25 19:17:03.666","tid":5,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg1","val":"path"}}
+{"id":"df57734b-6987-4f51-868f-d24c48b9166c","ts":"2026-05-25 19:17:03.667","tid":5,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg2","val":"member"}}
+{"id":"48a01784-253d-47ee-8366-68aef0071934","ts":"2026-05-25 19:17:03.667","tid":5,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg3","val":"exception"}}
+{"id":"e0f612da-6732-43e7-a29d-281bf5bca387","ts":"2026-05-25 19:17:03.667","tid":5,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg4","val":"handled"}}
+{"id":"4371139e-713d-4fd0-a387-1a8ee26aaeb7","ts":"2026-05-25 19:17:03.667","tid":5,"file":"InterfaceCallbacks.cs","line":45,"msg":"If-True Branch","var":null}
+{"id":"1448715d-570e-41f4-b5ba-edc15a5cef9b","ts":"2026-05-25 19:17:05.321","tid":5,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
+{"id":"4371139e-713d-4fd0-a387-1a8ee26aaeb7","ts":"2026-05-25 19:17:05.323","tid":5,"file":"InterfaceCallbacks.cs","line":45,"msg":"If-True Branch","var":null}
+{"id":"1448715d-570e-41f4-b5ba-edc15a5cef9b","ts":"2026-05-25 19:17:06.118","tid":9,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
+{"id":"2e253d5f-a645-48c8-8664-f34a8b762834","ts":"2026-05-25 19:17:06.120","tid":9,"file":"InterfaceCallbacks.cs","line":24,"msg":"If-True Branch","var":null}
+{"id":"8426c7a9-6b77-438c-b0c2-369b03cd8535","ts":"2026-05-25 19:17:06.121","tid":9,"file":"InterfaceCallbacks.cs","line":31,"msg":"If-True Branch","var":null}
+{"id":"0cc157a4-4b8a-41e4-98f4-31cd207c6f0b","ts":"2026-05-25 19:17:06.121","tid":9,"file":"InterfaceCallbacks.cs","line":38,"msg":"If-True Branch","var":null}
+{"id":"4371139e-713d-4fd0-a387-1a8ee26aaeb7","ts":"2026-05-25 19:17:06.122","tid":9,"file":"InterfaceCallbacks.cs","line":45,"msg":"If-True Branch","var":null}
+{"id":"1448715d-570e-41f4-b5ba-edc15a5cef9b","ts":"2026-05-25 19:17:06.646","tid":12,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
+{"id":"4371139e-713d-4fd0-a387-1a8ee26aaeb7","ts":"2026-05-25 19:17:06.646","tid":12,"file":"InterfaceCallbacks.cs","line":45,"msg":"If-True Branch","var":null}
+{"id":"1448715d-570e-41f4-b5ba-edc15a5cef9b","ts":"2026-05-25 19:17:06.901","tid":9,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
+{"id":"9b7cdc47-bed9-4592-8068-b291ab74726f","ts":"2026-05-25 19:17:06.902","tid":9,"file":"InterfaceCallbacks.cs","line":17,"msg":"If-True Branch","var":null}
+{"id":"8fcd801a-db99-402f-9217-1d40e2a3d22c","ts":"2026-05-25 19:17:06.903","tid":9,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg0","val":"originalObject"}}
+{"id":"c3d7dad8-8777-43b4-a107-bf4965df74eb","ts":"2026-05-25 19:17:06.903","tid":9,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg1","val":"path"}}
+{"id":"df57734b-6987-4f51-868f-d24c48b9166c","ts":"2026-05-25 19:17:06.903","tid":9,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg2","val":"member"}}
+{"id":"48a01784-253d-47ee-8366-68aef0071934","ts":"2026-05-25 19:17:06.904","tid":9,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg3","val":"exception"}}
+{"id":"e0f612da-6732-43e7-a29d-281bf5bca387","ts":"2026-05-25 19:17:06.904","tid":9,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg4","val":"handled"}}
+{"id":"1448715d-570e-41f4-b5ba-edc15a5cef9b","ts":"2026-05-25 19:17:06.921","tid":9,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
+{"id":"9b7cdc47-bed9-4592-8068-b291ab74726f","ts":"2026-05-25 19:17:06.923","tid":9,"file":"InterfaceCallbacks.cs","line":17,"msg":"If-True Branch","var":null}
+{"id":"8fcd801a-db99-402f-9217-1d40e2a3d22c","ts":"2026-05-25 19:17:06.923","tid":9,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg0","val":"originalObject"}}
+{"id":"c3d7dad8-8777-43b4-a107-bf4965df74eb","ts":"2026-05-25 19:17:06.924","tid":9,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg1","val":"path"}}
+{"id":"df57734b-6987-4f51-868f-d24c48b9166c","ts":"2026-05-25 19:17:06.924","tid":9,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg2","val":"member"}}
+{"id":"48a01784-253d-47ee-8366-68aef0071934","ts":"2026-05-25 19:17:06.924","tid":9,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg3","val":"exception"}}
+{"id":"e0f612da-6732-43e7-a29d-281bf5bca387","ts":"2026-05-25 19:17:06.924","tid":9,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg4","val":"handled"}}
+{"id":"1448715d-570e-41f4-b5ba-edc15a5cef9b","ts":"2026-05-25 19:17:06.951","tid":12,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
+{"id":"d5c0fe24-5d96-4b59-b93f-1d7398bdd2f2","ts":"2026-05-25 19:17:06.952","tid":12,"file":"InterfaceCallbacks.cs","line":10,"msg":"If-True Branch","var":null}
+{"id":"03f76ec4-99f5-435b-8026-16946f1469ad","ts":"2026-05-25 19:17:06.953","tid":12,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg0","val":"originalObject"}}
+{"id":"2623779e-40d9-41aa-ad20-9ded1c9ff3f0","ts":"2026-05-25 19:17:06.953","tid":12,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg1","val":"path"}}
+{"id":"522a69d7-573c-475c-a92d-177680116ff2","ts":"2026-05-25 19:17:06.953","tid":12,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg2","val":"member"}}
+{"id":"258bdfb5-5422-4018-88d8-4b2433cb2cc4","ts":"2026-05-25 19:17:06.953","tid":12,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg3","val":"exception"}}
+{"id":"df9ad75f-a9ad-4af0-a5f4-b7c1f47cdc42","ts":"2026-05-25 19:17:06.954","tid":12,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg4","val":"handled"}}
+{"id":"1448715d-570e-41f4-b5ba-edc15a5cef9b","ts":"2026-05-25 19:17:06.974","tid":9,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
+{"id":"d5c0fe24-5d96-4b59-b93f-1d7398bdd2f2","ts":"2026-05-25 19:17:06.975","tid":9,"file":"InterfaceCallbacks.cs","line":10,"msg":"If-True Branch","var":null}
+{"id":"03f76ec4-99f5-435b-8026-16946f1469ad","ts":"2026-05-25 19:17:06.975","tid":9,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg0","val":"originalObject"}}
+{"id":"2623779e-40d9-41aa-ad20-9ded1c9ff3f0","ts":"2026-05-25 19:17:06.976","tid":9,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg1","val":"path"}}
+{"id":"522a69d7-573c-475c-a92d-177680116ff2","ts":"2026-05-25 19:17:06.976","tid":9,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg2","val":"member"}}
+{"id":"258bdfb5-5422-4018-88d8-4b2433cb2cc4","ts":"2026-05-25 19:17:06.976","tid":9,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg3","val":"exception"}}
+{"id":"df9ad75f-a9ad-4af0-a5f4-b7c1f47cdc42","ts":"2026-05-25 19:17:06.976","tid":9,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg4","val":"handled"}}
+{"id":"1448715d-570e-41f4-b5ba-edc15a5cef9b","ts":"2026-05-25 19:17:06.981","tid":9,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
+{"id":"d5c0fe24-5d96-4b59-b93f-1d7398bdd2f2","ts":"2026-05-25 19:17:06.981","tid":9,"file":"InterfaceCallbacks.cs","line":10,"msg":"If-True Branch","var":null}
+{"id":"03f76ec4-99f5-435b-8026-16946f1469ad","ts":"2026-05-25 19:17:06.982","tid":9,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg0","val":"originalObject"}}
+{"id":"2623779e-40d9-41aa-ad20-9ded1c9ff3f0","ts":"2026-05-25 19:17:06.982","tid":9,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg1","val":"path"}}
+{"id":"522a69d7-573c-475c-a92d-177680116ff2","ts":"2026-05-25 19:17:06.982","tid":9,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg2","val":"member"}}
+{"id":"258bdfb5-5422-4018-88d8-4b2433cb2cc4","ts":"2026-05-25 19:17:06.983","tid":9,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg3","val":"exception"}}
+{"id":"df9ad75f-a9ad-4af0-a5f4-b7c1f47cdc42","ts":"2026-05-25 19:17:06.983","tid":9,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg4","val":"handled"}}
+{"id":"1448715d-570e-41f4-b5ba-edc15a5cef9b","ts":"2026-05-25 19:17:06.994","tid":9,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
+{"id":"9b7cdc47-bed9-4592-8068-b291ab74726f","ts":"2026-05-25 19:17:06.996","tid":9,"file":"InterfaceCallbacks.cs","line":17,"msg":"If-True Branch","var":null}
+{"id":"8fcd801a-db99-402f-9217-1d40e2a3d22c","ts":"2026-05-25 19:17:06.996","tid":9,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg0","val":"originalObject"}}
+{"id":"c3d7dad8-8777-43b4-a107-bf4965df74eb","ts":"2026-05-25 19:17:06.996","tid":9,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg1","val":"path"}}
+{"id":"df57734b-6987-4f51-868f-d24c48b9166c","ts":"2026-05-25 19:17:06.997","tid":9,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg2","val":"member"}}
+{"id":"48a01784-253d-47ee-8366-68aef0071934","ts":"2026-05-25 19:17:06.997","tid":9,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg3","val":"exception"}}
+{"id":"e0f612da-6732-43e7-a29d-281bf5bca387","ts":"2026-05-25 19:17:06.997","tid":9,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg4","val":"handled"}}
+{"id":"1448715d-570e-41f4-b5ba-edc15a5cef9b","ts":"2026-05-25 19:17:07.001","tid":9,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
+{"id":"9b7cdc47-bed9-4592-8068-b291ab74726f","ts":"2026-05-25 19:17:07.002","tid":9,"file":"InterfaceCallbacks.cs","line":17,"msg":"If-True Branch","var":null}
+{"id":"8fcd801a-db99-402f-9217-1d40e2a3d22c","ts":"2026-05-25 19:17:07.002","tid":9,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg0","val":"originalObject"}}
+{"id":"c3d7dad8-8777-43b4-a107-bf4965df74eb","ts":"2026-05-25 19:17:07.002","tid":9,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg1","val":"path"}}
+{"id":"df57734b-6987-4f51-868f-d24c48b9166c","ts":"2026-05-25 19:17:07.002","tid":9,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg2","val":"member"}}
+{"id":"48a01784-253d-47ee-8366-68aef0071934","ts":"2026-05-25 19:17:07.002","tid":9,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg3","val":"exception"}}
+{"id":"e0f612da-6732-43e7-a29d-281bf5bca387","ts":"2026-05-25 19:17:07.003","tid":9,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg4","val":"handled"}}
+{"id":"9b7cdc47-bed9-4592-8068-b291ab74726f","ts":"2026-05-25 19:17:07.003","tid":9,"file":"InterfaceCallbacks.cs","line":17,"msg":"If-True Branch","var":null}
+{"id":"8fcd801a-db99-402f-9217-1d40e2a3d22c","ts":"2026-05-25 19:17:07.004","tid":9,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg0","val":"originalObject"}}
+{"id":"c3d7dad8-8777-43b4-a107-bf4965df74eb","ts":"2026-05-25 19:17:07.004","tid":9,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg1","val":"path"}}
+{"id":"df57734b-6987-4f51-868f-d24c48b9166c","ts":"2026-05-25 19:17:07.004","tid":9,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg2","val":"member"}}
+{"id":"48a01784-253d-47ee-8366-68aef0071934","ts":"2026-05-25 19:17:07.005","tid":9,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg3","val":"exception"}}
+{"id":"e0f612da-6732-43e7-a29d-281bf5bca387","ts":"2026-05-25 19:17:07.005","tid":9,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg4","val":"handled"}}
+{"id":"9b7cdc47-bed9-4592-8068-b291ab74726f","ts":"2026-05-25 19:17:07.005","tid":9,"file":"InterfaceCallbacks.cs","line":17,"msg":"If-True Branch","var":null}
+{"id":"8fcd801a-db99-402f-9217-1d40e2a3d22c","ts":"2026-05-25 19:17:07.006","tid":9,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg0","val":"originalObject"}}
+{"id":"c3d7dad8-8777-43b4-a107-bf4965df74eb","ts":"2026-05-25 19:17:07.006","tid":9,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg1","val":"path"}}
+{"id":"df57734b-6987-4f51-868f-d24c48b9166c","ts":"2026-05-25 19:17:07.006","tid":9,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg2","val":"member"}}
+{"id":"48a01784-253d-47ee-8366-68aef0071934","ts":"2026-05-25 19:17:07.006","tid":9,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg3","val":"exception"}}
+{"id":"e0f612da-6732-43e7-a29d-281bf5bca387","ts":"2026-05-25 19:17:07.007","tid":9,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg4","val":"handled"}}
+{"id":"1448715d-570e-41f4-b5ba-edc15a5cef9b","ts":"2026-05-25 19:17:07.085","tid":10,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
+{"id":"0cc157a4-4b8a-41e4-98f4-31cd207c6f0b","ts":"2026-05-25 19:17:07.086","tid":10,"file":"InterfaceCallbacks.cs","line":38,"msg":"If-True Branch","var":null}
+{"id":"4371139e-713d-4fd0-a387-1a8ee26aaeb7","ts":"2026-05-25 19:17:07.087","tid":10,"file":"InterfaceCallbacks.cs","line":45,"msg":"If-True Branch","var":null}
+{"id":"2e253d5f-a645-48c8-8664-f34a8b762834","ts":"2026-05-25 19:17:07.088","tid":10,"file":"InterfaceCallbacks.cs","line":24,"msg":"If-True Branch","var":null}
+{"id":"8426c7a9-6b77-438c-b0c2-369b03cd8535","ts":"2026-05-25 19:17:07.088","tid":10,"file":"InterfaceCallbacks.cs","line":31,"msg":"If-True Branch","var":null}
+{"id":"1448715d-570e-41f4-b5ba-edc15a5cef9b","ts":"2026-05-25 19:17:07.090","tid":11,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
+{"id":"9b7cdc47-bed9-4592-8068-b291ab74726f","ts":"2026-05-25 19:17:07.091","tid":11,"file":"InterfaceCallbacks.cs","line":17,"msg":"If-True Branch","var":null}
+{"id":"8fcd801a-db99-402f-9217-1d40e2a3d22c","ts":"2026-05-25 19:17:07.092","tid":11,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg0","val":"originalObject"}}
+{"id":"c3d7dad8-8777-43b4-a107-bf4965df74eb","ts":"2026-05-25 19:17:07.092","tid":11,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg1","val":"path"}}
+{"id":"df57734b-6987-4f51-868f-d24c48b9166c","ts":"2026-05-25 19:17:07.092","tid":11,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg2","val":"member"}}
+{"id":"48a01784-253d-47ee-8366-68aef0071934","ts":"2026-05-25 19:17:07.093","tid":11,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg3","val":"exception"}}
+{"id":"e0f612da-6732-43e7-a29d-281bf5bca387","ts":"2026-05-25 19:17:07.093","tid":11,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg4","val":"handled"}}
+{"id":"1448715d-570e-41f4-b5ba-edc15a5cef9b","ts":"2026-05-25 19:17:07.094","tid":10,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
+{"id":"2e253d5f-a645-48c8-8664-f34a8b762834","ts":"2026-05-25 19:17:07.095","tid":10,"file":"InterfaceCallbacks.cs","line":24,"msg":"If-True Branch","var":null}
+{"id":"8426c7a9-6b77-438c-b0c2-369b03cd8535","ts":"2026-05-25 19:17:07.096","tid":10,"file":"InterfaceCallbacks.cs","line":31,"msg":"If-True Branch","var":null}
+{"id":"0cc157a4-4b8a-41e4-98f4-31cd207c6f0b","ts":"2026-05-25 19:17:07.097","tid":10,"file":"InterfaceCallbacks.cs","line":38,"msg":"If-True Branch","var":null}
+{"id":"4371139e-713d-4fd0-a387-1a8ee26aaeb7","ts":"2026-05-25 19:17:07.098","tid":10,"file":"InterfaceCallbacks.cs","line":45,"msg":"If-True Branch","var":null}
+{"id":"1448715d-570e-41f4-b5ba-edc15a5cef9b","ts":"2026-05-25 19:17:07.099","tid":10,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
+{"id":"2e253d5f-a645-48c8-8664-f34a8b762834","ts":"2026-05-25 19:17:07.100","tid":10,"file":"InterfaceCallbacks.cs","line":24,"msg":"If-True Branch","var":null}
+{"id":"d5c0fe24-5d96-4b59-b93f-1d7398bdd2f2","ts":"2026-05-25 19:17:07.101","tid":10,"file":"InterfaceCallbacks.cs","line":10,"msg":"If-True Branch","var":null}
+{"id":"03f76ec4-99f5-435b-8026-16946f1469ad","ts":"2026-05-25 19:17:07.101","tid":10,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg0","val":"originalObject"}}
+{"id":"2623779e-40d9-41aa-ad20-9ded1c9ff3f0","ts":"2026-05-25 19:17:07.102","tid":10,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg1","val":"path"}}
+{"id":"522a69d7-573c-475c-a92d-177680116ff2","ts":"2026-05-25 19:17:07.102","tid":10,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg2","val":"member"}}
+{"id":"258bdfb5-5422-4018-88d8-4b2433cb2cc4","ts":"2026-05-25 19:17:07.102","tid":10,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg3","val":"exception"}}
+{"id":"df9ad75f-a9ad-4af0-a5f4-b7c1f47cdc42","ts":"2026-05-25 19:17:07.103","tid":10,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg4","val":"handled"}}
+{"id":"8426c7a9-6b77-438c-b0c2-369b03cd8535","ts":"2026-05-25 19:17:07.103","tid":10,"file":"InterfaceCallbacks.cs","line":31,"msg":"If-True Branch","var":null}
+{"id":"0cc157a4-4b8a-41e4-98f4-31cd207c6f0b","ts":"2026-05-25 19:17:07.104","tid":10,"file":"InterfaceCallbacks.cs","line":38,"msg":"If-True Branch","var":null}
+{"id":"4371139e-713d-4fd0-a387-1a8ee26aaeb7","ts":"2026-05-25 19:17:07.104","tid":10,"file":"InterfaceCallbacks.cs","line":45,"msg":"If-True Branch","var":null}
+{"id":"1448715d-570e-41f4-b5ba-edc15a5cef9b","ts":"2026-05-25 19:17:07.106","tid":10,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
+{"id":"2e253d5f-a645-48c8-8664-f34a8b762834","ts":"2026-05-25 19:17:07.106","tid":10,"file":"InterfaceCallbacks.cs","line":24,"msg":"If-True Branch","var":null}
+{"id":"d5c0fe24-5d96-4b59-b93f-1d7398bdd2f2","ts":"2026-05-25 19:17:07.107","tid":10,"file":"InterfaceCallbacks.cs","line":10,"msg":"If-True Branch","var":null}
+{"id":"03f76ec4-99f5-435b-8026-16946f1469ad","ts":"2026-05-25 19:17:07.107","tid":10,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg0","val":"originalObject"}}
+{"id":"2623779e-40d9-41aa-ad20-9ded1c9ff3f0","ts":"2026-05-25 19:17:07.107","tid":10,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg1","val":"path"}}
+{"id":"522a69d7-573c-475c-a92d-177680116ff2","ts":"2026-05-25 19:17:07.108","tid":10,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg2","val":"member"}}
+{"id":"1448715d-570e-41f4-b5ba-edc15a5cef9b","ts":"2026-05-25 19:17:07.108","tid":11,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
+{"id":"df9ad75f-a9ad-4af0-a5f4-b7c1f47cdc42","ts":"2026-05-25 19:17:07.109","tid":10,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg4","val":"handled"}}
+{"id":"8426c7a9-6b77-438c-b0c2-369b03cd8535","ts":"2026-05-25 19:17:07.109","tid":10,"file":"InterfaceCallbacks.cs","line":31,"msg":"If-True Branch","var":null}
+{"id":"9b7cdc47-bed9-4592-8068-b291ab74726f","ts":"2026-05-25 19:17:07.109","tid":11,"file":"InterfaceCallbacks.cs","line":17,"msg":"If-True Branch","var":null}
+{"id":"0cc157a4-4b8a-41e4-98f4-31cd207c6f0b","ts":"2026-05-25 19:17:07.109","tid":10,"file":"InterfaceCallbacks.cs","line":38,"msg":"If-True Branch","var":null}
+{"id":"8fcd801a-db99-402f-9217-1d40e2a3d22c","ts":"2026-05-25 19:17:07.110","tid":11,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg0","val":"originalObject"}}
+{"id":"c3d7dad8-8777-43b4-a107-bf4965df74eb","ts":"2026-05-25 19:17:07.110","tid":11,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg1","val":"path"}}
+{"id":"9b7cdc47-bed9-4592-8068-b291ab74726f","ts":"2026-05-25 19:17:07.110","tid":10,"file":"InterfaceCallbacks.cs","line":17,"msg":"If-True Branch","var":null}
+{"id":"df57734b-6987-4f51-868f-d24c48b9166c","ts":"2026-05-25 19:17:07.111","tid":11,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg2","val":"member"}}
+{"id":"8fcd801a-db99-402f-9217-1d40e2a3d22c","ts":"2026-05-25 19:17:07.111","tid":10,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg0","val":"originalObject"}}
+{"id":"48a01784-253d-47ee-8366-68aef0071934","ts":"2026-05-25 19:17:07.111","tid":11,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg3","val":"exception"}}
+{"id":"e0f612da-6732-43e7-a29d-281bf5bca387","ts":"2026-05-25 19:17:07.112","tid":11,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg4","val":"handled"}}
+{"id":"df57734b-6987-4f51-868f-d24c48b9166c","ts":"2026-05-25 19:17:07.111","tid":10,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg2","val":"member"}}
+{"id":"48a01784-253d-47ee-8366-68aef0071934","ts":"2026-05-25 19:17:07.112","tid":10,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg3","val":"exception"}}
+{"id":"e0f612da-6732-43e7-a29d-281bf5bca387","ts":"2026-05-25 19:17:07.112","tid":10,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg4","val":"handled"}}
+{"id":"4371139e-713d-4fd0-a387-1a8ee26aaeb7","ts":"2026-05-25 19:17:07.113","tid":10,"file":"InterfaceCallbacks.cs","line":45,"msg":"If-True Branch","var":null}
+{"id":"1448715d-570e-41f4-b5ba-edc15a5cef9b","ts":"2026-05-25 19:17:07.113","tid":10,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
+{"id":"2e253d5f-a645-48c8-8664-f34a8b762834","ts":"2026-05-25 19:17:07.114","tid":10,"file":"InterfaceCallbacks.cs","line":24,"msg":"If-True Branch","var":null}
+{"id":"d5c0fe24-5d96-4b59-b93f-1d7398bdd2f2","ts":"2026-05-25 19:17:07.114","tid":10,"file":"InterfaceCallbacks.cs","line":10,"msg":"If-True Branch","var":null}
+{"id":"03f76ec4-99f5-435b-8026-16946f1469ad","ts":"2026-05-25 19:17:07.115","tid":10,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg0","val":"originalObject"}}
+{"id":"2623779e-40d9-41aa-ad20-9ded1c9ff3f0","ts":"2026-05-25 19:17:07.115","tid":10,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg1","val":"path"}}
+{"id":"522a69d7-573c-475c-a92d-177680116ff2","ts":"2026-05-25 19:17:07.115","tid":10,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg2","val":"member"}}
+{"id":"258bdfb5-5422-4018-88d8-4b2433cb2cc4","ts":"2026-05-25 19:17:07.115","tid":10,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg3","val":"exception"}}
+{"id":"df9ad75f-a9ad-4af0-a5f4-b7c1f47cdc42","ts":"2026-05-25 19:17:07.116","tid":10,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg4","val":"handled"}}
+{"id":"8426c7a9-6b77-438c-b0c2-369b03cd8535","ts":"2026-05-25 19:17:07.116","tid":10,"file":"InterfaceCallbacks.cs","line":31,"msg":"If-True Branch","var":null}
+{"id":"0cc157a4-4b8a-41e4-98f4-31cd207c6f0b","ts":"2026-05-25 19:17:07.116","tid":10,"file":"InterfaceCallbacks.cs","line":38,"msg":"If-True Branch","var":null}
+{"id":"9b7cdc47-bed9-4592-8068-b291ab74726f","ts":"2026-05-25 19:17:07.117","tid":10,"file":"InterfaceCallbacks.cs","line":17,"msg":"If-True Branch","var":null}
+{"id":"8fcd801a-db99-402f-9217-1d40e2a3d22c","ts":"2026-05-25 19:17:07.118","tid":10,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg0","val":"originalObject"}}
+{"id":"c3d7dad8-8777-43b4-a107-bf4965df74eb","ts":"2026-05-25 19:17:07.120","tid":10,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg1","val":"path"}}
+{"id":"df57734b-6987-4f51-868f-d24c48b9166c","ts":"2026-05-25 19:17:07.120","tid":10,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg2","val":"member"}}
+{"id":"48a01784-253d-47ee-8366-68aef0071934","ts":"2026-05-25 19:17:07.121","tid":10,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg3","val":"exception"}}
+{"id":"e0f612da-6732-43e7-a29d-281bf5bca387","ts":"2026-05-25 19:17:07.121","tid":10,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg4","val":"handled"}}
+{"id":"8fcd801a-db99-402f-9217-1d40e2a3d22c","ts":"2026-05-25 19:17:07.122","tid":11,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg0","val":"originalObject"}}
+{"id":"4371139e-713d-4fd0-a387-1a8ee26aaeb7","ts":"2026-05-25 19:17:07.121","tid":10,"file":"InterfaceCallbacks.cs","line":45,"msg":"If-True Branch","var":null}
+{"id":"c3d7dad8-8777-43b4-a107-bf4965df74eb","ts":"2026-05-25 19:17:07.122","tid":11,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg1","val":"path"}}
+{"id":"df57734b-6987-4f51-868f-d24c48b9166c","ts":"2026-05-25 19:17:07.123","tid":11,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg2","val":"member"}}
+{"id":"48a01784-253d-47ee-8366-68aef0071934","ts":"2026-05-25 19:17:07.123","tid":11,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg3","val":"exception"}}
+{"id":"e0f612da-6732-43e7-a29d-281bf5bca387","ts":"2026-05-25 19:17:07.123","tid":11,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg4","val":"handled"}}
+{"id":"1448715d-570e-41f4-b5ba-edc15a5cef9b","ts":"2026-05-25 19:17:07.125","tid":10,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
+{"id":"2e253d5f-a645-48c8-8664-f34a8b762834","ts":"2026-05-25 19:17:07.126","tid":10,"file":"InterfaceCallbacks.cs","line":24,"msg":"If-True Branch","var":null}
+{"id":"8426c7a9-6b77-438c-b0c2-369b03cd8535","ts":"2026-05-25 19:17:07.126","tid":10,"file":"InterfaceCallbacks.cs","line":31,"msg":"If-True Branch","var":null}
+{"id":"0cc157a4-4b8a-41e4-98f4-31cd207c6f0b","ts":"2026-05-25 19:17:07.127","tid":10,"file":"InterfaceCallbacks.cs","line":38,"msg":"If-True Branch","var":null}
+{"id":"4371139e-713d-4fd0-a387-1a8ee26aaeb7","ts":"2026-05-25 19:17:07.127","tid":10,"file":"InterfaceCallbacks.cs","line":45,"msg":"If-True Branch","var":null}
+{"id":"1448715d-570e-41f4-b5ba-edc15a5cef9b","ts":"2026-05-25 19:17:07.129","tid":10,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
+{"id":"0cc157a4-4b8a-41e4-98f4-31cd207c6f0b","ts":"2026-05-25 19:17:07.129","tid":10,"file":"InterfaceCallbacks.cs","line":38,"msg":"If-True Branch","var":null}
+{"id":"4371139e-713d-4fd0-a387-1a8ee26aaeb7","ts":"2026-05-25 19:17:07.130","tid":10,"file":"InterfaceCallbacks.cs","line":45,"msg":"If-True Branch","var":null}
+{"id":"2e253d5f-a645-48c8-8664-f34a8b762834","ts":"2026-05-25 19:17:07.130","tid":10,"file":"InterfaceCallbacks.cs","line":24,"msg":"If-True Branch","var":null}
+{"id":"8426c7a9-6b77-438c-b0c2-369b03cd8535","ts":"2026-05-25 19:17:07.130","tid":10,"file":"InterfaceCallbacks.cs","line":31,"msg":"If-True Branch","var":null}
+{"id":"1448715d-570e-41f4-b5ba-edc15a5cef9b","ts":"2026-05-25 19:17:07.133","tid":10,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
+{"id":"9b7cdc47-bed9-4592-8068-b291ab74726f","ts":"2026-05-25 19:17:07.133","tid":10,"file":"InterfaceCallbacks.cs","line":17,"msg":"If-True Branch","var":null}
+{"id":"8fcd801a-db99-402f-9217-1d40e2a3d22c","ts":"2026-05-25 19:17:07.134","tid":10,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg0","val":"originalObject"}}
+{"id":"c3d7dad8-8777-43b4-a107-bf4965df74eb","ts":"2026-05-25 19:17:07.134","tid":10,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg1","val":"path"}}
+{"id":"df57734b-6987-4f51-868f-d24c48b9166c","ts":"2026-05-25 19:17:07.134","tid":10,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg2","val":"member"}}
+{"id":"48a01784-253d-47ee-8366-68aef0071934","ts":"2026-05-25 19:17:07.134","tid":10,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg3","val":"exception"}}
+{"id":"e0f612da-6732-43e7-a29d-281bf5bca387","ts":"2026-05-25 19:17:07.135","tid":10,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg4","val":"handled"}}
+{"id":"1448715d-570e-41f4-b5ba-edc15a5cef9b","ts":"2026-05-25 19:17:07.140","tid":12,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
+{"id":"2e253d5f-a645-48c8-8664-f34a8b762834","ts":"2026-05-25 19:17:07.141","tid":10,"file":"InterfaceCallbacks.cs","line":24,"msg":"If-True Branch","var":null}
+{"id":"d5c0fe24-5d96-4b59-b93f-1d7398bdd2f2","ts":"2026-05-25 19:17:07.141","tid":12,"file":"InterfaceCallbacks.cs","line":10,"msg":"If-True Branch","var":null}
+{"id":"03f76ec4-99f5-435b-8026-16946f1469ad","ts":"2026-05-25 19:17:07.142","tid":12,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg0","val":"originalObject"}}
+{"id":"2623779e-40d9-41aa-ad20-9ded1c9ff3f0","ts":"2026-05-25 19:17:07.142","tid":12,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg1","val":"path"}}
+{"id":"522a69d7-573c-475c-a92d-177680116ff2","ts":"2026-05-25 19:17:07.142","tid":12,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg2","val":"member"}}
+{"id":"258bdfb5-5422-4018-88d8-4b2433cb2cc4","ts":"2026-05-25 19:17:07.142","tid":12,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg3","val":"exception"}}
+{"id":"df9ad75f-a9ad-4af0-a5f4-b7c1f47cdc42","ts":"2026-05-25 19:17:07.143","tid":12,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg4","val":"handled"}}
+{"id":"1448715d-570e-41f4-b5ba-edc15a5cef9b","ts":"2026-05-25 19:17:07.144","tid":10,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
+{"id":"2e253d5f-a645-48c8-8664-f34a8b762834","ts":"2026-05-25 19:17:07.145","tid":10,"file":"InterfaceCallbacks.cs","line":24,"msg":"If-True Branch","var":null}
+{"id":"8426c7a9-6b77-438c-b0c2-369b03cd8535","ts":"2026-05-25 19:17:07.146","tid":10,"file":"InterfaceCallbacks.cs","line":31,"msg":"If-True Branch","var":null}
+{"id":"1448715d-570e-41f4-b5ba-edc15a5cef9b","ts":"2026-05-25 19:17:07.147","tid":12,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
+{"id":"9b7cdc47-bed9-4592-8068-b291ab74726f","ts":"2026-05-25 19:17:07.147","tid":12,"file":"InterfaceCallbacks.cs","line":17,"msg":"If-True Branch","var":null}
+{"id":"8fcd801a-db99-402f-9217-1d40e2a3d22c","ts":"2026-05-25 19:17:07.148","tid":12,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg0","val":"originalObject"}}
+{"id":"c3d7dad8-8777-43b4-a107-bf4965df74eb","ts":"2026-05-25 19:17:07.148","tid":12,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg1","val":"path"}}
+{"id":"df57734b-6987-4f51-868f-d24c48b9166c","ts":"2026-05-25 19:17:07.148","tid":12,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg2","val":"member"}}
+{"id":"48a01784-253d-47ee-8366-68aef0071934","ts":"2026-05-25 19:17:07.149","tid":12,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg3","val":"exception"}}
+{"id":"e0f612da-6732-43e7-a29d-281bf5bca387","ts":"2026-05-25 19:17:07.149","tid":12,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg4","val":"handled"}}
+{"id":"9b7cdc47-bed9-4592-8068-b291ab74726f","ts":"2026-05-25 19:17:07.149","tid":12,"file":"InterfaceCallbacks.cs","line":17,"msg":"If-True Branch","var":null}
+{"id":"8fcd801a-db99-402f-9217-1d40e2a3d22c","ts":"2026-05-25 19:17:07.149","tid":12,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg0","val":"originalObject"}}
+{"id":"c3d7dad8-8777-43b4-a107-bf4965df74eb","ts":"2026-05-25 19:17:07.150","tid":12,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg1","val":"path"}}
+{"id":"df57734b-6987-4f51-868f-d24c48b9166c","ts":"2026-05-25 19:17:07.150","tid":12,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg2","val":"member"}}
+{"id":"48a01784-253d-47ee-8366-68aef0071934","ts":"2026-05-25 19:17:07.150","tid":12,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg3","val":"exception"}}
+{"id":"e0f612da-6732-43e7-a29d-281bf5bca387","ts":"2026-05-25 19:17:07.150","tid":12,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg4","val":"handled"}}
+{"id":"9b7cdc47-bed9-4592-8068-b291ab74726f","ts":"2026-05-25 19:17:07.151","tid":12,"file":"InterfaceCallbacks.cs","line":17,"msg":"If-True Branch","var":null}
+{"id":"8fcd801a-db99-402f-9217-1d40e2a3d22c","ts":"2026-05-25 19:17:07.151","tid":12,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg0","val":"originalObject"}}
+{"id":"c3d7dad8-8777-43b4-a107-bf4965df74eb","ts":"2026-05-25 19:17:07.151","tid":12,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg1","val":"path"}}
+{"id":"df57734b-6987-4f51-868f-d24c48b9166c","ts":"2026-05-25 19:17:07.152","tid":12,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg2","val":"member"}}
+{"id":"48a01784-253d-47ee-8366-68aef0071934","ts":"2026-05-25 19:17:07.152","tid":12,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg3","val":"exception"}}
+{"id":"e0f612da-6732-43e7-a29d-281bf5bca387","ts":"2026-05-25 19:17:07.152","tid":12,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg4","val":"handled"}}
+{"id":"1448715d-570e-41f4-b5ba-edc15a5cef9b","ts":"2026-05-25 19:17:07.161","tid":12,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
+{"id":"d5c0fe24-5d96-4b59-b93f-1d7398bdd2f2","ts":"2026-05-25 19:17:07.162","tid":12,"file":"InterfaceCallbacks.cs","line":10,"msg":"If-True Branch","var":null}
+{"id":"03f76ec4-99f5-435b-8026-16946f1469ad","ts":"2026-05-25 19:17:07.162","tid":12,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg0","val":"originalObject"}}
+{"id":"2623779e-40d9-41aa-ad20-9ded1c9ff3f0","ts":"2026-05-25 19:17:07.162","tid":12,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg1","val":"path"}}
+{"id":"522a69d7-573c-475c-a92d-177680116ff2","ts":"2026-05-25 19:17:07.163","tid":12,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg2","val":"member"}}
+{"id":"258bdfb5-5422-4018-88d8-4b2433cb2cc4","ts":"2026-05-25 19:17:07.163","tid":12,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg3","val":"exception"}}
+{"id":"df9ad75f-a9ad-4af0-a5f4-b7c1f47cdc42","ts":"2026-05-25 19:17:07.163","tid":12,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg4","val":"handled"}}
+{"id":"1448715d-570e-41f4-b5ba-edc15a5cef9b","ts":"2026-05-25 19:17:07.163","tid":12,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
+{"id":"d5c0fe24-5d96-4b59-b93f-1d7398bdd2f2","ts":"2026-05-25 19:17:07.165","tid":12,"file":"InterfaceCallbacks.cs","line":10,"msg":"If-True Branch","var":null}
+{"id":"03f76ec4-99f5-435b-8026-16946f1469ad","ts":"2026-05-25 19:17:07.165","tid":12,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg0","val":"originalObject"}}
+{"id":"2623779e-40d9-41aa-ad20-9ded1c9ff3f0","ts":"2026-05-25 19:17:07.165","tid":12,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg1","val":"path"}}
+{"id":"522a69d7-573c-475c-a92d-177680116ff2","ts":"2026-05-25 19:17:07.165","tid":12,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg2","val":"member"}}
+{"id":"258bdfb5-5422-4018-88d8-4b2433cb2cc4","ts":"2026-05-25 19:17:07.166","tid":12,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg3","val":"exception"}}
+{"id":"df9ad75f-a9ad-4af0-a5f4-b7c1f47cdc42","ts":"2026-05-25 19:17:07.166","tid":12,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg4","val":"handled"}}
+{"id":"1448715d-570e-41f4-b5ba-edc15a5cef9b","ts":"2026-05-25 19:17:07.173","tid":12,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
+{"id":"9b7cdc47-bed9-4592-8068-b291ab74726f","ts":"2026-05-25 19:17:07.175","tid":12,"file":"InterfaceCallbacks.cs","line":17,"msg":"If-True Branch","var":null}
+{"id":"8fcd801a-db99-402f-9217-1d40e2a3d22c","ts":"2026-05-25 19:17:07.175","tid":12,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg0","val":"originalObject"}}
+{"id":"c3d7dad8-8777-43b4-a107-bf4965df74eb","ts":"2026-05-25 19:17:07.176","tid":12,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg1","val":"path"}}
+{"id":"df57734b-6987-4f51-868f-d24c48b9166c","ts":"2026-05-25 19:17:07.176","tid":12,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg2","val":"member"}}
+{"id":"48a01784-253d-47ee-8366-68aef0071934","ts":"2026-05-25 19:17:07.176","tid":12,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg3","val":"exception"}}
+{"id":"e0f612da-6732-43e7-a29d-281bf5bca387","ts":"2026-05-25 19:17:07.177","tid":12,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg4","val":"handled"}}
+{"id":"1448715d-570e-41f4-b5ba-edc15a5cef9b","ts":"2026-05-25 19:17:07.183","tid":12,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
+{"id":"9b7cdc47-bed9-4592-8068-b291ab74726f","ts":"2026-05-25 19:17:07.184","tid":12,"file":"InterfaceCallbacks.cs","line":17,"msg":"If-True Branch","var":null}
+{"id":"8fcd801a-db99-402f-9217-1d40e2a3d22c","ts":"2026-05-25 19:17:07.184","tid":12,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg0","val":"originalObject"}}
+{"id":"c3d7dad8-8777-43b4-a107-bf4965df74eb","ts":"2026-05-25 19:17:07.184","tid":12,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg1","val":"path"}}
+{"id":"df57734b-6987-4f51-868f-d24c48b9166c","ts":"2026-05-25 19:17:07.185","tid":12,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg2","val":"member"}}
+{"id":"48a01784-253d-47ee-8366-68aef0071934","ts":"2026-05-25 19:17:07.185","tid":12,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg3","val":"exception"}}
+{"id":"e0f612da-6732-43e7-a29d-281bf5bca387","ts":"2026-05-25 19:17:07.185","tid":12,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg4","val":"handled"}}
+{"id":"1448715d-570e-41f4-b5ba-edc15a5cef9b","ts":"2026-05-25 19:17:07.187","tid":12,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
+{"id":"d5c0fe24-5d96-4b59-b93f-1d7398bdd2f2","ts":"2026-05-25 19:17:07.188","tid":12,"file":"InterfaceCallbacks.cs","line":10,"msg":"If-True Branch","var":null}
+{"id":"03f76ec4-99f5-435b-8026-16946f1469ad","ts":"2026-05-25 19:17:07.188","tid":12,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg0","val":"originalObject"}}
+{"id":"2623779e-40d9-41aa-ad20-9ded1c9ff3f0","ts":"2026-05-25 19:17:07.189","tid":12,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg1","val":"path"}}
+{"id":"522a69d7-573c-475c-a92d-177680116ff2","ts":"2026-05-25 19:17:07.189","tid":12,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg2","val":"member"}}
+{"id":"258bdfb5-5422-4018-88d8-4b2433cb2cc4","ts":"2026-05-25 19:17:07.189","tid":12,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg3","val":"exception"}}
+{"id":"df9ad75f-a9ad-4af0-a5f4-b7c1f47cdc42","ts":"2026-05-25 19:17:07.190","tid":12,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg4","val":"handled"}}
+{"id":"1448715d-570e-41f4-b5ba-edc15a5cef9b","ts":"2026-05-25 19:17:07.219","tid":7,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
+{"id":"9b7cdc47-bed9-4592-8068-b291ab74726f","ts":"2026-05-25 19:17:07.220","tid":7,"file":"InterfaceCallbacks.cs","line":17,"msg":"If-True Branch","var":null}
+{"id":"8fcd801a-db99-402f-9217-1d40e2a3d22c","ts":"2026-05-25 19:17:07.221","tid":7,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg0","val":"originalObject"}}
+{"id":"c3d7dad8-8777-43b4-a107-bf4965df74eb","ts":"2026-05-25 19:17:07.221","tid":7,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg1","val":"path"}}
+{"id":"df57734b-6987-4f51-868f-d24c48b9166c","ts":"2026-05-25 19:17:07.221","tid":7,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg2","val":"member"}}
+{"id":"48a01784-253d-47ee-8366-68aef0071934","ts":"2026-05-25 19:17:07.222","tid":7,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg3","val":"exception"}}
+{"id":"e0f612da-6732-43e7-a29d-281bf5bca387","ts":"2026-05-25 19:17:07.222","tid":7,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg4","val":"handled"}}
+{"id":"1448715d-570e-41f4-b5ba-edc15a5cef9b","ts":"2026-05-25 19:17:07.225","tid":7,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
+{"id":"9b7cdc47-bed9-4592-8068-b291ab74726f","ts":"2026-05-25 19:17:07.226","tid":7,"file":"InterfaceCallbacks.cs","line":17,"msg":"If-True Branch","var":null}
+{"id":"8fcd801a-db99-402f-9217-1d40e2a3d22c","ts":"2026-05-25 19:17:07.226","tid":7,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg0","val":"originalObject"}}
+{"id":"c3d7dad8-8777-43b4-a107-bf4965df74eb","ts":"2026-05-25 19:17:07.226","tid":7,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg1","val":"path"}}
+{"id":"df57734b-6987-4f51-868f-d24c48b9166c","ts":"2026-05-25 19:17:07.226","tid":7,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg2","val":"member"}}
+{"id":"48a01784-253d-47ee-8366-68aef0071934","ts":"2026-05-25 19:17:07.227","tid":7,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg3","val":"exception"}}
+{"id":"e0f612da-6732-43e7-a29d-281bf5bca387","ts":"2026-05-25 19:17:07.227","tid":7,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg4","val":"handled"}}
+{"id":"9b7cdc47-bed9-4592-8068-b291ab74726f","ts":"2026-05-25 19:17:07.227","tid":7,"file":"InterfaceCallbacks.cs","line":17,"msg":"If-True Branch","var":null}
+{"id":"8fcd801a-db99-402f-9217-1d40e2a3d22c","ts":"2026-05-25 19:17:07.228","tid":7,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg0","val":"originalObject"}}
+{"id":"c3d7dad8-8777-43b4-a107-bf4965df74eb","ts":"2026-05-25 19:17:07.228","tid":7,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg1","val":"path"}}
+{"id":"df57734b-6987-4f51-868f-d24c48b9166c","ts":"2026-05-25 19:17:07.228","tid":7,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg2","val":"member"}}
+{"id":"48a01784-253d-47ee-8366-68aef0071934","ts":"2026-05-25 19:17:07.228","tid":7,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg3","val":"exception"}}
+{"id":"e0f612da-6732-43e7-a29d-281bf5bca387","ts":"2026-05-25 19:17:07.229","tid":7,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg4","val":"handled"}}
+{"id":"9b7cdc47-bed9-4592-8068-b291ab74726f","ts":"2026-05-25 19:17:07.229","tid":7,"file":"InterfaceCallbacks.cs","line":17,"msg":"If-True Branch","var":null}
+{"id":"8fcd801a-db99-402f-9217-1d40e2a3d22c","ts":"2026-05-25 19:17:07.229","tid":7,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg0","val":"originalObject"}}
+{"id":"c3d7dad8-8777-43b4-a107-bf4965df74eb","ts":"2026-05-25 19:17:07.229","tid":7,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg1","val":"path"}}
+{"id":"df57734b-6987-4f51-868f-d24c48b9166c","ts":"2026-05-25 19:17:07.230","tid":7,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg2","val":"member"}}
+{"id":"48a01784-253d-47ee-8366-68aef0071934","ts":"2026-05-25 19:17:07.230","tid":7,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg3","val":"exception"}}
+{"id":"e0f612da-6732-43e7-a29d-281bf5bca387","ts":"2026-05-25 19:17:07.230","tid":7,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg4","val":"handled"}}
+{"id":"1448715d-570e-41f4-b5ba-edc15a5cef9b","ts":"2026-05-25 19:17:07.512","tid":10,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
+{"id":"4371139e-713d-4fd0-a387-1a8ee26aaeb7","ts":"2026-05-25 19:17:07.513","tid":10,"file":"InterfaceCallbacks.cs","line":45,"msg":"If-True Branch","var":null}
+{"id":"1448715d-570e-41f4-b5ba-edc15a5cef9b","ts":"2026-05-25 19:17:07.565","tid":12,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
+{"id":"d5c0fe24-5d96-4b59-b93f-1d7398bdd2f2","ts":"2026-05-25 19:17:07.566","tid":12,"file":"InterfaceCallbacks.cs","line":10,"msg":"If-True Branch","var":null}
+{"id":"03f76ec4-99f5-435b-8026-16946f1469ad","ts":"2026-05-25 19:17:07.567","tid":12,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg0","val":"originalObject"}}
+{"id":"2623779e-40d9-41aa-ad20-9ded1c9ff3f0","ts":"2026-05-25 19:17:07.567","tid":12,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg1","val":"path"}}
+{"id":"522a69d7-573c-475c-a92d-177680116ff2","ts":"2026-05-25 19:17:07.567","tid":12,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg2","val":"member"}}
+{"id":"258bdfb5-5422-4018-88d8-4b2433cb2cc4","ts":"2026-05-25 19:17:07.567","tid":12,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg3","val":"exception"}}
+{"id":"df9ad75f-a9ad-4af0-a5f4-b7c1f47cdc42","ts":"2026-05-25 19:17:07.568","tid":12,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg4","val":"handled"}}
+{"id":"1448715d-570e-41f4-b5ba-edc15a5cef9b","ts":"2026-05-25 19:17:07.593","tid":7,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
+{"id":"2e253d5f-a645-48c8-8664-f34a8b762834","ts":"2026-05-25 19:17:07.593","tid":7,"file":"InterfaceCallbacks.cs","line":24,"msg":"If-True Branch","var":null}
+{"id":"8426c7a9-6b77-438c-b0c2-369b03cd8535","ts":"2026-05-25 19:17:07.594","tid":7,"file":"InterfaceCallbacks.cs","line":31,"msg":"If-True Branch","var":null}
+{"id":"0cc157a4-4b8a-41e4-98f4-31cd207c6f0b","ts":"2026-05-25 19:17:07.594","tid":7,"file":"InterfaceCallbacks.cs","line":38,"msg":"If-True Branch","var":null}
+{"id":"4371139e-713d-4fd0-a387-1a8ee26aaeb7","ts":"2026-05-25 19:17:07.595","tid":7,"file":"InterfaceCallbacks.cs","line":45,"msg":"If-True Branch","var":null}
+{"id":"1448715d-570e-41f4-b5ba-edc15a5cef9b","ts":"2026-05-25 19:17:07.604","tid":7,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
+{"id":"d5c0fe24-5d96-4b59-b93f-1d7398bdd2f2","ts":"2026-05-25 19:17:07.605","tid":7,"file":"InterfaceCallbacks.cs","line":10,"msg":"If-True Branch","var":null}
+{"id":"03f76ec4-99f5-435b-8026-16946f1469ad","ts":"2026-05-25 19:17:07.605","tid":7,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg0","val":"originalObject"}}
+{"id":"2623779e-40d9-41aa-ad20-9ded1c9ff3f0","ts":"2026-05-25 19:17:07.606","tid":7,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg1","val":"path"}}
+{"id":"522a69d7-573c-475c-a92d-177680116ff2","ts":"2026-05-25 19:17:07.606","tid":7,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg2","val":"member"}}
+{"id":"258bdfb5-5422-4018-88d8-4b2433cb2cc4","ts":"2026-05-25 19:17:07.606","tid":7,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg3","val":"exception"}}
+{"id":"df9ad75f-a9ad-4af0-a5f4-b7c1f47cdc42","ts":"2026-05-25 19:17:07.606","tid":7,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg4","val":"handled"}}
+{"id":"1448715d-570e-41f4-b5ba-edc15a5cef9b","ts":"2026-05-25 19:17:07.817","tid":12,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
+{"id":"9b7cdc47-bed9-4592-8068-b291ab74726f","ts":"2026-05-25 19:17:07.818","tid":12,"file":"InterfaceCallbacks.cs","line":17,"msg":"If-True Branch","var":null}
+{"id":"8fcd801a-db99-402f-9217-1d40e2a3d22c","ts":"2026-05-25 19:17:07.818","tid":12,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg0","val":"originalObject"}}
+{"id":"c3d7dad8-8777-43b4-a107-bf4965df74eb","ts":"2026-05-25 19:17:07.818","tid":12,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg1","val":"path"}}
+{"id":"df57734b-6987-4f51-868f-d24c48b9166c","ts":"2026-05-25 19:17:07.819","tid":12,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg2","val":"member"}}
+{"id":"48a01784-253d-47ee-8366-68aef0071934","ts":"2026-05-25 19:17:07.819","tid":12,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg3","val":"exception"}}
+{"id":"e0f612da-6732-43e7-a29d-281bf5bca387","ts":"2026-05-25 19:17:07.819","tid":12,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg4","val":"handled"}}
+{"id":"1448715d-570e-41f4-b5ba-edc15a5cef9b","ts":"2026-05-25 19:17:07.822","tid":12,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
+{"id":"2e253d5f-a645-48c8-8664-f34a8b762834","ts":"2026-05-25 19:17:07.823","tid":12,"file":"InterfaceCallbacks.cs","line":24,"msg":"If-True Branch","var":null}
+{"id":"d5c0fe24-5d96-4b59-b93f-1d7398bdd2f2","ts":"2026-05-25 19:17:07.824","tid":12,"file":"InterfaceCallbacks.cs","line":10,"msg":"If-True Branch","var":null}
+{"id":"03f76ec4-99f5-435b-8026-16946f1469ad","ts":"2026-05-25 19:17:07.824","tid":12,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg0","val":"originalObject"}}
+{"id":"2623779e-40d9-41aa-ad20-9ded1c9ff3f0","ts":"2026-05-25 19:17:07.825","tid":12,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg1","val":"path"}}
+{"id":"522a69d7-573c-475c-a92d-177680116ff2","ts":"2026-05-25 19:17:07.825","tid":12,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg2","val":"member"}}
+{"id":"258bdfb5-5422-4018-88d8-4b2433cb2cc4","ts":"2026-05-25 19:17:07.825","tid":12,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg3","val":"exception"}}
+{"id":"df9ad75f-a9ad-4af0-a5f4-b7c1f47cdc42","ts":"2026-05-25 19:17:07.825","tid":12,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg4","val":"handled"}}
+{"id":"8426c7a9-6b77-438c-b0c2-369b03cd8535","ts":"2026-05-25 19:17:07.826","tid":12,"file":"InterfaceCallbacks.cs","line":31,"msg":"If-True Branch","var":null}
+{"id":"0cc157a4-4b8a-41e4-98f4-31cd207c6f0b","ts":"2026-05-25 19:17:07.827","tid":12,"file":"InterfaceCallbacks.cs","line":38,"msg":"If-True Branch","var":null}
+{"id":"4371139e-713d-4fd0-a387-1a8ee26aaeb7","ts":"2026-05-25 19:17:07.827","tid":12,"file":"InterfaceCallbacks.cs","line":45,"msg":"If-True Branch","var":null}
+{"id":"1448715d-570e-41f4-b5ba-edc15a5cef9b","ts":"2026-05-25 19:17:07.830","tid":12,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
+{"id":"2e253d5f-a645-48c8-8664-f34a8b762834","ts":"2026-05-25 19:17:07.831","tid":12,"file":"InterfaceCallbacks.cs","line":24,"msg":"If-True Branch","var":null}
+{"id":"8426c7a9-6b77-438c-b0c2-369b03cd8535","ts":"2026-05-25 19:17:07.832","tid":12,"file":"InterfaceCallbacks.cs","line":31,"msg":"If-True Branch","var":null}
+{"id":"0cc157a4-4b8a-41e4-98f4-31cd207c6f0b","ts":"2026-05-25 19:17:07.833","tid":12,"file":"InterfaceCallbacks.cs","line":38,"msg":"If-True Branch","var":null}
+{"id":"4371139e-713d-4fd0-a387-1a8ee26aaeb7","ts":"2026-05-25 19:17:07.833","tid":12,"file":"InterfaceCallbacks.cs","line":45,"msg":"If-True Branch","var":null}
+{"id":"1448715d-570e-41f4-b5ba-edc15a5cef9b","ts":"2026-05-25 19:17:07.835","tid":12,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
+{"id":"2e253d5f-a645-48c8-8664-f34a8b762834","ts":"2026-05-25 19:17:07.835","tid":12,"file":"InterfaceCallbacks.cs","line":24,"msg":"If-True Branch","var":null}
+{"id":"d5c0fe24-5d96-4b59-b93f-1d7398bdd2f2","ts":"2026-05-25 19:17:07.835","tid":12,"file":"InterfaceCallbacks.cs","line":10,"msg":"If-True Branch","var":null}
+{"id":"03f76ec4-99f5-435b-8026-16946f1469ad","ts":"2026-05-25 19:17:07.836","tid":12,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg0","val":"originalObject"}}
+{"id":"2623779e-40d9-41aa-ad20-9ded1c9ff3f0","ts":"2026-05-25 19:17:07.836","tid":12,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg1","val":"path"}}
+{"id":"522a69d7-573c-475c-a92d-177680116ff2","ts":"2026-05-25 19:17:07.836","tid":12,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg2","val":"member"}}
+{"id":"258bdfb5-5422-4018-88d8-4b2433cb2cc4","ts":"2026-05-25 19:17:07.837","tid":12,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg3","val":"exception"}}
+{"id":"df9ad75f-a9ad-4af0-a5f4-b7c1f47cdc42","ts":"2026-05-25 19:17:07.837","tid":12,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg4","val":"handled"}}
+{"id":"8426c7a9-6b77-438c-b0c2-369b03cd8535","ts":"2026-05-25 19:17:07.837","tid":12,"file":"InterfaceCallbacks.cs","line":31,"msg":"If-True Branch","var":null}
+{"id":"0cc157a4-4b8a-41e4-98f4-31cd207c6f0b","ts":"2026-05-25 19:17:07.838","tid":12,"file":"InterfaceCallbacks.cs","line":38,"msg":"If-True Branch","var":null}
+{"id":"9b7cdc47-bed9-4592-8068-b291ab74726f","ts":"2026-05-25 19:17:07.838","tid":12,"file":"InterfaceCallbacks.cs","line":17,"msg":"If-True Branch","var":null}
+{"id":"8fcd801a-db99-402f-9217-1d40e2a3d22c","ts":"2026-05-25 19:17:07.838","tid":12,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg0","val":"originalObject"}}
+{"id":"c3d7dad8-8777-43b4-a107-bf4965df74eb","ts":"2026-05-25 19:17:07.839","tid":12,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg1","val":"path"}}
+{"id":"df57734b-6987-4f51-868f-d24c48b9166c","ts":"2026-05-25 19:17:07.839","tid":12,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg2","val":"member"}}
+{"id":"48a01784-253d-47ee-8366-68aef0071934","ts":"2026-05-25 19:17:07.839","tid":12,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg3","val":"exception"}}
+{"id":"e0f612da-6732-43e7-a29d-281bf5bca387","ts":"2026-05-25 19:17:07.840","tid":12,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg4","val":"handled"}}
+{"id":"4371139e-713d-4fd0-a387-1a8ee26aaeb7","ts":"2026-05-25 19:17:07.840","tid":12,"file":"InterfaceCallbacks.cs","line":45,"msg":"If-True Branch","var":null}
+{"id":"1448715d-570e-41f4-b5ba-edc15a5cef9b","ts":"2026-05-25 19:17:07.840","tid":12,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
+{"id":"2e253d5f-a645-48c8-8664-f34a8b762834","ts":"2026-05-25 19:17:07.841","tid":12,"file":"InterfaceCallbacks.cs","line":24,"msg":"If-True Branch","var":null}
+{"id":"d5c0fe24-5d96-4b59-b93f-1d7398bdd2f2","ts":"2026-05-25 19:17:07.842","tid":12,"file":"InterfaceCallbacks.cs","line":10,"msg":"If-True Branch","var":null}
+{"id":"03f76ec4-99f5-435b-8026-16946f1469ad","ts":"2026-05-25 19:17:07.842","tid":12,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg0","val":"originalObject"}}
+{"id":"2623779e-40d9-41aa-ad20-9ded1c9ff3f0","ts":"2026-05-25 19:17:07.842","tid":12,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg1","val":"path"}}
+{"id":"522a69d7-573c-475c-a92d-177680116ff2","ts":"2026-05-25 19:17:07.842","tid":12,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg2","val":"member"}}
+{"id":"258bdfb5-5422-4018-88d8-4b2433cb2cc4","ts":"2026-05-25 19:17:07.842","tid":12,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg3","val":"exception"}}
+{"id":"df9ad75f-a9ad-4af0-a5f4-b7c1f47cdc42","ts":"2026-05-25 19:17:07.843","tid":12,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg4","val":"handled"}}
+{"id":"8426c7a9-6b77-438c-b0c2-369b03cd8535","ts":"2026-05-25 19:17:07.843","tid":12,"file":"InterfaceCallbacks.cs","line":31,"msg":"If-True Branch","var":null}
+{"id":"0cc157a4-4b8a-41e4-98f4-31cd207c6f0b","ts":"2026-05-25 19:17:07.843","tid":12,"file":"InterfaceCallbacks.cs","line":38,"msg":"If-True Branch","var":null}
+{"id":"9b7cdc47-bed9-4592-8068-b291ab74726f","ts":"2026-05-25 19:17:07.844","tid":12,"file":"InterfaceCallbacks.cs","line":17,"msg":"If-True Branch","var":null}
+{"id":"8fcd801a-db99-402f-9217-1d40e2a3d22c","ts":"2026-05-25 19:17:07.844","tid":12,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg0","val":"originalObject"}}
+{"id":"c3d7dad8-8777-43b4-a107-bf4965df74eb","ts":"2026-05-25 19:17:07.844","tid":12,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg1","val":"path"}}
+{"id":"df57734b-6987-4f51-868f-d24c48b9166c","ts":"2026-05-25 19:17:07.845","tid":12,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg2","val":"member"}}
+{"id":"48a01784-253d-47ee-8366-68aef0071934","ts":"2026-05-25 19:17:07.845","tid":12,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg3","val":"exception"}}
+{"id":"e0f612da-6732-43e7-a29d-281bf5bca387","ts":"2026-05-25 19:17:07.845","tid":12,"file":"InterfaceCallbacks.cs","line":18,"msg":"Array Argument Alias","var":{"name":"OnDeserializeError#arg4","val":"handled"}}
+{"id":"4371139e-713d-4fd0-a387-1a8ee26aaeb7","ts":"2026-05-25 19:17:07.845","tid":12,"file":"InterfaceCallbacks.cs","line":45,"msg":"If-True Branch","var":null}
+{"id":"1448715d-570e-41f4-b5ba-edc15a5cef9b","ts":"2026-05-25 19:17:07.846","tid":12,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
+{"id":"0cc157a4-4b8a-41e4-98f4-31cd207c6f0b","ts":"2026-05-25 19:17:07.847","tid":12,"file":"InterfaceCallbacks.cs","line":38,"msg":"If-True Branch","var":null}
+{"id":"4371139e-713d-4fd0-a387-1a8ee26aaeb7","ts":"2026-05-25 19:17:07.848","tid":12,"file":"InterfaceCallbacks.cs","line":45,"msg":"If-True Branch","var":null}
+{"id":"2e253d5f-a645-48c8-8664-f34a8b762834","ts":"2026-05-25 19:17:07.848","tid":12,"file":"InterfaceCallbacks.cs","line":24,"msg":"If-True Branch","var":null}
+{"id":"8426c7a9-6b77-438c-b0c2-369b03cd8535","ts":"2026-05-25 19:17:07.848","tid":12,"file":"InterfaceCallbacks.cs","line":31,"msg":"If-True Branch","var":null}
+{"id":"1448715d-570e-41f4-b5ba-edc15a5cef9b","ts":"2026-05-25 19:17:07.851","tid":14,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
+{"id":"2e253d5f-a645-48c8-8664-f34a8b762834","ts":"2026-05-25 19:17:07.851","tid":14,"file":"InterfaceCallbacks.cs","line":24,"msg":"If-True Branch","var":null}
+{"id":"8426c7a9-6b77-438c-b0c2-369b03cd8535","ts":"2026-05-25 19:17:07.852","tid":14,"file":"InterfaceCallbacks.cs","line":31,"msg":"If-True Branch","var":null}
+{"id":"0cc157a4-4b8a-41e4-98f4-31cd207c6f0b","ts":"2026-05-25 19:17:07.853","tid":14,"file":"InterfaceCallbacks.cs","line":38,"msg":"If-True Branch","var":null}
+{"id":"4371139e-713d-4fd0-a387-1a8ee26aaeb7","ts":"2026-05-25 19:17:07.853","tid":14,"file":"InterfaceCallbacks.cs","line":45,"msg":"If-True Branch","var":null}
+{"id":"1448715d-570e-41f4-b5ba-edc15a5cef9b","ts":"2026-05-25 19:17:07.855","tid":14,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
+{"id":"2e253d5f-a645-48c8-8664-f34a8b762834","ts":"2026-05-25 19:17:07.856","tid":14,"file":"InterfaceCallbacks.cs","line":24,"msg":"If-True Branch","var":null}
+{"id":"8426c7a9-6b77-438c-b0c2-369b03cd8535","ts":"2026-05-25 19:17:07.857","tid":14,"file":"InterfaceCallbacks.cs","line":31,"msg":"If-True Branch","var":null}
+{"id":"0cc157a4-4b8a-41e4-98f4-31cd207c6f0b","ts":"2026-05-25 19:17:07.857","tid":14,"file":"InterfaceCallbacks.cs","line":38,"msg":"If-True Branch","var":null}
+{"id":"4371139e-713d-4fd0-a387-1a8ee26aaeb7","ts":"2026-05-25 19:17:07.858","tid":14,"file":"InterfaceCallbacks.cs","line":45,"msg":"If-True Branch","var":null}
+{"id":"1448715d-570e-41f4-b5ba-edc15a5cef9b","ts":"2026-05-25 19:17:07.860","tid":14,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
+{"id":"0cc157a4-4b8a-41e4-98f4-31cd207c6f0b","ts":"2026-05-25 19:17:07.860","tid":14,"file":"InterfaceCallbacks.cs","line":38,"msg":"If-True Branch","var":null}
+{"id":"4371139e-713d-4fd0-a387-1a8ee26aaeb7","ts":"2026-05-25 19:17:07.861","tid":14,"file":"InterfaceCallbacks.cs","line":45,"msg":"If-True Branch","var":null}
+{"id":"2e253d5f-a645-48c8-8664-f34a8b762834","ts":"2026-05-25 19:17:07.861","tid":14,"file":"InterfaceCallbacks.cs","line":24,"msg":"If-True Branch","var":null}
+{"id":"8426c7a9-6b77-438c-b0c2-369b03cd8535","ts":"2026-05-25 19:17:07.861","tid":14,"file":"InterfaceCallbacks.cs","line":31,"msg":"If-True Branch","var":null}
+{"id":"1448715d-570e-41f4-b5ba-edc15a5cef9b","ts":"2026-05-25 19:17:07.862","tid":14,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
+{"id":"2e253d5f-a645-48c8-8664-f34a8b762834","ts":"2026-05-25 19:17:07.862","tid":14,"file":"InterfaceCallbacks.cs","line":24,"msg":"If-True Branch","var":null}
+{"id":"1448715d-570e-41f4-b5ba-edc15a5cef9b","ts":"2026-05-25 19:17:09.766","tid":5,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
+{"id":"d5c0fe24-5d96-4b59-b93f-1d7398bdd2f2","ts":"2026-05-25 19:17:09.767","tid":5,"file":"InterfaceCallbacks.cs","line":10,"msg":"If-True Branch","var":null}
+{"id":"03f76ec4-99f5-435b-8026-16946f1469ad","ts":"2026-05-25 19:17:09.767","tid":5,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg0","val":"originalObject"}}
+{"id":"2623779e-40d9-41aa-ad20-9ded1c9ff3f0","ts":"2026-05-25 19:17:09.768","tid":5,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg1","val":"path"}}
+{"id":"522a69d7-573c-475c-a92d-177680116ff2","ts":"2026-05-25 19:17:09.768","tid":5,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg2","val":"member"}}
+{"id":"258bdfb5-5422-4018-88d8-4b2433cb2cc4","ts":"2026-05-25 19:17:09.768","tid":5,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg3","val":"exception"}}
+{"id":"df9ad75f-a9ad-4af0-a5f4-b7c1f47cdc42","ts":"2026-05-25 19:17:09.768","tid":5,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg4","val":"handled"}}
+{"id":"1448715d-570e-41f4-b5ba-edc15a5cef9b","ts":"2026-05-25 19:17:10.256","tid":5,"file":"InterfaceCallbacks.cs","line":5,"msg":"Enter Method 'AddInterfaceCallbacks'","var":null}
+{"id":"d5c0fe24-5d96-4b59-b93f-1d7398bdd2f2","ts":"2026-05-25 19:17:10.257","tid":5,"file":"InterfaceCallbacks.cs","line":10,"msg":"If-True Branch","var":null}
+{"id":"03f76ec4-99f5-435b-8026-16946f1469ad","ts":"2026-05-25 19:17:10.257","tid":5,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg0","val":"originalObject"}}
+{"id":"2623779e-40d9-41aa-ad20-9ded1c9ff3f0","ts":"2026-05-25 19:17:10.258","tid":5,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg1","val":"path"}}
+{"id":"522a69d7-573c-475c-a92d-177680116ff2","ts":"2026-05-25 19:17:10.258","tid":5,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg2","val":"member"}}
+{"id":"258bdfb5-5422-4018-88d8-4b2433cb2cc4","ts":"2026-05-25 19:17:10.258","tid":5,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg3","val":"exception"}}
+{"id":"df9ad75f-a9ad-4af0-a5f4-b7c1f47cdc42","ts":"2026-05-25 19:17:10.258","tid":5,"file":"InterfaceCallbacks.cs","line":11,"msg":"Array Argument Alias","var":{"name":"OnSerializeError#arg4","val":"handled"}}

@@ -27,21 +27,21 @@ namespace Nito.Comparers.Util
             try
             {
                 var enumerable = ReflectionHelpers.TryGetEnumeratorType(typeof(T));
+                if (enumerable == null)
+                    return DefaultComparer<T>.Instance;
+
+                // T implements IEnumerable<U>. Extract the U and create a SequenceEqualityComparer<U>.
+                var elementTypes = enumerable.GenericTypeArguments;
+                var genericSequenceComparerType = typeof(SequenceEqualityComparer<>);
+                var sequenceComparerType = genericSequenceComparerType.MakeGenericType(elementTypes);
+                var constructor = sequenceComparerType.GetTypeInfo().DeclaredConstructors.First();
+                var instance = constructor.Invoke(new object[] { null! });
+                return (IEqualityComparer<T>)instance;
             }
             catch (System.NullReferenceException)
             {
+                return default!;
             }
-
-            if (enumerable == null)
-                return DefaultComparer<T>.Instance;
-
-            // T implements IEnumerable<U>. Extract the U and create a SequenceEqualityComparer<U>.
-            var elementTypes = enumerable.GenericTypeArguments;
-            var genericSequenceComparerType = typeof(SequenceEqualityComparer<>);
-            var sequenceComparerType = genericSequenceComparerType.MakeGenericType(elementTypes);
-            var constructor = sequenceComparerType.GetTypeInfo().DeclaredConstructors.First();
-            var instance = constructor.Invoke(new object[] { null! });
-            return (IEqualityComparer<T>)instance;
         }
     }
 }

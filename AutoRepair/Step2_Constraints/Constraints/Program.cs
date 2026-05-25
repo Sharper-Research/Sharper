@@ -60,23 +60,102 @@ internal static class Program
         };
 
         var violations = new List<ConstraintViolation>();
+        var pendingExceptions = new List<PendingExceptionViolation>();
+        var handledExceptions = new List<HandledExceptionEvent>();
+        var eventIndex = 0;
 
         await foreach (var evt in TraceReader.ReadAsync(traceFile.FullName))
         {
             tracker.Update(evt);
 
+            if (IsHandledExceptionType(evt, out var handledType))
+            {
+                handledExceptions.Add(new HandledExceptionEvent(
+                    eventIndex,
+                    evt.ThreadId,
+                    handledType));
+            }
+
             foreach (var rule in rules)
             {
                 if (rule.TryEvaluate(evt, tracker, out var violation))
                 {
-                    violations.Add(violation);
+                    if (violation.Predicate == "NoUnhandledException(event)"
+                        && TryGetExceptionType(violation, out var exceptionType))
+                    {
+                        pendingExceptions.Add(new PendingExceptionViolation(
+                            violation,
+                            eventIndex,
+                            evt.ThreadId,
+                            exceptionType));
+                    }
+                    else
+                    {
+                        violations.Add(violation);
+                    }
                 }
             }
+
+            eventIndex++;
         }
+
+        violations.AddRange(pendingExceptions
+            .Where(candidate => !IsHandledByCaller(candidate, handledExceptions))
+            .Select(candidate => candidate.Violation));
 
         await using var stream = reportFile.Create();
         await JsonSerializer.SerializeAsync(stream, violations, JsonOptions);
 
         return violations;
     }
+
+    private static bool IsHandledExceptionType(TraceEvent evt, out string exceptionType)
+    {
+        exceptionType = "";
+        if (!string.Equals(evt.Message, "Handled Exception Type", StringComparison.OrdinalIgnoreCase)
+            || evt.Variable?.Value is not { } value)
+        {
+            return false;
+        }
+
+        exceptionType = value;
+        return !string.IsNullOrWhiteSpace(exceptionType);
+    }
+
+    private static bool TryGetExceptionType(ConstraintViolation violation, out string exceptionType)
+    {
+        exceptionType = "";
+        if (!violation.Bindings.TryGetValue("event.exception.type", out var value)
+            || value is not string text
+            || string.IsNullOrWhiteSpace(text))
+        {
+            return false;
+        }
+
+        exceptionType = text;
+        return true;
+    }
+
+    private static bool IsHandledByCaller(
+        PendingExceptionViolation candidate,
+        IReadOnlyList<HandledExceptionEvent> handledExceptions)
+    {
+        const int MaxForwardEventGap = 16;
+        return handledExceptions.Any(handled =>
+            handled.ThreadId == candidate.ThreadId
+            && handled.Index > candidate.Index
+            && handled.Index - candidate.Index <= MaxForwardEventGap
+            && string.Equals(handled.ExceptionType, candidate.ExceptionType, StringComparison.Ordinal));
+    }
+
+    private sealed record PendingExceptionViolation(
+        ConstraintViolation Violation,
+        int Index,
+        int ThreadId,
+        string ExceptionType);
+
+    private sealed record HandledExceptionEvent(
+        int Index,
+        int ThreadId,
+        string ExceptionType);
 }

@@ -5,18 +5,22 @@
 +        try
 +        {
 +            var parser = HtmlParserFactory();
++            var dom = parser.ParseDocument("<!doctype html><html><body>" + html);
+-        var parser = HtmlParserFactory();
+-        var dom = parser.ParseDocument("<!doctype html><html><body>" + html);
+ 
++            if (dom.Body != null)
++                DoSanitize(dom, dom.Body, baseUrl);
+-        if (dom.Body != null)
+-            DoSanitize(dom, dom.Body, baseUrl);
+ 
++            return dom;
 +        }
 +        catch (AngleSharp.Html.Parser.HtmlParseException)
 +        {
++            return default!;
 +        }
-+
--        var parser = HtmlParserFactory();
-         var dom = parser.ParseDocument("<!doctype html><html><body>" + html);
- 
-         if (dom.Body != null)
-             DoSanitize(dom, dom.Body, baseUrl);
- 
-         return dom;
+-        return dom;
      }
  
      /// <summary>

@@ -390,15 +390,15 @@ public class HtmlSanitizer : IHtmlSanitizer
         try
         {
             using var dom = SanitizeDom(html, baseUrl);
+            if (dom.Body == null) return string.Empty;
+            var output = dom.Body.ChildNodes.ToHtml(outputFormatter ?? OutputFormatter);
+
+            return output;
         }
         catch (System.Exception)
         {
+            return default!;
         }
-
-        if (dom.Body == null) return string.Empty;
-        var output = dom.Body.ChildNodes.ToHtml(outputFormatter ?? OutputFormatter);
-
-        return output;
     }
 
     /// <summary>

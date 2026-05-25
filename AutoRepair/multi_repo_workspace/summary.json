@@ -12,23 +12,18 @@
     "trace_path": "AutoRepair\\multi_repo_workspace\\cases\\00_nodirmcsd__WordNinjaSharp\\trace_logs.jsonl",
     "step1_skipped": true,
     "step2_status": "ok",
-    "violations_total": 2,
+    "violations_total": 1,
     "violations_by_predicate": {
-      "NoUnhandledException(event)": 2
+      "NoUnhandledException(event)": 1
     },
     "violations_path": "AutoRepair\\multi_repo_workspace\\cases\\00_nodirmcsd__WordNinjaSharp\\violations.json",
     "step3_status": "ok",
     "repair_plan_path": "AutoRepair\\multi_repo_workspace\\cases\\00_nodirmcsd__WordNinjaSharp\\repair_plan.json",
-    "repair_total_violations": 2,
+    "repair_total_violations": 1,
     "repair_by_action": {
-      "AutoPatchable": 1,
       "IntentionalValidator": 1
     },
-    "patches_generated": 1,
-    "patch_files": [
-      "WordNinja.L172.diff"
-    ],
-    "patches_dir": "AutoRepair\\multi_repo_workspace\\cases\\00_nodirmcsd__WordNinjaSharp\\patches"
+    "patches_generated": 0
   },
   {
     "index": 1,
@@ -45,8 +40,8 @@
     "step2_status": "ok",
     "violations_total": 9,
     "violations_by_predicate": {
-      "NoUnhandledException(event)": 5,
-      "NotNull(dereference.receiver)": 4
+      "NotNull(dereference.receiver)": 4,
+      "NoUnhandledException(event)": 5
     },
     "violations_path": "AutoRepair\\multi_repo_workspace\\cases\\01_StephenCleary__Comparers\\violations.json",
     "step3_status": "ok",
@@ -56,11 +51,10 @@
       "AutoPatchable": 5,
       "IntentionalValidator": 4
     },
-    "patches_generated": 3,
+    "patches_generated": 2,
     "patch_files": [
       "EqualityComparerBase.L96.diff",
-      "EqualityComparerHelpers.L26.diff",
-      "SequenceEqualityComparer.L33.diff"
+      "EqualityComparerHelpers.L26.diff"
     ],
     "patches_dir": "AutoRepair\\multi_repo_workspace\\cases\\01_StephenCleary__Comparers\\patches"
   },
@@ -77,31 +71,20 @@
     "trace_path": "AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\trace_logs.jsonl",
     "step1_skipped": true,
     "step2_status": "ok",
-    "violations_total": 81,
+    "violations_total": 78,
     "violations_by_predicate": {
       "BufferInBounds(index:_buffer, _buffer)": 66,
-      "NoUnhandledException(event)": 15
+      "NoUnhandledException(event)": 12
     },
     "violations_path": "AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\violations.json",
     "step3_status": "ok",
     "repair_plan_path": "AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repair_plan.json",
-    "repair_total_violations": 81,
+    "repair_total_violations": 78,
     "repair_by_action": {
       "UnsupportedPredicate": 66,
-      "IntentionalValidator": 7,
-      "AutoPatchable": 8
+      "IntentionalValidator": 12
     },
-    "patches_generated": 7,
-    "patch_files": [
-      "Deque.L101.diff",
-      "Deque.L108.diff",
-      "Deque.L167.diff",
-      "Deque.L293.diff",
-      "Deque.L741.diff",
-      "Deque.L758.diff",
-      "Deque.L771.diff"
-    ],
-    "patches_dir": "AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\patches"
+    "patches_generated": 0
   },
   {
     "index": 3,
@@ -133,7 +116,7 @@
     "test_project": "src\\tests\\UnitTests\\UnitTests.csproj",
     "source_project": "src\\projects\\EnsureThat\\EnsureThat.csproj",
     "status": "ok",
-    "trace_events": 19722,
+    "trace_events": 20915,
     "trace_path": "AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\trace_logs.jsonl",
     "step1_skipped": true,
     "step2_status": "ok",
@@ -146,98 +129,16 @@
     "repair_plan_path": "AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repair_plan.json",
     "repair_total_violations": 143,
     "repair_by_action": {
-      "IntentionalValidator": 65,
-      "AutoPatchable": 78
+      "IntentionalValidator": 143
     },
-    "patches_generated": 78,
-    "patch_files": [
-      "EnsureThatAnyExtensions.L9.diff",
-      "EnsureThatCollectionExtensions.L110.diff",
-      "EnsureThatCollectionExtensions.L124.diff",
-      "EnsureThatCollectionExtensions.L138.diff",
-      "EnsureThatCollectionExtensions.L152.diff",
-      "EnsureThatCollectionExtensions.L166.diff",
-      "EnsureThatCollectionExtensions.L173.diff",
-      "EnsureThatCollectionExtensions.L180.diff",
-      "EnsureThatCollectionExtensions.L187.diff",
-      "EnsureThatCollectionExtensions.L19.diff",
-      "EnsureThatCollectionExtensions.L194.diff",
-      "EnsureThatCollectionExtensions.L201.diff",
-      "EnsureThatCollectionExtensions.L208.diff",
-      "EnsureThatCollectionExtensions.L215.diff",
-      "EnsureThatCollectionExtensions.L222.diff",
-      "EnsureThatCollectionExtensions.L26.diff",
-      "EnsureThatCollectionExtensions.L33.diff",
-      "EnsureThatCollectionExtensions.L40.diff",
-      "EnsureThatCollectionExtensions.L47.diff",
-      "EnsureThatCollectionExtensions.L68.diff",
-      "EnsureThatCollectionExtensions.L75.diff",
-      "EnsureThatCollectionExtensions.L82.diff",
-      "EnsureThatCollectionExtensions.L89.diff",
-      "EnsureThatCollectionExtensions.L96.diff",
-      "EnsureThatComparableExtensions.L10.diff",
-      "EnsureThatComparableExtensions.L24.diff",
-      "EnsureThatComparableExtensions.L38.diff",
-      "EnsureThatComparableExtensions.L52.diff",
-      "EnsureThatComparableExtensions.L66.diff",
-      "EnsureThatComparableExtensions.L80.diff",
-      "EnsureThatComparableExtensions.L94.diff",
-      "EnsureThatEnumExtensions.L27.diff",
-      "EnsureThatEnumExtensions.L38.diff",
-      "EnsureThatStringExtensions.L104.diff",
-      "EnsureThatStringExtensions.L111.diff",
-      "EnsureThatStringExtensions.L118.diff",
-      "EnsureThatStringExtensions.L12.diff",
-      "EnsureThatStringExtensions.L125.diff",
-      "EnsureThatStringExtensions.L132.diff",
-      "EnsureThatStringExtensions.L139.diff",
-      "EnsureThatStringExtensions.L146.diff",
-      "EnsureThatStringExtensions.L167.diff",
-      "EnsureThatStringExtensions.L181.diff",
-      "EnsureThatStringExtensions.L188.diff",
-      "EnsureThatStringExtensions.L19.diff",
-      "EnsureThatStringExtensions.L195.diff",
-      "EnsureThatStringExtensions.L26.diff",
-      "EnsureThatStringExtensions.L33.diff",
-      "EnsureThatStringExtensions.L40.diff",
-      "EnsureThatStringExtensions.L47.diff",
-      "EnsureThatStringExtensions.L54.diff",
-      "EnsureThatStringExtensions.L61.diff",
-      "EnsureThatStringExtensions.L68.diff",
-      "EnsureThatStringExtensions.L76.diff",
-      "EnsureThatStringExtensions.L97.diff",
-      "EnsureThatTypeExtensions.L10.diff",
-      "EnsureThatTypeExtensions.L101.diff",
-      "EnsureThatTypeExtensions.L17.diff",
-      "EnsureThatTypeExtensions.L24.diff",
-      "EnsureThatTypeExtensions.L31.diff",
-      "EnsureThatTypeExtensions.L38.diff",
-      "EnsureThatTypeExtensions.L45.diff",
-      "EnsureThatTypeExtensions.L52.diff",
-      "EnsureThatTypeExtensions.L59.diff",
-      "EnsureThatTypeExtensions.L66.diff",
-      "EnsureThatTypeExtensions.L73.diff",
-      "EnsureThatTypeExtensions.L80.diff",
-      "EnsureThatTypeExtensions.L87.diff",
-      "EnsureThatValueTypeExtensions.L16.diff",
-      "EnsureThatValueTypeExtensions.L23.diff",
-      "EnsureThatValueTypeExtensions.L30.diff",
-      "EnsureThatValueTypeExtensions.L37.diff",
-      "EnsureThatValueTypeExtensions.L9.diff",
-      "StringArg.L19.diff",
-      "TypeArg.L118.diff",
-      "TypeArg.L144.diff",
-      "TypeArg.L170.diff",
-      "TypeArg.L196.diff"
-    ],
-    "patches_dir": "AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\patches"
+    "patches_generated": 0
   },
   {
     "index": 5,
     "repo": "StefH/JsonConverter",
     "requested_sha": null,
     "case_dir": "AutoRepair\\multi_repo_workspace\\cases\\05_StefH__JsonConverter",
-    "sha": "daa00b867a21ee39483ea529a531564625f3903c",
+    "sha": "7777e3529a0c02fb15f971e5d03887e8af3b0b96",
     "test_project": "tests\\SimpleJson.Tests\\SimpleJson.Tests.csproj",
     "source_project": "src\\JsonConverter.SimpleJson\\JsonConverter.SimpleJson.csproj",
     "status": "ok",
@@ -245,27 +146,22 @@
     "trace_path": "AutoRepair\\multi_repo_workspace\\cases\\05_StefH__JsonConverter\\trace_logs.jsonl",
     "step1_skipped": true,
     "step2_status": "ok",
-    "violations_total": 47,
+    "violations_total": 3,
     "violations_by_predicate": {
-      "ValidCast(JsonConverter.SimpleJson.JsonArray, string)": 5,
-      "ValidCast(System.Int64, string)": 8,
-      "ValidCast(JsonConverter.SimpleJson.JsonObject, string)": 30,
-      "ValidCast(System.Double, string)": 1,
       "BufferInBounds(index:list, list)": 2,
       "NoUnhandledException(event)": 1
     },
     "violations_path": "AutoRepair\\multi_repo_workspace\\cases\\05_StefH__JsonConverter\\violations.json",
     "step3_status": "ok",
     "repair_plan_path": "AutoRepair\\multi_repo_workspace\\cases\\05_StefH__JsonConverter\\repair_plan.json",
-    "repair_total_violations": 47,
+    "repair_total_violations": 3,
     "repair_by_action": {
-      "AutoPatchable": 45,
-      "UnsupportedPredicate": 2
+      "UnsupportedPredicate": 2,
+      "AutoPatchable": 1
     },
-    "patches_generated": 2,
+    "patches_generated": 1,
     "patch_files": [
-      "PocoJsonSerializerStrategy.L102.diff",
-      "PocoJsonSerializerStrategy.L155.diff"
+      "PocoJsonSerializerStrategy.L102.diff"
     ],
     "patches_dir": "AutoRepair\\multi_repo_workspace\\cases\\05_StefH__JsonConverter\\patches"
   },
@@ -274,7 +170,7 @@
     "repo": "mganss/HtmlSanitizer",
     "requested_sha": null,
     "case_dir": "AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer",
-    "sha": "82bc3abe33dc2d12b293ab5564c30f841bde91a0",
+    "sha": "7417120cfabea9f359b56f8de6f492adbb0e57da",
     "test_project": "test\\HtmlSanitizer.Tests\\HtmlSanitizer.Tests.csproj",
     "source_project": "src\\HtmlSanitizer\\HtmlSanitizer.csproj",
     "status": "ok",
@@ -282,26 +178,22 @@
     "trace_path": "AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\trace_logs.jsonl",
     "step1_skipped": true,
     "step2_status": "ok",
-    "violations_total": 85,
+    "violations_total": 3,
     "violations_by_predicate": {
-      "NoUnhandledException(event)": 3,
-      "ValidCast(AngleSharp.Dom.DocumentFragment, IHtmlDocument)": 6,
-      "NotNull(value)": 76
+      "NoUnhandledException(event)": 3
     },
     "violations_path": "AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\violations.json",
     "step3_status": "ok",
     "repair_plan_path": "AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repair_plan.json",
-    "repair_total_violations": 85,
+    "repair_total_violations": 3,
     "repair_by_action": {
-      "AutoPatchable": 85
+      "AutoPatchable": 3
     },
-    "patches_generated": 5,
+    "patches_generated": 3,
     "patch_files": [
       "HtmlFormatter.L24.diff",
-      "HtmlFormatter.L54.diff",
       "HtmlSanitizer.L389.diff",
-      "HtmlSanitizer.L404.diff",
-      "HtmlSanitizer.L727.diff"
+      "HtmlSanitizer.L404.diff"
     ],
     "patches_dir": "AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches"
   },
@@ -331,11 +223,11 @@
     "repo": "SimonCropp/Argon",
     "requested_sha": null,
     "case_dir": "AutoRepair\\multi_repo_workspace\\cases\\08_SimonCropp__Argon",
-    "sha": "8ec5f2473811ad0b6a9879ec7e8a14cc69d5aa83",
+    "sha": "fb32e317a6ccd742111d2ab143afae655f1ed532",
     "test_project": "src\\ArgonTests\\ArgonTests.csproj",
     "source_project": "src\\Argon.InterfaceCallbacks\\Argon.InterfaceCallbacks.csproj",
     "status": "ok",
-    "trace_events": 462,
+    "trace_events": 455,
     "trace_path": "AutoRepair\\multi_repo_workspace\\cases\\08_SimonCropp__Argon\\trace_logs.jsonl",
     "step1_skipped": true,
     "step2_status": "ok",
@@ -369,21 +261,16 @@
     "repair_plan_path": "AutoRepair\\multi_repo_workspace\\cases\\09_JonPSmith__EfCore.GenericServices\\repair_plan.json",
     "repair_total_violations": 2,
     "repair_by_action": {
-      "IntentionalValidator": 1,
-      "AutoPatchable": 1
+      "IntentionalValidator": 2
     },
-    "patches_generated": 1,
-    "patch_files": [
-      "Book.L146.diff"
-    ],
-    "patches_dir": "AutoRepair\\multi_repo_workspace\\cases\\09_JonPSmith__EfCore.GenericServices\\patches"
+    "patches_generated": 0
   },
   {
     "index": 10,
     "repo": "xoofx/Markdig",
     "requested_sha": null,
     "case_dir": "AutoRepair\\multi_repo_workspace\\cases\\10_xoofx__Markdig",
-    "sha": "3d6993320588a0cb0b12aaa7adcb48a4849da860",
+    "sha": "d72da576ea0200d83cba722a161a0c24d4e7d794",
     "test_project": "src\\Markdig.Tests\\Markdig.Tests.csproj",
     "source_project": "src\\Markdig\\Markdig.csproj",
     "status": "no-trace",

@@ -64,13 +64,12 @@ public sealed class StateTracker
                 _bufferContents[bufName][idx] = value;
             }
 
-            // Forward: track null/default variables from Variable Update events.
-            // val="" means .ToString() returned empty (null/default for reference types).
-            // val="null" from cast attempts means explicitly null.
+            // Forward: track explicit null variables from Variable Update events.
+            // Empty strings are valid non-null values (e.g. HTML attribute
+            // values) and must not be treated as null.
             if (evt.Message.Equals("Variable Update", StringComparison.OrdinalIgnoreCase))
             {
-                if (string.IsNullOrEmpty(value)
-                    || value.Equals("null", StringComparison.OrdinalIgnoreCase))
+                if (value.Equals("null", StringComparison.OrdinalIgnoreCase))
                 {
                     _nullVars.Add(name);
                 }

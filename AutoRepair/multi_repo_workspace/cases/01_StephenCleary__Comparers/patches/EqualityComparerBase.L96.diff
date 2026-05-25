@@ -1,6 +1,6 @@
 --- a/EqualityComparerBase.cs
 +++ b/EqualityComparerBase.cs
-@@ -96,11 +96,18 @@
+@@ -96,11 +96,19 @@
 +            // [AutoRepair Step 3] Forward-propagated guard against System.NotImplementedException
 +            try
 -            if (!SpecialNullHandling)
@@ -10,14 +10,17 @@
 +                    if (obj == null)
 +                        return 0;
 +                }
++
++                return DoGetHashCode(obj!);
 -                if (obj == null)
 -                    return 0;
              }
 +            catch (System.NotImplementedException)
 +            {
++                return default!;
 +            }
- 
-             return DoGetHashCode(obj!);
+-
+-            return DoGetHashCode(obj!);
          }
      }
  }

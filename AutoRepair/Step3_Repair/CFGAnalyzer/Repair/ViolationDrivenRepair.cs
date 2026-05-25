@@ -208,9 +208,11 @@ public static class ViolationDrivenRepair
         // the declaration's start line), there is no enclosing statement.
         // In that case, wrap the first statement of the member's body so the
         // whole method body is guarded.
+        var wrapRemainingBlock = false;
         if (statement == null && member is BaseMethodDeclarationSyntax bmds)
         {
             statement = bmds.Body?.Statements.FirstOrDefault();
+            wrapRemainingBlock = statement != null;
         }
         var stmtStart = statement?.GetLocation().GetLineSpan().StartLinePosition.Line + 1;
         var stmtEnd = statement?.GetLocation().GetLineSpan().EndLinePosition.Line + 1;
@@ -235,7 +237,7 @@ public static class ViolationDrivenRepair
         // re-occurred at runtime (NullReferenceException for NotNull, etc.).
         var catchType = ResolveCatchType(v);
         var (patchedPath, diffPath) = await PatchSynthesizer.WritePatchAsync(
-            doc, statement, catchType, patchesDir);
+            doc, statement, catchType, patchesDir, wrapRemainingBlock);
 
         return new RepairItem(v, memberName, doc.FilePath ?? v.File,
             stmtStart, stmtEnd, action, reason, pathConstraints, patchedPath, diffPath);
@@ -270,15 +272,21 @@ public static class ViolationDrivenRepair
                     "Cancellation exceptions are part of the documented contract");
             }
 
-            // Argument validators: an explicit throw of an Argument*Exception
-            // is intentional input validation, not a bug.
+            if (ContainsObservedExceptionThrow(member, ex))
+            {
+                return (RepairAction.IntentionalValidator,
+                    $"Method explicitly throws the observed exception");
+            }
+
+            // Argument validators: explicit throws and guard-wrapper calls are
+            // intentional input validation, not bugs.
             var isArgumentEx = ex.EndsWith("ArgumentException", StringComparison.Ordinal)
                 || ex.EndsWith("ArgumentNullException", StringComparison.Ordinal)
                 || ex.EndsWith("ArgumentOutOfRangeException", StringComparison.Ordinal);
-            if (isArgumentEx && ContainsExplicitThrow(member))
+            if (isArgumentEx && (ContainsExplicitThrow(member) || ContainsArgumentValidationCall(member)))
             {
                 return (RepairAction.IntentionalValidator,
-                    $"Method explicitly throws an argument-validation exception");
+                    $"Method contains argument-validation throw or guard call");
             }
 
             if (statement == null)
@@ -340,6 +348,57 @@ public static class ViolationDrivenRepair
             .Any(t => IsExceptionExpression(t.Expression));
     }
 
+    private static bool ContainsObservedExceptionThrow(MemberDeclarationSyntax? member, string exceptionType)
+    {
+        if (member == null || string.IsNullOrWhiteSpace(exceptionType)) return false;
+
+        var shortName = exceptionType.Split('.').Last();
+        return member.DescendantNodes()
+            .OfType<ThrowStatementSyntax>()
+            .Select(statement => statement.Expression)
+            .Where(expression => expression != null)
+            .Any(expression => IsExceptionExpression(expression!, exceptionType, shortName))
+            || member.DescendantNodes()
+                .OfType<ThrowExpressionSyntax>()
+                .Any(expression => IsExceptionExpression(expression.Expression, exceptionType, shortName));
+    }
+
+    private static bool ContainsArgumentValidationCall(MemberDeclarationSyntax? member)
+    {
+        if (member == null) return false;
+        return member.DescendantNodes()
+            .OfType<InvocationExpressionSyntax>()
+            .Any(IsArgumentValidationCall);
+    }
+
+    private static bool IsArgumentValidationCall(InvocationExpressionSyntax invocation)
+    {
+        var expression = invocation.Expression.ToString();
+        if (expression.StartsWith("Ensure.", StringComparison.Ordinal)
+            || expression.StartsWith("Guard.", StringComparison.Ordinal)
+            || expression.Contains(".ThrowIf", StringComparison.Ordinal)
+            || expression.Contains("ExceptionFactory.Argument", StringComparison.Ordinal))
+        {
+            return true;
+        }
+
+        var name = invocation.Expression switch
+        {
+            MemberAccessExpressionSyntax ma => ma.Name.Identifier.Text,
+            IdentifierNameSyntax id        => id.Identifier.Text,
+            GenericNameSyntax gn           => gn.Identifier.Text,
+            _                              => string.Empty,
+        };
+
+        return name is "ThrowIfNull" or "ThrowIfNegative" or "ThrowIfNegativeOrZero"
+            or "ThrowIfZero" or "ThrowIfGreaterThan" or "ThrowIfGreaterThanOrEqual"
+            or "ThrowIfLessThan" or "ThrowIfLessThanOrEqual"
+            || (name.StartsWith("Check", StringComparison.Ordinal)
+                && (name.Contains("Argument", StringComparison.Ordinal)
+                    || name.Contains("Range", StringComparison.Ordinal)
+                    || name.Contains("Index", StringComparison.Ordinal)));
+    }
+
     /// <summary>
     /// Recognise both `throw new ArgumentException(...)` and factory-style
     /// patterns like `throw Ensure.ExceptionFactory.ArgumentException(...)`
@@ -374,6 +433,13 @@ public static class ViolationDrivenRepair
             default:
                 return false;
         }
+    }
+
+    private static bool IsExceptionExpression(ExpressionSyntax expr, string fullName, string shortName)
+    {
+        var text = expr.ToString();
+        return text.Contains(fullName, StringComparison.Ordinal)
+            || text.Contains(shortName, StringComparison.Ordinal);
     }
 }
 

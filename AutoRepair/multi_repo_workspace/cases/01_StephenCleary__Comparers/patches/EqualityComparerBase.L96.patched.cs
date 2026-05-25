@@ -101,12 +101,13 @@ namespace Nito.Comparers.Util
                     if (obj == null)
                         return 0;
                 }
+
+                return DoGetHashCode(obj!);
             }
             catch (System.NotImplementedException)
             {
+                return default!;
             }
-
-            return DoGetHashCode(obj!);
         }
     }
 }

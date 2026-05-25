@@ -5,9 +5,10 @@ namespace AutoRepair.Step2Constraints.Rules;
 
 /// <summary>
 /// Forward cast-safety analysis.
-/// Evaluates type compatibility at the "Cast Attempt" event (BEFORE the cast
-/// executes), rather than waiting for "Invalid Cast" or an exception.
-/// "Invalid Cast" and InvalidCastException are kept as confirmation/fallback.
+/// Evaluates explicit-cast compatibility at the "Cast Attempt" event (BEFORE
+/// the cast executes), rather than waiting for an exception. Failed "as" casts
+/// are intentionally not emitted as violations: returning null from `x as T` is
+/// normal C# control flow, not a crash.
 /// </summary>
 public sealed class InvalidCastingRule : IRule
 {
@@ -55,31 +56,17 @@ public sealed class InvalidCastingRule : IRule
             return false;
         }
 
-        // ── Forward path 2: failed 'as' cast (non-null source → null result) ──
-        // LogAsCast detects this at the cast site.  This is still forward:
-        // the detection happens at the operation, not from an exception.
+        // ── Non-crashing signal: failed 'as' cast (non-null source → null result) ──
+        // LogAsCast emits "Invalid Cast" when `source as T` returns null. That
+        // is useful trace evidence, but it is not a runtime crash and should
+        // not drive Step 3 patch synthesis. A later dereference of the null
+        // result will be reported by NullDereferenceRule if it actually fails.
         if (string.Equals(evt.Message, "Invalid Cast", StringComparison.OrdinalIgnoreCase)
             && evt.Variable is { Name: { } icName, Value: { } icSourceType }
             && icName.StartsWith("cast:", StringComparison.OrdinalIgnoreCase))
         {
-            var targetType = icName[5..];
-
-            violation = new ConstraintViolation(
-                Predicate: $"ValidCast({icSourceType}, {targetType})",
-                Assertion: $"typeof(source) is {targetType}",
-                Bindings: new Dictionary<string, object?>
-                {
-                    ["source.type"] = icSourceType,
-                    ["target.type"] = targetType,
-                    ["detection"] = "forward-as-cast-null"
-                },
-                Result: false,
-                File: evt.File,
-                Line: evt.Line,
-                TraceId: evt.Id);
-
             _lastCastAttempt = null;
-            return true;
+            return false;
         }
 
         // ── Fallback: InvalidCastException from exception logging ──

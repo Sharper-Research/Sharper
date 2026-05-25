@@ -405,17 +405,17 @@ public class HtmlSanitizer : IHtmlSanitizer
         try
         {
             var parser = HtmlParserFactory();
+            var dom = parser.ParseDocument("<!doctype html><html><body>" + html);
+
+            if (dom.Body != null)
+                DoSanitize(dom, dom.Body, baseUrl);
+
+            return dom;
         }
         catch (AngleSharp.Html.Parser.HtmlParseException)
         {
+            return default!;
         }
-
-        var dom = parser.ParseDocument("<!doctype html><html><body>" + html);
-
-        if (dom.Body != null)
-            DoSanitize(dom, dom.Body, baseUrl);
-
-        return dom;
     }
 
     /// <summary>

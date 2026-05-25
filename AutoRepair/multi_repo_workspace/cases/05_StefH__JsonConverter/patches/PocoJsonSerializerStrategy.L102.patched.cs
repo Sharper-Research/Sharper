@@ -103,166 +103,167 @@ class PocoJsonSerializerStrategy : IJsonSerializerStrategy
         try
         {
             Guard.NotNull(type);
-        }
-        catch (System.IndexOutOfRangeException)
-        {
-        }
 
-        string? str = value as string;
+            string? str = value as string;
 
-        if (type == typeof(Guid) && string.IsNullOrEmpty(str))
-            return default(Guid);
+            if (type == typeof(Guid) && string.IsNullOrEmpty(str))
+                return default(Guid);
 
-        if (value == null)
-            return null;
+            if (value == null)
+                return null;
 
-        object? obj = null;
+            object? obj = null;
 
-        if (str != null)
-        {
-            if (str.Length != 0) // We know it can't be null now.
+            if (str != null)
             {
-                if (type == typeof(DateTime) || (ReflectionUtils.IsNullableType(type) && Nullable.GetUnderlyingType(type) == typeof(DateTime)))
-                    return DateTime.ParseExact(str, Iso8601Format, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal);
-
-                if (type == typeof(DateTimeOffset) || (ReflectionUtils.IsNullableType(type) && Nullable.GetUnderlyingType(type) == typeof(DateTimeOffset)))
-                    return DateTimeOffset.ParseExact(str, Iso8601Format, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal);
-
-                if (type == typeof(Guid) || (ReflectionUtils.IsNullableType(type) && Nullable.GetUnderlyingType(type) == typeof(Guid)))
-                    return new Guid(str);
-
-                if (type == typeof(Uri))
+                if (str.Length != 0) // We know it can't be null now.
                 {
-                    bool isValid = Uri.IsWellFormedUriString(str, UriKind.RelativeOrAbsolute);
+                    if (type == typeof(DateTime) || (ReflectionUtils.IsNullableType(type) && Nullable.GetUnderlyingType(type) == typeof(DateTime)))
+                        return DateTime.ParseExact(str, Iso8601Format, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal);
 
-                    if (isValid && Uri.TryCreate(str, UriKind.RelativeOrAbsolute, out var result))
+                    if (type == typeof(DateTimeOffset) || (ReflectionUtils.IsNullableType(type) && Nullable.GetUnderlyingType(type) == typeof(DateTimeOffset)))
+                        return DateTimeOffset.ParseExact(str, Iso8601Format, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal);
+
+                    if (type == typeof(Guid) || (ReflectionUtils.IsNullableType(type) && Nullable.GetUnderlyingType(type) == typeof(Guid)))
+                        return new Guid(str);
+
+                    if (type == typeof(Uri))
                     {
-                        return result;
+                        bool isValid = Uri.IsWellFormedUriString(str, UriKind.RelativeOrAbsolute);
+
+                        if (isValid && Uri.TryCreate(str, UriKind.RelativeOrAbsolute, out var result))
+                        {
+                            return result;
+                        }
+
+                        return null;
                     }
 
-                    return null;
+                    if (type == typeof(string))
+                    {
+                        return str;
+                    }
+
+                    return Convert.ChangeType(str, type, CultureInfo.InvariantCulture);
                 }
 
-                if (type == typeof(string))
+                if (type == typeof(Guid))
+                    obj = default(Guid);
+                else if (ReflectionUtils.IsNullableType(type) && Nullable.GetUnderlyingType(type) == typeof(Guid))
+                    obj = null;
+                else
+                    obj = str;
+
+                // Empty string case
+                if (!ReflectionUtils.IsNullableType(type) && Nullable.GetUnderlyingType(type) == typeof(Guid))
                 {
                     return str;
                 }
-
-                return Convert.ChangeType(str, type, CultureInfo.InvariantCulture);
+            }
+            else if (value is bool)
+            {
+                return value;
             }
 
-            if (type == typeof(Guid))
-                obj = default(Guid);
-            else if (ReflectionUtils.IsNullableType(type) && Nullable.GetUnderlyingType(type) == typeof(Guid))
-                obj = null;
+            bool valueIsLong = value is long;
+            bool valueIsDouble = value is double;
+            if ((valueIsLong && type == typeof(long)) || (valueIsDouble && type == typeof(double)))
+            {
+                return value;
+            }
+
+            if ((valueIsDouble && type != typeof(double)) || (valueIsLong && type != typeof(long)))
+            {
+                obj = type == typeof(int) || type == typeof(long) || type == typeof(double) || type == typeof(float) || type == typeof(bool) || type == typeof(decimal) || type == typeof(byte) || type == typeof(short)
+                            ? Convert.ChangeType(value, type, CultureInfo.InvariantCulture)
+                            : value;
+            }
             else
-                obj = str;
-
-            // Empty string case
-            if (!ReflectionUtils.IsNullableType(type) && Nullable.GetUnderlyingType(type) == typeof(Guid))
             {
-                return str;
-            }
-        }
-        else if (value is bool)
-        {
-            return value;
-        }
-
-        bool valueIsLong = value is long;
-        bool valueIsDouble = value is double;
-        if ((valueIsLong && type == typeof(long)) || (valueIsDouble && type == typeof(double)))
-        {
-            return value;
-        }
-
-        if ((valueIsDouble && type != typeof(double)) || (valueIsLong && type != typeof(long)))
-        {
-            obj = type == typeof(int) || type == typeof(long) || type == typeof(double) || type == typeof(float) || type == typeof(bool) || type == typeof(decimal) || type == typeof(byte) || type == typeof(short)
-                        ? Convert.ChangeType(value, type, CultureInfo.InvariantCulture)
-                        : value;
-        }
-        else
-        {
-            if (value is IDictionary<string, object> objects)
-            {
-                IDictionary<string, object> jsonObject = objects;
-
-                if (ReflectionUtils.IsTypeDictionary(type))
+                if (value is IDictionary<string, object> objects)
                 {
-                    // if dictionary then
-                    Type[] types = ReflectionUtils.GetGenericTypeArguments(type);
-                    Type keyType = types[0];
-                    Type valueType = types[1];
+                    IDictionary<string, object> jsonObject = objects;
 
-                    Type genericType = typeof(Dictionary<,>).MakeGenericType(keyType, valueType);
-
-                    IDictionary dict = (IDictionary)ConstructorCache[genericType]();
-
-                    foreach (var kvp in jsonObject)
+                    if (ReflectionUtils.IsTypeDictionary(type))
                     {
-                        dict.Add(kvp.Key, DeserializeObject(kvp.Value, valueType));
-                    }
+                        // if dictionary then
+                        Type[] types = ReflectionUtils.GetGenericTypeArguments(type);
+                        Type keyType = types[0];
+                        Type valueType = types[1];
 
-                    obj = dict;
-                }
-                else
-                {
-                    if (type == typeof(object))
-                    {
-                        obj = value;
+                        Type genericType = typeof(Dictionary<,>).MakeGenericType(keyType, valueType);
+
+                        IDictionary dict = (IDictionary)ConstructorCache[genericType]();
+
+                        foreach (var kvp in jsonObject)
+                        {
+                            dict.Add(kvp.Key, DeserializeObject(kvp.Value, valueType));
+                        }
+
+                        obj = dict;
                     }
                     else
                     {
-                        obj = ConstructorCache[type]();
-                        foreach (KeyValuePair<string, KeyValuePair<Type, ReflectionUtils.SetDelegate>> setter in SetCache[type])
+                        if (type == typeof(object))
                         {
-                            if (jsonObject.TryGetValue(setter.Key, out var jsonValue))
+                            obj = value;
+                        }
+                        else
+                        {
+                            obj = ConstructorCache[type]();
+                            foreach (KeyValuePair<string, KeyValuePair<Type, ReflectionUtils.SetDelegate>> setter in SetCache[type])
                             {
-                                jsonValue = DeserializeObject(jsonValue, setter.Value.Key);
-                                setter.Value.Value(obj, jsonValue!);
+                                if (jsonObject.TryGetValue(setter.Key, out var jsonValue))
+                                {
+                                    jsonValue = DeserializeObject(jsonValue, setter.Value.Key);
+                                    setter.Value.Value(obj, jsonValue!);
+                                }
                             }
                         }
                     }
                 }
-            }
-            else
-            {
-                if (value is IList<object> valueAsList)
+                else
                 {
-                    IList<object> jsonObject = valueAsList;
-                    IList? list = null;
+                    if (value is IList<object> valueAsList)
+                    {
+                        IList<object> jsonObject = valueAsList;
+                        IList? list = null;
 
-                    if (type.IsArray)
-                    {
-                        list = (IList)ConstructorCache[type](jsonObject.Count);
-                        int i = 0;
-                        foreach (object o in jsonObject)
+                        if (type.IsArray)
                         {
-                            list[i++] = DeserializeObject(o, type.GetElementType()!);
+                            list = (IList)ConstructorCache[type](jsonObject.Count);
+                            int i = 0;
+                            foreach (object o in jsonObject)
+                            {
+                                list[i++] = DeserializeObject(o, type.GetElementType()!);
+                            }
                         }
-                    }
-                    else if (ReflectionUtils.IsTypeGenericCollectionInterface(type) || ReflectionUtils.IsAssignableFrom(typeof(IList), type))
-                    {
-                        Type innerType = ReflectionUtils.GetGenericListElementType(type);
-                        list = (IList)(ConstructorCache[type] ?? ConstructorCache[typeof(List<>).MakeGenericType(innerType)])(jsonObject.Count);
-                        foreach (object o in jsonObject)
+                        else if (ReflectionUtils.IsTypeGenericCollectionInterface(type) || ReflectionUtils.IsAssignableFrom(typeof(IList), type))
                         {
-                            list.Add(DeserializeObject(o, innerType));
+                            Type innerType = ReflectionUtils.GetGenericListElementType(type);
+                            list = (IList)(ConstructorCache[type] ?? ConstructorCache[typeof(List<>).MakeGenericType(innerType)])(jsonObject.Count);
+                            foreach (object o in jsonObject)
+                            {
+                                list.Add(DeserializeObject(o, innerType));
+                            }
                         }
+                        obj = list;
                     }
-                    obj = list;
                 }
+                return obj;
             }
+
+            if (ReflectionUtils.IsNullableType(type))
+            {
+                return ReflectionUtils.ToNullableType(obj, type);
+            }
+
             return obj;
         }
-
-        if (ReflectionUtils.IsNullableType(type))
+        catch (System.IndexOutOfRangeException)
         {
-            return ReflectionUtils.ToNullableType(obj, type);
+            return default!;
         }
-
-        return obj;
     }
 
     protected virtual object SerializeEnum(Enum p)

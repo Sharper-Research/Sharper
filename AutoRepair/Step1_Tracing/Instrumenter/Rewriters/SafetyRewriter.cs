@@ -349,13 +349,13 @@ namespace Instrumenter.Rewriters
         private IEnumerable<StatementSyntax> CreateExistingCatchLogs(string identifier, string escapedFileName, int lineNumber)
         {
             yield return SyntaxFactory.ParseStatement(
-                $"global::AutoRepairTracing.TraceLogger.Log(\"{Guid.NewGuid()}\", \"{escapedFileName}\", {lineNumber}, \"Exception Caught\", {identifier}.Message, \"{identifier}.Message\");");
+                $"global::AutoRepairTracing.TraceLogger.Log(\"{Guid.NewGuid()}\", \"{escapedFileName}\", {lineNumber}, \"Handled Exception Caught\", {identifier}.Message, \"{identifier}.Message\");");
             yield return SyntaxFactory.ParseStatement(
-                $"if ({identifier} is System.NullReferenceException) {{ global::AutoRepairTracing.TraceLogger.Log(\"{Guid.NewGuid()}\", \"{escapedFileName}\", {lineNumber}, \"Null Dereference\", {identifier}.Message, \"null.dereference\"); }}");
+                $"if ({identifier} is System.NullReferenceException) {{ global::AutoRepairTracing.TraceLogger.Log(\"{Guid.NewGuid()}\", \"{escapedFileName}\", {lineNumber}, \"Handled Null Dereference\", {identifier}.Message, \"null.dereference\"); }}");
             yield return SyntaxFactory.ParseStatement(
-                $"global::AutoRepairTracing.TraceLogger.Log(\"{Guid.NewGuid()}\", \"{escapedFileName}\", {lineNumber}, \"Exception Type\", {identifier}.GetType().FullName, \"{identifier}.Type\");");
+                $"global::AutoRepairTracing.TraceLogger.Log(\"{Guid.NewGuid()}\", \"{escapedFileName}\", {lineNumber}, \"Handled Exception Type\", {identifier}.GetType().FullName, \"{identifier}.Type\");");
             yield return SyntaxFactory.ParseStatement(
-                $"global::AutoRepairTracing.TraceLogger.Log(\"{Guid.NewGuid()}\", \"{escapedFileName}\", {lineNumber}, \"Exception Stack\", {identifier}.StackTrace ?? string.Empty, \"{identifier}.Stack\");");
+                $"global::AutoRepairTracing.TraceLogger.Log(\"{Guid.NewGuid()}\", \"{escapedFileName}\", {lineNumber}, \"Handled Exception Stack\", {identifier}.StackTrace ?? string.Empty, \"{identifier}.Stack\");");
         }
 
         private IEnumerable<StatementSyntax> CreateExceptionCatchLogs(string identifier, string escapedFileName, int lineNumber)
