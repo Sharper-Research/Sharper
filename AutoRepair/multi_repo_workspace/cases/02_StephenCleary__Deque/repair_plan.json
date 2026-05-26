@@ -1,10 +1,10 @@
 {
-  "GeneratedAt": "2026-05-25T17:28:51.8977209Z",
+  "GeneratedAt": "2026-05-26T14:29:39.6927475Z",
   "ViolationsFile": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\violations.json",
-  "TotalViolations": 78,
+  "TotalViolations": 85,
   "ByAction": {
     "UnsupportedPredicate": 66,
-    "IntentionalValidator": 12
+    "IntentionalValidator": 19
   },
   "Items": [
     {
@@ -2071,6 +2071,52 @@
         "Predicate": "NoUnhandledException(event)",
         "Assertion": "event.exception == null",
         "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 356,
+        "TraceId": "3e4c0a10-06bc-493f-ae4f-d67aca46cc4e",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "CheckRangeArguments",
+      "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 358,
+      "StatementEndLine": 361,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws the observed exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 287,
+        "TraceId": "311f906b-39fd-4a3e-93b3-3b81c63c8aec",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "CopyTo",
+      "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 289,
+      "StatementEndLine": 290,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws the observed exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
           "event.exception.type": "System.ArgumentOutOfRangeException",
           "detection": "reachable-exception"
         },
@@ -2186,6 +2232,75 @@
         "Predicate": "NoUnhandledException(event)",
         "Assertion": "event.exception == null",
         "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 225,
+        "TraceId": "e3b658d9-e193-41ca-acf9-3ebd26c04dcb",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "Add",
+      "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 227,
+      "StatementEndLine": 228,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws the observed exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentNullException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 146,
+        "TraceId": "6071e29d-3697-482a-adc7-cf2ef5710653",
+        "ExceptionType": "System.ArgumentNullException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "CopyTo",
+      "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 149,
+      "StatementEndLine": 149,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws the observed exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentNullException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 287,
+        "TraceId": "311f906b-39fd-4a3e-93b3-3b81c63c8aec",
+        "ExceptionType": "System.ArgumentNullException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "CopyTo",
+      "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 289,
+      "StatementEndLine": 290,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws the observed exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
           "event.exception.type": "System.InvalidOperationException",
           "detection": "reachable-exception"
         },
@@ -2223,6 +2338,52 @@
       "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
       "StatementStartLine": 771,
       "StatementEndLine": 772,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws the observed exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 146,
+        "TraceId": "6071e29d-3697-482a-adc7-cf2ef5710653",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "CopyTo",
+      "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 149,
+      "StatementEndLine": 149,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method contains argument-validation throw or guard call",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentNullException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Deque.cs",
+        "Line": 245,
+        "TraceId": "b64ba86c-5f93-4b8b-9fdc-16512e5a2afa",
+        "ExceptionType": "System.ArgumentNullException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "Insert",
+      "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repo\\src\\Nito.Collections.Deque\\Deque.cs",
+      "StatementStartLine": 247,
+      "StatementEndLine": 248,
       "Action": "IntentionalValidator",
       "ActionReason": "Method explicitly throws the observed exception",
       "PathConstraints": []

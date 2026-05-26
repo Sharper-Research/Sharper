@@ -386,7 +386,7 @@ public class HtmlSanitizer : IHtmlSanitizer
     /// <returns>The sanitized HTML body fragment.</returns>
     public string Sanitize(string html, string baseUrl = "", IMarkupFormatter? outputFormatter = null)
     {
-        // [AutoRepair Step 3] Forward-propagated guard against System.Exception
+        // [AutoRepair Step 3] Forward-propagated guard against AngleSharp.Html.Parser.HtmlParseException
         try
         {
             using var dom = SanitizeDom(html, baseUrl);
@@ -395,7 +395,7 @@ public class HtmlSanitizer : IHtmlSanitizer
 
             return output;
         }
-        catch (System.Exception)
+        catch (AngleSharp.Html.Parser.HtmlParseException)
         {
             return default!;
         }

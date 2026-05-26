@@ -21,7 +21,7 @@ public sealed class ExceptionRule : IRule
     // Same exception is logged at every catch frame on its way up the stack
     // (SafetyRewriter wraps multiple methods).  De-duplicate by traceId so
     // a single throw produces a single violation.
-    private readonly HashSet<string> _emittedTraceIds = new();
+    private readonly HashSet<string> _emittedExceptionKeys = new();
 
     public bool TryEvaluate(TraceEvent evt, StateTracker state, out ConstraintViolation violation)
     {
@@ -40,7 +40,8 @@ public sealed class ExceptionRule : IRule
                 return false;
         }
 
-        if (!_emittedTraceIds.Add(evt.Id))
+        var exceptionKey = $"{evt.Id}|{value}";
+        if (!_emittedExceptionKeys.Add(exceptionKey))
             return false;
 
         violation = new ConstraintViolation(

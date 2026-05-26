@@ -52,7 +52,7 @@ def render_hero(title: str, metadata: list[str]) -> str:
 <section{html_attr('background:#eaf4ff; color:#17324d; padding:30px 34px; border-radius:10px; margin:0 0 18px; border:1px solid #c8ddf0; border-left:8px solid #7aa9d6;')}>
     <p{html_attr('margin:0 0 8px; text-transform:uppercase; letter-spacing:0; font:700 12px Aptos, Calibri, sans-serif; color:#4f7fae;')}>AutoRepair research update</p>
     <h1{html_attr('font:700 34px Aptos, Calibri, sans-serif; line-height:1.1; margin:0 0 12px; color:#17324d;')}>{inline_html(title)}</h1>
-    <p{html_attr('margin:0 0 18px; max-width:860px; font:400 15px Aptos, Calibri, sans-serif; color:#36556f;')}>Corrected Step 3 benchmark after the false-positive audit: 13 repositories attempted, 10 traceable repositories, 239 final violations, and 6 generated candidate patches that compile individually.</p>
+    <p{html_attr('margin:0 0 18px; max-width:860px; font:400 15px Aptos, Calibri, sans-serif; color:#36556f;')}>Corrected Step 3 benchmark after the false-positive audit: 13 repositories attempted, 10 traceable repositories, 296 final violations, and 6 generated candidate patches that compile individually.</p>
     <div{html_attr('border-top:1px solid #c8ddf0; padding-top:12px;')}>{meta}</div>
 </section>
 """

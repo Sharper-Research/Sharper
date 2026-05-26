@@ -2,7 +2,7 @@
 
 Prepared by Manis and Dimitrios  
 Workspace: `AutoRepair/multi_repo_workspace`  
-Final corrected run date: 2026-05-25
+Final corrected run date: 2026-05-26
 
 ## Executive summary
 
@@ -20,7 +20,7 @@ After Dimitrios pointed out that several earlier examples were false positives, 
 | Repositories traced successfully | 10 |
 | Step 2 successful analyses | 10 |
 | Step 3 successful analyses | 10 |
-| Total final violations | 239 |
+| Total final violations | 296 |
 | Total generated candidate patch files | 6 |
 | Candidate patches compile-checked individually | 6 / 6 |
 
@@ -40,11 +40,11 @@ Source summary file: `AutoRepair/multi_repo_workspace/SUMMARY.md`
 |---:|---|---:|---:|---:|---|
 | 00 | `nodirmcsd/WordNinjaSharp` | 123,947 | 1 | 0 | 1 intentional validator |
 | 01 | `StephenCleary/Comparers` | 65,046 | 9 | 2 | 5 auto-patchable events collapsed into 2 patch files; 4 intentional validators |
-| 02 | `StephenCleary/Deque` | 45,109 | 78 | 0 | 66 unsupported buffer-bound predicates; 12 intentional validators |
+| 02 | `StephenCleary/Deque` | 45,109 | 85 | 0 | 66 unsupported buffer-bound predicates; 19 intentional validators |
 | 03 | `StephenCleary/AsyncEx` | 128 | 0 | 0 | No violations |
-| 04 | `danielwertheim/ensure.that` | 20,915 | 143 | 0 | 143 intentional validators, no generated patches |
+| 04 | `danielwertheim/ensure.that` | 20,915 | 192 | 0 | 192 intentional validators, no generated patches |
 | 05 | `StefH/JsonConverter` | 6,312 | 3 | 1 | 1 auto-patchable exception; 2 unsupported buffer-bound predicates |
-| 06 | `mganss/HtmlSanitizer` | 283,889 | 3 | 3 | 3 auto-patchable exception guards |
+| 06 | `mganss/HtmlSanitizer` | 283,889 | 4 | 3 | 4 auto-patchable events collapsed into 3 patch files |
 | 07 | `Tyrrrz/Onova` | 782 | 0 | 0 | No violations |
 | 08 | `SimonCropp/Argon` | 455 | 0 | 0 | No violations |
 | 09 | `JonPSmith/EfCore.GenericServices` | 55,618 | 2 | 0 | 2 intentional validators |
@@ -54,7 +54,7 @@ Source summary file: `AutoRepair/multi_repo_workspace/SUMMARY.md`
 
 ## What was wrong in the earlier patch examples
 
-The first patch set was too optimistic. Step 3 was generating patches for events that were not real repair targets. We found five main sources of false positives and fixed them before regenerating the final benchmark:
+The first patch set was too optimistic. Step 3 was generating patches for events that were not real repair targets. We found five main sources of false positives, plus one missed-exception bug in Step 2's de-duplication, and fixed them before regenerating the final benchmark:
 
 | Problem found | Why it mattered | Fix applied |
 |---|---|---|
@@ -63,8 +63,9 @@ The first patch set was too optimistic. Step 3 was generating patches for events
 | Empty strings were tracked as null values | This created fake `NotNull(...)` violations | Step 2 `StateTracker` now treats only literal `"null"` as null |
 | Guard libraries and validation wrappers were patched | Projects such as `ensure.that` intentionally throw argument exceptions | Step 3 now classifies validation wrappers and direct observed validation throws as `IntentionalValidator` |
 | Exceptions thrown in a callee but caught by a caller were treated as unhandled | This produced the remaining Deque false-positive patch | Step 2 now suppresses method-wrapper exception logs when the same exception type is handled shortly afterward on the same thread |
+| Different exception types from the same instrumentation log site shared the same ID | A real crash could be hidden if a validator exception had already used that log-site ID | Step 2 `ExceptionRule` now de-duplicates by `traceId + exception type`, not `traceId` alone |
 
-These fixes changed the final corpus from the earlier 240 violations / 7 patches snapshot to 239 violations / 6 patches. The removed patch was the Deque `RankException` case, because the public `ICollection.CopyTo` path already catches and translates that exception.
+After these fixes, the final refreshed corpus is 296 violations / 6 generated patch files. The patch count stayed at 6 after the de-duplication fix; the extra violations are distinct exception types that were previously collapsed at the same instrumentation log site. The removed Deque `RankException` patch remains removed, because the public `ICollection.CopyTo` path already catches and translates that exception.
 
 ## Final generated patch files
 
@@ -80,6 +81,52 @@ The final generated candidate patches are:
 | `mganss/HtmlSanitizer` | `AutoRepair/multi_repo_workspace/cases/06_mganss__HtmlSanitizer/patches/HtmlSanitizer.L404.diff` | Pass |
 
 Important: patches touching the same source file were compile-checked one at a time. For example, `HtmlSanitizer.L389.diff` and `HtmlSanitizer.L404.diff` are two separate candidate repairs for two separate trace observations, not one combined production patch.
+
+## Fresh unseen repo validation
+
+To check whether the current pipeline works outside the 13-repository benchmark, we created a new local validation repository that was not part of the scan corpus: `AutoRepair/fresh_validation_workspace/ScoreParserValidation`.
+
+The repo has two deliberate paths in the same method:
+
+| Path | Expected behavior before repair | What AutoRepair should do |
+|---|---|---|
+| `ParseScore("alice,not-a-number")` | Throws `System.FormatException` and fails `MalformedScoreDoesNotCrash` | Generate one patch candidate |
+| `ParseScore(null!)` | Throws `System.ArgumentNullException` by explicit validation and passes `Assert.Throws` | Skip as `IntentionalValidator` |
+
+Fresh validation results:
+
+| Check | Result |
+|---|---|
+| Baseline `dotnet test` before patch | 3 tests total, 1 failed, 2 passed |
+| Baseline failure | `MalformedScoreDoesNotCrash` failed with `System.FormatException` |
+| Step 1 trace events | 14 events |
+| Step 2 violations after de-duplication fix | 2 `NoUnhandledException(event)` records |
+| Step 3 classification | 1 `AutoPatchable`, 1 `IntentionalValidator` |
+| Generated patch | `AutoRepair/fresh_validation_workspace/ScoreParserValidation/autorepair_reports/patches/ScoreParser.L7.diff` |
+| Test result after applying generated patch | 3 tests total, 0 failed, 3 passed |
+| Source state after verification | Original source restored; patch remains in `autorepair_reports/patches` |
+
+Fresh patch snippet:
+
+```diff
++        // [AutoRepair Step 3] Forward-propagated guard against System.FormatException
++        try
++        {
++            if (row is null)
++                throw new ArgumentNullException(nameof(row));
++
++            var parts = row.Split(',');
++            return int.Parse(parts[1]);
++        }
++        catch (System.FormatException)
++        {
++            return default!;
++        }
+```
+
+What this proves: on a new unscanned repo, the pipeline generated a concrete patch for the real crash, the patched repo's tests passed, and the intentional validator was not patched.
+
+What this does not prove: it does not prove false positives are completely impossible in every C# repository. It proves that the known false-positive classes from Dimitrios' audit are handled in the benchmark, and that a fresh controlled repo now passes both the patch-generation and false-positive-control checks.
 
 ## Real patch example to show in the meeting
 
@@ -205,7 +252,20 @@ This reran Step 2 and Step 3 from the saved traces after the false-positive fixe
 
 The earlier full run also executed Step 1 over all 13 repositories. The last summary has `step1_skipped: true` in `summary.json` only because the final pass reused the existing trace files to avoid rerunning all instrumentation.
 
-### 3. Candidate patch compile checks
+### 3. Fresh unseen repo patch/test validation
+
+Fresh validation command sequence:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File AutoRepair\Step1_Tracing\generate_trace.ps1 -TargetSourceDir AutoRepair\fresh_validation_workspace\ScoreParserValidation\ScoreParser -TestProject AutoRepair\fresh_validation_workspace\ScoreParserValidation\ScoreParser.Tests\ScoreParser.Tests.csproj
+dotnet run --project AutoRepair\Step2_Constraints\Constraints\Constraints.csproj -- --trace AutoRepair\fresh_validation_workspace\ScoreParserValidation\autorepair_reports\trace_logs.jsonl --report AutoRepair\fresh_validation_workspace\ScoreParserValidation\autorepair_reports\violations.json
+dotnet run --project AutoRepair\Step3_Repair\CFGAnalyzer\CFGAnalyzer.csproj -- AutoRepair\fresh_validation_workspace\ScoreParserValidation\ScoreParser\ScoreParser.csproj --violations AutoRepair\fresh_validation_workspace\ScoreParserValidation\autorepair_reports\violations.json --output-dir AutoRepair\fresh_validation_workspace\ScoreParserValidation\autorepair_reports --apply-patches
+dotnet test AutoRepair\fresh_validation_workspace\ScoreParserValidation\ScoreParser.Tests\ScoreParser.Tests.csproj
+```
+
+Final result: the generated patch changed the fresh repo from 1 failing test to 3 / 3 passing tests. Step 3 restored the original source afterward, leaving the generated patch artifact for review.
+
+### 4. Candidate patch compile checks
 
 Each generated candidate patch was applied to its cloned repository source file, the corresponding source project was built, and the original file was restored afterward. Final result:
 
@@ -218,7 +278,7 @@ Each generated candidate patch was applied to its cloned repository source file,
 | `HtmlSanitizer.L389.diff` | Pass |
 | `HtmlSanitizer.L404.diff` | Pass |
 
-This validates that Step 3 emits buildable candidate patches. Full semantic correctness still requires a test oracle and domain review.
+This validates that Step 3 emits buildable candidate patches. The fresh repo adds one test-oracle validation where the generated patch changed a failing test suite into a passing one. Full semantic correctness across arbitrary repositories still requires broader test oracles and domain review.
 
 ## Research novelty
 
@@ -265,12 +325,14 @@ Recommended phrasing for Prof. Jyoti:
 
 ## Suggested meeting narrative
 
-1. Start with the corrected result: 13 attempted, 10 traced, 239 violations, 6 generated candidate patches.
+1. Start with the corrected result: 13 attempted, 10 traced, 296 violations, 6 generated candidate patches.
 2. Explain that Dimitrios' feedback improved the work because it exposed false positives.
 3. Show that we fixed those false positives before reporting final data.
 4. Use HtmlSanitizer `HtmlSanitizer.L404.diff` as the real patch example.
-5. State that all six final candidates compile individually.
-6. Be honest that `try/catch` is the baseline repair template, and our next novelty is moving from compile-safe guards to semantic, domain-aware repairs.
+5. Show the fresh `ScoreParserValidation` repo as the effective example: one real crash patched, one validator skipped, tests changed from 1 failing to 3 / 3 passing.
+6. State that all six final benchmark candidates compile individually.
+7. Be honest that false positives are reduced and tested against known cases, not mathematically eliminated for every possible repository.
+8. Be honest that `try/catch` is the baseline repair template, and our next novelty is moving from compile-safe guards to semantic, domain-aware repairs.
 
 ## Files to reference
 
@@ -281,9 +343,12 @@ Recommended phrasing for Prof. Jyoti:
 | HtmlSanitizer repair plan | `AutoRepair/multi_repo_workspace/cases/06_mganss__HtmlSanitizer/repair_plan.json` |
 | Main example patch | `AutoRepair/multi_repo_workspace/cases/06_mganss__HtmlSanitizer/patches/HtmlSanitizer.L404.diff` |
 | Main example patched source | `AutoRepair/multi_repo_workspace/cases/06_mganss__HtmlSanitizer/patches/HtmlSanitizer.L404.patched.cs` |
+| Fresh validation repo | `AutoRepair/fresh_validation_workspace/ScoreParserValidation` |
+| Fresh validation patch | `AutoRepair/fresh_validation_workspace/ScoreParserValidation/autorepair_reports/patches/ScoreParser.L7.diff` |
 | Step 1 logging fix | `AutoRepair/Step1_Tracing/Instrumenter/Rewriters/SafetyRewriter.cs` |
 | Step 2 cast fix | `AutoRepair/Step2_Constraints/Constraints/Rules/InvalidCastingRule.cs` |
 | Step 2 null tracking fix | `AutoRepair/Step2_Constraints/Constraints/Runtime/StateTracker.cs` |
 | Step 2 caller-handled exception filter | `AutoRepair/Step2_Constraints/Constraints/Program.cs` |
+| Step 2 exception de-duplication fix | `AutoRepair/Step2_Constraints/Constraints/Rules/ExceptionRule.cs` |
 | Step 3 classifier | `AutoRepair/Step3_Repair/CFGAnalyzer/Repair/ViolationDrivenRepair.cs` |
 | Step 3 patch writer | `AutoRepair/Step3_Repair/CFGAnalyzer/Repair/PatchSynthesizer.cs` |

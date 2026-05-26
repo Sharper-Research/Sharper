@@ -1,9 +1,9 @@
 {
-  "GeneratedAt": "2026-05-25T17:29:16.4444166Z",
+  "GeneratedAt": "2026-05-26T14:30:10.1798002Z",
   "ViolationsFile": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\violations.json",
-  "TotalViolations": 3,
+  "TotalViolations": 4,
   "ByAction": {
-    "AutoPatchable": 3
+    "AutoPatchable": 4
   },
   "Items": [
     {
@@ -80,6 +80,31 @@
       "PathConstraints": [],
       "PatchedFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlSanitizer.L404.patched.cs",
       "DiffPath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlSanitizer.L404.diff"
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "AngleSharp.Html.Parser.HtmlParseException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "HtmlSanitizer.cs",
+        "Line": 387,
+        "TraceId": "cbe0e0b9-56ff-4629-a43f-c5f55ed50a4c",
+        "ExceptionType": "AngleSharp.Html.Parser.HtmlParseException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "Sanitize",
+      "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repo\\src\\HtmlSanitizer\\HtmlSanitizer.cs",
+      "StatementStartLine": 389,
+      "StatementEndLine": 389,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled AngleSharp.Html.Parser.HtmlParseException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlSanitizer.L389.patched.cs",
+      "DiffPath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\patches\\HtmlSanitizer.L389.diff"
     }
   ]
 }

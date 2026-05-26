@@ -71,18 +71,18 @@
     "trace_path": "AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\trace_logs.jsonl",
     "step1_skipped": true,
     "step2_status": "ok",
-    "violations_total": 78,
+    "violations_total": 85,
     "violations_by_predicate": {
       "BufferInBounds(index:_buffer, _buffer)": 66,
-      "NoUnhandledException(event)": 12
+      "NoUnhandledException(event)": 19
     },
     "violations_path": "AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\violations.json",
     "step3_status": "ok",
     "repair_plan_path": "AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repair_plan.json",
-    "repair_total_violations": 78,
+    "repair_total_violations": 85,
     "repair_by_action": {
       "UnsupportedPredicate": 66,
-      "IntentionalValidator": 12
+      "IntentionalValidator": 19
     },
     "patches_generated": 0
   },
@@ -120,16 +120,16 @@
     "trace_path": "AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\trace_logs.jsonl",
     "step1_skipped": true,
     "step2_status": "ok",
-    "violations_total": 143,
+    "violations_total": 192,
     "violations_by_predicate": {
-      "NoUnhandledException(event)": 143
+      "NoUnhandledException(event)": 192
     },
     "violations_path": "AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\violations.json",
     "step3_status": "ok",
     "repair_plan_path": "AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repair_plan.json",
-    "repair_total_violations": 143,
+    "repair_total_violations": 192,
     "repair_by_action": {
-      "IntentionalValidator": 143
+      "IntentionalValidator": 192
     },
     "patches_generated": 0
   },
@@ -178,16 +178,16 @@
     "trace_path": "AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\trace_logs.jsonl",
     "step1_skipped": true,
     "step2_status": "ok",
-    "violations_total": 3,
+    "violations_total": 4,
     "violations_by_predicate": {
-      "NoUnhandledException(event)": 3
+      "NoUnhandledException(event)": 4
     },
     "violations_path": "AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\violations.json",
     "step3_status": "ok",
     "repair_plan_path": "AutoRepair\\multi_repo_workspace\\cases\\06_mganss__HtmlSanitizer\\repair_plan.json",
-    "repair_total_violations": 3,
+    "repair_total_violations": 4,
     "repair_by_action": {
-      "AutoPatchable": 3
+      "AutoPatchable": 4
     },
     "patches_generated": 3,
     "patch_files": [

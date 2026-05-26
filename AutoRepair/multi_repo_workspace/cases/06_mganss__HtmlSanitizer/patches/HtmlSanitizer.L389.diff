@@ -1,7 +1,7 @@
 --- a/HtmlSanitizer.cs
 +++ b/HtmlSanitizer.cs
 @@ -389,603 +389,611 @@
-+        // [AutoRepair Step 3] Forward-propagated guard against System.Exception
++        // [AutoRepair Step 3] Forward-propagated guard against AngleSharp.Html.Parser.HtmlParseException
 +        try
 +        {
 +            using var dom = SanitizeDom(html, baseUrl);
@@ -13,7 +13,7 @@
  
 +            return output;
 +        }
-+        catch (System.Exception)
++        catch (AngleSharp.Html.Parser.HtmlParseException)
 +        {
 +            return default!;
 +        }

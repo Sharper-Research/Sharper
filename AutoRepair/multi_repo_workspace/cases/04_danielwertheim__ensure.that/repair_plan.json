@@ -1,9 +1,9 @@
 {
-  "GeneratedAt": "2026-05-25T17:29:02.2334654Z",
+  "GeneratedAt": "2026-05-26T14:29:51.2099346Z",
   "ViolationsFile": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\violations.json",
-  "TotalViolations": 143,
+  "TotalViolations": 192,
   "ByAction": {
-    "IntentionalValidator": 143
+    "IntentionalValidator": 192
   },
   "Items": [
     {
@@ -839,6 +839,29 @@
         "Predicate": "NoUnhandledException(event)",
         "Assertion": "event.exception == null",
         "Bindings": {
+          "event.exception.type": "System.ArgumentNullException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\EnumerableArg.cs",
+        "Line": 21,
+        "TraceId": "2526b66b-5363-4ac1-8704-82a66aa2dda3",
+        "ExceptionType": "System.ArgumentNullException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "HasItems",
+      "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\EnumerableArg.cs",
+      "StatementStartLine": 25,
+      "StatementEndLine": 25,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method contains argument-validation throw or guard call",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
           "event.exception.type": "System.ArgumentOutOfRangeException",
           "detection": "reachable-exception"
         },
@@ -878,6 +901,29 @@
       "StatementEndLine": 92,
       "Action": "IntentionalValidator",
       "ActionReason": "Method contains argument-validation throw or guard call",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\CollectionArg.cs",
+        "Line": 88,
+        "TraceId": "71c39e23-4f67-42d9-b370-eebc93c26899",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "HasItems",
+      "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\CollectionArg.cs",
+      "StatementStartLine": 92,
+      "StatementEndLine": 92,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws the observed exception",
       "PathConstraints": []
     },
     {
@@ -945,6 +991,29 @@
       "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\EnumerableArg.cs",
       "StatementStartLine": 39,
       "StatementEndLine": 39,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method contains argument-validation throw or guard call",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatCollectionExtensions.cs",
+        "Line": 31,
+        "TraceId": "6951fc5c-c819-4fa2-9fe0-169c4f4a5124",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "HasItems",
+      "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatCollectionExtensions.cs",
+      "StatementStartLine": 33,
+      "StatementEndLine": 33,
       "Action": "IntentionalValidator",
       "ActionReason": "Method contains argument-validation throw or guard call",
       "PathConstraints": []
@@ -1023,6 +1092,52 @@
         "Predicate": "NoUnhandledException(event)",
         "Assertion": "event.exception == null",
         "Bindings": {
+          "event.exception.type": "System.ArgumentNullException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\CollectionArg.cs",
+        "Line": 186,
+        "TraceId": "2e19099c-a1aa-48ca-968b-d3a2a5d1643c",
+        "ExceptionType": "System.ArgumentNullException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "SizeIs",
+      "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\CollectionArg.cs",
+      "StatementStartLine": 190,
+      "StatementEndLine": 190,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method contains argument-validation throw or guard call",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\EnumerableArg.cs",
+        "Line": 35,
+        "TraceId": "86a2832f-b9c5-4c02-83b8-0c8abe25ed37",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "SizeIs",
+      "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\EnumerableArg.cs",
+      "StatementStartLine": 39,
+      "StatementEndLine": 39,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws the observed exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
           "event.exception.type": "System.ArgumentOutOfRangeException",
           "detection": "reachable-exception"
         },
@@ -1069,6 +1184,29 @@
         "Predicate": "NoUnhandledException(event)",
         "Assertion": "event.exception == null",
         "Bindings": {
+          "event.exception.type": "System.ArgumentNullException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatCollectionExtensions.cs",
+        "Line": 94,
+        "TraceId": "d466cec0-6669-4fa0-a22b-a108d273280c",
+        "ExceptionType": "System.ArgumentNullException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "SizeIs",
+      "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatCollectionExtensions.cs",
+      "StatementStartLine": 96,
+      "StatementEndLine": 96,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method contains argument-validation throw or guard call",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
           "event.exception.type": "System.ArgumentOutOfRangeException",
           "detection": "reachable-exception"
         },
@@ -1083,6 +1221,29 @@
       "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatComparableExtensions.cs",
       "StatementStartLine": 52,
       "StatementEndLine": 52,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method contains argument-validation throw or guard call",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentNullException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\EnumerableArg.cs",
+        "Line": 67,
+        "TraceId": "69c8566b-880e-4fb5-9633-4afb4be27ae0",
+        "ExceptionType": "System.ArgumentNullException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "HasAny",
+      "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\EnumerableArg.cs",
+      "StatementStartLine": 71,
+      "StatementEndLine": 71,
       "Action": "IntentionalValidator",
       "ActionReason": "Method contains argument-validation throw or guard call",
       "PathConstraints": []
@@ -1276,6 +1437,29 @@
         "Predicate": "NoUnhandledException(event)",
         "Assertion": "event.exception == null",
         "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\CollectionArg.cs",
+        "Line": 242,
+        "TraceId": "29ff2466-bbf5-4a00-b8b1-627a74c51da3",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "SizeIs",
+      "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\CollectionArg.cs",
+      "StatementStartLine": 246,
+      "StatementEndLine": 246,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws the observed exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
           "event.exception.type": "System.ArgumentOutOfRangeException",
           "detection": "reachable-exception"
         },
@@ -1290,6 +1474,29 @@
       "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatEnumExtensions.cs",
       "StatementStartLine": 27,
       "StatementEndLine": 27,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method contains argument-validation throw or guard call",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatCollectionExtensions.cs",
+        "Line": 122,
+        "TraceId": "fa930c1d-8b71-4875-b6aa-2845e492b767",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "SizeIs",
+      "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatCollectionExtensions.cs",
+      "StatementStartLine": 124,
+      "StatementEndLine": 124,
       "Action": "IntentionalValidator",
       "ActionReason": "Method contains argument-validation throw or guard call",
       "PathConstraints": []
@@ -1451,6 +1658,29 @@
       "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatCollectionExtensions.cs",
       "StatementStartLine": 152,
       "StatementEndLine": 152,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method contains argument-validation throw or guard call",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentNullException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\CollectionArg.cs",
+        "Line": 340,
+        "TraceId": "590f289b-fb46-429b-9fd3-43ba49da4c3f",
+        "ExceptionType": "System.ArgumentNullException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "HasAny",
+      "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\CollectionArg.cs",
+      "StatementStartLine": 344,
+      "StatementEndLine": 344,
       "Action": "IntentionalValidator",
       "ActionReason": "Method contains argument-validation throw or guard call",
       "PathConstraints": []
@@ -2109,6 +2339,52 @@
         },
         "Result": false,
         "File": "Enforcers\\CollectionArg.cs",
+        "Line": 270,
+        "TraceId": "b94c66bd-91c4-4565-8115-1ac65e87bd4a",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "SizeIs",
+      "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\CollectionArg.cs",
+      "StatementStartLine": 274,
+      "StatementEndLine": 274,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws the observed exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatCollectionExtensions.cs",
+        "Line": 136,
+        "TraceId": "f92b5e42-65ec-4778-b619-f89d17f8c4a6",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "SizeIs",
+      "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatCollectionExtensions.cs",
+      "StatementStartLine": 138,
+      "StatementEndLine": 138,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method contains argument-validation throw or guard call",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\CollectionArg.cs",
         "Line": 144,
         "TraceId": "fae16320-84d5-4acc-ad65-707cae3d5762",
         "ExceptionType": "System.ArgumentException",
@@ -2293,6 +2569,52 @@
         },
         "Result": false,
         "File": "Enforcers\\StringArg.cs",
+        "Line": 24,
+        "TraceId": "77d98875-b041-416f-b967-5d30253fc107",
+        "ExceptionType": "System.ArgumentNullException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsNotNullOrWhiteSpace",
+      "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\StringArg.cs",
+      "StatementStartLine": 28,
+      "StatementEndLine": 28,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method contains argument-validation throw or guard call",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentNullException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\CollectionArg.cs",
+        "Line": 18,
+        "TraceId": "27c723c0-d744-4191-bef7-a3fdfbb2bdba",
+        "ExceptionType": "System.ArgumentNullException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "HasItems",
+      "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\CollectionArg.cs",
+      "StatementStartLine": 22,
+      "StatementEndLine": 22,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method contains argument-validation throw or guard call",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentNullException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\StringArg.cs",
         "Line": 15,
         "TraceId": "101ba1cd-9a17-4a87-9c29-954c495167b3",
         "ExceptionType": "System.ArgumentNullException",
@@ -2449,6 +2771,98 @@
         "Predicate": "NoUnhandledException(event)",
         "Assertion": "event.exception == null",
         "Bindings": {
+          "event.exception.type": "System.ArgumentNullException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\StringArg.cs",
+        "Line": 90,
+        "TraceId": "42a834ce-b46f-4dd6-b127-3cd79e24c79c",
+        "ExceptionType": "System.ArgumentNullException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "HasLengthBetween",
+      "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\StringArg.cs",
+      "StatementStartLine": 94,
+      "StatementEndLine": 94,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method contains argument-validation throw or guard call",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentNullException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\CollectionArg.cs",
+        "Line": 326,
+        "TraceId": "cc502ed9-31b0-43d1-8117-752ba3bd4e20",
+        "ExceptionType": "System.ArgumentNullException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "ContainsKey",
+      "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\CollectionArg.cs",
+      "StatementStartLine": 330,
+      "StatementEndLine": 330,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method contains argument-validation throw or guard call",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentNullException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatStringExtensions.cs",
+        "Line": 52,
+        "TraceId": "4299e214-fb0b-471c-8d7e-9cc9d02235c9",
+        "ExceptionType": "System.ArgumentNullException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "HasLengthBetween",
+      "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatStringExtensions.cs",
+      "StatementStartLine": 54,
+      "StatementEndLine": 54,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method contains argument-validation throw or guard call",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentNullException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatCollectionExtensions.cs",
+        "Line": 171,
+        "TraceId": "ca9ef54e-3572-4c40-9fa0-3254a9ebffa9",
+        "ExceptionType": "System.ArgumentNullException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "ContainsKey",
+      "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatCollectionExtensions.cs",
+      "StatementStartLine": 173,
+      "StatementEndLine": 173,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method contains argument-validation throw or guard call",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
           "event.exception.type": "System.ArgumentException",
           "detection": "reachable-exception"
         },
@@ -2522,6 +2936,29 @@
           "detection": "reachable-exception"
         },
         "Result": false,
+        "File": "Enforcers\\CollectionArg.cs",
+        "Line": 214,
+        "TraceId": "fd43eb17-4ab6-4fc1-908e-c939ca067270",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "SizeIs",
+      "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\CollectionArg.cs",
+      "StatementStartLine": 218,
+      "StatementEndLine": 218,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws the observed exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
         "File": "Enforcers\\StringArg.cs",
         "Line": 68,
         "TraceId": "791baa6f-0db5-44b9-9866-675cc6c70d06",
@@ -2568,6 +3005,29 @@
           "detection": "reachable-exception"
         },
         "Result": false,
+        "File": "EnsureThatCollectionExtensions.cs",
+        "Line": 108,
+        "TraceId": "0d53f219-d960-4a21-9f3b-2f67b5027e48",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "SizeIs",
+      "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatCollectionExtensions.cs",
+      "StatementStartLine": 110,
+      "StatementEndLine": 110,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method contains argument-validation throw or guard call",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
         "File": "Enforcers\\TypeArg.cs",
         "Line": 151,
         "TraceId": "cdd476fa-883b-4cfe-b10c-02783a95955c",
@@ -2601,6 +3061,52 @@
       "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\TypeArg.cs",
       "StatementStartLine": 144,
       "StatementEndLine": 144,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method contains argument-validation throw or guard call",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentNullException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatCollectionExtensions.cs",
+        "Line": 199,
+        "TraceId": "ed178936-3bad-497e-8d50-ae9720efac49",
+        "ExceptionType": "System.ArgumentNullException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "HasAny",
+      "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatCollectionExtensions.cs",
+      "StatementStartLine": 201,
+      "StatementEndLine": 201,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method contains argument-validation throw or guard call",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentNullException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\CollectionArg.cs",
+        "Line": 116,
+        "TraceId": "e8b6aede-50b9-4fe3-98ac-d5d678b1ecf0",
+        "ExceptionType": "System.ArgumentNullException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "HasItems",
+      "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\CollectionArg.cs",
+      "StatementStartLine": 120,
+      "StatementEndLine": 120,
       "Action": "IntentionalValidator",
       "ActionReason": "Method contains argument-validation throw or guard call",
       "PathConstraints": []
@@ -2670,6 +3176,29 @@
       "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatStringExtensions.cs",
       "StatementStartLine": 68,
       "StatementEndLine": 68,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method contains argument-validation throw or guard call",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentNullException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatCollectionExtensions.cs",
+        "Line": 73,
+        "TraceId": "ecfe1fe0-762e-4c6a-a4d4-a0662b08e516",
+        "ExceptionType": "System.ArgumentNullException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "HasItems",
+      "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatCollectionExtensions.cs",
+      "StatementStartLine": 75,
+      "StatementEndLine": 75,
       "Action": "IntentionalValidator",
       "ActionReason": "Method contains argument-validation throw or guard call",
       "PathConstraints": []
@@ -2798,6 +3327,29 @@
           "detection": "reachable-exception"
         },
         "Result": false,
+        "File": "EnsureThatCollectionExtensions.cs",
+        "Line": 185,
+        "TraceId": "56dfeeda-2029-433f-a359-2504229401d5",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "HasAny",
+      "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatCollectionExtensions.cs",
+      "StatementStartLine": 187,
+      "StatementEndLine": 187,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method contains argument-validation throw or guard call",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
         "File": "EnsureThatTypeExtensions.cs",
         "Line": 99,
         "TraceId": "ede9191d-bc0e-4f0a-8985-5790b29dd2e3",
@@ -2808,6 +3360,29 @@
       "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatTypeExtensions.cs",
       "StatementStartLine": 101,
       "StatementEndLine": 101,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method contains argument-validation throw or guard call",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentNullException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\CollectionArg.cs",
+        "Line": 172,
+        "TraceId": "7f94eb6b-9242-4f3d-bee5-8efca9b4e462",
+        "ExceptionType": "System.ArgumentNullException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "HasItems",
+      "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\CollectionArg.cs",
+      "StatementStartLine": 176,
+      "StatementEndLine": 176,
       "Action": "IntentionalValidator",
       "ActionReason": "Method contains argument-validation throw or guard call",
       "PathConstraints": []
@@ -2854,6 +3429,29 @@
       "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\StringArg.cs",
       "StatementStartLine": 39,
       "StatementEndLine": 39,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method contains argument-validation throw or guard call",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentNullException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatCollectionExtensions.cs",
+        "Line": 66,
+        "TraceId": "71d087e9-d229-4466-9113-fddab00509c0",
+        "ExceptionType": "System.ArgumentNullException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "HasItems",
+      "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatCollectionExtensions.cs",
+      "StatementStartLine": 68,
+      "StatementEndLine": 68,
       "Action": "IntentionalValidator",
       "ActionReason": "Method contains argument-validation throw or guard call",
       "PathConstraints": []
@@ -2932,6 +3530,29 @@
         "Predicate": "NoUnhandledException(event)",
         "Assertion": "event.exception == null",
         "Bindings": {
+          "event.exception.type": "System.ArgumentNullException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\CollectionArg.cs",
+        "Line": 102,
+        "TraceId": "9fdbd4de-47f8-4938-b90f-7cfd5a69dd1f",
+        "ExceptionType": "System.ArgumentNullException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "HasItems",
+      "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\CollectionArg.cs",
+      "StatementStartLine": 106,
+      "StatementEndLine": 106,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method contains argument-validation throw or guard call",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
           "event.exception.type": "System.ArgumentException",
           "detection": "reachable-exception"
         },
@@ -2946,6 +3567,75 @@
       "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatStringExtensions.cs",
       "StatementStartLine": 146,
       "StatementEndLine": 146,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method contains argument-validation throw or guard call",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentNullException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatCollectionExtensions.cs",
+        "Line": 45,
+        "TraceId": "3abc82e8-2ecc-4aea-9442-3a2b194b96d0",
+        "ExceptionType": "System.ArgumentNullException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "HasItems",
+      "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatCollectionExtensions.cs",
+      "StatementStartLine": 47,
+      "StatementEndLine": 47,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method contains argument-validation throw or guard call",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\StringArg.cs",
+        "Line": 76,
+        "TraceId": "9b21805f-e3a4-4544-9c67-ced1df0a4fa8",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "HasLength",
+      "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\StringArg.cs",
+      "StatementStartLine": 80,
+      "StatementEndLine": 80,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws the observed exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatStringExtensions.cs",
+        "Line": 45,
+        "TraceId": "b94bae3d-aef9-48ed-9eb4-881d56a49c7d",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "HasLength",
+      "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatStringExtensions.cs",
+      "StatementStartLine": 47,
+      "StatementEndLine": 47,
       "Action": "IntentionalValidator",
       "ActionReason": "Method contains argument-validation throw or guard call",
       "PathConstraints": []
@@ -3001,6 +3691,29 @@
         "Predicate": "NoUnhandledException(event)",
         "Assertion": "event.exception == null",
         "Bindings": {
+          "event.exception.type": "System.ArgumentNullException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\CollectionArg.cs",
+        "Line": 32,
+        "TraceId": "62a9ad55-884b-49c2-8f76-d95deb241946",
+        "ExceptionType": "System.ArgumentNullException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "HasItems",
+      "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\CollectionArg.cs",
+      "StatementStartLine": 36,
+      "StatementEndLine": 36,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method contains argument-validation throw or guard call",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
           "event.exception.type": "System.ArgumentException",
           "detection": "reachable-exception"
         },
@@ -3015,6 +3728,29 @@
       "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatTypeExtensions.cs",
       "StatementStartLine": 17,
       "StatementEndLine": 17,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method contains argument-validation throw or guard call",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentNullException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatCollectionExtensions.cs",
+        "Line": 24,
+        "TraceId": "17c5b619-84b4-4d7c-800b-301a267d212e",
+        "ExceptionType": "System.ArgumentNullException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "HasItems",
+      "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatCollectionExtensions.cs",
+      "StatementStartLine": 26,
+      "StatementEndLine": 26,
       "Action": "IntentionalValidator",
       "ActionReason": "Method contains argument-validation throw or guard call",
       "PathConstraints": []
@@ -3120,6 +3856,29 @@
           "detection": "reachable-exception"
         },
         "Result": false,
+        "File": "Enforcers\\CollectionArg.cs",
+        "Line": 354,
+        "TraceId": "b6fc732d-a16c-4b09-af09-f1e906fb691a",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "HasAny",
+      "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\CollectionArg.cs",
+      "StatementStartLine": 358,
+      "StatementEndLine": 358,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws the observed exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
         "File": "EnsureThatStringExtensions.cs",
         "Line": 123,
         "TraceId": "3819b047-57d6-4d2b-9e55-e0062a6c0104",
@@ -3130,6 +3889,29 @@
       "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatStringExtensions.cs",
       "StatementStartLine": 125,
       "StatementEndLine": 125,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method contains argument-validation throw or guard call",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatCollectionExtensions.cs",
+        "Line": 192,
+        "TraceId": "6b5e2df4-2c20-4157-9868-63eeb8ca7e02",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "HasAny",
+      "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatCollectionExtensions.cs",
+      "StatementStartLine": 194,
+      "StatementEndLine": 194,
       "Action": "IntentionalValidator",
       "ActionReason": "Method contains argument-validation throw or guard call",
       "PathConstraints": []
@@ -3189,6 +3971,144 @@
           "detection": "reachable-exception"
         },
         "Result": false,
+        "File": "EnsureThatStringExtensions.cs",
+        "Line": 73,
+        "TraceId": "ec8edbf9-eea0-4944-b0e5-57550a304bfe",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "SizeIs",
+      "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatStringExtensions.cs",
+      "StatementStartLine": 76,
+      "StatementEndLine": 76,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method contains argument-validation throw or guard call",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\StringArg.cs",
+        "Line": 36,
+        "TraceId": "74bca98d-5c16-4e63-a7d0-6404fa283b2f",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsNotNullOrEmpty",
+      "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\StringArg.cs",
+      "StatementStartLine": 39,
+      "StatementEndLine": 39,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws the observed exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\CollectionArg.cs",
+        "Line": 368,
+        "TraceId": "6f881e4c-a54c-4033-b95b-c4aab33838fb",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "HasAny",
+      "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\CollectionArg.cs",
+      "StatementStartLine": 372,
+      "StatementEndLine": 372,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws the observed exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatCollectionExtensions.cs",
+        "Line": 220,
+        "TraceId": "ef00a856-c31b-460c-a319-02a217990125",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "HasAny",
+      "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatCollectionExtensions.cs",
+      "StatementStartLine": 222,
+      "StatementEndLine": 222,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method contains argument-validation throw or guard call",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentNullException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\CollectionArg.cs",
+        "Line": 298,
+        "TraceId": "fa28d15e-16cc-4ec7-9f7e-8150308bf1a7",
+        "ExceptionType": "System.ArgumentNullException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "SizeIs",
+      "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\CollectionArg.cs",
+      "StatementStartLine": 302,
+      "StatementEndLine": 302,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method contains argument-validation throw or guard call",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentNullException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatCollectionExtensions.cs",
+        "Line": 150,
+        "TraceId": "bf51a673-9198-4dad-80bc-102e890a3c49",
+        "ExceptionType": "System.ArgumentNullException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "SizeIs",
+      "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatCollectionExtensions.cs",
+      "StatementStartLine": 152,
+      "StatementEndLine": 152,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method contains argument-validation throw or guard call",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
         "File": "EnsureThatTypeExtensions.cs",
         "Line": 36,
         "TraceId": "bf6b2cdf-c3a3-4489-9276-89b0ffe682f7",
@@ -3201,6 +4121,75 @@
       "StatementEndLine": 38,
       "Action": "IntentionalValidator",
       "ActionReason": "Method contains argument-validation throw or guard call",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentNullException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\TypeArg.cs",
+        "Line": 232,
+        "TraceId": "d2fe7ebd-e666-4820-b7ae-fc1276f61367",
+        "ExceptionType": "System.ArgumentNullException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsClass",
+      "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\TypeArg.cs",
+      "StatementStartLine": 236,
+      "StatementEndLine": 239,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws the observed exception",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentNullException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatTypeExtensions.cs",
+        "Line": 99,
+        "TraceId": "ede9191d-bc0e-4f0a-8985-5790b29dd2e3",
+        "ExceptionType": "System.ArgumentNullException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsClass",
+      "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatTypeExtensions.cs",
+      "StatementStartLine": 101,
+      "StatementEndLine": 101,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method contains argument-validation throw or guard call",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\CollectionArg.cs",
+        "Line": 130,
+        "TraceId": "228fefb3-0604-48fa-b980-ecca4bd3ed79",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "HasItems",
+      "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\CollectionArg.cs",
+      "StatementStartLine": 134,
+      "StatementEndLine": 134,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method explicitly throws the observed exception",
       "PathConstraints": []
     },
     {
@@ -3222,6 +4211,29 @@
       "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatTypeExtensions.cs",
       "StatementStartLine": 31,
       "StatementEndLine": 31,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method contains argument-validation throw or guard call",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentNullException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatCollectionExtensions.cs",
+        "Line": 38,
+        "TraceId": "eb8ab3c2-3f6b-4e5d-8b99-4fce849eb91c",
+        "ExceptionType": "System.ArgumentNullException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "HasItems",
+      "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatCollectionExtensions.cs",
+      "StatementStartLine": 40,
+      "StatementEndLine": 40,
       "Action": "IntentionalValidator",
       "ActionReason": "Method contains argument-validation throw or guard call",
       "PathConstraints": []
@@ -3291,6 +4303,121 @@
       "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatTypeExtensions.cs",
       "StatementStartLine": 59,
       "StatementEndLine": 59,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method contains argument-validation throw or guard call",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatStringExtensions.cs",
+        "Line": 24,
+        "TraceId": "97f56d4b-fec3-4599-8a2f-1655c9d748ac",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "IsNotNullOrEmpty",
+      "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatStringExtensions.cs",
+      "StatementStartLine": 26,
+      "StatementEndLine": 26,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method contains argument-validation throw or guard call",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentNullException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatCollectionExtensions.cs",
+        "Line": 178,
+        "TraceId": "dade1312-11d9-453a-817c-e6d010f54bfc",
+        "ExceptionType": "System.ArgumentNullException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "HasAny",
+      "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatCollectionExtensions.cs",
+      "StatementStartLine": 180,
+      "StatementEndLine": 180,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method contains argument-validation throw or guard call",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatCollectionExtensions.cs",
+        "Line": 17,
+        "TraceId": "d59550da-cdf2-481b-8eff-91be4ca605b2",
+        "ExceptionType": "System.ArgumentException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "HasItems",
+      "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatCollectionExtensions.cs",
+      "StatementStartLine": 19,
+      "StatementEndLine": 19,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method contains argument-validation throw or guard call",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentNullException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "Enforcers\\CollectionArg.cs",
+        "Line": 144,
+        "TraceId": "fae16320-84d5-4acc-ad65-707cae3d5762",
+        "ExceptionType": "System.ArgumentNullException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "HasItems",
+      "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\Enforcers\\CollectionArg.cs",
+      "StatementStartLine": 148,
+      "StatementEndLine": 148,
+      "Action": "IntentionalValidator",
+      "ActionReason": "Method contains argument-validation throw or guard call",
+      "PathConstraints": []
+    },
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.ArgumentNullException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "EnsureThatCollectionExtensions.cs",
+        "Line": 164,
+        "TraceId": "967b8cfa-793f-4eda-b0f5-d8ca73357cfe",
+        "ExceptionType": "System.ArgumentNullException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "ContainsKey",
+      "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\repo\\src\\projects\\EnsureThat\\EnsureThatCollectionExtensions.cs",
+      "StatementStartLine": 166,
+      "StatementEndLine": 166,
       "Action": "IntentionalValidator",
       "ActionReason": "Method contains argument-validation throw or guard call",
       "PathConstraints": []
