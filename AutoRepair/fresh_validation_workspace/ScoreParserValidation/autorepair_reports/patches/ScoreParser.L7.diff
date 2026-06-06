@@ -1,0 +1,23 @@
+--- a/ScoreParser.cs
++++ b/ScoreParser.cs
+@@ -7,8 +7,16 @@
++        // [AutoRepair Step 3] Forward-propagated guard against System.FormatException
++        try
++        {
++            if (row is null)
++                throw new ArgumentNullException(nameof(row));
+-        if (row is null)
+-            throw new ArgumentNullException(nameof(row));
+ 
++            var parts = row.Split(',');
++            return int.Parse(parts[1]);
++        }
++        catch (System.FormatException)
++        {
++            return default!;
++        }
+-        var parts = row.Split(',');
+-        return int.Parse(parts[1]);
+     }
+ }
+ 
