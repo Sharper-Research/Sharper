@@ -78,3 +78,9 @@ AutoRepair/multi_repo_workspace/cases/*/repo/
 AutoRepair/multi_repo_workspace/run.log
 !AutoRepair/multi_repo_workspace/cases/*/trace_logs.jsonl
 
+# New-repo false-positive validation: keep the evidence (violations.json,
+# repair_plan.json, trace_logs.jsonl, logs) but never commit the cloned
+# upstream source.
+AutoRepair/new_repo_validation/*/repo/
+!AutoRepair/new_repo_validation/*/trace_logs.jsonl
+

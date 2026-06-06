@@ -1,120 +1,11 @@
 {
-  "GeneratedAt": "2026-05-26T14:29:35.0069274Z",
+  "GeneratedAt": "2026-06-06T16:03:24.1702838Z",
   "ViolationsFile": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\01_StephenCleary__Comparers\\violations.json",
-  "TotalViolations": 9,
+  "TotalViolations": 5,
   "ByAction": {
-    "AutoPatchable": 5,
-    "IntentionalValidator": 4
+    "IntentionalValidator": 5
   },
   "Items": [
-    {
-      "Violation": {
-        "Predicate": "NotNull(dereference.receiver)",
-        "Assertion": "dereference receiver is not null",
-        "Bindings": {
-          "detection": "forward-runtime-signal",
-          "exception.message": "Object reference not set to an instance of an object.",
-          "null.variable": "enumerable",
-          "null.assigned_at_line": 26
-        },
-        "Result": false,
-        "File": "Util\\EqualityComparerHelpers.cs",
-        "Line": 26,
-        "TraceId": "0e664723-f9b8-430d-a946-7e6f183b6a22",
-        "ExceptionType": "",
-        "Detection": "forward-runtime-signal"
-      },
-      "ContainingMember": "NormalizeDefault",
-      "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\01_StephenCleary__Comparers\\repo\\src\\Nito.Comparers.Core\\Util\\EqualityComparerHelpers.cs",
-      "StatementStartLine": 26,
-      "StatementEndLine": 26,
-      "Action": "AutoPatchable",
-      "ActionReason": "Forward-propagation guard for NotNull(dereference.receiver)",
-      "PathConstraints": [],
-      "PatchedFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\01_StephenCleary__Comparers\\patches\\EqualityComparerHelpers.L26.patched.cs",
-      "DiffPath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\01_StephenCleary__Comparers\\patches\\EqualityComparerHelpers.L26.diff"
-    },
-    {
-      "Violation": {
-        "Predicate": "NotNull(dereference.receiver)",
-        "Assertion": "dereference receiver is not null",
-        "Bindings": {
-          "detection": "forward-runtime-signal",
-          "exception.message": "Object reference not set to an instance of an object.",
-          "null.variable": "enumerable",
-          "null.assigned_at_line": 26
-        },
-        "Result": false,
-        "File": "Util\\EqualityComparerHelpers.cs",
-        "Line": 26,
-        "TraceId": "0e664723-f9b8-430d-a946-7e6f183b6a22",
-        "ExceptionType": "",
-        "Detection": "forward-runtime-signal"
-      },
-      "ContainingMember": "NormalizeDefault",
-      "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\01_StephenCleary__Comparers\\repo\\src\\Nito.Comparers.Core\\Util\\EqualityComparerHelpers.cs",
-      "StatementStartLine": 26,
-      "StatementEndLine": 26,
-      "Action": "AutoPatchable",
-      "ActionReason": "Forward-propagation guard for NotNull(dereference.receiver)",
-      "PathConstraints": [],
-      "PatchedFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\01_StephenCleary__Comparers\\patches\\EqualityComparerHelpers.L26.patched.cs",
-      "DiffPath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\01_StephenCleary__Comparers\\patches\\EqualityComparerHelpers.L26.diff"
-    },
-    {
-      "Violation": {
-        "Predicate": "NotNull(dereference.receiver)",
-        "Assertion": "dereference receiver is not null",
-        "Bindings": {
-          "detection": "forward-runtime-signal",
-          "exception.message": "Object reference not set to an instance of an object.",
-          "null.variable": "enumerable",
-          "null.assigned_at_line": 26
-        },
-        "Result": false,
-        "File": "Util\\EqualityComparerHelpers.cs",
-        "Line": 26,
-        "TraceId": "0e664723-f9b8-430d-a946-7e6f183b6a22",
-        "ExceptionType": "",
-        "Detection": "forward-runtime-signal"
-      },
-      "ContainingMember": "NormalizeDefault",
-      "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\01_StephenCleary__Comparers\\repo\\src\\Nito.Comparers.Core\\Util\\EqualityComparerHelpers.cs",
-      "StatementStartLine": 26,
-      "StatementEndLine": 26,
-      "Action": "AutoPatchable",
-      "ActionReason": "Forward-propagation guard for NotNull(dereference.receiver)",
-      "PathConstraints": [],
-      "PatchedFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\01_StephenCleary__Comparers\\patches\\EqualityComparerHelpers.L26.patched.cs",
-      "DiffPath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\01_StephenCleary__Comparers\\patches\\EqualityComparerHelpers.L26.diff"
-    },
-    {
-      "Violation": {
-        "Predicate": "NotNull(dereference.receiver)",
-        "Assertion": "dereference receiver is not null",
-        "Bindings": {
-          "detection": "forward-runtime-signal",
-          "exception.message": "Object reference not set to an instance of an object.",
-          "null.variable": "enumerable",
-          "null.assigned_at_line": 26
-        },
-        "Result": false,
-        "File": "Util\\EqualityComparerHelpers.cs",
-        "Line": 26,
-        "TraceId": "0e664723-f9b8-430d-a946-7e6f183b6a22",
-        "ExceptionType": "",
-        "Detection": "forward-runtime-signal"
-      },
-      "ContainingMember": "NormalizeDefault",
-      "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\01_StephenCleary__Comparers\\repo\\src\\Nito.Comparers.Core\\Util\\EqualityComparerHelpers.cs",
-      "StatementStartLine": 26,
-      "StatementEndLine": 26,
-      "Action": "AutoPatchable",
-      "ActionReason": "Forward-propagation guard for NotNull(dereference.receiver)",
-      "PathConstraints": [],
-      "PatchedFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\01_StephenCleary__Comparers\\patches\\EqualityComparerHelpers.L26.patched.cs",
-      "DiffPath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\01_StephenCleary__Comparers\\patches\\EqualityComparerHelpers.L26.diff"
-    },
     {
       "Violation": {
         "Predicate": "NoUnhandledException(event)",
@@ -204,7 +95,7 @@
       "StatementStartLine": 32,
       "StatementEndLine": 32,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -226,11 +117,9 @@
       "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\01_StephenCleary__Comparers\\repo\\src\\Nito.Comparers.Core\\Util\\EqualityComparerBase.cs",
       "StatementStartLine": 96,
       "StatementEndLine": 100,
-      "Action": "AutoPatchable",
-      "ActionReason": "Forward-propagation guard for unhandled System.NotImplementedException",
-      "PathConstraints": [],
-      "PatchedFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\01_StephenCleary__Comparers\\patches\\EqualityComparerBase.L96.patched.cs",
-      "DiffPath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\01_StephenCleary__Comparers\\patches\\EqualityComparerBase.L96.diff"
+      "Action": "IntentionalValidator",
+      "ActionReason": "NotImplementedException/NotSupportedException is a deliberate contract signal, not a repairable fault",
+      "PathConstraints": []
     }
   ]
 }

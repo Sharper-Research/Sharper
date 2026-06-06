@@ -38,25 +38,18 @@
     "trace_path": "AutoRepair\\multi_repo_workspace\\cases\\01_StephenCleary__Comparers\\trace_logs.jsonl",
     "step1_skipped": true,
     "step2_status": "ok",
-    "violations_total": 9,
+    "violations_total": 5,
     "violations_by_predicate": {
-      "NotNull(dereference.receiver)": 4,
       "NoUnhandledException(event)": 5
     },
     "violations_path": "AutoRepair\\multi_repo_workspace\\cases\\01_StephenCleary__Comparers\\violations.json",
     "step3_status": "ok",
     "repair_plan_path": "AutoRepair\\multi_repo_workspace\\cases\\01_StephenCleary__Comparers\\repair_plan.json",
-    "repair_total_violations": 9,
+    "repair_total_violations": 5,
     "repair_by_action": {
-      "AutoPatchable": 5,
-      "IntentionalValidator": 4
+      "IntentionalValidator": 5
     },
-    "patches_generated": 2,
-    "patch_files": [
-      "EqualityComparerBase.L96.diff",
-      "EqualityComparerHelpers.L26.diff"
-    ],
-    "patches_dir": "AutoRepair\\multi_repo_workspace\\cases\\01_StephenCleary__Comparers\\patches"
+    "patches_generated": 0
   },
   {
     "index": 2,
@@ -71,17 +64,15 @@
     "trace_path": "AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\trace_logs.jsonl",
     "step1_skipped": true,
     "step2_status": "ok",
-    "violations_total": 85,
+    "violations_total": 19,
     "violations_by_predicate": {
-      "BufferInBounds(index:_buffer, _buffer)": 66,
       "NoUnhandledException(event)": 19
     },
     "violations_path": "AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\violations.json",
     "step3_status": "ok",
     "repair_plan_path": "AutoRepair\\multi_repo_workspace\\cases\\02_StephenCleary__Deque\\repair_plan.json",
-    "repair_total_violations": 85,
+    "repair_total_violations": 19,
     "repair_by_action": {
-      "UnsupportedPredicate": 66,
       "IntentionalValidator": 19
     },
     "patches_generated": 0
@@ -148,16 +139,16 @@
     "step2_status": "ok",
     "violations_total": 3,
     "violations_by_predicate": {
-      "BufferInBounds(index:list, list)": 2,
-      "NoUnhandledException(event)": 1
+      "NoUnhandledException(event)": 1,
+      "BufferInBounds(index:list, list)": 2
     },
     "violations_path": "AutoRepair\\multi_repo_workspace\\cases\\05_StefH__JsonConverter\\violations.json",
     "step3_status": "ok",
     "repair_plan_path": "AutoRepair\\multi_repo_workspace\\cases\\05_StefH__JsonConverter\\repair_plan.json",
     "repair_total_violations": 3,
     "repair_by_action": {
-      "UnsupportedPredicate": 2,
-      "AutoPatchable": 1
+      "AutoPatchable": 1,
+      "UnsupportedPredicate": 2
     },
     "patches_generated": 1,
     "patch_files": [

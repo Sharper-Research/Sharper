@@ -1,5 +1,5 @@
 {
-  "GeneratedAt": "2026-05-26T14:29:51.2099346Z",
+  "GeneratedAt": "2026-06-06T16:03:37.7158371Z",
   "ViolationsFile": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\04_danielwertheim__ensure.that\\violations.json",
   "TotalViolations": 192,
   "ByAction": {
@@ -164,7 +164,7 @@
       "StatementStartLine": 23,
       "StatementEndLine": 23,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -187,7 +187,7 @@
       "StatementStartLine": 37,
       "StatementEndLine": 37,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -210,7 +210,7 @@
       "StatementStartLine": 30,
       "StatementEndLine": 30,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -279,7 +279,7 @@
       "StatementStartLine": 75,
       "StatementEndLine": 75,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -302,7 +302,7 @@
       "StatementStartLine": 118,
       "StatementEndLine": 118,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -417,7 +417,7 @@
       "StatementStartLine": 33,
       "StatementEndLine": 33,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -440,7 +440,7 @@
       "StatementStartLine": 16,
       "StatementEndLine": 16,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -486,7 +486,7 @@
       "StatementStartLine": 82,
       "StatementEndLine": 82,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -509,7 +509,7 @@
       "StatementStartLine": 38,
       "StatementEndLine": 38,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -532,7 +532,7 @@
       "StatementStartLine": 94,
       "StatementEndLine": 94,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -555,7 +555,7 @@
       "StatementStartLine": 9,
       "StatementEndLine": 9,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -578,7 +578,7 @@
       "StatementStartLine": 96,
       "StatementEndLine": 96,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -624,7 +624,7 @@
       "StatementStartLine": 52,
       "StatementEndLine": 52,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -762,7 +762,7 @@
       "StatementStartLine": 89,
       "StatementEndLine": 89,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -785,7 +785,7 @@
       "StatementStartLine": 9,
       "StatementEndLine": 9,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -808,7 +808,7 @@
       "StatementStartLine": 132,
       "StatementEndLine": 132,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -831,7 +831,7 @@
       "StatementStartLine": 180,
       "StatementEndLine": 180,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -854,7 +854,7 @@
       "StatementStartLine": 25,
       "StatementEndLine": 25,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -900,7 +900,7 @@
       "StatementStartLine": 92,
       "StatementEndLine": 92,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -946,7 +946,7 @@
       "StatementStartLine": 66,
       "StatementEndLine": 66,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -969,7 +969,7 @@
       "StatementStartLine": 33,
       "StatementEndLine": 33,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -992,7 +992,7 @@
       "StatementStartLine": 39,
       "StatementEndLine": 39,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -1015,7 +1015,7 @@
       "StatementStartLine": 33,
       "StatementEndLine": 33,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -1038,7 +1038,7 @@
       "StatementStartLine": 246,
       "StatementEndLine": 246,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -1084,7 +1084,7 @@
       "StatementStartLine": 124,
       "StatementEndLine": 124,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -1107,7 +1107,7 @@
       "StatementStartLine": 190,
       "StatementEndLine": 190,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -1153,7 +1153,7 @@
       "StatementStartLine": 38,
       "StatementEndLine": 38,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -1199,7 +1199,7 @@
       "StatementStartLine": 96,
       "StatementEndLine": 96,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -1222,7 +1222,7 @@
       "StatementStartLine": 52,
       "StatementEndLine": 52,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -1245,7 +1245,7 @@
       "StatementStartLine": 71,
       "StatementEndLine": 71,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -1337,7 +1337,7 @@
       "StatementStartLine": 372,
       "StatementEndLine": 372,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -1360,7 +1360,7 @@
       "StatementStartLine": 80,
       "StatementEndLine": 80,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -1383,7 +1383,7 @@
       "StatementStartLine": 68,
       "StatementEndLine": 68,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -1406,7 +1406,7 @@
       "StatementStartLine": 222,
       "StatementEndLine": 222,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -1475,7 +1475,7 @@
       "StatementStartLine": 27,
       "StatementEndLine": 27,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -1498,7 +1498,7 @@
       "StatementStartLine": 124,
       "StatementEndLine": 124,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -1521,7 +1521,7 @@
       "StatementStartLine": 80,
       "StatementEndLine": 80,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -1567,7 +1567,7 @@
       "StatementStartLine": 76,
       "StatementEndLine": 76,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -1636,7 +1636,7 @@
       "StatementStartLine": 104,
       "StatementEndLine": 104,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -1659,7 +1659,7 @@
       "StatementStartLine": 152,
       "StatementEndLine": 152,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -1682,7 +1682,7 @@
       "StatementStartLine": 344,
       "StatementEndLine": 344,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -1728,7 +1728,7 @@
       "StatementStartLine": 187,
       "StatementEndLine": 187,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -1751,7 +1751,7 @@
       "StatementStartLine": 10,
       "StatementEndLine": 10,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -1820,7 +1820,7 @@
       "StatementStartLine": 181,
       "StatementEndLine": 181,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -1866,7 +1866,7 @@
       "StatementStartLine": 24,
       "StatementEndLine": 24,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -1912,7 +1912,7 @@
       "StatementStartLine": 173,
       "StatementEndLine": 173,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -1958,7 +1958,7 @@
       "StatementStartLine": 195,
       "StatementEndLine": 195,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -2004,7 +2004,7 @@
       "StatementStartLine": 24,
       "StatementEndLine": 24,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -2027,7 +2027,7 @@
       "StatementStartLine": 54,
       "StatementEndLine": 54,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -2096,7 +2096,7 @@
       "StatementStartLine": 274,
       "StatementEndLine": 274,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -2119,7 +2119,7 @@
       "StatementStartLine": 19,
       "StatementEndLine": 19,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -2188,7 +2188,7 @@
       "StatementStartLine": 196,
       "StatementEndLine": 196,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -2211,7 +2211,7 @@
       "StatementStartLine": 138,
       "StatementEndLine": 138,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -2234,7 +2234,7 @@
       "StatementStartLine": 167,
       "StatementEndLine": 167,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -2257,7 +2257,7 @@
       "StatementStartLine": 87,
       "StatementEndLine": 87,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -2326,7 +2326,7 @@
       "StatementStartLine": 188,
       "StatementEndLine": 188,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -2372,7 +2372,7 @@
       "StatementStartLine": 138,
       "StatementEndLine": 138,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -2418,7 +2418,7 @@
       "StatementStartLine": 40,
       "StatementEndLine": 40,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -2441,7 +2441,7 @@
       "StatementStartLine": 166,
       "StatementEndLine": 166,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -2464,7 +2464,7 @@
       "StatementStartLine": 201,
       "StatementEndLine": 201,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -2487,7 +2487,7 @@
       "StatementStartLine": 358,
       "StatementEndLine": 358,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -2510,7 +2510,7 @@
       "StatementStartLine": 45,
       "StatementEndLine": 45,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -2533,7 +2533,7 @@
       "StatementStartLine": 215,
       "StatementEndLine": 215,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -2556,7 +2556,7 @@
       "StatementStartLine": 134,
       "StatementEndLine": 134,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -2579,7 +2579,7 @@
       "StatementStartLine": 28,
       "StatementEndLine": 28,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -2602,7 +2602,7 @@
       "StatementStartLine": 22,
       "StatementEndLine": 22,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -2625,7 +2625,7 @@
       "StatementStartLine": 19,
       "StatementEndLine": 19,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -2648,7 +2648,7 @@
       "StatementStartLine": 19,
       "StatementEndLine": 19,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -2671,7 +2671,7 @@
       "StatementStartLine": 218,
       "StatementEndLine": 218,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -2694,7 +2694,7 @@
       "StatementStartLine": 12,
       "StatementEndLine": 12,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -2717,7 +2717,7 @@
       "StatementStartLine": 110,
       "StatementEndLine": 110,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -2763,7 +2763,7 @@
       "StatementStartLine": 26,
       "StatementEndLine": 26,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -2786,7 +2786,7 @@
       "StatementStartLine": 94,
       "StatementEndLine": 94,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -2809,7 +2809,7 @@
       "StatementStartLine": 330,
       "StatementEndLine": 330,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -2832,7 +2832,7 @@
       "StatementStartLine": 54,
       "StatementEndLine": 54,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -2855,7 +2855,7 @@
       "StatementStartLine": 173,
       "StatementEndLine": 173,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -2901,7 +2901,7 @@
       "StatementStartLine": 47,
       "StatementEndLine": 47,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -2924,7 +2924,7 @@
       "StatementStartLine": 47,
       "StatementEndLine": 47,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -2993,7 +2993,7 @@
       "StatementStartLine": 40,
       "StatementEndLine": 40,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -3016,7 +3016,7 @@
       "StatementStartLine": 110,
       "StatementEndLine": 110,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -3062,7 +3062,7 @@
       "StatementStartLine": 144,
       "StatementEndLine": 144,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -3085,7 +3085,7 @@
       "StatementStartLine": 201,
       "StatementEndLine": 201,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -3108,7 +3108,7 @@
       "StatementStartLine": 120,
       "StatementEndLine": 120,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -3131,7 +3131,7 @@
       "StatementStartLine": 73,
       "StatementEndLine": 73,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -3177,7 +3177,7 @@
       "StatementStartLine": 68,
       "StatementEndLine": 68,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -3200,7 +3200,7 @@
       "StatementStartLine": 75,
       "StatementEndLine": 75,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -3269,7 +3269,7 @@
       "StatementStartLine": 222,
       "StatementEndLine": 225,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -3292,7 +3292,7 @@
       "StatementStartLine": 139,
       "StatementEndLine": 139,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -3338,7 +3338,7 @@
       "StatementStartLine": 187,
       "StatementEndLine": 187,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -3361,7 +3361,7 @@
       "StatementStartLine": 101,
       "StatementEndLine": 101,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -3384,7 +3384,7 @@
       "StatementStartLine": 176,
       "StatementEndLine": 176,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -3407,7 +3407,7 @@
       "StatementStartLine": 97,
       "StatementEndLine": 97,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -3430,7 +3430,7 @@
       "StatementStartLine": 39,
       "StatementEndLine": 39,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -3453,7 +3453,7 @@
       "StatementStartLine": 68,
       "StatementEndLine": 68,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -3476,7 +3476,7 @@
       "StatementStartLine": 26,
       "StatementEndLine": 26,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -3499,7 +3499,7 @@
       "StatementStartLine": 208,
       "StatementEndLine": 208,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -3545,7 +3545,7 @@
       "StatementStartLine": 106,
       "StatementEndLine": 106,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -3568,7 +3568,7 @@
       "StatementStartLine": 146,
       "StatementEndLine": 146,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -3591,7 +3591,7 @@
       "StatementStartLine": 47,
       "StatementEndLine": 47,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -3637,7 +3637,7 @@
       "StatementStartLine": 47,
       "StatementEndLine": 47,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -3660,7 +3660,7 @@
       "StatementStartLine": 194,
       "StatementEndLine": 194,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -3683,7 +3683,7 @@
       "StatementStartLine": 118,
       "StatementEndLine": 118,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -3706,7 +3706,7 @@
       "StatementStartLine": 36,
       "StatementEndLine": 36,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -3729,7 +3729,7 @@
       "StatementStartLine": 17,
       "StatementEndLine": 17,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -3752,7 +3752,7 @@
       "StatementStartLine": 26,
       "StatementEndLine": 26,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -3798,7 +3798,7 @@
       "StatementStartLine": 61,
       "StatementEndLine": 61,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -3844,7 +3844,7 @@
       "StatementStartLine": 170,
       "StatementEndLine": 170,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -3890,7 +3890,7 @@
       "StatementStartLine": 125,
       "StatementEndLine": 125,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -3913,7 +3913,7 @@
       "StatementStartLine": 194,
       "StatementEndLine": 194,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -3936,7 +3936,7 @@
       "StatementStartLine": 111,
       "StatementEndLine": 111,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -3959,7 +3959,7 @@
       "StatementStartLine": 80,
       "StatementEndLine": 80,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -3982,7 +3982,7 @@
       "StatementStartLine": 76,
       "StatementEndLine": 76,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -4051,7 +4051,7 @@
       "StatementStartLine": 222,
       "StatementEndLine": 222,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -4074,7 +4074,7 @@
       "StatementStartLine": 302,
       "StatementEndLine": 302,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -4097,7 +4097,7 @@
       "StatementStartLine": 152,
       "StatementEndLine": 152,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -4120,7 +4120,7 @@
       "StatementStartLine": 38,
       "StatementEndLine": 38,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -4166,7 +4166,7 @@
       "StatementStartLine": 101,
       "StatementEndLine": 101,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -4212,7 +4212,7 @@
       "StatementStartLine": 31,
       "StatementEndLine": 31,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -4235,7 +4235,7 @@
       "StatementStartLine": 40,
       "StatementEndLine": 40,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -4258,7 +4258,7 @@
       "StatementStartLine": 10,
       "StatementEndLine": 10,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -4281,7 +4281,7 @@
       "StatementStartLine": 66,
       "StatementEndLine": 66,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -4304,7 +4304,7 @@
       "StatementStartLine": 59,
       "StatementEndLine": 59,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -4327,7 +4327,7 @@
       "StatementStartLine": 26,
       "StatementEndLine": 26,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -4350,7 +4350,7 @@
       "StatementStartLine": 180,
       "StatementEndLine": 180,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -4373,7 +4373,7 @@
       "StatementStartLine": 19,
       "StatementEndLine": 19,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -4396,7 +4396,7 @@
       "StatementStartLine": 148,
       "StatementEndLine": 148,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     },
     {
@@ -4419,7 +4419,7 @@
       "StatementStartLine": 166,
       "StatementEndLine": 166,
       "Action": "IntentionalValidator",
-      "ActionReason": "Method contains argument-validation throw or guard call",
+      "ActionReason": "Argument-family exception is a caller-contract violation, not an auto-patchable fault",
       "PathConstraints": []
     }
   ]

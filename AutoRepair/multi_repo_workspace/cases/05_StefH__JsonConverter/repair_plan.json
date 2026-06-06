@@ -1,12 +1,37 @@
 {
-  "GeneratedAt": "2026-05-26T14:29:59.2100639Z",
+  "GeneratedAt": "2026-06-06T16:03:43.6723262Z",
   "ViolationsFile": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\05_StefH__JsonConverter\\violations.json",
   "TotalViolations": 3,
   "ByAction": {
-    "UnsupportedPredicate": 2,
-    "AutoPatchable": 1
+    "AutoPatchable": 1,
+    "UnsupportedPredicate": 2
   },
   "Items": [
+    {
+      "Violation": {
+        "Predicate": "NoUnhandledException(event)",
+        "Assertion": "event.exception == null",
+        "Bindings": {
+          "event.exception.type": "System.IndexOutOfRangeException",
+          "detection": "reachable-exception"
+        },
+        "Result": false,
+        "File": "PocoJsonSerializerStrategy.cs",
+        "Line": 99,
+        "TraceId": "b26da2d3-3961-4cb6-8e2a-8b979bcd60db",
+        "ExceptionType": "System.IndexOutOfRangeException",
+        "Detection": "reachable-exception"
+      },
+      "ContainingMember": "DeserializeObject",
+      "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\05_StefH__JsonConverter\\repo\\src\\JsonConverter.SimpleJson\\PocoJsonSerializerStrategy.cs",
+      "StatementStartLine": 102,
+      "StatementEndLine": 102,
+      "Action": "AutoPatchable",
+      "ActionReason": "Forward-propagation guard for unhandled System.IndexOutOfRangeException",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\05_StefH__JsonConverter\\patches\\PocoJsonSerializerStrategy.L102.patched.cs",
+      "DiffPath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\05_StefH__JsonConverter\\patches\\PocoJsonSerializerStrategy.L102.diff"
+    },
     {
       "Violation": {
         "Predicate": "BufferInBounds(index:list, list)",
@@ -62,31 +87,6 @@
       "Action": "UnsupportedPredicate",
       "ActionReason": "Predicate \u0027BufferInBounds(index:list, list)\u0027 is not yet handled by the patch synthesizer",
       "PathConstraints": []
-    },
-    {
-      "Violation": {
-        "Predicate": "NoUnhandledException(event)",
-        "Assertion": "event.exception == null",
-        "Bindings": {
-          "event.exception.type": "System.IndexOutOfRangeException",
-          "detection": "reachable-exception"
-        },
-        "Result": false,
-        "File": "PocoJsonSerializerStrategy.cs",
-        "Line": 99,
-        "TraceId": "b26da2d3-3961-4cb6-8e2a-8b979bcd60db",
-        "ExceptionType": "System.IndexOutOfRangeException",
-        "Detection": "reachable-exception"
-      },
-      "ContainingMember": "DeserializeObject",
-      "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\05_StefH__JsonConverter\\repo\\src\\JsonConverter.SimpleJson\\PocoJsonSerializerStrategy.cs",
-      "StatementStartLine": 102,
-      "StatementEndLine": 102,
-      "Action": "AutoPatchable",
-      "ActionReason": "Forward-propagation guard for unhandled System.IndexOutOfRangeException",
-      "PathConstraints": [],
-      "PatchedFilePath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\05_StefH__JsonConverter\\patches\\PocoJsonSerializerStrategy.L102.patched.cs",
-      "DiffPath": "C:\\Users\\manis\\Desktop\\Patching\\AutoRepair\\multi_repo_workspace\\cases\\05_StefH__JsonConverter\\patches\\PocoJsonSerializerStrategy.L102.diff"
     }
   ]
 }

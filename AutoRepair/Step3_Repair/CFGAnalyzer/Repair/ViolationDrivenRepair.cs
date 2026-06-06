@@ -272,21 +272,47 @@ public static class ViolationDrivenRepair
                     "Cancellation exceptions are part of the documented contract");
             }
 
+            // Deliberate "not implemented / not supported" signals are explicit
+            // developer contracts (abstract stubs, unsupported operations, test
+            // doubles). Silently swallowing them with a fallback would hide the
+            // signal, so they are never auto-patched.
+            if (ex == "System.NotImplementedException"
+                || ex == "System.NotSupportedException")
+            {
+                return (RepairAction.IntentionalValidator,
+                    "NotImplementedException/NotSupportedException is a deliberate contract signal, not a repairable fault");
+            }
+
             if (ContainsObservedExceptionThrow(member, ex))
             {
                 return (RepairAction.IntentionalValidator,
                     $"Method explicitly throws the observed exception");
             }
 
-            // Argument validators: explicit throws and guard-wrapper calls are
-            // intentional input validation, not bugs.
+            // Argument-family exceptions are caller-contract violations
+            // (ArgumentException / ArgumentNullException / ArgumentOutOfRangeException).
+            // They signal that the *caller* passed an invalid value, so swallowing
+            // them with a try/catch would hide API misuse and is never a correct
+            // repair. We never auto-patch them - even when the throw is delegated
+            // to an internal helper, so the current method body has no direct
+            // `throw` (e.g. guard libraries such as Ardalis.GuardClauses).
             var isArgumentEx = ex.EndsWith("ArgumentException", StringComparison.Ordinal)
                 || ex.EndsWith("ArgumentNullException", StringComparison.Ordinal)
                 || ex.EndsWith("ArgumentOutOfRangeException", StringComparison.Ordinal);
-            if (isArgumentEx && (ContainsExplicitThrow(member) || ContainsArgumentValidationCall(member)))
+            if (isArgumentEx)
             {
                 return (RepairAction.IntentionalValidator,
-                    $"Method contains argument-validation throw or guard call");
+                    "Argument-family exception is a caller-contract violation, not an auto-patchable fault");
+            }
+
+            // Validation methods that delegate the throw to a caller-supplied
+            // exception factory (a Func<...Exception> parameter, as used by guard
+            // libraries) are intentionally throwing the caller's own exception
+            // type, not failing. The observed base Exception is by design.
+            if (DeclaresExceptionFactoryParameter(member))
+            {
+                return (RepairAction.IntentionalValidator,
+                    "Method throws a caller-supplied exception factory (Func<Exception>), not an auto-patchable fault");
             }
 
             if (statement == null)
@@ -369,6 +395,27 @@ public static class ViolationDrivenRepair
         return member.DescendantNodes()
             .OfType<InvocationExpressionSyntax>()
             .Any(IsArgumentValidationCall);
+    }
+
+    /// <summary>
+    /// True when the method accepts a caller-supplied exception factory such as
+    /// <c>Func&lt;Exception&gt;</c> (the pattern used by guard libraries like
+    /// Ardalis.GuardClauses). A method that throws via such a factory is
+    /// intentionally throwing the caller's exception, not failing, so it must
+    /// not be auto-patched.
+    /// </summary>
+    private static bool DeclaresExceptionFactoryParameter(MemberDeclarationSyntax? member)
+    {
+        if (member is not BaseMethodDeclarationSyntax method)
+            return false;
+
+        return method.ParameterList.Parameters.Any(p =>
+        {
+            var type = p.Type?.ToString();
+            return type is not null
+                && type.Contains("Func<", StringComparison.Ordinal)
+                && type.Contains("Exception", StringComparison.Ordinal);
+        });
     }
 
     private static bool IsArgumentValidationCall(InvocationExpressionSyntax invocation)
