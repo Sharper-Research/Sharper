@@ -32,6 +32,7 @@ public static class PaperForwardVerifier
             solver.Parameters = parameters;
             var references = context.MkUninterpretedSort("Reference");
             var length = context.MkFuncDecl("array_length", references, context.MkBitVecSort(32));
+            var intArrayRead = context.MkFuncDecl("array_int32", [references, context.MkBitVecSort(32)], context.MkBitVecSort(32));
             var axioms = new List<BoolExpr>();
             var initial = variables.ToDictionary(pair => pair.Key, pair => pair.Value switch
             {
@@ -67,6 +68,7 @@ public static class PaperForwardVerifier
                 var right = Translate(expression.Operands[1], environment);
                 return expression.Operator switch
                 {
+                    "array.int32" => context.MkApp(intArrayRead, left, right),
                     "&&" => context.MkAnd((BoolExpr)left, (BoolExpr)right),
                     "||" => context.MkOr((BoolExpr)left, (BoolExpr)right),
                     "==" => context.MkEq(left, right),

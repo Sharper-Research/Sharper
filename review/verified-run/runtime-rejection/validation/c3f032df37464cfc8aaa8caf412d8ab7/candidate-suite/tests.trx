@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="111c4f29-65fd-4e3a-9a7f-cd5d28d3d4a7" name="manis@MANISH 2026-09-29 21:29:51" runUser="MANISH\manis" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-09-29T21:29:51.1384591+02:00" queuing="2026-09-29T21:29:51.1384594+02:00" start="2026-09-29T21:29:50.5317735+02:00" finish="2026-09-29T21:29:51.1437597+02:00" />
+  <TestSettings name="default" id="e44618e6-5ed4-48f6-9f9c-4c13c9ba85b3">
+    <Deployment runDeploymentRoot="manis_MANISH_2026-09-29_21_29_51" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="5f308123-85ed-4c43-9c8e-09e92cf77070" testId="7d5c504f-f1b6-9e15-3d95-3dbbbc927f80" testName="CheckShouldPersist_MethodOnSameClass_ReturnsValue" computerName="MANISH" duration="00:00:00.0003447" startTime="2026-09-29T21:29:51.0133315+02:00" endTime="2026-09-29T21:29:51.0138110+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5f308123-85ed-4c43-9c8e-09e92cf77070" />
+    <UnitTestResult executionId="c4db53f3-9f4f-4638-be3a-1f2fa85fb934" testId="c615ef91-bf16-393b-1eff-7cac690a7286" testName="CheckShouldPersist_MethodOnBaseClass_NullDereference" computerName="MANISH" duration="00:00:00.0001420" startTime="2026-09-29T21:29:51.0142547+02:00" endTime="2026-09-29T21:29:51.0165526+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c4db53f3-9f4f-4638-be3a-1f2fa85fb934" />
+    <UnitTestResult executionId="7de6fcb2-02e6-4383-98c7-7f048550aca9" testId="6a44a5ec-5559-34ff-e938-020e6c8432d1" testName="CheckShouldPersist_TrueMethodOnSameClass_PreservesTrue" computerName="MANISH" duration="00:00:00.0025114" startTime="2026-09-29T21:29:50.9840301+02:00" endTime="2026-09-29T21:29:50.9971544+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7de6fcb2-02e6-4383-98c7-7f048550aca9" />
+    <UnitTestResult executionId="fd53a6de-f806-45cb-aafb-e0f18c742b35" testId="54a7f067-8871-e47c-cfab-5d9e4fd7bdb1" testName="CheckShouldPersist_TrueMethodOnBaseClass_PreservesTrue" computerName="MANISH" duration="00:00:00.0108420" startTime="2026-09-29T21:29:51.0014418+02:00" endTime="2026-09-29T21:29:51.0128952+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="fd53a6de-f806-45cb-aafb-e0f18c742b35">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.IsTrue failed. </Message>
+          <StackTrace>   at RuntimeCode.Tests.MemberMethodResolverTests.CheckShouldPersist_TrueMethodOnBaseClass_PreservesTrue() in C:\Users\manis\AppData\Local\Temp\Sharper-validation-e7b8d3ac13014f6d98b5ae586dea8028\RuntimeCode.Tests\MemberMethodResolverTests.cs:line 41&#xD;
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="f49c1faf-7def-4715-bafa-d12def34a9b1" testId="9d41a1c7-df28-ea32-f3f2-d3b81e699863" testName="CheckShouldPersist_MethodOnBaseClassViaBaseInstance_Works" computerName="MANISH" duration="00:00:00.0001281" startTime="2026-09-29T21:29:51.0139646+02:00" endTime="2026-09-29T21:29:51.0142001+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f49c1faf-7def-4715-bafa-d12def34a9b1" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="CheckShouldPersist_TrueMethodOnBaseClass_PreservesTrue" storage="c:\users\manis\appdata\local\temp\sharper-validation-e7b8d3ac13014f6d98b5ae586dea8028\runtimecode.tests\bin\debug\net10.0\runtimecode.tests.dll" id="54a7f067-8871-e47c-cfab-5d9e4fd7bdb1">
+      <Execution id="fd53a6de-f806-45cb-aafb-e0f18c742b35" />
+      <TestMethod codeBase="C:\Users\manis\AppData\Local\Temp\Sharper-validation-e7b8d3ac13014f6d98b5ae586dea8028\RuntimeCode.Tests\bin\Debug\net10.0\RuntimeCode.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="RuntimeCode.Tests.MemberMethodResolverTests" name="CheckShouldPersist_TrueMethodOnBaseClass_PreservesTrue" />
+    </UnitTest>
+    <UnitTest name="CheckShouldPersist_MethodOnBaseClass_NullDereference" storage="c:\users\manis\appdata\local\temp\sharper-validation-e7b8d3ac13014f6d98b5ae586dea8028\runtimecode.tests\bin\debug\net10.0\runtimecode.tests.dll" id="c615ef91-bf16-393b-1eff-7cac690a7286">
+      <Execution id="c4db53f3-9f4f-4638-be3a-1f2fa85fb934" />
+      <TestMethod codeBase="C:\Users\manis\AppData\Local\Temp\Sharper-validation-e7b8d3ac13014f6d98b5ae586dea8028\RuntimeCode.Tests\bin\Debug\net10.0\RuntimeCode.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="RuntimeCode.Tests.MemberMethodResolverTests" name="CheckShouldPersist_MethodOnBaseClass_NullDereference" />
+    </UnitTest>
+    <UnitTest name="CheckShouldPersist_MethodOnBaseClassViaBaseInstance_Works" storage="c:\users\manis\appdata\local\temp\sharper-validation-e7b8d3ac13014f6d98b5ae586dea8028\runtimecode.tests\bin\debug\net10.0\runtimecode.tests.dll" id="9d41a1c7-df28-ea32-f3f2-d3b81e699863">
+      <Execution id="f49c1faf-7def-4715-bafa-d12def34a9b1" />
+      <TestMethod codeBase="C:\Users\manis\AppData\Local\Temp\Sharper-validation-e7b8d3ac13014f6d98b5ae586dea8028\RuntimeCode.Tests\bin\Debug\net10.0\RuntimeCode.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="RuntimeCode.Tests.MemberMethodResolverTests" name="CheckShouldPersist_MethodOnBaseClassViaBaseInstance_Works" />
+    </UnitTest>
+    <UnitTest name="CheckShouldPersist_TrueMethodOnSameClass_PreservesTrue" storage="c:\users\manis\appdata\local\temp\sharper-validation-e7b8d3ac13014f6d98b5ae586dea8028\runtimecode.tests\bin\debug\net10.0\runtimecode.tests.dll" id="6a44a5ec-5559-34ff-e938-020e6c8432d1">
+      <Execution id="7de6fcb2-02e6-4383-98c7-7f048550aca9" />
+      <TestMethod codeBase="C:\Users\manis\AppData\Local\Temp\Sharper-validation-e7b8d3ac13014f6d98b5ae586dea8028\RuntimeCode.Tests\bin\Debug\net10.0\RuntimeCode.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="RuntimeCode.Tests.MemberMethodResolverTests" name="CheckShouldPersist_TrueMethodOnSameClass_PreservesTrue" />
+    </UnitTest>
+    <UnitTest name="CheckShouldPersist_MethodOnSameClass_ReturnsValue" storage="c:\users\manis\appdata\local\temp\sharper-validation-e7b8d3ac13014f6d98b5ae586dea8028\runtimecode.tests\bin\debug\net10.0\runtimecode.tests.dll" id="7d5c504f-f1b6-9e15-3d95-3dbbbc927f80">
+      <Execution id="5f308123-85ed-4c43-9c8e-09e92cf77070" />
+      <TestMethod codeBase="C:\Users\manis\AppData\Local\Temp\Sharper-validation-e7b8d3ac13014f6d98b5ae586dea8028\RuntimeCode.Tests\bin\Debug\net10.0\RuntimeCode.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="RuntimeCode.Tests.MemberMethodResolverTests" name="CheckShouldPersist_MethodOnSameClass_ReturnsValue" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="7d5c504f-f1b6-9e15-3d95-3dbbbc927f80" executionId="5f308123-85ed-4c43-9c8e-09e92cf77070" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c615ef91-bf16-393b-1eff-7cac690a7286" executionId="c4db53f3-9f4f-4638-be3a-1f2fa85fb934" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="6a44a5ec-5559-34ff-e938-020e6c8432d1" executionId="7de6fcb2-02e6-4383-98c7-7f048550aca9" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="54a7f067-8871-e47c-cfab-5d9e4fd7bdb1" executionId="fd53a6de-f806-45cb-aafb-e0f18c742b35" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="9d41a1c7-df28-ea32-f3f2-d3b81e699863" executionId="f49c1faf-7def-4715-bafa-d12def34a9b1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Failed">
+    <Counters total="5" executed="5" passed="4" failed="1" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+  </ResultSummary>
+</TestRun>

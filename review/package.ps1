@@ -28,7 +28,8 @@ try {
     )
     $files = @($directories | ForEach-Object { Get-ChildItem -LiteralPath $_ -File -Recurse })
     $files += @(Get-Item "README.md", "Sharper.sln", ".gitignore", ".gitattributes", "review/paper.pdf", "Sharper/run_all.ps1", "Sharper/Step3_Repair/README.md")
-    $files += @(Get-ChildItem review -File | Where-Object { $_.Extension -in @(".md", ".ps1") })
+    $files += @(Get-Item "review/paper-annotated.pdf", "review/paper-review-manifest.json")
+    $files += @(Get-ChildItem review -File | Where-Object { $_.Extension -in @(".md", ".ps1", ".py", ".txt") })
     New-Item -ItemType Directory -Path $staging | Out-Null
     $hashes = [ordered]@{}
     foreach ($file in ($files | Sort-Object FullName -Unique)) {

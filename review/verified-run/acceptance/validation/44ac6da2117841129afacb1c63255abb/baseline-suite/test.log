@@ -1,0 +1,28 @@
+  Determining projects to restore...
+  Restored C:\Users\manis\AppData\Local\Temp\Sharper-validation-0adf8dd72a5b46feb8b69b72b659085b\Fixture.csproj (in 65 ms).
+  Restored C:\Users\manis\AppData\Local\Temp\Sharper-validation-0adf8dd72a5b46feb8b69b72b659085b\Fixture.Tests\Fixture.Tests.csproj (in 468 ms).
+  Fixture -> C:\Users\manis\AppData\Local\Temp\Sharper-validation-0adf8dd72a5b46feb8b69b72b659085b\bin\Debug\net10.0\Fixture.dll
+  Fixture.Tests -> C:\Users\manis\AppData\Local\Temp\Sharper-validation-0adf8dd72a5b46feb8b69b72b659085b\Fixture.Tests\bin\Debug\net10.0\Fixture.Tests.dll
+Test run for C:\Users\manis\AppData\Local\Temp\Sharper-validation-0adf8dd72a5b46feb8b69b72b659085b\Fixture.Tests\bin\Debug\net10.0\Fixture.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+  Failed FixtureTests.InvalidReadsReturnDefault [< 1 ms]
+  Error Message:
+   System.IndexOutOfRangeException : Index was outside the bounds of the array.
+  Stack Trace:
+     at Fixture.Read(Int32[] array, Int32 index, Int32 next, Boolean condition) in C:\Users\manis\AppData\Local\Temp\Sharper-validation-0adf8dd72a5b46feb8b69b72b659085b\Fixture.cs:line 9
+   at FixtureTests.InvalidReadsReturnDefault() in C:\Users\manis\AppData\Local\Temp\Sharper-validation-0adf8dd72a5b46feb8b69b72b659085b\Fixture.Tests\FixtureTests.cs:line 14
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+  Failed FixtureTests.NullArrayReturnsDefault [< 1 ms]
+  Error Message:
+   System.NullReferenceException : Object reference not set to an instance of an object.
+  Stack Trace:
+     at Fixture.Read(Int32[] array, Int32 index, Int32 next, Boolean condition) in C:\Users\manis\AppData\Local\Temp\Sharper-validation-0adf8dd72a5b46feb8b69b72b659085b\Fixture.cs:line 9
+   at FixtureTests.NullArrayReturnsDefault() in C:\Users\manis\AppData\Local\Temp\Sharper-validation-0adf8dd72a5b46feb8b69b72b659085b\Fixture.Tests\FixtureTests.cs:line 20
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+Results File: C:\Users\manis\Desktop\Sharper\review\verified-run\acceptance\validation\44ac6da2117841129afacb1c63255abb\baseline-suite\tests.trx
+
+Failed!  - Failed:     2, Passed:     2, Skipped:     0, Total:     4, Duration: 107 ms - Fixture.Tests.dll (net10.0)
+[xUnit.net 00:00:00.53]     FixtureTests.InvalidReadsReturnDefault [FAIL]
+[xUnit.net 00:00:00.53]     FixtureTests.NullArrayReturnsDefault [FAIL]

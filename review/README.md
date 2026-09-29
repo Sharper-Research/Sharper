@@ -2,6 +2,22 @@
 
 Read [PAPER_AMENDMENTS.md](PAPER_AMENDMENTS.md) first. It corrects the Root definition and separates model safety, test acceptance and empirical repair success.
 
+## Manuscript Revision
+
+[paper-annotated.pdf](paper-annotated.pdf) contains 19 highlighted comments with proposed replacement wording and implementation evidence. [PAPER_REVIEW.md](PAPER_REVIEW.md) contains the same comments as a readable checklist. The original [paper.pdf](paper.pdf) is unchanged. This is an author revision copy, not a clean submission manuscript or a claim of publication acceptance.
+
+After applying the comments to the editable manuscript, rebuild and review the final PDF, confirm author approval, licensing and venue requirements, and cite the exact artifact commit. No manuscript source or submission-portal access is included in this workspace.
+
+The optional annotation generator requires Python 3.12 and PyMuPDF; it is separate from the .NET reproduction workflow:
+
+```powershell
+python -m pip install -r review/requirements.txt
+python review/annotate_paper.py
+python review/annotate_paper.py --check
+```
+
+The check verifies every saved comment, unchanged original PDF bytes, page content streams and annotation-free rendering, and hashes of the reviewed implementation and test evidence. Regenerate comments after changing cited evidence or source files.
+
 ## Reproduction
 
 Windows x64, .NET 10 SDK, PowerShell 5.1+, and NuGet access are required. Run from the repository root with a fresh output directory:
@@ -15,6 +31,8 @@ The script builds the solution, runs the analyzer tests, verifies a model contai
 | Check | Expected result |
 | --- | --- |
 | Analyzer unit suite | All pass; existing local-function CFG warnings may remain |
+| Repeated loop-local array access | Later failing visit produces Counterexample; safe repeated access verifies |
+| Validation input integrity | Modified test/project inputs are rejected even with unchanged test identities |
 | Loop and call model | VerifiedInductiveModel; two safety locations checked |
 | Fixed-predicate activation | ObservedActivation-v1; candidate true |
 | Synthetic guard | Baseline 2/4 pass; candidate 4/4 pass; AcceptedByTests |

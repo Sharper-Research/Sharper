@@ -12,6 +12,23 @@ namespace Sharper.CFGAnalyzer.Tests;
 public sealed class PaperFormulaTests
 {
     [Theory]
+    [InlineData(1, "Counterexample")]
+    [InlineData(2, "VerifiedExploredModel")]
+    public async Task SourceInitializerDoesNotHideLaterLoopFailures(int length, string expected)
+    {
+        using var workspace = new Microsoft.CodeAnalysis.AdhocWorkspace();
+        var project = workspace.AddProject("RepeatedAccess", Microsoft.CodeAnalysis.LanguageNames.CSharp)
+            .WithCompilationOptions(new Microsoft.CodeAnalysis.CSharp.CSharpCompilationOptions(Microsoft.CodeAnalysis.OutputKind.DynamicallyLinkedLibrary))
+            .AddMetadataReference(Microsoft.CodeAnalysis.MetadataReference.CreateFromFile(typeof(object).Assembly.Location));
+        var source = "public static class Fixture { public static int Read(int[] array) {\n"
+            + "if (array == null || array.Length != " + length + ") return 0;\nint index = 0;\nwhile (index < 2) {\n"
+            + "int value = array[index];\nindex++;\n}\nreturn 0;\n} }";
+        var result = await PaperSourceAnalysis.AnalyzeAsync(project.AddDocument("Fixture.cs", source),
+            new Violation("BufferInBounds(array,index)", "safe", new(), false, "Fixture.cs", 5, "trace"));
+        Assert.Equal(expected, result.ForwardModelCheck?.Status);
+    }
+
+    [Theory]
     [InlineData("while (index < 3) { index++; }", "VerifiedExploredModel")]
     [InlineData("for (index = 0; index < 3; index++) { }", "VerifiedExploredModel")]
     [InlineData("do { index++; } while (index < 3);", "VerifiedExploredModel")]
@@ -66,6 +83,7 @@ public sealed class PaperFormulaTests
     [InlineData("regression", "Rejected")]
     [InlineData("no-tests", "Rejected")]
     [InlineData("changed-tests", "Rejected")]
+    [InlineData("mutated-tests", "Rejected")]
     public async Task AutomaticAcceptanceRequiresStableReproducerAndRegressionResults(string scenario, string expected)
     {
         var directory = Path.Combine(Path.GetTempPath(), "SharperGate-" + Guid.NewGuid().ToString("N"));
@@ -75,9 +93,11 @@ public sealed class PaperFormulaTests
             var source = Path.Combine(directory, "Fixture.cs");
             var patch = Path.Combine(directory, "candidate.txt");
             var project = Path.Combine(directory, "Tests.csproj");
+            var testSource = Path.Combine(directory, "Tests.cs");
             await File.WriteAllTextAsync(source, "original");
             await File.WriteAllTextAsync(patch, "candidate");
             await File.WriteAllTextAsync(project, "test fixture");
+            await File.WriteAllTextAsync(testSource, "original assertions");
             var item = new RepairItem(new("NotNull(value)", "safe", new(), false, "Fixture.cs", 1, "trace"),
                 "Read", source, 1, 1, RepairAction.AutoPatchable, "candidate", [], patch, null)
                 { SourceSha256 = CandidateValidator.HashFile(source) };
@@ -88,6 +108,7 @@ public sealed class PaperFormulaTests
                 Assert.NotEqual(project, sandboxProject);
                 Assert.Equal(calls <= 2 ? "original" : "candidate", File.ReadAllText(Path.Combine(Path.GetDirectoryName(sandboxProject)!, "Fixture.cs")));
                 if (calls <= 2) return Task.FromResult(new TestRunEvidence(1, new() { ["reproducer"] = "Failed" }));
+                if (scenario == "mutated-tests") File.WriteAllText(Path.Combine(Path.GetDirectoryName(sandboxProject)!, "Tests.cs"), "weakened assertions");
                 if (scenario == "regression") return Task.FromResult(new TestRunEvidence(1, new() { ["reproducer"] = "Failed" }));
                 if (scenario == "no-tests") return Task.FromResult(new TestRunEvidence(0, new()));
                 return Task.FromResult(new TestRunEvidence(0, new() { [scenario == "changed-tests" ? "different" : "reproducer"] = "Passed" }));

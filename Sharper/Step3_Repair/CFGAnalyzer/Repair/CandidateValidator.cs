@@ -71,6 +71,8 @@ public static class CandidateValidator
                 System.Text.Json.JsonSerializer.Serialize(snapshot, new System.Text.Json.JsonSerializerOptions { WriteIndented = true }));
             var sandboxSource = Path.Combine(sandbox, sourceRelative);
             var sandboxProject = Path.Combine(sandbox, projectRelative);
+            bool SnapshotUnchanged() => snapshot.All(pair => pair.Key == sourceRelative
+                || File.Exists(Path.Combine(sandbox, pair.Key)) && HashFile(Path.Combine(sandbox, pair.Key)) == pair.Value);
             if (HashFile(sandboxSource) != sourceHash) return Reject("Source changed during sandbox creation");
             runner ??= RunTestsAsync;
             async Task<TestRunEvidence> Run(string name, string? filter)
@@ -81,6 +83,8 @@ public static class CandidateValidator
             }
             var baselineSuite = await Run("baseline-suite", null);
             var baselineReproducer = await Run("baseline-reproducer", reproducerFilter);
+            if (!SnapshotUnchanged() || HashFile(sandboxSource) != sourceHash)
+                return Reject("Baseline execution modified snapshotted source, tests, or project inputs");
             if (!baselineSuite.Reproduced || !baselineReproducer.Reproduced)
                 return Reject("Baseline suite and selected reproducer must contain actual failing test results");
             if (baselineReproducer.Tests.Any(test => !baselineSuite.Tests.TryGetValue(test.Key, out var outcome) || outcome != test.Value))
@@ -89,6 +93,7 @@ public static class CandidateValidator
             await File.WriteAllBytesAsync(sandboxSource, await File.ReadAllBytesAsync(item.PatchedFilePath));
             var reproduced = await Run("candidate-reproducer", reproducerFilter);
             var suite = await Run("candidate-suite", null);
+            if (!SnapshotUnchanged()) return Reject("Candidate execution modified snapshotted tests or project inputs");
             if (!reproduced.Passed || !suite.Passed) return Reject("Candidate failed or skipped reproducer/regression tests, produced no tests, or did not build");
             if (!baselineReproducer.Tests.Keys.ToHashSet(StringComparer.Ordinal).SetEquals(reproduced.Tests.Keys)
                 || !baselineSuite.Tests.Keys.ToHashSet(StringComparer.Ordinal).SetEquals(suite.Tests.Keys))

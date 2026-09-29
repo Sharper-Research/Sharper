@@ -127,7 +127,22 @@ internal sealed class PaperSourceModel
 
             string Lower(StatementSyntax statement, string next, string? breakTarget = null, string? continueTarget = null)
             {
-                if (statement == failureStatement) return "failure";
+                if (statement == failureStatement)
+                {
+                    if (statement is LocalDeclarationStatementSyntax localFailure
+                        && localFailure.UsingKeyword.IsKind(SyntaxKind.None)
+                        && model.GetOperation(localFailure.Declaration.Variables[0].Initializer!.Value)
+                            is IArrayElementReferenceOperation { Indices.Length: 1, Type.SpecialType: SpecialType.System_Int32 } access)
+                    {
+                        var target = names[PaperSourceAnalysis.Identity(model.GetDeclaredSymbol(localFailure.Declaration.Variables[0]))];
+                        var value = PaperExpression.Apply("array.int32", Expression(access.ArrayReference), Expression(access.Indices[0]));
+                        var failureIndex = nodes.FindIndex(node => node.Id == "failure");
+                        nodes[failureIndex] = nodes[failureIndex] with { Successors = [new(next, new PaperAssignment(target, value))] };
+                    }
+                    else if (statement is not ReturnStatementSyntax)
+                        throw new NotSupportedException("Non-return failure sites require modeled continuation effects");
+                    return "failure";
+                }
                 switch (statement)
                 {
                     case BlockSyntax block:

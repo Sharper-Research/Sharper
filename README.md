@@ -2,6 +2,8 @@
 
 Research artifact for C# fault detection, predicate propagation, model verification and test-gated repair candidates. Start with [review/README.md](review/README.md) and [review/PAPER_AMENDMENTS.md](review/PAPER_AMENDMENTS.md).
 
+Manuscript revisions are marked directly in [review/paper-annotated.pdf](review/paper-annotated.pdf), with proposed wording and evidence in [review/PAPER_REVIEW.md](review/PAPER_REVIEW.md). The annotated copy requires author revisions before submission; it is not a clean final manuscript.
+
 ## Reproduce
 
 Requires Windows x64, .NET 10 SDK, PowerShell 5.1+, and NuGet access. Other native Z3 platforms have not been validated.

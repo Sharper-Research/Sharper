@@ -1,0 +1,267 @@
+{
+  "original_pdf_sha256": "4ac02555e2ecf6b821e31d45f4c32bccec243bcc9128973a801ad56d8501d80b",
+  "annotated_pdf_sha256": "125d5ab5a197c48e9b8d38e175032233b5a04a1647d73ae221ded6ad4539366c",
+  "pymupdf_version": "1.27.1",
+  "analyzer_tests_passed": 95,
+  "status": "Author revisions required; no submission or acceptance claimed",
+  "reviewed_files_sha256": {
+    "review/annotate_paper.py": "e157255b4554ca3662ccec403e413c5e372b6d3648eee51131756a867c7aab9f",
+    "review/fixtures/bounds/Fixture.cs": "20f19c24a22b6c9d53940ad2a0b234ad706dcce962c6e43232feea8d7c3f05f5",
+    "review/fixtures/bounds/Fixture.Tests/FixtureTests.cs": "7f1789aa7309aa636f04497240ad1d6a22e2ea44bc3ef9337043220c0bac14b8",
+    "review/fixtures/runtime/RuntimeCode.Tests/MemberMethodResolverTests.cs": "7d2f0c0b21e73e9f881968bc20cd97820e96516918373f11ce415450041b4d34",
+    "review/package.ps1": "0ae6697bd07bd34dba7f2ed0b9934e738b855b9c774e89bb4a81139411b687e0",
+    "review/PAPER_AMENDMENTS.md": "a86711a06a3c146cbad403b7ac0dd796f24dd91dacc3f8b7ddb6aad6d1237dfa",
+    "review/PAPER_REVIEW.md": "b979df4b1bd109cfaf00f590f4047e190a00610eb2743ae19fe404e9d84f3fe0",
+    "review/README.md": "296b41d121a140f8e4000d7826345df7aa4bf3020d73155228ec216af434942c",
+    "review/reproduce.ps1": "f1c3c55274c5ae963b04b86ed2fc1c45bfebdd79f7b17113d0726159904f5979",
+    "review/verified-run/acceptance/repair_plan.json": "9dfe0cda0ce63305634021fe9ad6142e33035a757a6cd09d908f6c4298727b9c",
+    "review/verified-run/acceptance/validation/44ac6da2117841129afacb1c63255abb/baseline-reproducer/tests.trx": "2d3ffc1d92f4c0a7dc270f3f9a9b81f960ca765cd2b4c47c7f7bc4abe466453e",
+    "review/verified-run/acceptance/validation/44ac6da2117841129afacb1c63255abb/baseline-suite/tests.trx": "f89f54d2502c9528349b842c45005c24790bd5730eb20ec2db41a423eedac97e",
+    "review/verified-run/acceptance/validation/44ac6da2117841129afacb1c63255abb/candidate-reproducer/tests.trx": "636a854404bfe66b9df329e2511b3a80af3b1296b1f9fad9fef1d3c2ff8b2f50",
+    "review/verified-run/acceptance/validation/44ac6da2117841129afacb1c63255abb/candidate-suite/tests.trx": "013f573b28b5386f8539bb02ad1ace3328f6b69dbe86f7bbdcdea24a11605c4e",
+    "review/verified-run/acceptance/validation/44ac6da2117841129afacb1c63255abb/snapshot-sha256.json": "df592a6def3986bec9d3854bdd8f836519ac62660f0359248291496c299bf1ec",
+    "review/verified-run/activation.json": "6ff4609580182e1b8600daf14c8d4ad4fb4fb7f70034c4f37c0e0aaf0313eaff",
+    "review/verified-run/analyzer-suite.trx": "42967530579e2ad62f1f57e3fb98867046ecdf4218041a75c70abdd3f15afbe0",
+    "review/verified-run/loop-and-call.json": "f1da4511e2fa659d908a285c7543e8b8c7168ebffeb3dcd0575faa25c5e60931",
+    "review/verified-run/original-source-sha256.json": "c0cd63f99f887a1d7ea13b78f505cd34acb1a088457174e9dba7da1948f61741",
+    "review/verified-run/runtime-rejection/repair_plan.json": "d2d74a965003212a3d1736b3472098086ba901fcf19ab2ee4fe8a4f24a68804c",
+    "review/verified-run/runtime-rejection/validation/c3f032df37464cfc8aaa8caf412d8ab7/baseline-reproducer/tests.trx": "d342f4cfc8ff6e1655bdba60c409027f6bbc14ab7d965612a1e4b257073ca6bb",
+    "review/verified-run/runtime-rejection/validation/c3f032df37464cfc8aaa8caf412d8ab7/baseline-suite/tests.trx": "21ebbb9f19a26d201f67b49ba29f37cb81b21085a84e3550e34df1445019d050",
+    "review/verified-run/runtime-rejection/validation/c3f032df37464cfc8aaa8caf412d8ab7/candidate-reproducer/tests.trx": "feaad460d0039c2f560617e5ecf1ca58a85d969da0a85b7f14da5b593ddf4f5a",
+    "review/verified-run/runtime-rejection/validation/c3f032df37464cfc8aaa8caf412d8ab7/candidate-suite/tests.trx": "3151f69458d89c1dda63fc0b668bf915b2ebe3d13a15858d73d03b07090afa05",
+    "review/verified-run/runtime-rejection/validation/c3f032df37464cfc8aaa8caf412d8ab7/snapshot-sha256.json": "845237291e324d3e26856f95b1a74c2d12f0bacae3a858d59a567bb28a73ad60",
+    "Sharper/Step1_Tracing/Instrumenter/Program.cs": "5b11308834016cdede7790e65af5c626b80ae5a8c8f755c02f9c8f1a51dbd8c5",
+    "Sharper/Step2_Constraints/Constraints/Runtime/StateTracker.cs": "971c38ebddd4ad1c1de6965b776fcd0c39b09e7484609672439cc64196e20f74",
+    "Sharper/Step3_Repair/CFGAnalyzer/Analysis/PaperEvaluation.cs": "b0d9974995ee5970c5de206825c2f7d36282490aa592f99a194340fea9b4ab59",
+    "Sharper/Step3_Repair/CFGAnalyzer/Analysis/PaperForwardVerifier.cs": "5047699d332be1e0a671a571fbec9734a99abf1cf53210345550256ee666ad90",
+    "Sharper/Step3_Repair/CFGAnalyzer/Analysis/PaperProgramVerifier.cs": "3cc69cb4625bd46a0127bf64dd87b01c98e378c9c313bbed02fc9857c646703b",
+    "Sharper/Step3_Repair/CFGAnalyzer/Analysis/PaperRuleEngine.cs": "66c0012284313463110bb203334ff4556f18a66fc27d2cb22570a87960defe91",
+    "Sharper/Step3_Repair/CFGAnalyzer/Analysis/PaperSourceAnalysis.cs": "0df86b0ae75013cb4c4e379be26727d894b1e957e48146859c7a44203fb09623",
+    "Sharper/Step3_Repair/CFGAnalyzer/Analysis/PaperSourceModel.cs": "6fbfabdc7418366944817bfb993537e85af07f18f503b00b68fcd6c586409bcc",
+    "Sharper/Step3_Repair/CFGAnalyzer/CFGAnalyzer.csproj": "a105e22fcf35ea9cc6e4057c2ab9f429908d1f184dc138dbe7941d7ad6845452",
+    "Sharper/Step3_Repair/CFGAnalyzer/CFGAnalyzer.Tests/PaperFormulaTests.cs": "a71f5e14e226e384bb04ed5b955aaf651e18d5faca5b7f026d132eab15943901",
+    "Sharper/Step3_Repair/CFGAnalyzer/Repair/CandidateValidator.cs": "05c93f85f2741747396898d2ca321f9ca1352c966bd23cf145cd1ab367e0ab65",
+    "Sharper/Step3_Repair/CFGAnalyzer/Repair/PatchSynthesizer.cs": "df84b7a16a0e59eb7e3aa4e65c7895ee4e132801208d5487397a920f67b27dca",
+    "Sharper/Step3_Repair/CFGAnalyzer/Repair/ViolationDrivenRepair.cs": "1cb17c18da8f9d2473055b58b951e7986b9d8ba4b2773f4508a0017ce838a8fd"
+  },
+  "comments": [
+    {
+      "id": "SHARPER-01",
+      "page": 1,
+      "anchor": "Towards an Automated Verified Repair",
+      "title": "Title: distinguish model checking from repair correctness",
+      "content": "SHARPER-01: Title: distinguish model checking from repair correctness\n\nSuggested title: Sharper: Trace-Guided Repair with Model Checking and Test-Based Validation for C#. The implementation checks selected safety obligations in supported models and accepts patches by tests. It does not prove semantic correctness of every generated patch. Keep 'verified repair' only if the paper defines the exact property, verifies the emitted candidate, and provides that evidence.\n\nEvidence: Sharper/Step3_Repair/CFGAnalyzer/Analysis/PaperSourceAnalysis.cs; Sharper/Step3_Repair/CFGAnalyzer/Repair/CandidateValidator.cs",
+      "evidence": [
+        "Sharper/Step3_Repair/CFGAnalyzer/Analysis/PaperSourceAnalysis.cs",
+        "Sharper/Step3_Repair/CFGAnalyzer/Repair/CandidateValidator.cs"
+      ]
+    },
+    {
+      "id": "SHARPER-02",
+      "page": 1,
+      "anchor": "The violation is the condition",
+      "title": "Correct failure-predicate polarity",
+      "content": "SHARPER-02: Correct failure-predicate polarity\n\nReplace with: A failure predicate is true when the modeled fault condition holds. Its negation is a candidate safety condition for that fault, not a guarantee of normal execution. Table 1 already uses this failure polarity. State that bounds predicates assume a defined array length; null safety is a separate obligation. Do not equate avoiding one exception with preserving the method's contract.\n\nEvidence: Sharper/Step3_Repair/CFGAnalyzer/Analysis/PaperRuleEngine.cs; Sharper/Step3_Repair/CFGAnalyzer/Analysis/PaperSourceAnalysis.cs",
+      "evidence": [
+        "Sharper/Step3_Repair/CFGAnalyzer/Analysis/PaperRuleEngine.cs",
+        "Sharper/Step3_Repair/CFGAnalyzer/Analysis/PaperSourceAnalysis.cs"
+      ]
+    },
+    {
+      "id": "SHARPER-03",
+      "page": 1,
+      "anchor": "then verifies",
+      "title": "Replace the abstract's universal verification claim",
+      "content": "SHARPER-03: Replace the abstract's universal verification claim\n\nSuggested abstract: We present Sharper, a prototype C# repair tool built on Roslyn. From a failing test execution, Sharper records events and derives candidate fault predicates. For a supported source subset, it performs backward predicate propagation and symbolic checks of selected failure locations. An explicit model interface additionally checks supplied loop invariants and nonrecursive procedure bodies. The tool generates guard or catch-based candidates and accepts a candidate only after an isolated failing reproducer and regression suite pass with stable test identities and unchanged snapshotted inputs. We demonstrate acceptance on a synthetic bounds fixture and rejection of an overfitting candidate for an extracted dotnet/runtime regression. Model safety and test acceptance are reported separately; neither establishes general semantic correctness of C# repairs.\n\nEvidence: review/verified-run/acceptance/repair_plan.json; review/verified-run/runtime-rejection/repair_plan.json",
+      "evidence": [
+        "review/verified-run/acceptance/repair_plan.json",
+        "review/verified-run/runtime-rejection/repair_plan.json"
+      ]
+    },
+    {
+      "id": "SHARPER-04",
+      "page": 2,
+      "anchor": "industrial codebase",
+      "title": "Replace unsupported industrial repair success",
+      "content": "SHARPER-04: Replace unsupported industrial repair success\n\nReplace the paragraph claiming an industrial repair and a human-comparable patch with the actual evaluation: The synthetic bounds fixture specifies default-return behavior and improves from 2/4 to 4/4 passing tests. The extracted dotnet/runtime regression improves from 3/5 to 4/5 under a catch/default candidate, which the gate rejects because it violates the inherited true-result oracle. This is a detection-and-rejection case, not a verified upstream repair, industrial deployment, or human comparison. Report the analyzer test count from the attached TRX separately; unit tests are not independent repair cases.\n\nEvidence: review/fixtures/bounds/Fixture.Tests/FixtureTests.cs; review/fixtures/runtime/RuntimeCode.Tests/MemberMethodResolverTests.cs; review/verified-run/analyzer-suite.trx",
+      "evidence": [
+        "review/fixtures/bounds/Fixture.Tests/FixtureTests.cs",
+        "review/fixtures/runtime/RuntimeCode.Tests/MemberMethodResolverTests.cs",
+        "review/verified-run/analyzer-suite.trx"
+      ]
+    },
+    {
+      "id": "SHARPER-05",
+      "page": 2,
+      "anchor": "Verified Program",
+      "title": "Figure 1: label outputs by their actual assurance",
+      "content": "SHARPER-05: Figure 1: label outputs by their actual assurance\n\nReplace 'Verified Program' with 'Test-accepted candidate'. Replace 'Constraint-satisfying patch' with 'Candidate patch'. Show model checking as a separate result attached to the supported source/model analysis, not as proof of the emitted patch. Add outcome branches for Counterexample, Incomplete, and Rejected. The failing test is an observed failure, not a formal proof of the entire specification.\n\nEvidence: Sharper/Step3_Repair/CFGAnalyzer/Repair/ViolationDrivenRepair.cs; Sharper/Step3_Repair/CFGAnalyzer/Analysis/PaperRuleEngine.cs",
+      "evidence": [
+        "Sharper/Step3_Repair/CFGAnalyzer/Repair/ViolationDrivenRepair.cs",
+        "Sharper/Step3_Repair/CFGAnalyzer/Analysis/PaperRuleEngine.cs"
+      ]
+    },
+    {
+      "id": "SHARPER-06",
+      "page": 2,
+      "anchor": "Currently",
+      "title": "State implementation and reproducibility scope",
+      "content": "SHARPER-06: State implementation and reproducibility scope\n\nReplace the unsupported cross-language extension claim with: The artifact targets C# and is validated on Windows x64 with .NET 10, Roslyn 5.3.0, Microsoft.Z3 4.12.2, PowerShell, and VSTest projects. No other .NET language frontend or platform evaluation is demonstrated. Add the reproduction command and report the exact artifact revision rather than implying language independence from Roslyn alone.\n\nEvidence: Sharper/Step3_Repair/CFGAnalyzer/CFGAnalyzer.csproj; review/reproduce.ps1",
+      "evidence": [
+        "Sharper/Step3_Repair/CFGAnalyzer/CFGAnalyzer.csproj",
+        "review/reproduce.ps1"
+      ]
+    },
+    {
+      "id": "SHARPER-07",
+      "page": 3,
+      "anchor": "state of the program",
+      "title": "Qualify the trace-state claim",
+      "content": "SHARPER-07: Qualify the trace-state claim\n\nReplace 'the state of the program at each statement' with 'selected observations emitted by the instrumenter'. Values may be stringified or unavailable; the artifact does not establish complete heap, thread, call-frame, or alias reconstruction. Distinguish repeated dynamic occurrences using event indices in the mathematical notation. A failure event need not be the last event when tests continue running. Use a disposable checkout; source instrumentation is not proved semantics-preserving.\n\nEvidence: Sharper/Step1_Tracing/Instrumenter/Program.cs; Sharper/Step2_Constraints/Constraints/Runtime/StateTracker.cs",
+      "evidence": [
+        "Sharper/Step1_Tracing/Instrumenter/Program.cs",
+        "Sharper/Step2_Constraints/Constraints/Runtime/StateTracker.cs"
+      ]
+    },
+    {
+      "id": "SHARPER-08",
+      "page": 3,
+      "anchor": "backward slice",
+      "title": "Do not claim a complete dynamic slicer",
+      "content": "SHARPER-08: Do not claim a complete dynamic slicer\n\nReplace with: The supported backward engine follows paths reaching the selected failure, substitutes symbol-resolved local assignments, conjoins branch guards, and records contributing lines. This is a restricted relevance analysis, not a demonstrated general heap-aware or interprocedural dynamic slice. The active violation pipeline must not be conflated with the separate legacy call-graph traversal. Initialization is based on the selected source expression and violation kind; general reconstruction of the complete failure state from the trace is not established.\n\nEvidence: Sharper/Step3_Repair/CFGAnalyzer/Analysis/PaperRuleEngine.cs; Sharper/Step3_Repair/CFGAnalyzer/Analysis/PaperSourceAnalysis.cs; Sharper/Step3_Repair/CFGAnalyzer/Repair/ViolationDrivenRepair.cs",
+      "evidence": [
+        "Sharper/Step3_Repair/CFGAnalyzer/Analysis/PaperRuleEngine.cs",
+        "Sharper/Step3_Repair/CFGAnalyzer/Analysis/PaperSourceAnalysis.cs",
+        "Sharper/Step3_Repair/CFGAnalyzer/Repair/ViolationDrivenRepair.cs"
+      ]
+    },
+    {
+      "id": "SHARPER-09",
+      "page": 3,
+      "anchor": "Table 1",
+      "title": "Separate template availability from verifier support",
+      "content": "SHARPER-09: Separate template availability from verifier support\n\nRetain the three failure templates as definitions, but specify their domains: one-dimensional arrays for the source bounds adapter; modeled references for null; and a reference-cast template whose compatible predicate is not discharged by the current forward solver. Remove the unqualified claim of collection verification. Arithmetic uses signed Int32 bitvectors for supported unchecked operations. Checked exceptional paths, general heap mutation, and runtime type compatibility return Incomplete; a syntactically constructed predicate is not a completed verification result.\n\nEvidence: Sharper/Step3_Repair/CFGAnalyzer/Analysis/PaperSourceAnalysis.cs; Sharper/Step3_Repair/CFGAnalyzer/Analysis/PaperForwardVerifier.cs; Sharper/Step3_Repair/CFGAnalyzer/CFGAnalyzer.Tests/PaperFormulaTests.cs",
+      "evidence": [
+        "Sharper/Step3_Repair/CFGAnalyzer/Analysis/PaperSourceAnalysis.cs",
+        "Sharper/Step3_Repair/CFGAnalyzer/Analysis/PaperForwardVerifier.cs",
+        "Sharper/Step3_Repair/CFGAnalyzer/CFGAnalyzer.Tests/PaperFormulaTests.cs"
+      ]
+    },
+    {
+      "id": "SHARPER-10",
+      "page": 4,
+      "anchor": "root-cause candidate",
+      "title": "Correct Figure 2 Root and its surrounding definition",
+      "content": "SHARPER-10: Correct Figure 2 Root and its surrounding definition\n\nFor deterministic x := e, exact substitution gives eval(Phi'[e/x], sigma) = eval(Phi', sigma[x := eval(e, sigma)]). Therefore the printed false-before/true-after premises cannot identify that assignment when Phi is its exact preimage. Replace Root and R with an explicitly different observed-activation definition: A_Q(event) iff the statement is relevant, the observed transition is valid, Q is defined in both states, Q(before) is false, and Q(after) is true. Use the SAME fixed Q on both sides, not distinct propagated predicates. This is an observed activation candidate, not causality, uniqueness, or minimality. The implementation accepts supplied scalar state pairs; automatic extraction of these pairs from arbitrary traces is not implemented. The exact replacement formula and derivation are in PAPER_AMENDMENTS.md. Also repair the incomplete sentence beginning 'For each location'.\n\nEvidence: Sharper/Step3_Repair/CFGAnalyzer/Analysis/PaperEvaluation.cs; Sharper/Step3_Repair/CFGAnalyzer/CFGAnalyzer.Tests/PaperFormulaTests.cs; review/PAPER_AMENDMENTS.md",
+      "evidence": [
+        "Sharper/Step3_Repair/CFGAnalyzer/Analysis/PaperEvaluation.cs",
+        "Sharper/Step3_Repair/CFGAnalyzer/CFGAnalyzer.Tests/PaperFormulaTests.cs",
+        "review/PAPER_AMENDMENTS.md"
+      ]
+    },
+    {
+      "id": "SHARPER-11",
+      "page": 4,
+      "anchor": "repair condition",
+      "title": "Define what the forward result actually verifies",
+      "content": "SHARPER-11: Define what the forward result actually verifies\n\nReplace with: For acyclic supported source, Sharper negates the propagated failure predicate and checks that assumption against the selected failure site. This checks source/model safety, not the generated patched program. Source loop/call analysis instead explores the supported graph from true and reports Counterexample, Incomplete, or exhaustive success. Explicit models may supply multiple obligations and inductive invariants. State the quantified inputs, selected obligations, and scope with every result. An infeasible assumption is not a proof of a useful repair.\n\nEvidence: Sharper/Step3_Repair/CFGAnalyzer/Analysis/PaperSourceAnalysis.cs; Sharper/Step3_Repair/CFGAnalyzer/Analysis/PaperSourceModel.cs; Sharper/Step3_Repair/CFGAnalyzer/Analysis/PaperForwardVerifier.cs",
+      "evidence": [
+        "Sharper/Step3_Repair/CFGAnalyzer/Analysis/PaperSourceAnalysis.cs",
+        "Sharper/Step3_Repair/CFGAnalyzer/Analysis/PaperSourceModel.cs",
+        "Sharper/Step3_Repair/CFGAnalyzer/Analysis/PaperForwardVerifier.cs"
+      ]
+    },
+    {
+      "id": "SHARPER-12",
+      "page": 5,
+      "anchor": "repeats the analysis",
+      "title": "Remove the unimplemented automatic refinement loop",
+      "content": "SHARPER-12: Remove the unimplemented automatic refinement loop\n\nReplace the automatic root-cause/extra-condition iteration claim with: The explicit forward checker can expose a later supplied safety violation. Additional conditions are currently supplied by the model author and rechecked; automatic counterexample-guided repair refinement is future work. Document the 1000-state default exploration budget and five-second solver-query timeout. Feasible cutoffs and unknown effects yield Incomplete. For explicit invariants, check initiation and preservation; this establishes partial correctness of the model, not termination.\n\nEvidence: Sharper/Step3_Repair/CFGAnalyzer/Analysis/PaperForwardVerifier.cs; Sharper/Step3_Repair/CFGAnalyzer/Analysis/PaperProgramVerifier.cs; Sharper/Step3_Repair/CFGAnalyzer/CFGAnalyzer.Tests/PaperFormulaTests.cs",
+      "evidence": [
+        "Sharper/Step3_Repair/CFGAnalyzer/Analysis/PaperForwardVerifier.cs",
+        "Sharper/Step3_Repair/CFGAnalyzer/Analysis/PaperProgramVerifier.cs",
+        "Sharper/Step3_Repair/CFGAnalyzer/CFGAnalyzer.Tests/PaperFormulaTests.cs"
+      ]
+    },
+    {
+      "id": "SHARPER-13",
+      "page": 5,
+      "anchor": "Listing 1.1",
+      "title": "Mark the listing as conceptual, not an executed tool repair",
+      "content": "SHARPER-13: Mark the listing as conceptual, not an executed tool repair\n\nThe listing allocates arrays, writes array elements, and contains two loops. The automatic source adapter does not implement general array allocation/write semantics, so this complete listing is not an end-to-end verified repair. Label it 'Motivating example (not automatically repaired by the current artifact)' or replace it with the reproducible bounds fixture. Cite the two-obligation model regression only for the narrower property it checks. Do not describe a manually constructed model as automatic C# extraction of this listing.\n\nEvidence: Sharper/Step3_Repair/CFGAnalyzer/Analysis/PaperSourceModel.cs; Sharper/Step3_Repair/CFGAnalyzer/CFGAnalyzer.Tests/PaperFormulaTests.cs; review/fixtures/bounds/Fixture.cs",
+      "evidence": [
+        "Sharper/Step3_Repair/CFGAnalyzer/Analysis/PaperSourceModel.cs",
+        "Sharper/Step3_Repair/CFGAnalyzer/CFGAnalyzer.Tests/PaperFormulaTests.cs",
+        "review/fixtures/bounds/Fixture.cs"
+      ]
+    },
+    {
+      "id": "SHARPER-14",
+      "page": 5,
+      "anchor": "For each root-cause candidate",
+      "title": "Describe the actual candidate-generation input",
+      "content": "SHARPER-14: Describe the actual candidate-generation input\n\nReplace with: For each eligible violation location, Sharper produces a source-level candidate. Supported direct array returns use a null/bounds guard and a default return; other eligible statements may use a catch/default template. Root candidates are not automatically feeding this pipeline. Default-return behavior requires an API-specific oracle and can be wrong. A candidate is not applied merely because it removes the exception. Validation requires baseline failures, passing candidate reproducer/regression runs, stable test identities, unchanged snapshotted test and project inputs, and source/candidate hashes. Only one accepted candidate may be applied; independently accepted candidates are not automatically composed.\n\nEvidence: Sharper/Step3_Repair/CFGAnalyzer/Repair/ViolationDrivenRepair.cs; Sharper/Step3_Repair/CFGAnalyzer/Repair/PatchSynthesizer.cs; Sharper/Step3_Repair/CFGAnalyzer/Repair/CandidateValidator.cs",
+      "evidence": [
+        "Sharper/Step3_Repair/CFGAnalyzer/Repair/ViolationDrivenRepair.cs",
+        "Sharper/Step3_Repair/CFGAnalyzer/Repair/PatchSynthesizer.cs",
+        "Sharper/Step3_Repair/CFGAnalyzer/Repair/CandidateValidator.cs"
+      ]
+    },
+    {
+      "id": "SHARPER-15",
+      "page": 6,
+      "anchor": "Figure 3 instantiates",
+      "title": "Separate the valid example argument from implementation evidence",
+      "content": "SHARPER-15: Separate the valid example argument from implementation evidence\n\nThe explanation that the first guard leaves i = 5 and allows buf2[5] is valid under i = 0 and check > 5. Retain it as motivation for multiple obligations. Replace 'instantiates the analysis' with 'illustrates why a local guard need not be a whole-program repair'. The current model regression checks a later buffer obligation under a weaker versus stronger assumption; it does not execute this full listing or synthesize a complete second-loop repair. If arbitrary initial i is discussed, include the lower bound as well. Do not report a repair success for this example.\n\nEvidence: Sharper/Step3_Repair/CFGAnalyzer/CFGAnalyzer.Tests/PaperFormulaTests.cs; review/PAPER_AMENDMENTS.md",
+      "evidence": [
+        "Sharper/Step3_Repair/CFGAnalyzer/CFGAnalyzer.Tests/PaperFormulaTests.cs",
+        "review/PAPER_AMENDMENTS.md"
+      ]
+    },
+    {
+      "id": "SHARPER-16",
+      "page": 6,
+      "anchor": "In contrast",
+      "title": "Narrow the related-work comparison to demonstrated behavior",
+      "content": "SHARPER-16: Narrow the related-work comparison to demonstrated behavior\n\nReplace the claims of generator independence, patched-program verification, complete dynamic slicing, and path witnesses with: Sharper combines trace-derived violation candidates, restricted predicate propagation, supported model checks, and isolated test validation in a C# prototype. Z3 may return a model at a violating node; this is not a replayable concrete path witness, and invariant abstraction can produce unreachable counterexamples. The artifact does not establish comparative superiority or a general external patch-generator interface. Preserve related-work citations as context, not as evidence that Sharper implements those systems' capabilities.\n\nEvidence: Sharper/Step3_Repair/CFGAnalyzer/Analysis/PaperForwardVerifier.cs; Sharper/Step3_Repair/CFGAnalyzer/Repair/ViolationDrivenRepair.cs",
+      "evidence": [
+        "Sharper/Step3_Repair/CFGAnalyzer/Analysis/PaperForwardVerifier.cs",
+        "Sharper/Step3_Repair/CFGAnalyzer/Repair/ViolationDrivenRepair.cs"
+      ]
+    },
+    {
+      "id": "SHARPER-17",
+      "page": 6,
+      "anchor": "checks every patched program",
+      "title": "Replace the conclusion's universal guarantee",
+      "content": "SHARPER-17: Replace the conclusion's universal guarantee\n\nSuggested conclusion: Sharper is an open-source research prototype for trace-guided C# repair candidates. It combines restricted predicate propagation and safety checks with an isolated reproducer/regression acceptance gate. The artifact demonstrates a test-accepted synthetic bounds repair and rejection of an overfitting candidate for an extracted runtime regression. These results support feasibility within the documented subset, not universal semantic correctness. Unsupported effects and incomplete exploration are reported explicitly. Future work includes broader source semantics, automatic trace localization, invariant inference, and specification-based checking of emitted patches.\n\nEvidence: review/verified-run/acceptance/repair_plan.json; review/verified-run/runtime-rejection/repair_plan.json",
+      "evidence": [
+        "review/verified-run/acceptance/repair_plan.json",
+        "review/verified-run/runtime-rejection/repair_plan.json"
+      ]
+    },
+    {
+      "id": "SHARPER-18",
+      "page": 6,
+      "anchor": "Planned work",
+      "title": "Update completed work and add threats to validity",
+      "content": "SHARPER-18: Update completed work and add threats to validity\n\nRegression-test checking is now implemented; do not list it solely as future work. State that it is evidence, not proof of intended behavior. Add threats: two small purpose-built fixtures; an incomplete test oracle may accept overfitting; stringified and incomplete trace observations; limited C# semantics; no broad current-version benchmark or human study. The copied validation workspace is filesystem isolation, not a security sandbox: dotnet test executes target code with the user's privileges. Unsupported test platforms, skipped/ambiguous results, and timeouts are rejected. The two-minute test limit and verified environment must be reported.\n\nEvidence: Sharper/Step3_Repair/CFGAnalyzer/Repair/CandidateValidator.cs; review/README.md",
+      "evidence": [
+        "Sharper/Step3_Repair/CFGAnalyzer/Repair/CandidateValidator.cs",
+        "review/README.md"
+      ]
+    },
+    {
+      "id": "SHARPER-19",
+      "page": 6,
+      "anchor": "TODO",
+      "title": "Fill data availability and finish submission checks",
+      "content": "SHARPER-19: Fill data availability and finish submission checks\n\nReplace the TODO with https://github.com/Manish-SDU/Sharper/tree/Sharper and cite the exact reviewed commit recorded in the final package manifest, not only a moving branch. Include review/reproduce.ps1, fixture inputs, source hashes, TRX files, model inputs, and expected acceptance/rejection results. The annotated PDF is an author revision copy, not a clean submission manuscript. Apply these changes to the editable manuscript, rebuild the PDF, check venue/anonymization requirements and author details, confirm distribution permissions and licensing, and have all authors approve the claims before submission. No paper has been submitted by this tool and publication acceptance is not implied.\n\nEvidence: review/reproduce.ps1; review/package.ps1; review/PAPER_AMENDMENTS.md",
+      "evidence": [
+        "review/reproduce.ps1",
+        "review/package.ps1",
+        "review/PAPER_AMENDMENTS.md"
+      ]
+    }
+  ]
+}
