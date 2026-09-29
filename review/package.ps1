@@ -21,6 +21,13 @@ try {
     $negative = Get-Content (Join-Path $evidencePath "runtime-rejection/repair_plan.json") -Raw | ConvertFrom-Json
     if ($positive.Items[0].Validation.Status -ne "AcceptedByTests") { throw "Missing accepted synthetic case" }
     if (@($negative.Items | Where-Object { $_.Validation.Status -ne "Rejected" }).Count) { throw "Missing rejected runtime case" }
+    $listing = Get-Content (Join-Path $evidencePath "listing/repair_plan.json") -Raw | ConvertFrom-Json
+    if ($listing.Items.Count -ne 1 -or $listing.Items[0].Validation.Status -ne "AcceptedByTests" -or $listing.Items[0].CandidateModelCheck.Status -ne "VerifiedExploredModel") {
+        throw "Missing model-checked and test-accepted listing candidate"
+    }
+    if ((Get-FileHash (Join-Path $evidencePath "listing/patches/Listing.L9.patched.cs")).Hash -ne $listing.Items[0].CandidateModelSha256) {
+        throw "Listing candidate bytes no longer match the model check"
+    }
     $directories = @(
         "Sharper/Step1_Tracing", "Sharper/Step2_Constraints", "Sharper/Step3_Repair/CFGAnalyzer",
         "review/fixtures",

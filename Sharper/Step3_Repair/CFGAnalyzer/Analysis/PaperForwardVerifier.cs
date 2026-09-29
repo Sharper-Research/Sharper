@@ -3,7 +3,10 @@ using Microsoft.Z3;
 namespace Sharper.CFGAnalyzer.Analysis;
 
 public enum PaperSort { Int32, Boolean, Reference }
-public sealed record PaperForwardResult(string Status, int CheckedLocations, string? CounterexampleNode, string? Counterexample, string? Reason);
+public sealed record PaperForwardResult(string Status, int CheckedLocations, string? CounterexampleNode, string? Counterexample, string? Reason)
+{
+    public int? CounterexampleLine { get; init; }
+}
 
 public static class PaperForwardVerifier
 {
@@ -32,7 +35,10 @@ public static class PaperForwardVerifier
             solver.Parameters = parameters;
             var references = context.MkUninterpretedSort("Reference");
             var length = context.MkFuncDecl("array_length", references, context.MkBitVecSort(32));
-            var intArrayRead = context.MkFuncDecl("array_int32", [references, context.MkBitVecSort(32)], context.MkBitVecSort(32));
+            const string heapKey = "$sharper.array-heap";
+            if (variables.ContainsKey(heapKey)) throw new NotSupportedException("Reserved model variable: " + heapKey);
+            var integerSort = context.MkBitVecSort(32);
+            var contentsSort = context.MkArraySort(integerSort, integerSort);
             var axioms = new List<BoolExpr>();
             var initial = variables.ToDictionary(pair => pair.Key, pair => pair.Value switch
             {
@@ -41,6 +47,7 @@ public static class PaperForwardVerifier
                 PaperSort.Reference => context.MkFreshConst(pair.Key, references),
                 _ => throw new NotSupportedException("Unsupported variable sort")
             }, StringComparer.Ordinal);
+            initial.Add(heapKey, context.MkFreshConst("array_heap", context.MkArraySort(references, contentsSort)));
 
             Expr Translate(PaperExpression expression, IReadOnlyDictionary<string, Expr> environment)
             {
@@ -68,7 +75,7 @@ public static class PaperForwardVerifier
                 var right = Translate(expression.Operands[1], environment);
                 return expression.Operator switch
                 {
-                    "array.int32" => context.MkApp(intArrayRead, left, right),
+                    "array.int32" => context.MkSelect((ArrayExpr)context.MkSelect((ArrayExpr)environment[heapKey], left), right),
                     "&&" => context.MkAnd((BoolExpr)left, (BoolExpr)right),
                     "||" => context.MkOr((BoolExpr)left, (BoolExpr)right),
                     "==" => context.MkEq(left, right),
@@ -132,15 +139,58 @@ public static class PaperForwardVerifier
                     var status = Check(context.MkAnd(current.Path, unsafeCondition));
                     checkedLocations++;
                     if (status == Status.SATISFIABLE)
-                        return new("Counterexample", checkedLocations, current.Node, solver.Model.ToString(), "Repair condition permits a failure");
+                        return new("Counterexample", checkedLocations, current.Node, solver.Model.ToString(), "Repair condition permits a failure")
+                        { CounterexampleLine = graph[current.Node].Line };
                     if (status == Status.UNKNOWN) return new("Incomplete", checkedLocations, null, null, solver.ReasonUnknown);
                 }
                 foreach (var edge in graph[current.Node].Successors)
                 {
                     var environment = new Dictionary<string, Expr>(current.Values, StringComparer.Ordinal);
                     var path = current.Path;
+                    if (edge.Statement is PaperArrayRead or PaperArrayWrite)
+                    {
+                        var (array, index) = edge.Statement switch
+                        {
+                            PaperArrayRead read => (read.Array, read.Index),
+                            PaperArrayWrite write => (write.Array, write.Index),
+                            _ => throw new NotSupportedException()
+                        };
+                        var unsafeAccess = PaperExpression.Apply("||", PaperExpression.Null(array), PaperExpression.Bounds(array, index));
+                        var status = Check(context.MkAnd(path, (BoolExpr)Translate(unsafeAccess, current.Values)));
+                        checkedLocations++;
+                        if (status == Status.SATISFIABLE)
+                            return new("Counterexample", checkedLocations, current.Node, solver.Model.ToString(), "Array element access can be null or out of bounds")
+                            { CounterexampleLine = graph[current.Node].Line };
+                        if (status == Status.UNKNOWN) return new("Incomplete", checkedLocations, null, null, solver.ReasonUnknown);
+                    }
                     switch (edge.Statement)
                     {
+                        case PaperArrayAllocation allocation:
+                            if (allocation.Length < 0 || !environment.TryGetValue(allocation.Variable, out var destination)
+                                || !destination.Sort.Equals(references))
+                                throw new NotSupportedException("Invalid array allocation target or length");
+                            var allocated = context.MkFreshConst("allocated_array", references);
+                            var distinct = initial.Values.Concat(current.Values.Values).Where(value => value.Sort.Equals(references))
+                                .Select(value => context.MkNot(context.MkEq(allocated, value))).ToList();
+                            distinct.Add(context.MkNot(context.MkEq(allocated, context.MkConst("null", references))));
+                            distinct.Add(context.MkEq(context.MkApp(length, allocated), context.MkBV(allocation.Length, 32)));
+                            path = context.MkAnd(path, context.MkAnd(distinct.ToArray()));
+                            environment[allocation.Variable] = allocated;
+                            environment[heapKey] = context.MkStore((ArrayExpr)current.Values[heapKey], allocated,
+                                context.MkConstArray(integerSort, context.MkBV(0, 32)));
+                            break;
+                        case PaperArrayRead read:
+                            if (!environment.TryGetValue(read.Variable, out var readDestination) || !readDestination.Sort.Equals(integerSort))
+                                throw new NotSupportedException("Array read target must be Int32");
+                            environment[read.Variable] = Translate(PaperExpression.Apply("array.int32", read.Array, read.Index), current.Values);
+                            break;
+                        case PaperArrayWrite write:
+                            var receiver = Translate(write.Array, current.Values);
+                            var offset = Translate(write.Index, current.Values);
+                            var contents = (ArrayExpr)context.MkSelect((ArrayExpr)current.Values[heapKey], receiver);
+                            environment[heapKey] = context.MkStore((ArrayExpr)current.Values[heapKey], receiver,
+                                context.MkStore(contents, offset, Translate(write.Value, current.Values)));
+                            break;
                         case PaperAssignment assignment:
                             var value = Translate(assignment.Value, current.Values);
                             if (!environment.TryGetValue(assignment.Variable, out var original) || !original.Sort.Equals(value.Sort))

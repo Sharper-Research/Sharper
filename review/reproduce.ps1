@@ -11,7 +11,7 @@ try {
     $analyzer = "Sharper/Step3_Repair/CFGAnalyzer/CFGAnalyzer.csproj"
     $tests = "Sharper/Step3_Repair/CFGAnalyzer/CFGAnalyzer.Tests/CFGAnalyzer.Tests.csproj"
     $fixture = "review/fixtures/bounds"
-    $originals = @("$fixture/Fixture.cs", "review/fixtures/runtime/RuntimeCode/MemberMethodResolver.cs")
+    $originals = @("$fixture/Fixture.cs", "review/fixtures/runtime/RuntimeCode/MemberMethodResolver.cs", "review/fixtures/listing/Listing.cs")
     $hashes = @{}
     foreach ($source in $originals) { $hashes[$source] = (Get-FileHash $source).Hash }
     function Invoke-Dotnet([string[]]$Arguments, [int]$Expected = 0) {
@@ -55,6 +55,14 @@ try {
     }
     Invoke-Dotnet -Arguments @("run", "--no-build", "--project", $analyzer, "--", "$fixture/Fixture.csproj", "--violations", "$fixture/violations.json", "--output-dir", "$Output/acceptance", "--validation-root", $fixture, "--test-project", "$fixture/Fixture.Tests/Fixture.Tests.csproj", "--reproducer-filter", "FullyQualifiedName~InvalidReadsReturnDefault")
     Invoke-Dotnet -Expected 5 -Arguments @("run", "--no-build", "--project", $analyzer, "--", "review/fixtures/runtime/RuntimeCode/RuntimeCode.csproj", "--violations", "$traceDirectory/violations.json", "--output-dir", "$Output/runtime-rejection", "--validation-root", "review/fixtures/runtime", "--test-project", "review/fixtures/runtime/RuntimeCode.Tests/RuntimeCode.Tests.csproj", "--reproducer-filter", "FullyQualifiedName~MemberMethodResolverTests")
+    Invoke-Dotnet -Arguments @("run", "--no-build", "--project", $analyzer, "--", "review/fixtures/listing/Listing.csproj", "--violations", "review/fixtures/listing/violations.json", "--output-dir", "$Output/listing", "--validation-root", "review/fixtures/listing", "--test-project", "review/fixtures/listing/Listing.Tests/Listing.Tests.csproj", "--reproducer-filter", "FullyQualifiedName~PaperAssumptionReturnsNormally")
+    $listing = Get-Content "$Output/listing/repair_plan.json" -Raw | ConvertFrom-Json
+    if ($listing.Items.Count -ne 1 -or $listing.Items[0].CandidateModelCheck.Status -ne "VerifiedExploredModel" -or $listing.Items[0].Validation.Status -ne "AcceptedByTests") {
+        throw "Listing candidate did not pass model and test validation"
+    }
+    if (($listing.Items[0].CandidateRefinementChecks.Status -join ',') -ne 'Counterexample,Counterexample,VerifiedExploredModel') {
+        throw "Listing refinement did not expose both unsafe stages"
+    }
     foreach ($source in $originals) {
         if ((Get-FileHash $source).Hash -ne $hashes[$source]) { throw "Original source changed: $source" }
     }

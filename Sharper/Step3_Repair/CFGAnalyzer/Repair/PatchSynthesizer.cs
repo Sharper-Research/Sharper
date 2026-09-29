@@ -4,6 +4,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Formatting;
 using Microsoft.CodeAnalysis.Text;
+using Sharper.CFGAnalyzer.Analysis;
 
 namespace Sharper.CFGAnalyzer.Repair;
 
@@ -12,6 +13,56 @@ namespace Sharper.CFGAnalyzer.Repair;
 /// </summary>
 public static class PatchSynthesizer
 {
+    public static async Task<(string Path, string Diff, PaperForwardResult Check, List<PaperForwardResult> Checks)?> WriteLoopGuardPatchAsync(
+        Document document, StatementSyntax statement, Violation violation, string patchesDirectory)
+    {
+        var originalRoot = await document.GetSyntaxRootAsync() ?? throw new InvalidOperationException("Missing source root");
+        var statementIndex = originalRoot.DescendantNodes().OfType<ExpressionStatementSyntax>().ToList()
+            .FindIndex(candidate => candidate.Span == statement.Span);
+        if (statementIndex < 0) return null;
+        var current = document;
+        var checks = new List<PaperForwardResult>();
+        var edits = 0;
+        async Task<PaperForwardResult> CheckAsync(Document candidate)
+        {
+            var root = await candidate.GetSyntaxRootAsync() ?? throw new InvalidOperationException("Missing candidate root");
+            var selected = root.DescendantNodes().OfType<ExpressionStatementSyntax>().ElementAt(statementIndex);
+            var result = await PaperSourceAnalysis.AnalyzeAsync(candidate,
+                violation with { Line = selected.GetLocation().GetLineSpan().StartLinePosition.Line + 1 });
+            return result.ForwardModelCheck ?? new("Incomplete", 0, null, null, result.Reason);
+        }
+        for (var iteration = 0; iteration <= 8; iteration++)
+        {
+            var check = await CheckAsync(current);
+            checks.Add(check);
+            if (check.Status != "Counterexample" || iteration == 8) break;
+            var root = await current.GetSyntaxRootAsync() ?? throw new InvalidOperationException("Missing candidate root");
+            var statements = root.DescendantNodes().OfType<ExpressionStatementSyntax>().ToArray();
+            var matches = iteration == 0 ? [statements[statementIndex]] : statements.Where(candidate =>
+                candidate.GetLocation().GetLineSpan().StartLinePosition.Line + 1 == check.CounterexampleLine).Take(2).ToArray();
+            var failing = matches.Length == 1 ? matches[0] : null;
+            if (failing?.Expression is not AssignmentExpressionSyntax
+                {
+                    Left: ElementAccessExpressionSyntax { Expression: IdentifierNameSyntax array, ArgumentList.Arguments.Count: 1 } access
+                } || !failing.Expression.IsKind(SyntaxKind.SimpleAssignmentExpression)
+                || access.ArgumentList.Arguments[0].Expression is not IdentifierNameSyntax index
+                || failing.Parent is not BlockSyntax block || block.Statements[0] != failing
+                || block.Parent is not WhileStatementSyntax loop) break;
+            var guarded = loop.WithCondition(SyntaxFactory.ParseExpression(
+                $"({loop.Condition}) && {array} != null && {index} >= 0 && {index} < {array}.Length"))
+                .WithAdditionalAnnotations(Formatter.Annotation);
+            var updated = Formatter.Format(root.ReplaceNode(loop, guarded), Formatter.Annotation, document.Project.Solution.Workspace);
+            current = current.WithSyntaxRoot(updated);
+            edits++;
+        }
+        if (edits == 0) return null;
+        var candidateRoot = await current.GetSyntaxRootAsync() ?? throw new InvalidOperationException("Missing candidate root");
+        var (path, diff) = await WriteCandidateAsync(document, statement, candidateRoot, patchesDirectory);
+        var saved = document.WithText(SourceText.From(await File.ReadAllTextAsync(path)));
+        var savedCheck = await CheckAsync(saved);
+        return (path, diff, savedCheck, checks);
+    }
+
     public static async Task<(string patchedFilePath, string diffPath)> WritePatchAsync(
         Document doc,
         StatementSyntax statement,
@@ -23,7 +74,6 @@ public static class PatchSynthesizer
         var tree = await doc.GetSyntaxTreeAsync()
                    ?? throw new InvalidOperationException($"No syntax tree for {doc.FilePath}");
         var root = await tree.GetRootAsync();
-        var originalText = await doc.GetTextAsync();
 
         SyntaxNode newRoot;
         if (failureGuard != null)
@@ -38,6 +88,13 @@ public static class PatchSynthesizer
             newRoot = root.ReplaceNode(statement, guarded);
         }
         else newRoot = ReplaceWithTryCatch(root, statement, exceptionType, wrapRemainingBlock);
+        return await WriteCandidateAsync(doc, statement, newRoot, patchesDir);
+    }
+
+    private static async Task<(string patchedFilePath, string diffPath)> WriteCandidateAsync(
+        Document doc, StatementSyntax statement, SyntaxNode newRoot, string patchesDir)
+    {
+        var originalText = await doc.GetTextAsync();
         var formatted = Formatter.Format(newRoot, Formatter.Annotation, doc.Project.Solution.Workspace);
         var newText = formatted.ToFullString();
 

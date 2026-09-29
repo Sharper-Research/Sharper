@@ -11,6 +11,113 @@ namespace Sharper.CFGAnalyzer.Tests;
 
 public sealed class PaperFormulaTests
 {
+    [Fact]
+    public async Task ListingRepairDriverChecksEmittedCandidate()
+    {
+        using var workspace = new Microsoft.CodeAnalysis.AdhocWorkspace();
+        var project = workspace.AddProject("ListingRepair", Microsoft.CodeAnalysis.LanguageNames.CSharp)
+            .WithCompilationOptions(new Microsoft.CodeAnalysis.CSharp.CSharpCompilationOptions(Microsoft.CodeAnalysis.OutputKind.DynamicallyLinkedLibrary))
+            .AddMetadataReference(Microsoft.CodeAnalysis.MetadataReference.CreateFromFile(typeof(object).Assembly.Location));
+        var source = "public static class Program { public static void ProcessBuffers(int check, int i) {\n"
+            + "int[] buf1 = new int[5]; int[] buf2 = new int[2];\nwhile (i < check) {\nbuf1[i] = i + 1;\n++i;\n}\n"
+            + "while (i >= 0) {\nbuf2[i] = i + 1;\n--i;\n}\n} }";
+        var output = Path.Combine(Path.GetTempPath(), "SharperListing-" + Guid.NewGuid().ToString("N"));
+        Directory.CreateDirectory(output);
+        try
+        {
+            var document = project.AddDocument("Listing.cs", source, filePath: Path.Combine(output, "Listing.cs"));
+            var violations = Path.Combine(output, "violations.json");
+            await File.WriteAllTextAsync(violations, JsonSerializer.Serialize(new[] {
+                new Violation("BufferInBounds(buf1,i)", "safe", new(), false, "Listing.cs", 4, "listing") }));
+            var plan = await ViolationDrivenRepair.RunAsync(document.Project.Solution, violations, output);
+            var item = Assert.Single(plan.Items);
+            Assert.Equal("Counterexample", item.FormulaAnalysis?.ForwardVerificationStatus);
+            Assert.Equal("VerifiedExploredModel", item.CandidateModelCheck?.Status);
+            Assert.NotNull(item.CandidateRefinementChecks);
+            Assert.Equal(new[] { "Counterexample", "Counterexample", "VerifiedExploredModel" },
+                item.CandidateRefinementChecks!.Select(check => check.Status));
+            Assert.NotEqual("failure", item.CandidateRefinementChecks[1].CounterexampleNode);
+            var candidate = await File.ReadAllTextAsync(item.PatchedFilePath!);
+            Assert.DoesNotContain("catch", candidate);
+            Assert.Contains("i < buf1.Length", candidate);
+            Assert.Contains("i < buf2.Length", candidate);
+            foreach (var program in new[] { source, candidate })
+            {
+                var compilation = Microsoft.CodeAnalysis.CSharp.CSharpCompilation.Create("Listing" + Guid.NewGuid().ToString("N"),
+                    [Microsoft.CodeAnalysis.CSharp.CSharpSyntaxTree.ParseText(program)],
+                    [Microsoft.CodeAnalysis.MetadataReference.CreateFromFile(typeof(object).Assembly.Location)],
+                    new Microsoft.CodeAnalysis.CSharp.CSharpCompilationOptions(Microsoft.CodeAnalysis.OutputKind.DynamicallyLinkedLibrary));
+                using var binary = new MemoryStream();
+                var emitted = compilation.Emit(binary);
+                Assert.True(emitted.Success, string.Join(Environment.NewLine, emitted.Diagnostics));
+                var method = System.Reflection.Assembly.Load(binary.ToArray()).GetType("Program")!.GetMethod("ProcessBuffers")!;
+                var failure = Record.Exception(() => method.Invoke(null, [6, 0]));
+                if (program == source)
+                    Assert.IsType<IndexOutOfRangeException>(Assert.IsType<System.Reflection.TargetInvocationException>(failure).InnerException);
+                else
+                    foreach (var check in new[] { int.MinValue, -1, 0, 1, 2, 5, 6, int.MaxValue })
+                    foreach (var index in new[] { int.MinValue, -1, 0, 1, 2, 5, int.MaxValue })
+                        Assert.Null(Record.Exception(() => method.Invoke(null, [check, index])));
+            }
+        }
+        finally { Directory.Delete(output, recursive: true); }
+    }
+
+    [Theory]
+    [InlineData("int[] array = new int[2]; int[] alias = array; alias[0] = 1; int index = array[0];", "VerifiedAcyclicModel")]
+    [InlineData("int[] array = new int[2]; int[] alias = array; alias[0] = 2; int index = array[0];", "Counterexample")]
+    [InlineData("int[] array = new int[2]; int index = array[0];", "VerifiedAcyclicModel")]
+    [InlineData("int[] array = new int[2]; int[] other = new int[2]; int index = 0; if (array == other) index = 2;", "VerifiedAcyclicModel")]
+    [InlineData("int[] array = new int[1]; int[] old = array; int count = 0; while (count < 2) { array = new int[1]; array[0] = count; count++; } int index = old[0];", "VerifiedExploredModel")]
+    [InlineData("int[] array = new int[size]; int index = 0;", "Incomplete")]
+    [InlineData("int[] array = new int[] { 0, 1 }; int index = 0;", "Incomplete")]
+    [InlineData("int[] array = new int[0]; int index = 0; array[index] = 1;", "Counterexample")]
+    public async Task SourceArraysPreserveHeapSemantics(string statements, string expected)
+    {
+        using var workspace = new Microsoft.CodeAnalysis.AdhocWorkspace();
+        var project = workspace.AddProject("ArraySemantics", Microsoft.CodeAnalysis.LanguageNames.CSharp)
+            .WithCompilationOptions(new Microsoft.CodeAnalysis.CSharp.CSharpCompilationOptions(Microsoft.CodeAnalysis.OutputKind.DynamicallyLinkedLibrary))
+            .AddMetadataReference(Microsoft.CodeAnalysis.MetadataReference.CreateFromFile(typeof(object).Assembly.Location));
+        var source = "public static class Fixture { public static int Read(int size) {\n" + statements + "\nreturn array[index];\n} }";
+        var result = await PaperSourceAnalysis.AnalyzeAsync(project.AddDocument("Fixture.cs", source),
+            new Violation("BufferInBounds(array,index)", "safe", new(), false, "Fixture.cs", 3, "array-state"));
+        Assert.Equal(expected, result.ForwardModelCheck?.Status ?? result.Status);
+    }
+
+    [Theory]
+    [InlineData("i < check", "i >= 0", "Counterexample")]
+    [InlineData("i < check && i >= 0 && i < buf1.Length", "i >= 0", "Counterexample")]
+    [InlineData("i < check && i >= 0 && i < buf1.Length", "i >= 0 && i < buf2.Length", "VerifiedExploredModel")]
+    public async Task PaperListingChecksBothArrayWrites(string firstGuard, string secondGuard, string expected)
+    {
+        using var workspace = new Microsoft.CodeAnalysis.AdhocWorkspace();
+        var project = workspace.AddProject("PaperListing", Microsoft.CodeAnalysis.LanguageNames.CSharp)
+            .WithCompilationOptions(new Microsoft.CodeAnalysis.CSharp.CSharpCompilationOptions(Microsoft.CodeAnalysis.OutputKind.DynamicallyLinkedLibrary))
+            .AddMetadataReference(Microsoft.CodeAnalysis.MetadataReference.CreateFromFile(typeof(object).Assembly.Location));
+        var source = "public static class Program { public static void ProcessBuffers(int check, int i) {\n"
+            + "int[] buf1 = new int[5]; int[] buf2 = new int[2];\n"
+            + "while (" + firstGuard + ") {\nbuf1[i] = i + 1;\n++i;\n}\n"
+            + "while (" + secondGuard + ") {\nbuf2[i] = i + 1;\n--i;\n}\n} }";
+        var result = await PaperSourceAnalysis.AnalyzeAsync(project.AddDocument("Listing.cs", source),
+            new Violation("BufferInBounds(buf1,i)", "safe", new(), false, "Listing.cs", 4, "paper-listing"));
+        Assert.True(result.Status == "ForwardOnlySupportedSource", result.Reason);
+        Assert.Equal(expected, result.ForwardModelCheck?.Status);
+        if (expected == "Counterexample" && firstGuard != "i < check")
+            Assert.Equal(8, result.ForwardModelCheck?.CounterexampleLine);
+        var compilation = Microsoft.CodeAnalysis.CSharp.CSharpCompilation.Create("PaperStage" + Guid.NewGuid().ToString("N"),
+            [Microsoft.CodeAnalysis.CSharp.CSharpSyntaxTree.ParseText(source)],
+            [Microsoft.CodeAnalysis.MetadataReference.CreateFromFile(typeof(object).Assembly.Location)],
+            new Microsoft.CodeAnalysis.CSharp.CSharpCompilationOptions(Microsoft.CodeAnalysis.OutputKind.DynamicallyLinkedLibrary));
+        using var binary = new MemoryStream();
+        var emitted = compilation.Emit(binary);
+        Assert.True(emitted.Success, string.Join(Environment.NewLine, emitted.Diagnostics));
+        var method = System.Reflection.Assembly.Load(binary.ToArray()).GetType("Program")!.GetMethod("ProcessBuffers")!;
+        var observed = Record.Exception(() => method.Invoke(null, [6, 0]));
+        if (expected == "Counterexample")
+            Assert.IsType<IndexOutOfRangeException>(Assert.IsType<System.Reflection.TargetInvocationException>(observed).InnerException);
+        else Assert.Null(observed);
+    }
+
     [Theory]
     [InlineData(1, "Counterexample")]
     [InlineData(2, "VerifiedExploredModel")]
@@ -84,6 +191,8 @@ public sealed class PaperFormulaTests
     [InlineData("no-tests", "Rejected")]
     [InlineData("changed-tests", "Rejected")]
     [InlineData("mutated-tests", "Rejected")]
+    [InlineData("model-counterexample", "Rejected")]
+    [InlineData("stale-model", "Rejected")]
     public async Task AutomaticAcceptanceRequiresStableReproducerAndRegressionResults(string scenario, string expected)
     {
         var directory = Path.Combine(Path.GetTempPath(), "SharperGate-" + Guid.NewGuid().ToString("N"));
@@ -100,7 +209,12 @@ public sealed class PaperFormulaTests
             await File.WriteAllTextAsync(testSource, "original assertions");
             var item = new RepairItem(new("NotNull(value)", "safe", new(), false, "Fixture.cs", 1, "trace"),
                 "Read", source, 1, 1, RepairAction.AutoPatchable, "candidate", [], patch, null)
-                { SourceSha256 = CandidateValidator.HashFile(source) };
+                {
+                    SourceSha256 = CandidateValidator.HashFile(source),
+                    CandidateModelCheck = scenario is "model-counterexample" or "stale-model"
+                        ? new("Counterexample", 1, "write", "unsafe", "test") : null,
+                    CandidateModelSha256 = scenario == "stale-model" ? "stale" : CandidateValidator.HashFile(patch)
+                };
             var calls = 0;
             Task<TestRunEvidence> Run(string sandboxProject, string? filter, string output)
             {
@@ -116,7 +230,7 @@ public sealed class PaperFormulaTests
             var result = await CandidateValidator.ValidateAsync(item, directory, project, "reproducer", Path.Combine(directory, "results"), Run);
             Assert.Equal(expected, result.Status);
             Assert.Equal("original", await File.ReadAllTextAsync(source));
-            Assert.Equal(4, result.Runs.Count);
+            Assert.Equal(scenario is "model-counterexample" or "stale-model" ? 0 : 4, result.Runs.Count);
             var unvalidated = new RepairPlan("now", "violations.json", 1, new(), [item]);
             Assert.Throws<InvalidOperationException>(() => PatchSynthesizer.ApplyInPlace(unvalidated));
             if (result.Status == "AcceptedByTests")

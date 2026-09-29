@@ -1,0 +1,11 @@
+[
+  {
+    "Predicate": "BufferInBounds(buf1,i)",
+    "Assertion": "0 <= i AND i < buf1.Length",
+    "Bindings": {},
+    "Result": false,
+    "File": "Listing.cs",
+    "Line": 9,
+    "TraceId": "paper-listing-source-location"
+  }
+]

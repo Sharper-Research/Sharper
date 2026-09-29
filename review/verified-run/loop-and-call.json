@@ -3,5 +3,6 @@
   "CheckedLocations": 2,
   "CounterexampleNode": null,
   "Counterexample": null,
-  "Reason": "All supplied safety obligations hold in the model; checked invariants establish partial correctness, not termination or full C# correctness"
+  "Reason": "All supplied safety obligations hold in the model; checked invariants establish partial correctness, not termination or full C# correctness",
+  "CounterexampleLine": null
 }

@@ -32,12 +32,15 @@ public static class PaperSourceAnalysis
             {
                 ReturnStatementSyntax returned => returned.Expression,
                 LocalDeclarationStatementSyntax local when local.Declaration.Variables.Count == 1 => local.Declaration.Variables[0].Initializer?.Value,
+                ExpressionStatementSyntax { Expression: AssignmentExpressionSyntax assignment }
+                    when assignment.IsKind(SyntaxKind.SimpleAssignmentExpression) => assignment.Left,
                 _ => null
             };
-            if (failingExpression == null) return Incomplete("Failure must be a direct return or single local initializer expression");
+            if (failingExpression == null) return Incomplete("Failure must be a direct return, single local initializer, or array write");
             var operation = model.GetOperation(failingExpression);
             var initial = Initialize(operation, violation.Predicate);
-            if (method.DescendantNodes().Any(node => node is WhileStatementSyntax or ForStatementSyntax or DoStatementSyntax or InvocationExpressionSyntax))
+            if (failureStatement is ExpressionStatementSyntax || method.DescendantNodes().Any(node => node is
+                WhileStatementSyntax or ForStatementSyntax or DoStatementSyntax or InvocationExpressionSyntax or ArrayCreationExpressionSyntax))
                 return PaperSourceModel.Analyze(model, method, failureStatement, initial);
             var nodes = new List<PaperNode> { new("exit", 0, []), new("failure", violation.Line, []) };
             var sequence = 0;

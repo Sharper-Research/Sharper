@@ -48,6 +48,10 @@ public static class CandidateValidator
             var projectRelative = Relative(testProject);
             sourceHash = HashFile(item.ContainingFilePath);
             candidateHash = HashFile(item.PatchedFilePath);
+            if (item.CandidateModelCheck != null && item.CandidateModelSha256 != candidateHash)
+                return Reject("Candidate changed after its model check");
+            if (item.CandidateModelCheck?.Status is "Counterexample" or "InvalidInvariant")
+                return Reject("Candidate model check found a safety violation; passing tests cannot override it");
             if (item.SourceSha256 != sourceHash) return Reject("Original source is missing its generation hash or changed since candidate generation");
             Directory.CreateDirectory(output);
             void CopyDirectory(string source, string destination)

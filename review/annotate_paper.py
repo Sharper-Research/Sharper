@@ -35,7 +35,8 @@ COMMENTS = [
      "generates guard or catch-based candidates and accepts a candidate only after an isolated failing reproducer "
      "and regression suite pass with stable test identities and unchanged snapshotted inputs. We demonstrate "
      "acceptance on a synthetic bounds fixture and rejection of an overfitting candidate for an extracted "
-     "dotnet/runtime regression. Model safety and test acceptance are reported separately; neither establishes "
+    "dotnet/runtime regression. For the two-buffer running example, Sharper automatically refines loop-bound "
+    "guards and model-checks the reparsed emitted candidate before test acceptance. Model safety and test acceptance are reported separately; neither establishes "
      "general semantic correctness of C# repairs.",
      ["review/verified-run/acceptance/repair_plan.json", "review/verified-run/runtime-rejection/repair_plan.json"]),
     (2, "industrial codebase", "Replace unsupported industrial repair success",
@@ -50,7 +51,8 @@ COMMENTS = [
     (2, "Verified Program", "Figure 1: label outputs by their actual assurance",
      "Replace 'Verified Program' with 'Test-accepted candidate'. Replace 'Constraint-satisfying patch' with "
      "'Candidate patch'. Show model checking as a separate result attached to the supported source/model "
-     "analysis, not as proof of the emitted patch. Add outcome branches for Counterexample, Incomplete, and "
+    "analysis. The loop-guard path additionally checks the emitted candidate and reports a separate, hash-bound "
+    "array-safety result; other paths must not inherit that claim. Add outcome branches for Counterexample, Incomplete, and "
      "Rejected. The failing test is an observed failure, not a formal proof of the entire specification.",
      [REPAIR + "ViolationDrivenRepair.cs", ANALYSIS + "PaperRuleEngine.cs"]),
     (2, "Currently", "State implementation and reproducibility scope",
@@ -92,64 +94,82 @@ COMMENTS = [
      "Checked exceptional paths, general heap mutation, and runtime type compatibility return Incomplete; "
      "a syntactically constructed predicate is not a completed verification result.",
      [ANALYSIS + "PaperSourceAnalysis.cs", ANALYSIS + "PaperForwardVerifier.cs", TESTS]),
-    (4, "root-cause candidate", "Correct Figure 2 Root and its surrounding definition",
-     "For deterministic x := e, exact substitution gives eval(Phi'[e/x], sigma) = "
-     "eval(Phi', sigma[x := eval(e, sigma)]). Therefore the printed false-before/true-after premises "
-     "cannot identify that assignment when Phi is its exact preimage. Replace Root and R with an explicitly "
-     "different observed-activation definition: A_Q(event) iff the statement is relevant, the observed "
-     "transition is valid, Q is defined in both states, Q(before) is false, and Q(after) is true. Use the "
-     "SAME fixed Q on both sides, not distinct propagated predicates. This is an observed activation "
-     "candidate, not causality, uniqueness, or minimality. The implementation accepts supplied scalar state "
-     "pairs; automatic extraction of these pairs from arbitrary traces is not implemented. The exact "
-     "replacement formula and derivation are in PAPER_AMENDMENTS.md. Also repair the incomplete sentence "
-     "beginning 'For each location'.",
+    (4, "root-cause candidate", "Replace Root with the explicit observed-activation definition",
+     "Replace Root and its surrounding paragraph with: Let Q be one fixed failure predicate, S the relevant "
+     "statements, and (sigma, sigma') an observed transition of statement s at event k. Define "
+     "A_Q(k) iff s belongs to S, ValidTransition(s,sigma,sigma'), Defined(Q,sigma), Defined(Q,sigma'), "
+     "not eval(Q,sigma), and eval(Q,sigma'). An event satisfying A_Q is an observed activation candidate. "
+     "Both evaluations use the SAME Q. This definition does not establish counterfactual causality, "
+     "uniqueness, or minimality. The artifact evaluates supplied scalar state pairs and reports Unknown "
+     "when the required observations are missing.\n\n"
+     "Keep the Assign substitution rule unchanged. Its exact semantics give eval(Phi'[e/x],sigma) = "
+     "eval(Phi',sigma[x := eval(e,sigma)]), so comparing these two propagated predicates cannot produce "
+     "the printed false-to-true transition. This is a mathematical definition correction, not a failing "
+     "implementation to be adjusted until it returns a desired answer. The typeset replacement is in "
+     "PAPER_AMENDMENTS.md. Automatic state-pair extraction from arbitrary traces remains outside the artifact.",
      [ANALYSIS + "PaperEvaluation.cs", TESTS, "review/PAPER_AMENDMENTS.md"]),
     (4, "repair condition", "Define what the forward result actually verifies",
      "Replace with: For acyclic supported source, Sharper negates the propagated failure predicate and "
      "checks that assumption against the selected failure site. This checks source/model safety, not the "
      "generated patched program. Source loop/call analysis instead explores the supported graph from true "
-     "and reports Counterexample, Incomplete, or exhaustive success. Explicit models may supply multiple "
+    "and reports Counterexample, Incomplete, or exhaustive success. The loop-guard repair path separately "
+    "reparses the saved candidate and checks its selected failure and lowered Int32 array accesses. The "
+    "candidate result is bound to its SHA-256 hash; it is not a functional-equivalence proof. Explicit models may supply multiple "
      "obligations and inductive invariants. State the quantified inputs, selected obligations, and scope "
      "with every result. An infeasible assumption is not a proof of a useful repair.",
      [ANALYSIS + "PaperSourceAnalysis.cs", ANALYSIS + "PaperSourceModel.cs", ANALYSIS + "PaperForwardVerifier.cs"]),
-    (5, "repeats the analysis", "Remove the unimplemented automatic refinement loop",
-     "Replace the automatic root-cause/extra-condition iteration claim with: The explicit forward checker "
-     "can expose a later supplied safety violation. Additional conditions are currently supplied by the "
-     "model author and rechecked; automatic counterexample-guided repair refinement is future work. "
-     "Document the 1000-state default exploration budget and five-second solver-query timeout. Feasible "
-     "cutoffs and unknown effects yield Incomplete. For explicit invariants, check initiation and "
-     "preservation; this establishes partial correctness of the model, not termination.",
-     [ANALYSIS + "PaperForwardVerifier.cs", ANALYSIS + "PaperProgramVerifier.cs", TESTS]),
-    (5, "Listing 1.1", "Mark the listing as conceptual, not an executed tool repair",
-     "The listing allocates arrays, writes array elements, and contains two loops. The automatic source "
-     "adapter does not implement general array allocation/write semantics, so this complete listing is "
-     "not an end-to-end verified repair. Label it 'Motivating example (not automatically repaired by the "
-     "current artifact)' or replace it with the reproducible bounds fixture. Cite the two-obligation "
-     "model regression only for the narrower property it checks. Do not describe a manually constructed "
-     "model as automatic C# extraction of this listing.",
-     [ANALYSIS + "PaperSourceModel.cs", TESTS, "review/fixtures/bounds/Fixture.cs"]),
+        (5, "repeats the analysis", "Describe the implemented bounded loop-guard refinement",
+         "Replace with: For supported array writes at the start of while-loop bodies, Sharper uses the "
+         "counterexample location to strengthen the enclosing loop guard with receiver non-nullness and "
+         "lower/upper index bounds. It reanalyzes the candidate and repeats for a remaining eligible write, "
+         "with a maximum of eight edits. The saved candidate is reparsed and checked independently. An "
+         "unsupported location, solver uncertainty, or exploration cutoff does not establish safety. A "
+         "recorded candidate counterexample blocks test acceptance. This is template-based refinement, "
+         "not unrestricted synthesis or a consequence of the original Root rule. The 1000-state exploration "
+         "budget and five-second query timeout remain fail-closed. Explicit invariants are supplied and checked, not inferred.",
+         [ANALYSIS + "PaperForwardVerifier.cs", REPAIR + "PatchSynthesizer.cs", REPAIR + "CandidateValidator.cs", TESTS]),
+        (5, "Listing 1.1", "Report the executed source-level running example",
+         "Replace the listing caption with 'Executed two-buffer source-level repair example'. Add: Sharper "
+         "automatically lowers the fixed-size Int32 allocations and both loops from Listing 1.1. The array "
+         "model includes fresh non-null identities, exact lengths, zero initialization, alias-visible stores, "
+         "and element-access checks. The original and first-guard-only versions produce counterexamples; "
+         "the emitted two-guard candidate reports VerifiedExploredModel after reparsing. The listing's test "
+         "gate improves from 1/4 to 4/4 and reports AcceptedByTests. Its stated policy stops a loop before an "
+         "invalid write. This checks array safety and the supplied normal-completion oracle, not preservation "
+         "of an unstated buffer-processing specification. Resource-exhaustion failures and unsupported heap "
+         "forms are excluded. No hand-written model substitutes for the listing in this experiment.",
+         [ANALYSIS + "PaperSourceModel.cs", ANALYSIS + "PaperForwardVerifier.cs", TESTS,
+            "review/fixtures/listing/Listing.cs", "review/fixtures/listing/Listing.Tests/ListingTests.cs",
+            "review/verified-run/listing/repair_plan.json"]),
     (5, "For each root-cause candidate", "Describe the actual candidate-generation input",
      "Replace with: For each eligible violation location, Sharper produces a source-level candidate. "
      "Supported direct array returns use a null/bounds guard and a default return; other eligible "
-     "statements may use a catch/default template. Root candidates are not automatically feeding this "
+    "statements may use a catch/default template. Supported while-loop writes additionally use bounded "
+    "guard refinement and separate emitted-candidate model checking. A candidate counterexample or changed "
+    "candidate bytes invalidate acceptance. Root candidates are not automatically feeding this "
      "pipeline. Default-return behavior requires an API-specific oracle and can be wrong. A candidate "
      "is not applied merely because it removes the exception. Validation requires baseline failures, "
      "passing candidate reproducer/regression runs, stable test identities, unchanged snapshotted test "
      "and project inputs, and source/candidate hashes. Only one accepted candidate may be applied; "
      "independently accepted candidates are not automatically composed.",
      [REPAIR + "ViolationDrivenRepair.cs", REPAIR + "PatchSynthesizer.cs", REPAIR + "CandidateValidator.cs"]),
-    (6, "Figure 3 instantiates", "Separate the valid example argument from implementation evidence",
-     "The explanation that the first guard leaves i = 5 and allows buf2[5] is valid under i = 0 and "
-     "check > 5. Retain it as motivation for multiple obligations. Replace 'instantiates the analysis' "
-     "with 'illustrates why a local guard need not be a whole-program repair'. The current model "
-     "regression checks a later buffer obligation under a weaker versus stronger assumption; it does "
-     "not execute this full listing or synthesize a complete second-loop repair. If arbitrary initial "
-     "i is discussed, include the lower bound as well. Do not report a repair success for this example.",
-     [TESTS, "review/PAPER_AMENDMENTS.md"]),
+    (6, "Figure 3 instantiates", "Connect Figure 3 to the executed refinement experiment",
+     "Replace with: For i = 0 and check > 5, guarding the first loop by i < 5 leaves i = 5 at exit, "
+     "so the second loop still attempts buf2[5]. The source-level regression reproduces this failure "
+     "and identifies the second write. Sharper's loop-guard template adds non-nullness and both index "
+     "bounds; for arbitrary initial i the lower bound is necessary. Forward counterexamples guide "
+     "refinement until the generated two-guard candidate has no reachable modeled array fault within "
+     "completed exploration. The original, intermediate and final source variants are compiled and "
+     "executed at check = 6, i = 0; the generated candidate is also executed on 56 boundary inputs. "
+     "The guard is generated by a bounds template and checked forward, not derived by an implemented "
+     "cyclic backward-precondition algorithm. The candidate implements a loop-stopping policy rather "
+     "than an inferred functional specification.",
+     [TESTS, REPAIR + "PatchSynthesizer.cs", "review/verified-run/listing/repair_plan.json", "review/PAPER_AMENDMENTS.md"]),
     (6, "In contrast", "Narrow the related-work comparison to demonstrated behavior",
      "Replace the claims of generator independence, patched-program verification, complete dynamic "
      "slicing, and path witnesses with: Sharper combines trace-derived violation candidates, restricted "
      "predicate propagation, supported model checks, and isolated test validation in a C# prototype. "
+    "The supported loop-guard path additionally rechecks emitted candidates for modeled array safety. "
      "Z3 may return a model at a violating node; this is not a replayable concrete path witness, and "
      "invariant abstraction can produce unreachable counterexamples. The artifact does not establish "
      "comparative superiority or a general external patch-generator interface. Preserve related-work "
@@ -160,6 +180,7 @@ COMMENTS = [
      "candidates. It combines restricted predicate propagation and safety checks with an isolated "
      "reproducer/regression acceptance gate. The artifact demonstrates a test-accepted synthetic "
      "bounds repair and rejection of an overfitting candidate for an extracted runtime regression. "
+    "It also automatically refines and checks an emitted candidate for the paper's two-loop array example. "
      "These results support feasibility within the documented subset, not universal semantic "
      "correctness. Unsupported effects and incomplete exploration are reported explicitly. Future "
      "work includes broader source semantics, automatic trace localization, invariant inference, "
@@ -167,7 +188,7 @@ COMMENTS = [
      ["review/verified-run/acceptance/repair_plan.json", "review/verified-run/runtime-rejection/repair_plan.json"]),
         (6, "Planned work", "Insert the Evaluation and Case Studies section before Related Work",
          "Use the complete paste-ready Evaluation section in PAPER_REVIEW.md, including its results table, "
-         "two case studies, and threats to validity. Replace the planned-evaluation claim with:\n\n"
+         "three case studies, and threats to validity. Replace the planned-evaluation claim with:\n\n"
          "We evaluate three questions: whether the emitted predicates agree with concrete execution on a "
          "boundary-input matrix; whether CFG construction and call discovery preserve the tested ownership "
          "and invocation relationships; and whether the candidate gate accepts a contract-supported guard "
@@ -177,7 +198,8 @@ COMMENTS = [
          "fixture improves from 2/4 to 4/4 passing tests and is AcceptedByTests. Fresh tracing of an extracted "
          "dotnet/runtime regression observes two null dereferences at one source location; its catch/default "
          "candidate improves from 3/5 to 4/5 but is Rejected because the inherited true-result test still fails. "
-         "These are two purpose-built scenarios, not a representative repair benchmark.\n\n"
+         "The paper listing's generated candidate is separately model-checked, improves from 1/4 to 4/4 "
+         "passing tests, and is AcceptedByTests. These are three purpose-built scenarios, not a representative repair benchmark.\n\n"
          "Use this threats paragraph: The results demonstrate feasibility within a restricted C# subset. "
          "They do not establish a population repair rate, comparative superiority, instrumentation transparency, "
          "or correctness beyond the checked properties and test oracles. Unit tests, parameter combinations, "
@@ -223,13 +245,16 @@ def load_evidence(directory):
         raise ValueError("Test-input mutation regression evidence is missing")
     for required in ["Figure2_RepairDriverPropagatesBothCSharpBranches", "TopLevelEntryOwnsLocalFunctionControlFlowGraph",
                      "NestedFunctionsHaveOwnedControlFlowGraphs",
-                     "BranchAndReturnCallsAreDiscoveredWithoutInvokingDelegateDeclarations"]:
+                     "BranchAndReturnCallsAreDiscoveredWithoutInvokingDelegateDeclarations",
+                     "ListingRepairDriverChecksEmittedCandidate", "PaperListingChecksBothArrayWrites",
+                     "SourceArraysPreserveHeapSemantics"]:
         if not any(required in name for name in test_names):
             raise ValueError("Missing evaluation regression: " + required)
     if sum("CallGraph_json_matches_snapshot" in name for name in test_names) != 7:
         raise ValueError("Expected seven CFG snapshot results")
     for case, status, before, after, total in [("acceptance", "AcceptedByTests", 2, 4, 4),
-                                               ("runtime-rejection", "Rejected", 3, 4, 5)]:
+                                               ("runtime-rejection", "Rejected", 3, 4, 5),
+                                               ("listing", "AcceptedByTests", 1, 4, 4)]:
         plan = json.loads((directory / case / "repair_plan.json").read_text(encoding="utf-8-sig"))
         if not plan["Items"] or any(item["Validation"]["Status"] != status for item in plan["Items"]):
             raise ValueError("Unexpected decision for " + case)
@@ -238,6 +263,17 @@ def load_evidence(directory):
                 outcomes = item["Validation"]["Runs"][run]["Tests"]
                 if len(outcomes) != total or sum(value == "Passed" for value in outcomes.values()) != expected:
                     raise ValueError("Unexpected test counts for " + case + "/" + run)
+        if case == "listing":
+            item = plan["Items"][0]
+            if item["CandidateModelCheck"]["Status"] != "VerifiedExploredModel" or [
+                check["Status"] for check in item["CandidateRefinementChecks"]
+            ] != ["Counterexample", "Counterexample", "VerifiedExploredModel"]:
+                raise ValueError("Listing refinement or emitted-candidate check is missing")
+            if item["CandidateRefinementChecks"][1]["CounterexampleNode"] == "failure":
+                raise ValueError("The first guard must expose a later array access")
+            candidate = directory / "listing/patches/Listing.L9.patched.cs"
+            if hashlib.sha256(candidate.read_bytes()).hexdigest().upper() != item["CandidateModelSha256"]:
+                raise ValueError("Listing candidate changed after model checking")
     violations = json.loads((directory / "runtime-trace/violations.json").read_text(encoding="utf-8-sig"))
     if len(violations) != 2 or any(item["file"] != "MemberMethodResolver.cs" or item["line"] != 13
                                   or item["predicate"] != "NotNull(dereference.receiver)" for item in violations):
@@ -261,7 +297,7 @@ Author instruction: insert the following Evaluation section before Related Work.
 
 We evaluate three research questions. RQ1 asks whether the emitted failure predicate agrees with a mathematical bounds oracle and concrete C# execution on a boundary-input matrix. RQ2 asks whether CFG construction and call discovery preserve the tested ownership and invocation relationships. RQ3 asks whether the test gate distinguishes a candidate consistent with the supplied contract from an exception-suppressing candidate that violates it.
 
-The evaluation uses two repair scenarios: a synthetic array-access fixture with an explicit default-return contract, and an extracted regression derived from dotnet/runtime issue 120561. The latter is pinned to source commit `8d3c4013b7e7c6d603b08a1fbf563d51e2c2e00c`; it is not a full-repository experiment. The analyzer's unit and snapshot tests provide implementation checks and are reported separately from these scenarios. No random sampling or human participants are involved.
+The evaluation uses three repair scenarios: a synthetic array-access fixture with an explicit default-return contract, an extracted regression derived from dotnet/runtime issue 120561, and the two-loop buffer example from Listing 1.1. The runtime source is pinned to commit `8d3c4013b7e7c6d603b08a1fbf563d51e2c2e00c`; it is not a full-repository experiment. The listing supplies a loop-stopping policy and normal-completion tests rather than an inferred functional specification. The analyzer's unit and snapshot tests are reported separately from these scenarios. No random sampling or human participants are involved.
 
 The recorded environment is {environment['os']} ({environment['architecture']}), .NET SDK {environment['dotnet_sdk']}, and PowerShell {environment['powershell']}. The tool uses Roslyn 5.3.0 and Microsoft.Z3 4.12.2. Starting from unchanged fixture sources, the reproduction script builds the tool, executes the analyzer suite, checks the loop/call and activation models, instruments a disposable runtime-fixture copy, executes its tests, and detects violations from the resulting trace. It then evaluates candidates using isolated baseline-suite, baseline-reproducer, candidate-reproducer, and candidate-suite runs. Acceptance requires actual baseline failure, stable test identities, unchanged snapshotted test/project inputs, and nonempty, non-skipped passing candidate results. Each test invocation has a two-minute limit. The original fixture hashes are checked afterward. The recorded complete local run took {environment['elapsed_seconds']} seconds, including build and validation; this single observation is not a controlled performance measurement.
 
@@ -276,13 +312,15 @@ The recorded environment is {environment['os']} ({environment['architecture']}),
 | Fixed-predicate transition | ObservedActivation-v1; candidate true | Observed activation, not causal localization |
 | Synthetic bounds scenario | Baseline 2/4; candidate 4/4; AcceptedByTests | Candidate satisfies this supplied test oracle |
 | Extracted runtime scenario | Baseline 3/5; candidate 4/5; Rejected | Gate rejects the overfitting candidate |
+| Paper listing scenario | Baseline 1/4; candidate 4/4; AcceptedByTests | Supplied normal-completion oracle |
+| Emitted listing candidate | VerifiedExploredModel after two refinements; 56 concrete boundary inputs complete | Modeled array safety, not functional equivalence |
 | Fresh runtime tracing | {trace_count} events; 2 fault observations at 1 site | Detection evidence, not two independent bugs |
 
 For RQ1, the integration test compiles both the original C# fragment and the generated candidate. It checks the exact serialized predicate and safety-condition strings and compares predicate evaluation, the mathematical bounds oracle, the original program's exception behavior, and candidate return values. The matrix varies array length over 0 through 4, the next index over eight values including Int32 extrema and boundary values, both Boolean branch outcomes, and three original index values: 5 x 8 x 2 x 3 = 240 combinations. All comparisons agree. Null-array behavior is checked separately because the bounds predicate assumes that array length is defined. This is finite correspondence evidence, not proof for all C# programs.
 
 For RQ2, seven sample-project snapshots are checked together with semantic regressions for top-level/local-function ownership, nested local/lambda bodies, and calls in conditions and returns. An unused delegate declaration contributes no invocation edge. Two lambdas have distinct exported node identifiers, and every exported edge endpoint refers to an existing node. These tests exposed and now guard against creating nested CFGs without their owning graph, omitting branch-value calls, counting delegate creation as invocation, and merging distinct lambdas during export. The static may-call graph remains separate from the restricted source/model verifier; collecting a body's CFG does not imply that all of its C# effects are supported by verification.
 
-For RQ3, one scenario is accepted and one is rejected. We do not turn this result into a population repair-success rate: the cases were selected to exercise the gate's positive and negative behavior. The acceptance and rejection decisions are separate from the source/model verification status.
+For RQ3, two scenarios are accepted and one is rejected. We do not turn this result into a population repair-success rate: the cases were selected to exercise positive and negative behavior. The listing candidate additionally receives a hash-bound model-safety result. A known candidate counterexample or changed candidate bytes blocks acceptance even if tests would pass. Test acceptance and model verification remain separate results.
 
 ### Case Study 1: Contract-Supported Bounds Guard
 
@@ -296,9 +334,17 @@ The extracted runtime method discovers a ShouldSerialize-style method using refl
 
 Sharper generates a catch/default candidate. This suppresses the exception and satisfies the inherited-method test whose expected return is false. However, the inherited method in the strengthened oracle returns true; replacing that behavior with default(false) is incorrect. Consequently the candidate passes four of five tests and is rejected. Both plan entries describe observations of the same site and reference the same candidate file. The reflection-heavy source analysis reports Incomplete rather than claiming a proof. This case demonstrates why exception disappearance alone is insufficient: the gate preserves a failing behavioral oracle instead of applying an overfitting candidate. No successful upstream repair is claimed.
 
+### Case Study 3: Executable Two-Loop Paper Listing
+
+The artifact includes the ProcessBuffers source from Listing 1.1, with public visibility for the test harness and separate declaration lines for unambiguous locations. Its behavior is otherwise unchanged. Sharper lowers fixed-size Int32 array allocations, scalar operations, and both while loops automatically. The solver models fresh array identities, exact lengths, zero initialization, and alias-visible writes. Regression checks cover initialization, aliasing, distinct allocations, repeated allocations, and rejection of unsupported allocation forms.
+
+The original listing yields a counterexample. Adding only the first bounds guard still yields a counterexample at the second write: for check = 6 and i = 0, the first loop exits at i = 5 and the second attempts buf2[5]. Both stages are compiled and executed to confirm the exception behavior. The repair driver first strengthens the loop at the reported violation, then uses a remaining counterexample location to strengthen the second loop. Its template adds non-nullness and lower/upper index bounds. It records two counterexample stages followed by VerifiedExploredModel. This is bounds-template refinement, not cyclic backward-precondition inference or causal root discovery.
+
+The generated candidate is saved, reparsed, and checked again. Its model result is bound to the candidate's SHA-256 digest. Complete exploration checks the selected failure and lowered Int32 array accesses for all modeled parameter values; allocation exhaustion is outside these semantics. The candidate also completes on 56 concrete boundary-input combinations. Its unchanged four-test suite improves from 1/4 to 4/4, and the isolated gate reports AcceptedByTests. The stated policy stops each loop before an invalid access. These tests check normal completion, not hidden buffer contents, and the model does not infer the intended functional buffer transformation. Thus the example now provides automatic source-level candidate generation and safety checking without claiming functional equivalence.
+
 ### Threats to Validity
 
-The two small, purpose-built scenarios are insufficient to establish effectiveness across a population of repositories. The runtime case is an extracted regression, while the synthetic case supplies the desired fallback behavior explicitly. An incomplete oracle can still accept an incorrect patch. Instrumentation is not proved semantics-preserving; matching outcomes on this fixture establish only the observed comparison. Trace values can be incomplete or stringified, and the supported source/model semantics exclude general heap effects, recursive reasoning, concurrency, and other C# features. The supplied-invariant model result is partial correctness, not termination, and the observed-activation result is not causality. The original printed Root rule requires the separate formal amendment; it is not validated by these tests.
+The three small, purpose-built scenarios are insufficient to establish effectiveness across a population of repositories. The runtime case is extracted; the synthetic bounds and listing cases supply their desired fallback policies explicitly. The listing oracle checks normal completion rather than buffer contents. An incomplete oracle can still accept an incorrect patch. Instrumentation is not proved semantics-preserving; matching outcomes establish only the observed comparison. Trace observations can be incomplete or stringified. Fixed-size Int32 arrays are modeled, but general heap effects, allocation exhaustion, recursive reasoning, concurrency, and other C# features remain outside the supported semantics. Supplied-invariant results establish partial correctness, not termination, and observed activation is not causality. The original printed Root rule requires the separate formal amendment; it is not validated by these tests.
 
 The copied validation workspace is filesystem isolation rather than a security sandbox; builds and tests run with the user's privileges. Unit tests, parameter combinations, trace events, and repeated fault observations are not independent repair cases. We report no human study, controlled runtime comparison, industrial deployment, or comparative superiority over other repair systems. The measured results support feasibility within the documented subset and identify broader source semantics, stronger specifications, and independent benchmark evaluation as future work.
 
@@ -362,7 +408,8 @@ def main():
               "Status: author revisions required before submission. The original PDF is unchanged; "
               "the annotated PDF contains proposed edits, not an accepted or submitted paper.", "",
               f"Current analyzer suite: **{passed}/{passed} passed**. Synthetic candidate: AcceptedByTests. "
-              "Extracted runtime candidate: Rejected. These results are not a universal correctness proof.", "",
+              "Extracted runtime candidate: Rejected. Listing candidate: VerifiedExploredModel and AcceptedByTests. "
+              "These results are not a universal correctness proof.", "",
               "## Validated Corrections", "",
               "- Nested and top-level CFGs now retain their owning relationships. Call discovery includes branch values, "
               "does not treat delegate creation as invocation, and exports distinct nested-function IDs.",

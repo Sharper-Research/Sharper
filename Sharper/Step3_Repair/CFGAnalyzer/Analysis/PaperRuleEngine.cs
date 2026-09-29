@@ -39,12 +39,18 @@ public sealed record PaperExpression(string Operator, string? Atom, ImmutableArr
 [System.Text.Json.Serialization.JsonDerivedType(typeof(PaperFrame), "frame")]
 [System.Text.Json.Serialization.JsonDerivedType(typeof(PaperUnsupported), "unsupported")]
 [System.Text.Json.Serialization.JsonDerivedType(typeof(PaperCall), "call")]
+[System.Text.Json.Serialization.JsonDerivedType(typeof(PaperArrayAllocation), "array-allocation")]
+[System.Text.Json.Serialization.JsonDerivedType(typeof(PaperArrayRead), "array-read")]
+[System.Text.Json.Serialization.JsonDerivedType(typeof(PaperArrayWrite), "array-write")]
 public abstract record PaperStatement;
 public sealed record PaperAssignment(string Variable, PaperExpression Value) : PaperStatement;
 public sealed record PaperGuard(PaperExpression Condition, bool Taken) : PaperStatement;
 public sealed record PaperFrame(IReadOnlyList<string> Definitions) : PaperStatement;
 public sealed record PaperUnsupported(string Reason) : PaperStatement;
 public sealed record PaperCall(string Procedure, string Result, IReadOnlyList<PaperExpression> Arguments) : PaperStatement;
+public sealed record PaperArrayAllocation(string Variable, int Length) : PaperStatement;
+public sealed record PaperArrayRead(string Variable, PaperExpression Array, PaperExpression Index) : PaperStatement;
+public sealed record PaperArrayWrite(PaperExpression Array, PaperExpression Index, PaperExpression Value) : PaperStatement;
 public sealed record PaperEdge(string Target, PaperStatement Statement);
 public sealed record PaperNode(string Id, int Line, IReadOnlyList<PaperEdge> Successors);
 public sealed record PaperRuleStep(string Node, int Line, string Rule, string Input, string Output);
@@ -61,7 +67,7 @@ public sealed record PaperPropagationResult(
     public string? ProposedEntryCondition { get; init; }
     public PaperForwardResult? ForwardModelCheck { get; init; }
     public string ForwardVerificationStatus => ForwardModelCheck?.Status ?? "NotPerformed";
-    public string ForwardVerificationScope => "Selected failure site in the supported source/model semantics, not the generated patch or whole method";
+    public string ForwardVerificationScope { get; init; } = "Selected failure site in the supported source/model semantics, not the generated patch or whole method";
 }
 
 public static class PaperRuleEngine

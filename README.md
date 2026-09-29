@@ -4,7 +4,7 @@ Research artifact for C# fault detection, predicate propagation, model verificat
 
 Manuscript revisions are marked directly in [review/paper-annotated.pdf](review/paper-annotated.pdf), with proposed wording and evidence in [review/PAPER_REVIEW.md](review/PAPER_REVIEW.md). The annotated copy requires author revisions before submission; it is not a clean final manuscript.
 
-The [evaluation and case studies](review/PAPER_REVIEW.md#paste-ready-evaluation-section) provide paste-ready manuscript text with measured results, two detailed scenarios, and limitations.
+The [evaluation and case studies](review/PAPER_REVIEW.md#paste-ready-evaluation-section) provide paste-ready manuscript text with measured results, three detailed scenarios, and limitations.
 
 ## Reproduce
 
@@ -20,6 +20,7 @@ Requires Windows x64, .NET 10 SDK, PowerShell 5.1+, and NuGet access. Other nati
 - Backward rules: Initialize, Assign, Assign-Irrel, Guard-T/F, Frame and Join for supported source expressions.
 - Root correction: explicit fixed-predicate observed activation, separate from the printed rule. Neither is a proof of causality.
 - Source verification: automatic lowering of supported structured loops and direct static calls; exhaustive symbolic exploration with fail-closed budgets.
+- Paper listing: fixed-size Int32 arrays, alias-visible reads/writes, counterexample-guided loop-bound guards, and a separate hash-bound safety check of the emitted candidate.
 - Model verification: Z3, Int32 bitvectors, checked loop invariants, explicit callee bodies and isolated call frames. Unknown effects and recursion fail closed.
 - Patch acceptance: isolated baseline, failing reproducer and regression runs; stable test identities; byte hashes; application restricted to one accepted candidate at a time.
 

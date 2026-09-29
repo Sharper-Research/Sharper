@@ -30,7 +30,8 @@ internal sealed class PaperSourceModel
             return new("ForwardOnlySupportedSource", null, [], [], "Exact source exploration; no cyclic backward predicate claimed")
             {
                 ProposedEntryCondition = "true",
-                ForwardModelCheck = result
+                ForwardModelCheck = result,
+                ForwardVerificationScope = "Selected failure and all lowered Int32 array element accesses in supported source; not generated-patch correctness, functional equivalence, or resource-exhaustion safety"
             };
         }
         catch (NotSupportedException exception)
@@ -89,6 +90,16 @@ internal sealed class PaperSourceModel
 
             string Value(SyntaxNode syntax, string target, IOperation? operation, string next)
             {
+                if (operation is IArrayCreationOperation allocation)
+                {
+                    if (allocation.Type is not IArrayTypeSymbol { Rank: 1, ElementType.SpecialType: SpecialType.System_Int32 }
+                        || allocation.Initializer != null || allocation.DimensionSizes.Length != 1
+                        || allocation.DimensionSizes[0].ConstantValue is not { HasValue: true, Value: int size } || size < 0)
+                        throw new NotSupportedException("Only fixed nonnegative-size Int32 array allocations without initializers are supported");
+                    return Add(syntax, new PaperEdge(next, new PaperArrayAllocation(target, size)));
+                }
+                if (operation is IArrayElementReferenceOperation { Indices.Length: 1, Type.SpecialType: SpecialType.System_Int32 } read)
+                    return Add(syntax, new PaperEdge(next, new PaperArrayRead(target, Expression(read.ArrayReference), Expression(read.Indices[0]))));
                 if (operation is not IInvocationOperation call)
                     return Add(syntax, new PaperEdge(next, new PaperAssignment(target, Expression(operation))));
                 if (!call.TargetMethod.IsStatic || call.TargetMethod.IsGenericMethod || call.TargetMethod.IsExtern
@@ -106,6 +117,8 @@ internal sealed class PaperSourceModel
 
             string Effect(SyntaxNode syntax, IOperation? operation, string next) => operation switch
             {
+                ISimpleAssignmentOperation { Target: IArrayElementReferenceOperation { Indices.Length: 1, Type.SpecialType: SpecialType.System_Int32 } write } assignment =>
+                    Add(syntax, new PaperEdge(next, new PaperArrayWrite(Expression(write.ArrayReference), Expression(write.Indices[0]), Expression(assignment.Value)))),
                 ISimpleAssignmentOperation assignment => Value(syntax, Target(assignment.Target), assignment.Value, next),
                 IIncrementOrDecrementOperation increment when increment.OperatorMethod == null && increment.Type?.SpecialType == SpecialType.System_Int32 =>
                     Add(syntax, new PaperEdge(next, new PaperAssignment(Target(increment.Target), PaperExpression.Apply(
@@ -135,9 +148,16 @@ internal sealed class PaperSourceModel
                             is IArrayElementReferenceOperation { Indices.Length: 1, Type.SpecialType: SpecialType.System_Int32 } access)
                     {
                         var target = names[PaperSourceAnalysis.Identity(model.GetDeclaredSymbol(localFailure.Declaration.Variables[0]))];
-                        var value = PaperExpression.Apply("array.int32", Expression(access.ArrayReference), Expression(access.Indices[0]));
                         var failureIndex = nodes.FindIndex(node => node.Id == "failure");
-                        nodes[failureIndex] = nodes[failureIndex] with { Successors = [new(next, new PaperAssignment(target, value))] };
+                        nodes[failureIndex] = nodes[failureIndex] with { Successors = [new(next,
+                            new PaperArrayRead(target, Expression(access.ArrayReference), Expression(access.Indices[0])))] };
+                    }
+                    else if (statement is ExpressionStatementSyntax expression
+                        && model.GetOperation(expression.Expression) is ISimpleAssignmentOperation { Target: IArrayElementReferenceOperation })
+                    {
+                        var continuation = Effect(statement, model.GetOperation(expression.Expression), next);
+                        var failureIndex = nodes.FindIndex(node => node.Id == "failure");
+                        nodes[failureIndex] = nodes[failureIndex] with { Successors = [new(continuation, new PaperFrame([]))] };
                     }
                     else if (statement is not ReturnStatementSyntax)
                         throw new NotSupportedException("Non-return failure sites require modeled continuation effects");

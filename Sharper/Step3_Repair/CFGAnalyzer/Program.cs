@@ -176,6 +176,11 @@ class Program
                 Console.WriteLine($"          Backward: {formula.Status}; forward model: {formula.ForwardVerificationStatus}");
                 Console.WriteLine($"          Scope: {formula.ForwardVerificationScope}");
             }
+            if (item.CandidateModelCheck is { } candidateCheck)
+            {
+                Console.WriteLine($"          Emitted candidate model: {candidateCheck.Status}");
+                Console.WriteLine($"          Candidate scope: {item.CandidateVerificationScope}");
+            }
             if (item.DiffPath != null)
                 Console.WriteLine($"          diff:  {item.DiffPath}");
         }

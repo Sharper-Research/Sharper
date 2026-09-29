@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="ea2ccc10-03aa-4365-8e56-85a03daf81d1" name="manis@MANISH 2026-09-29 23:14:33" runUser="MANISH\manis" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-09-29T23:14:33.2877620+02:00" queuing="2026-09-29T23:14:33.2877623+02:00" start="2026-09-29T23:14:32.7113922+02:00" finish="2026-09-29T23:14:33.2925560+02:00" />
+  <TestSettings name="default" id="eb65191f-4b48-4ae3-a7e8-3774a7011fe4">
+    <Deployment runDeploymentRoot="manis_MANISH_2026-09-29_23_14_33" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="eafc9add-0511-4ac0-baf6-8db450b3e566" testId="fa66fd4c-88d5-9fcf-b80f-a916ee49d87b" testName="FixtureTests.InvalidReadsReturnDefault" computerName="MANISH" duration="00:00:00.0025269" startTime="2026-09-29T23:14:33.2017252+02:00" endTime="2026-09-29T23:14:33.2017503+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="eafc9add-0511-4ac0-baf6-8db450b3e566">
+      <Output>
+        <ErrorInfo>
+          <Message>System.IndexOutOfRangeException : Index was outside the bounds of the array.</Message>
+          <StackTrace>   at Fixture.Read(Int32[] array, Int32 index, Int32 next, Boolean condition) in C:\Users\manis\AppData\Local\Temp\Sharper-validation-c0c51786fb414e77842474b7ff051e24\Fixture.cs:line 9&#xD;
+   at FixtureTests.InvalidReadsReturnDefault() in C:\Users\manis\AppData\Local\Temp\Sharper-validation-c0c51786fb414e77842474b7ff051e24\Fixture.Tests\FixtureTests.cs:line 14&#xD;
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="FixtureTests.InvalidReadsReturnDefault" storage="c:\users\manis\appdata\local\temp\sharper-validation-c0c51786fb414e77842474b7ff051e24\fixture.tests\bin\debug\net10.0\fixture.tests.dll" id="fa66fd4c-88d5-9fcf-b80f-a916ee49d87b">
+      <Execution id="eafc9add-0511-4ac0-baf6-8db450b3e566" />
+      <TestMethod codeBase="C:\Users\manis\AppData\Local\Temp\Sharper-validation-c0c51786fb414e77842474b7ff051e24\Fixture.Tests\bin\Debug\net10.0\Fixture.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="FixtureTests" name="InvalidReadsReturnDefault" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="fa66fd4c-88d5-9fcf-b80f-a916ee49d87b" executionId="eafc9add-0511-4ac0-baf6-8db450b3e566" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Failed">
+    <Counters total="1" executed="1" passed="0" failed="1" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.8.2+699d445a1a (64-bit .NET 10.0.12)&#xD;
+[xUnit.net 00:00:00.05]   Discovering: Fixture.Tests&#xD;
+[xUnit.net 00:00:00.09]   Discovered:  Fixture.Tests&#xD;
+[xUnit.net 00:00:00.10]   Starting:    Fixture.Tests&#xD;
+[xUnit.net 00:00:00.14]       System.IndexOutOfRangeException : Index was outside the bounds of the array.&#xD;
+[xUnit.net 00:00:00.14]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.14]         C:\Users\manis\AppData\Local\Temp\Sharper-validation-c0c51786fb414e77842474b7ff051e24\Fixture.cs(9,0): at Fixture.Read(Int32[] array, Int32 index, Int32 next, Boolean condition)&#xD;
+[xUnit.net 00:00:00.14]         C:\Users\manis\AppData\Local\Temp\Sharper-validation-c0c51786fb414e77842474b7ff051e24\Fixture.Tests\FixtureTests.cs(14,0): at FixtureTests.InvalidReadsReturnDefault()&#xD;
+[xUnit.net 00:00:00.14]            at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+[xUnit.net 00:00:00.14]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)&#xD;
+[xUnit.net 00:00:00.15]   Finished:    Fixture.Tests&#xD;
+</StdOut>
+    </Output>
+    <RunInfos>
+      <RunInfo computerName="MANISH" outcome="Error" timestamp="2026-09-29T23:14:33.1997170+02:00">
+        <Text>[xUnit.net 00:00:00.14]     FixtureTests.InvalidReadsReturnDefault [FAIL]</Text>
+      </RunInfo>
+    </RunInfos>
+  </ResultSummary>
+</TestRun>

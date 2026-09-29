@@ -54,6 +54,11 @@ public sealed record RepairItem(
     string? DiffPath)
 {
     public PaperPropagationResult? FormulaAnalysis { get; init; }
+    public PaperForwardResult? CandidateModelCheck { get; init; }
+    public string? CandidateModelSha256 { get; init; }
+    public List<PaperForwardResult>? CandidateRefinementChecks { get; init; }
+    public string? CandidateVerificationScope => CandidateModelCheck == null ? null
+        : "Reparsed emitted candidate: selected failure and lowered Int32 array element accesses; no functional-equivalence or resource-exhaustion proof";
     public string? SourceSha256 { get; init; }
     public CandidateValidation? Validation { get; init; }
 }
@@ -234,6 +239,22 @@ public static class ViolationDrivenRepair
         var formulaAnalysis = await PaperSourceAnalysis.AnalyzeAsync(doc, v);
         var pathConstraints = new List<string>();
 
+        if (action == RepairAction.AutoPatchable && statement is ExpressionStatementSyntax
+            && v.Predicate.StartsWith("BufferInBounds(", StringComparison.Ordinal)
+            && formulaAnalysis.Status == "ForwardOnlySupportedSource")
+        {
+            var guarded = await PatchSynthesizer.WriteLoopGuardPatchAsync(doc, statement, v, patchesDir);
+            if (guarded is { } candidate)
+                return new RepairItem(v, memberName, doc.FilePath ?? v.File, stmtStart, stmtEnd,
+                    RepairAction.AutoPatchable, "Loop-bound guard candidate; stops a loop before an invalid array write; requires contract validation",
+                    pathConstraints, candidate.Path, candidate.Diff)
+                {
+                    FormulaAnalysis = formulaAnalysis, CandidateModelCheck = candidate.Check,
+                    CandidateModelSha256 = CandidateValidator.HashFile(candidate.Path),
+                    CandidateRefinementChecks = candidate.Checks
+                };
+        }
+
         if (v.Predicate.StartsWith("BufferInBounds(", StringComparison.Ordinal)
             && formulaAnalysis.Status == "PropagatedSupportedSubset"
             && statement is ReturnStatementSyntax
@@ -365,6 +386,7 @@ public static class ViolationDrivenRepair
         if (v.Predicate.StartsWith("NotNull",        StringComparison.Ordinal) ||
             v.Predicate.StartsWith("ValidCast",      StringComparison.Ordinal) ||
             v.Predicate.StartsWith("BufferBounds",   StringComparison.Ordinal) ||
+            v.Predicate.StartsWith("BufferInBounds", StringComparison.Ordinal) ||
             v.Predicate.StartsWith("IntegerOverflow",StringComparison.Ordinal))
         {
             if (statement == null)
@@ -392,6 +414,7 @@ public static class ViolationDrivenRepair
         if (p.StartsWith("NotNull",         StringComparison.Ordinal)) return "System.NullReferenceException";
         if (p.StartsWith("ValidCast",       StringComparison.Ordinal)) return "System.InvalidCastException";
         if (p.StartsWith("BufferBounds",    StringComparison.Ordinal)) return "System.ArgumentOutOfRangeException";
+        if (p.StartsWith("BufferInBounds",  StringComparison.Ordinal)) return "System.IndexOutOfRangeException";
         if (p.StartsWith("IntegerOverflow", StringComparison.Ordinal)) return "System.OverflowException";
         return "System.Exception";
     }

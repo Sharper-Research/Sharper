@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="a178bf74-59c2-41d7-a4e0-9e383e2e279b" name="manis@MANISH 2026-09-29 23:14:37" runUser="MANISH\manis" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-09-29T23:14:37.4631078+02:00" queuing="2026-09-29T23:14:37.4631079+02:00" start="2026-09-29T23:14:36.8983770+02:00" finish="2026-09-29T23:14:37.4671662+02:00" />
+  <TestSettings name="default" id="f44f59cb-10f2-48da-a205-23258d61a362">
+    <Deployment runDeploymentRoot="manis_MANISH_2026-09-29_23_14_37" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="bcc7d21e-aa57-4342-bf5b-70fa28dea171" testId="f0391654-7a52-b22a-b018-850504aa7dc6" testName="FixtureTests.NullArrayReturnsDefault" computerName="MANISH" duration="00:00:00.0000705" startTime="2026-09-29T23:14:37.3806262+02:00" endTime="2026-09-29T23:14:37.3806262+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="bcc7d21e-aa57-4342-bf5b-70fa28dea171" />
+    <UnitTestResult executionId="ca604ea8-36e9-48c8-a782-9ef26887c5ad" testId="9a24b2b1-0e45-a8e7-13b2-8c6c684cf8a0" testName="FixtureTests.ValidReadsArePreserved(index: 1, expected: 20)" computerName="MANISH" duration="00:00:00.0001826" startTime="2026-09-29T23:14:37.3802201+02:00" endTime="2026-09-29T23:14:37.3802202+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ca604ea8-36e9-48c8-a782-9ef26887c5ad" />
+    <UnitTestResult executionId="baf78c34-dff9-4d69-b911-41d54748b23a" testId="fa66fd4c-88d5-9fcf-b80f-a916ee49d87b" testName="FixtureTests.InvalidReadsReturnDefault" computerName="MANISH" duration="00:00:00.0001617" startTime="2026-09-29T23:14:37.3806010+02:00" endTime="2026-09-29T23:14:37.3806011+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="baf78c34-dff9-4d69-b911-41d54748b23a" />
+    <UnitTestResult executionId="2e75ac4a-9f97-4438-8428-8f54d6c19cae" testId="ce265d59-63f4-aed9-c85c-be929f3356ec" testName="FixtureTests.ValidReadsArePreserved(index: 0, expected: 10)" computerName="MANISH" duration="00:00:00.0052958" startTime="2026-09-29T23:14:37.3774759+02:00" endTime="2026-09-29T23:14:37.3775067+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2e75ac4a-9f97-4438-8428-8f54d6c19cae" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="FixtureTests.InvalidReadsReturnDefault" storage="c:\users\manis\appdata\local\temp\sharper-validation-c0c51786fb414e77842474b7ff051e24\fixture.tests\bin\debug\net10.0\fixture.tests.dll" id="fa66fd4c-88d5-9fcf-b80f-a916ee49d87b">
+      <Execution id="baf78c34-dff9-4d69-b911-41d54748b23a" />
+      <TestMethod codeBase="C:\Users\manis\AppData\Local\Temp\Sharper-validation-c0c51786fb414e77842474b7ff051e24\Fixture.Tests\bin\Debug\net10.0\Fixture.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="FixtureTests" name="InvalidReadsReturnDefault" />
+    </UnitTest>
+    <UnitTest name="FixtureTests.ValidReadsArePreserved(index: 1, expected: 20)" storage="c:\users\manis\appdata\local\temp\sharper-validation-c0c51786fb414e77842474b7ff051e24\fixture.tests\bin\debug\net10.0\fixture.tests.dll" id="9a24b2b1-0e45-a8e7-13b2-8c6c684cf8a0">
+      <Execution id="ca604ea8-36e9-48c8-a782-9ef26887c5ad" />
+      <TestMethod codeBase="C:\Users\manis\AppData\Local\Temp\Sharper-validation-c0c51786fb414e77842474b7ff051e24\Fixture.Tests\bin\Debug\net10.0\Fixture.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="FixtureTests" name="ValidReadsArePreserved" />
+    </UnitTest>
+    <UnitTest name="FixtureTests.NullArrayReturnsDefault" storage="c:\users\manis\appdata\local\temp\sharper-validation-c0c51786fb414e77842474b7ff051e24\fixture.tests\bin\debug\net10.0\fixture.tests.dll" id="f0391654-7a52-b22a-b018-850504aa7dc6">
+      <Execution id="bcc7d21e-aa57-4342-bf5b-70fa28dea171" />
+      <TestMethod codeBase="C:\Users\manis\AppData\Local\Temp\Sharper-validation-c0c51786fb414e77842474b7ff051e24\Fixture.Tests\bin\Debug\net10.0\Fixture.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="FixtureTests" name="NullArrayReturnsDefault" />
+    </UnitTest>
+    <UnitTest name="FixtureTests.ValidReadsArePreserved(index: 0, expected: 10)" storage="c:\users\manis\appdata\local\temp\sharper-validation-c0c51786fb414e77842474b7ff051e24\fixture.tests\bin\debug\net10.0\fixture.tests.dll" id="ce265d59-63f4-aed9-c85c-be929f3356ec">
+      <Execution id="2e75ac4a-9f97-4438-8428-8f54d6c19cae" />
+      <TestMethod codeBase="C:\Users\manis\AppData\Local\Temp\Sharper-validation-c0c51786fb414e77842474b7ff051e24\Fixture.Tests\bin\Debug\net10.0\Fixture.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="FixtureTests" name="ValidReadsArePreserved" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="f0391654-7a52-b22a-b018-850504aa7dc6" executionId="bcc7d21e-aa57-4342-bf5b-70fa28dea171" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="9a24b2b1-0e45-a8e7-13b2-8c6c684cf8a0" executionId="ca604ea8-36e9-48c8-a782-9ef26887c5ad" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="fa66fd4c-88d5-9fcf-b80f-a916ee49d87b" executionId="baf78c34-dff9-4d69-b911-41d54748b23a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ce265d59-63f4-aed9-c85c-be929f3356ec" executionId="2e75ac4a-9f97-4438-8428-8f54d6c19cae" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="4" executed="4" passed="4" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.8.2+699d445a1a (64-bit .NET 10.0.12)&#xD;
+[xUnit.net 00:00:00.05]   Discovering: Fixture.Tests&#xD;
+[xUnit.net 00:00:00.09]   Discovered:  Fixture.Tests&#xD;
+[xUnit.net 00:00:00.10]   Starting:    Fixture.Tests&#xD;
+[xUnit.net 00:00:00.14]   Finished:    Fixture.Tests&#xD;
+</StdOut>
+    </Output>
+  </ResultSummary>
+</TestRun>

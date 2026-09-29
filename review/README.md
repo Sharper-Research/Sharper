@@ -6,7 +6,7 @@ Read [PAPER_AMENDMENTS.md](PAPER_AMENDMENTS.md) first. It corrects the Root defi
 
 [paper-annotated.pdf](paper-annotated.pdf) contains 19 highlighted comments with proposed replacement wording and implementation evidence. [PAPER_REVIEW.md](PAPER_REVIEW.md) contains the same comments as a readable checklist. The original [paper.pdf](paper.pdf) is unchanged. This is an author revision copy, not a clean submission manuscript or a claim of publication acceptance.
 
-The [paste-ready Evaluation section](PAPER_REVIEW.md#paste-ready-evaluation-section) includes research questions, the measured results table, two case studies, and threats to validity. It distinguishes 240 formula/execution input combinations, 98 analyzer tests, and two repair scenarios; none of these counts is substituted for another.
+The [paste-ready Evaluation section](PAPER_REVIEW.md#paste-ready-evaluation-section) includes research questions, the measured results table, three case studies, and threats to validity. It distinguishes 240 formula/execution combinations, 56 listing-candidate execution inputs, 112 analyzer tests, and three repair scenarios; none of these counts is substituted for another.
 
 After applying the comments to the editable manuscript, rebuild and review the final PDF, confirm author approval, licensing and venue requirements, and cite the exact artifact commit. No manuscript source or submission-portal access is included in this workspace.
 
@@ -28,11 +28,11 @@ Windows x64, .NET 10 SDK, PowerShell 5.1+, and NuGet access are required. Run fr
 .\review\reproduce.ps1 -Output review/rerun
 ```
 
-The script builds the solution, runs the analyzer tests, verifies a model containing a loop and a procedure call, and checks the corrected activation example. It instruments a disposable runtime-fixture copy, runs its tests, detects violations from the fresh trace, accepts the synthetic bounds guard, and rejects the overfitted runtime candidate. It checks that both original fixture files are unchanged. Logs, traces, TRX files, plans, source hashes, and environment/timing metadata are retained in the output directory. The single elapsed-time observation is not a performance benchmark.
+The script builds the solution, runs the analyzer tests, verifies a model containing a loop and a procedure call, and checks the corrected activation example. It instruments a disposable runtime-fixture copy, runs its tests, detects violations from the fresh trace, accepts the synthetic bounds guard, and rejects the overfitted runtime candidate. It also generates, model-checks, and test-validates the two-loop listing candidate. All three original fixture files must remain unchanged. Logs, traces, TRX files, plans, source hashes, and environment/timing metadata are retained in the output directory. The single elapsed-time observation is not a performance benchmark.
 
 | Check | Expected result |
 | --- | --- |
-| Analyzer unit suite | 98/98 pass; no skipped tests or prior local-function CFG warnings |
+| Analyzer unit suite | 112/112 pass; no skipped tests or prior local-function CFG warnings |
 | CFG ownership and invocation | Top-level/nested bodies retained; condition/return calls discovered; no declaration-only call edges; distinct lambda IDs |
 | Formula/execution correspondence | 240 boundary-input combinations agree with emitted predicates and compiled C# behavior |
 | Repeated loop-local array access | Later failing visit produces Counterexample; safe repeated access verifies |
@@ -41,6 +41,8 @@ The script builds the solution, runs the analyzer tests, verifies a model contai
 | Fixed-predicate activation | ObservedActivation-v1; candidate true |
 | Synthetic guard | Baseline 2/4 pass; candidate 4/4 pass; AcceptedByTests |
 | Extracted runtime bug | Baseline 3/5 pass; candidate 4/5 pass; Rejected |
+| Paper Listing 1.1 | Two counterexample stages; emitted candidate VerifiedExploredModel; baseline 1/4, candidate 4/4; AcceptedByTests |
+| Candidate model integrity | Stale candidate hashes and known safety counterexamples block test acceptance |
 | Fresh runtime trace | Instrumented 3/5; two null-dereference observations at one site |
 
 The deliberately faulty target projects are not expected to pass their original suites. Do not use solution-wide test success as the reproduction criterion.
@@ -59,6 +61,8 @@ The deliberately faulty target projects are not expected to pass their original 
 | Hash-checked application | [PatchSynthesizer.cs](../Sharper/Step3_Repair/CFGAnalyzer/Repair/PatchSynthesizer.cs) |
 
 ## Boundaries
+
+The listing path supports fixed-size one-dimensional Int32 array allocation, zero initialization, alias-visible stores and checked element accesses. It refines eligible while-loop guards up to eight times and reparses the emitted candidate for a separate, hash-bound model check. The generated policy stops loops before invalid writes; the fixture tests normal completion, not private buffer contents or functional equivalence. Dynamic-size allocation, general heap effects and allocation exhaustion remain outside this result.
 
 The general Roslyn CFG/call-graph analysis and the restricted source/model verifier are separate. A collected lambda or local-function CFG is not evidence that the verifier supports all effects in that body. Call edges describe static possibilities under the configured resolvers, not a complete dynamic trace.
 
