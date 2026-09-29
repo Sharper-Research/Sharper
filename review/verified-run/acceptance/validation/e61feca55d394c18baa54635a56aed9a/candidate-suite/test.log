@@ -1,9 +1,0 @@
-  Determining projects to restore...
-  All projects are up-to-date for restore.
-  Fixture -> C:\Users\manis\AppData\Local\Temp\Sharper-validation-0f41dc2dd8084dc6ac6d13016275838a\bin\Debug\net10.0\Fixture.dll
-  Fixture.Tests -> C:\Users\manis\AppData\Local\Temp\Sharper-validation-0f41dc2dd8084dc6ac6d13016275838a\Fixture.Tests\bin\Debug\net10.0\Fixture.Tests.dll
-Test run for C:\Users\manis\AppData\Local\Temp\Sharper-validation-0f41dc2dd8084dc6ac6d13016275838a\Fixture.Tests\bin\Debug\net10.0\Fixture.Tests.dll (.NETCoreApp,Version=v10.0)
-A total of 1 test files matched the specified pattern.
-Results File: C:\Users\manis\Desktop\Sharper\review\verified-run\acceptance\validation\e61feca55d394c18baa54635a56aed9a\candidate-suite\tests.trx
-
-Passed!  - Failed:     0, Passed:     4, Skipped:     0, Total:     4, Duration: 9 ms - Fixture.Tests.dll (net10.0)

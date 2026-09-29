@@ -8,13 +8,13 @@ public static class CallGraphJsonExporter
     private static CallGraphJsonDto ToDto(CallGraph callGraph, string? projectName = null)
     {
         var nodes = callGraph.Nodes.Values
-            .OrderBy(node => node.Symbol.ToDisplayString(), StringComparer.Ordinal)
+            .OrderBy(node => GetSymbolId(node.Symbol), StringComparer.Ordinal)
             .Select(ToNodeDto)
             .ToList();
 
         var edges = callGraph.Edges
-            .OrderBy(edge => edge.Caller.Symbol.ToDisplayString(), StringComparer.Ordinal)
-            .ThenBy(edge => edge.Callee.Symbol.ToDisplayString(), StringComparer.Ordinal)
+            .OrderBy(edge => GetSymbolId(edge.Caller.Symbol), StringComparer.Ordinal)
+            .ThenBy(edge => GetSymbolId(edge.Callee.Symbol), StringComparer.Ordinal)
             .ThenBy(edge => edge.CallSite.BlockOrdinal)
             .Select(ToEdgeDto)
             .ToList();
@@ -48,7 +48,7 @@ public static class CallGraphJsonExporter
     {
         var callSites = analysis.CallSites
             .OrderBy(site => site.BlockOrdinal)
-            .ThenBy(site => site.Target.ToDisplayString(), StringComparer.Ordinal)
+            .ThenBy(site => GetSymbolId(site.Target), StringComparer.Ordinal)
             .Select(site => new CallSiteJsonDto(
                 site.BlockOrdinal,
                 GetSymbolId(site.Target),
@@ -95,6 +95,12 @@ public static class CallGraphJsonExporter
 
     private static string GetSymbolId(IMethodSymbol symbol)
     {
+        if (symbol.MethodKind is MethodKind.LocalFunction or MethodKind.AnonymousFunction
+            && symbol.ContainingSymbol is IMethodSymbol owner)
+        {
+            var position = symbol.Locations.FirstOrDefault(location => location.IsInSource)?.GetLineSpan().StartLinePosition;
+            return $"{GetSymbolId(owner)}::{symbol.ToDisplayString(SymbolDisplayFormat.CSharpErrorMessageFormat)}@{position?.Line}:{position?.Character}";
+        }
         return string.Join("::",
             symbol.ContainingAssembly?.Name ?? "<unknown-assembly>",
             symbol.ToDisplayString(SymbolDisplayFormat.CSharpErrorMessageFormat));

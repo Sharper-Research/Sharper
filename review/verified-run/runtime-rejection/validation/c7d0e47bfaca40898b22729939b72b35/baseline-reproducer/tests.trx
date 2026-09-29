@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="0433fa07-3cc2-4204-8412-b20eb4ecd465" name="manis@MANISH 2026-09-29 22:12:41" runUser="MANISH\manis" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-09-29T22:12:41.3887883+02:00" queuing="2026-09-29T22:12:41.3887888+02:00" start="2026-09-29T22:12:40.8398467+02:00" finish="2026-09-29T22:12:41.3950717+02:00" />
+  <TestSettings name="default" id="fe111213-f94d-4c46-8ac3-1bf299c8edde">
+    <Deployment runDeploymentRoot="manis_MANISH_2026-09-29_22_12_41" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="d6686ad4-461f-49f5-8c7d-2255deeb6b4d" testId="c615ef91-bf16-393b-1eff-7cac690a7286" testName="CheckShouldPersist_MethodOnBaseClass_NullDereference" computerName="MANISH" duration="00:00:00.0001668" startTime="2026-09-29T22:12:41.2816147+02:00" endTime="2026-09-29T22:12:41.2830577+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d6686ad4-461f-49f5-8c7d-2255deeb6b4d">
+      <Output>
+        <ErrorInfo>
+          <Message>Test method RuntimeCode.Tests.MemberMethodResolverTests.CheckShouldPersist_MethodOnBaseClass_NullDereference threw exception: &#xD;
+System.NullReferenceException: Object reference not set to an instance of an object.</Message>
+          <StackTrace>    at RuntimeCode.MemberMethodResolver.CheckShouldPersist(Object o, String memberName) in C:\Users\manis\AppData\Local\Temp\Sharper-validation-e2cb780b071d47a4a1a275e92de5c8af\RuntimeCode\MemberMethodResolver.cs:line 18&#xD;
+   at RuntimeCode.Tests.MemberMethodResolverTests.CheckShouldPersist_MethodOnBaseClass_NullDereference() in C:\Users\manis\AppData\Local\Temp\Sharper-validation-e2cb780b071d47a4a1a275e92de5c8af\RuntimeCode.Tests\MemberMethodResolverTests.cs:line 64&#xD;
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="12020fc9-9bcf-4138-9d7a-fe0a3f518b68" testId="9d41a1c7-df28-ea32-f3f2-d3b81e699863" testName="CheckShouldPersist_MethodOnBaseClassViaBaseInstance_Works" computerName="MANISH" duration="00:00:00.0001103" startTime="2026-09-29T22:12:41.2814370+02:00" endTime="2026-09-29T22:12:41.2815978+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="12020fc9-9bcf-4138-9d7a-fe0a3f518b68" />
+    <UnitTestResult executionId="772fd1be-4fe3-4cd1-b964-0945d5fc2f94" testId="7d5c504f-f1b6-9e15-3d95-3dbbbc927f80" testName="CheckShouldPersist_MethodOnSameClass_ReturnsValue" computerName="MANISH" duration="00:00:00.0002568" startTime="2026-09-29T22:12:41.2810102+02:00" endTime="2026-09-29T22:12:41.2813344+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="772fd1be-4fe3-4cd1-b964-0945d5fc2f94" />
+    <UnitTestResult executionId="fbd26fda-1e03-4906-8b4b-8a27aa5ab298" testId="54a7f067-8871-e47c-cfab-5d9e4fd7bdb1" testName="CheckShouldPersist_TrueMethodOnBaseClass_PreservesTrue" computerName="MANISH" duration="00:00:00.0064840" startTime="2026-09-29T22:12:41.2736644+02:00" endTime="2026-09-29T22:12:41.2806843+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="fbd26fda-1e03-4906-8b4b-8a27aa5ab298">
+      <Output>
+        <ErrorInfo>
+          <Message>Test method RuntimeCode.Tests.MemberMethodResolverTests.CheckShouldPersist_TrueMethodOnBaseClass_PreservesTrue threw exception: &#xD;
+System.NullReferenceException: Object reference not set to an instance of an object.</Message>
+          <StackTrace>    at RuntimeCode.MemberMethodResolver.CheckShouldPersist(Object o, String memberName) in C:\Users\manis\AppData\Local\Temp\Sharper-validation-e2cb780b071d47a4a1a275e92de5c8af\RuntimeCode\MemberMethodResolver.cs:line 18&#xD;
+   at RuntimeCode.Tests.MemberMethodResolverTests.CheckShouldPersist_TrueMethodOnBaseClass_PreservesTrue() in C:\Users\manis\AppData\Local\Temp\Sharper-validation-e2cb780b071d47a4a1a275e92de5c8af\RuntimeCode.Tests\MemberMethodResolverTests.cs:line 41&#xD;
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="45502136-cf66-4285-a25d-f7e2876683e2" testId="6a44a5ec-5559-34ff-e938-020e6c8432d1" testName="CheckShouldPersist_TrueMethodOnSameClass_PreservesTrue" computerName="MANISH" duration="00:00:00.0022338" startTime="2026-09-29T22:12:41.2570286+02:00" endTime="2026-09-29T22:12:41.2693356+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="45502136-cf66-4285-a25d-f7e2876683e2" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="CheckShouldPersist_TrueMethodOnBaseClass_PreservesTrue" storage="c:\users\manis\appdata\local\temp\sharper-validation-e2cb780b071d47a4a1a275e92de5c8af\runtimecode.tests\bin\debug\net10.0\runtimecode.tests.dll" id="54a7f067-8871-e47c-cfab-5d9e4fd7bdb1">
+      <Execution id="fbd26fda-1e03-4906-8b4b-8a27aa5ab298" />
+      <TestMethod codeBase="C:\Users\manis\AppData\Local\Temp\Sharper-validation-e2cb780b071d47a4a1a275e92de5c8af\RuntimeCode.Tests\bin\Debug\net10.0\RuntimeCode.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="RuntimeCode.Tests.MemberMethodResolverTests" name="CheckShouldPersist_TrueMethodOnBaseClass_PreservesTrue" />
+    </UnitTest>
+    <UnitTest name="CheckShouldPersist_MethodOnBaseClass_NullDereference" storage="c:\users\manis\appdata\local\temp\sharper-validation-e2cb780b071d47a4a1a275e92de5c8af\runtimecode.tests\bin\debug\net10.0\runtimecode.tests.dll" id="c615ef91-bf16-393b-1eff-7cac690a7286">
+      <Execution id="d6686ad4-461f-49f5-8c7d-2255deeb6b4d" />
+      <TestMethod codeBase="C:\Users\manis\AppData\Local\Temp\Sharper-validation-e2cb780b071d47a4a1a275e92de5c8af\RuntimeCode.Tests\bin\Debug\net10.0\RuntimeCode.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="RuntimeCode.Tests.MemberMethodResolverTests" name="CheckShouldPersist_MethodOnBaseClass_NullDereference" />
+    </UnitTest>
+    <UnitTest name="CheckShouldPersist_MethodOnBaseClassViaBaseInstance_Works" storage="c:\users\manis\appdata\local\temp\sharper-validation-e2cb780b071d47a4a1a275e92de5c8af\runtimecode.tests\bin\debug\net10.0\runtimecode.tests.dll" id="9d41a1c7-df28-ea32-f3f2-d3b81e699863">
+      <Execution id="12020fc9-9bcf-4138-9d7a-fe0a3f518b68" />
+      <TestMethod codeBase="C:\Users\manis\AppData\Local\Temp\Sharper-validation-e2cb780b071d47a4a1a275e92de5c8af\RuntimeCode.Tests\bin\Debug\net10.0\RuntimeCode.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="RuntimeCode.Tests.MemberMethodResolverTests" name="CheckShouldPersist_MethodOnBaseClassViaBaseInstance_Works" />
+    </UnitTest>
+    <UnitTest name="CheckShouldPersist_TrueMethodOnSameClass_PreservesTrue" storage="c:\users\manis\appdata\local\temp\sharper-validation-e2cb780b071d47a4a1a275e92de5c8af\runtimecode.tests\bin\debug\net10.0\runtimecode.tests.dll" id="6a44a5ec-5559-34ff-e938-020e6c8432d1">
+      <Execution id="45502136-cf66-4285-a25d-f7e2876683e2" />
+      <TestMethod codeBase="C:\Users\manis\AppData\Local\Temp\Sharper-validation-e2cb780b071d47a4a1a275e92de5c8af\RuntimeCode.Tests\bin\Debug\net10.0\RuntimeCode.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="RuntimeCode.Tests.MemberMethodResolverTests" name="CheckShouldPersist_TrueMethodOnSameClass_PreservesTrue" />
+    </UnitTest>
+    <UnitTest name="CheckShouldPersist_MethodOnSameClass_ReturnsValue" storage="c:\users\manis\appdata\local\temp\sharper-validation-e2cb780b071d47a4a1a275e92de5c8af\runtimecode.tests\bin\debug\net10.0\runtimecode.tests.dll" id="7d5c504f-f1b6-9e15-3d95-3dbbbc927f80">
+      <Execution id="772fd1be-4fe3-4cd1-b964-0945d5fc2f94" />
+      <TestMethod codeBase="C:\Users\manis\AppData\Local\Temp\Sharper-validation-e2cb780b071d47a4a1a275e92de5c8af\RuntimeCode.Tests\bin\Debug\net10.0\RuntimeCode.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="RuntimeCode.Tests.MemberMethodResolverTests" name="CheckShouldPersist_MethodOnSameClass_ReturnsValue" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="c615ef91-bf16-393b-1eff-7cac690a7286" executionId="d6686ad4-461f-49f5-8c7d-2255deeb6b4d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="9d41a1c7-df28-ea32-f3f2-d3b81e699863" executionId="12020fc9-9bcf-4138-9d7a-fe0a3f518b68" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="7d5c504f-f1b6-9e15-3d95-3dbbbc927f80" executionId="772fd1be-4fe3-4cd1-b964-0945d5fc2f94" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="54a7f067-8871-e47c-cfab-5d9e4fd7bdb1" executionId="fbd26fda-1e03-4906-8b4b-8a27aa5ab298" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="6a44a5ec-5559-34ff-e938-020e6c8432d1" executionId="45502136-cf66-4285-a25d-f7e2876683e2" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Failed">
+    <Counters total="5" executed="5" passed="3" failed="2" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+  </ResultSummary>
+</TestRun>

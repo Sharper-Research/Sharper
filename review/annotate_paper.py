@@ -72,8 +72,18 @@ COMMENTS = [
      "restricted relevance analysis, not a demonstrated general heap-aware or interprocedural dynamic slice. "
      "The active violation pipeline must not be conflated with the separate legacy call-graph traversal. "
      "Initialization is based on the selected source expression and violation kind; general reconstruction "
-     "of the complete failure state from the trace is not established.",
-     [ANALYSIS + "PaperRuleEngine.cs", ANALYSIS + "PaperSourceAnalysis.cs", REPAIR + "ViolationDrivenRepair.cs"]),
+    "of the complete failure state from the trace is not established.\n\n"
+    "Use this CFG implementation paragraph: Sharper constructs Roslyn control-flow graphs for ordinary "
+    "methods and top-level entry points. Local functions and lambdas are obtained recursively from their "
+    "owning graphs. Call discovery visits block operations and branch values, including conditions and "
+    "return expressions; creating a delegate does not itself invoke its body. Exported nested-function "
+    "identities include their enclosing method and source position. These static may-call graphs are "
+    "distinct from the restricted source/model graphs used for predicate propagation and safety checks. "
+    "Collecting a lambda CFG does not establish support for lambda effects in the source verifier.",
+    [ANALYSIS + "PaperRuleEngine.cs", ANALYSIS + "PaperSourceAnalysis.cs", REPAIR + "ViolationDrivenRepair.cs",
+     ANALYSIS + "ProjectAnalyzer.cs", ANALYSIS + "CallGraphBuilder.cs", ANALYSIS + "CallGraphJsonExporter.cs",
+     ANALYSIS + "CallResolvers/StaticCallResolver.cs",
+     "Sharper/Step3_Repair/CFGAnalyzer/CFGAnalyzer.Tests/CallGraphSnapshotTests.cs"]),
     (3, "Table 1", "Separate template availability from verifier support",
      "Retain the three failure templates as definitions, but specify their domains: one-dimensional arrays "
      "for the source bounds adapter; modeled references for null; and a reference-cast template whose "
@@ -155,15 +165,29 @@ COMMENTS = [
      "work includes broader source semantics, automatic trace localization, invariant inference, "
      "and specification-based checking of emitted patches.",
      ["review/verified-run/acceptance/repair_plan.json", "review/verified-run/runtime-rejection/repair_plan.json"]),
-    (6, "Planned work", "Update completed work and add threats to validity",
-     "Regression-test checking is now implemented; do not list it solely as future work. State that "
-     "it is evidence, not proof of intended behavior. Add threats: two small purpose-built fixtures; "
-     "an incomplete test oracle may accept overfitting; stringified and incomplete trace observations; "
-     "limited C# semantics; no broad current-version benchmark or human study. The copied validation "
-     "workspace is filesystem isolation, not a security sandbox: dotnet test executes target code "
-     "with the user's privileges. Unsupported test platforms, skipped/ambiguous results, and timeouts "
-     "are rejected. The two-minute test limit and verified environment must be reported.",
-     [REPAIR + "CandidateValidator.cs", "review/README.md"]),
+        (6, "Planned work", "Insert the Evaluation and Case Studies section before Related Work",
+         "Use the complete paste-ready Evaluation section in PAPER_REVIEW.md, including its results table, "
+         "two case studies, and threats to validity. Replace the planned-evaluation claim with:\n\n"
+         "We evaluate three questions: whether the emitted predicates agree with concrete execution on a "
+         "boundary-input matrix; whether CFG construction and call discovery preserve the tested ownership "
+         "and invocation relationships; and whether the candidate gate accepts a contract-supported guard "
+         "while rejecting an exception-suppressing but behaviorally incorrect candidate. Across 240 input "
+         "combinations, the emitted bounds predicate agrees with the mathematical oracle and compiled C# "
+         "execution. Seven call-graph snapshots and three semantic CFG regressions pass. A synthetic bounds "
+         "fixture improves from 2/4 to 4/4 passing tests and is AcceptedByTests. Fresh tracing of an extracted "
+         "dotnet/runtime regression observes two null dereferences at one source location; its catch/default "
+         "candidate improves from 3/5 to 4/5 but is Rejected because the inherited true-result test still fails. "
+         "These are two purpose-built scenarios, not a representative repair benchmark.\n\n"
+         "Use this threats paragraph: The results demonstrate feasibility within a restricted C# subset. "
+         "They do not establish a population repair rate, comparative superiority, instrumentation transparency, "
+         "or correctness beyond the checked properties and test oracles. Unit tests, parameter combinations, "
+         "and repeated fault observations are not independent repair cases. The runtime fixture is extracted, "
+         "not a full upstream scan or successful upstream repair. The copied validation workspace is filesystem "
+         "isolation, not a security sandbox; target code runs with the user's privileges. No human study or "
+         "controlled performance evaluation is reported. Regression-test validation is implemented, while "
+         "broader semantics and specification-based checking of emitted patches remain future work.",
+         [REPAIR + "CandidateValidator.cs", "review/README.md", "review/reproduce.ps1", TESTS,
+            "review/verified-run/runtime-trace/violations.json", "review/verified-run/environment.json"]),
     (6, "TODO", "Fill data availability and finish submission checks",
      "Replace the TODO with https://github.com/Manish-SDU/Sharper/tree/Sharper and cite the exact "
      "reviewed commit recorded in the final package manifest, not only a moving branch. Include "
@@ -197,11 +221,91 @@ def load_evidence(directory):
     if not any("AutomaticAcceptanceRequiresStableReproducerAndRegressionResults" in name and "mutated-tests" in name
                for name in test_names):
         raise ValueError("Test-input mutation regression evidence is missing")
-    for case, status in [("acceptance", "AcceptedByTests"), ("runtime-rejection", "Rejected")]:
+    for required in ["Figure2_RepairDriverPropagatesBothCSharpBranches", "TopLevelEntryOwnsLocalFunctionControlFlowGraph",
+                     "NestedFunctionsHaveOwnedControlFlowGraphs",
+                     "BranchAndReturnCallsAreDiscoveredWithoutInvokingDelegateDeclarations"]:
+        if not any(required in name for name in test_names):
+            raise ValueError("Missing evaluation regression: " + required)
+    if sum("CallGraph_json_matches_snapshot" in name for name in test_names) != 7:
+        raise ValueError("Expected seven CFG snapshot results")
+    for case, status, before, after, total in [("acceptance", "AcceptedByTests", 2, 4, 4),
+                                               ("runtime-rejection", "Rejected", 3, 4, 5)]:
         plan = json.loads((directory / case / "repair_plan.json").read_text(encoding="utf-8-sig"))
         if not plan["Items"] or any(item["Validation"]["Status"] != status for item in plan["Items"]):
             raise ValueError("Unexpected decision for " + case)
+        for item in plan["Items"]:
+            for run, expected in [("baseline-suite", before), ("candidate-suite", after)]:
+                outcomes = item["Validation"]["Runs"][run]["Tests"]
+                if len(outcomes) != total or sum(value == "Passed" for value in outcomes.values()) != expected:
+                    raise ValueError("Unexpected test counts for " + case + "/" + run)
+    violations = json.loads((directory / "runtime-trace/violations.json").read_text(encoding="utf-8-sig"))
+    if len(violations) != 2 or any(item["file"] != "MemberMethodResolver.cs" or item["line"] != 13
+                                  or item["predicate"] != "NotNull(dereference.receiver)" for item in violations):
+        raise ValueError("Runtime detection evidence does not match the case study")
+    instrumented = ET.parse(directory / "runtime-trace/instrumented.trx").find(".//{*}Counters")
+    if instrumented is None or tuple(instrumented.get(key) for key in ["total", "passed", "failed"]) != ("5", "3", "2"):
+        raise ValueError("Instrumented execution must preserve the expected 3/5 result")
     return int(counters.get("passed"))
+
+
+def evaluation_section(passed, directory):
+    environment = json.loads((directory / "environment.json").read_text(encoding="utf-8-sig"))
+    trace_count = sum(bool(line.strip()) for line in (directory / "runtime-trace/trace_logs.jsonl").read_text(encoding="utf-8-sig").splitlines())
+    return f"""## Paste-Ready Evaluation Section
+
+Author instruction: insert the following Evaluation section before Related Work. Replace any conflicting evaluation claims elsewhere. The section reports this artifact's measured results; it is not a broad benchmark study.
+
+## Evaluation
+
+### Questions and Protocol
+
+We evaluate three research questions. RQ1 asks whether the emitted failure predicate agrees with a mathematical bounds oracle and concrete C# execution on a boundary-input matrix. RQ2 asks whether CFG construction and call discovery preserve the tested ownership and invocation relationships. RQ3 asks whether the test gate distinguishes a candidate consistent with the supplied contract from an exception-suppressing candidate that violates it.
+
+The evaluation uses two repair scenarios: a synthetic array-access fixture with an explicit default-return contract, and an extracted regression derived from dotnet/runtime issue 120561. The latter is pinned to source commit `8d3c4013b7e7c6d603b08a1fbf563d51e2c2e00c`; it is not a full-repository experiment. The analyzer's unit and snapshot tests provide implementation checks and are reported separately from these scenarios. No random sampling or human participants are involved.
+
+The recorded environment is {environment['os']} ({environment['architecture']}), .NET SDK {environment['dotnet_sdk']}, and PowerShell {environment['powershell']}. The tool uses Roslyn 5.3.0 and Microsoft.Z3 4.12.2. Starting from unchanged fixture sources, the reproduction script builds the tool, executes the analyzer suite, checks the loop/call and activation models, instruments a disposable runtime-fixture copy, executes its tests, and detects violations from the resulting trace. It then evaluates candidates using isolated baseline-suite, baseline-reproducer, candidate-reproducer, and candidate-suite runs. Acceptance requires actual baseline failure, stable test identities, unchanged snapshotted test/project inputs, and nonempty, non-skipped passing candidate results. Each test invocation has a two-minute limit. The original fixture hashes are checked afterward. The recorded complete local run took {environment['elapsed_seconds']} seconds, including build and validation; this single observation is not a controlled performance measurement.
+
+### Results
+
+| Evaluation unit | Observation | Interpretation |
+| --- | --- | --- |
+| Analyzer suite | {passed}/{passed} passed; no skips | Implementation regression evidence |
+| Formula/execution matrix | 240/240 combinations agree | Correspondence for the tested source fragment and inputs |
+| CFG tests | 7 snapshots and 3 semantic regressions pass | Tested ownership, call discovery, and export identity properties |
+| Explicit loop/call model | VerifiedInductiveModel; 2 safety locations | Partial correctness of the supplied model |
+| Fixed-predicate transition | ObservedActivation-v1; candidate true | Observed activation, not causal localization |
+| Synthetic bounds scenario | Baseline 2/4; candidate 4/4; AcceptedByTests | Candidate satisfies this supplied test oracle |
+| Extracted runtime scenario | Baseline 3/5; candidate 4/5; Rejected | Gate rejects the overfitting candidate |
+| Fresh runtime tracing | {trace_count} events; 2 fault observations at 1 site | Detection evidence, not two independent bugs |
+
+For RQ1, the integration test compiles both the original C# fragment and the generated candidate. It checks the exact serialized predicate and safety-condition strings and compares predicate evaluation, the mathematical bounds oracle, the original program's exception behavior, and candidate return values. The matrix varies array length over 0 through 4, the next index over eight values including Int32 extrema and boundary values, both Boolean branch outcomes, and three original index values: 5 x 8 x 2 x 3 = 240 combinations. All comparisons agree. Null-array behavior is checked separately because the bounds predicate assumes that array length is defined. This is finite correspondence evidence, not proof for all C# programs.
+
+For RQ2, seven sample-project snapshots are checked together with semantic regressions for top-level/local-function ownership, nested local/lambda bodies, and calls in conditions and returns. An unused delegate declaration contributes no invocation edge. Two lambdas have distinct exported node identifiers, and every exported edge endpoint refers to an existing node. These tests exposed and now guard against creating nested CFGs without their owning graph, omitting branch-value calls, counting delegate creation as invocation, and merging distinct lambdas during export. The static may-call graph remains separate from the restricted source/model verifier; collecting a body's CFG does not imply that all of its C# effects are supported by verification.
+
+For RQ3, one scenario is accepted and one is rejected. We do not turn this result into a population repair-success rate: the cases were selected to exercise the gate's positive and negative behavior. The acceptance and rejection decisions are separate from the source/model verification status.
+
+### Case Study 1: Contract-Supported Bounds Guard
+
+The synthetic method selects an index by a Boolean branch and returns the selected array element. Its tests require ordinary reads to retain their values and invalid or null-array reads to return zero. Before repair, two valid-read tests pass while the invalid-read and null-array tests fail. Sharper propagates the selected bounds-failure predicate backward through both assignments and branch guards, joining alternatives with disjunction. The proposed entry condition is the negation of that predicate. The selected source/model check reports VerifiedAcyclicModel; its scope is the original supported source under that condition, not proof of the generated patch.
+
+The generated candidate guards the direct array return with a null check and lower/upper bounds checks and returns the default value on failure. The isolated reproducer passes, and all four regression tests pass with unchanged test identities and snapshotted inputs. The gate reports AcceptedByTests. Returning zero is justified here by the explicitly supplied contract; it is not a generally valid repair for arbitrary array-access APIs. This case demonstrates candidate generation and contract-supported test acceptance, not recovery of an unknown specification.
+
+### Case Study 2: Rejecting an Overfitting Runtime Candidate
+
+The extracted runtime method discovers a ShouldSerialize-style method using reflection. Its BindingFlags.DeclaredOnly lookup omits inherited methods. For a derived instance whose applicable method is declared by its base type, the lookup returns null and the subsequent dereference fails. The unchanged baseline passes three of five tests. Disposable instrumentation preserves that 3/5 outcome and emits {trace_count} trace events; detection reports two observations of NotNull(dereference.receiver) at line 13 in one source file. Both observations concern the same location, so they are not counted as separate defects.
+
+Sharper generates a catch/default candidate. This suppresses the exception and satisfies the inherited-method test whose expected return is false. However, the inherited method in the strengthened oracle returns true; replacing that behavior with default(false) is incorrect. Consequently the candidate passes four of five tests and is rejected. Both plan entries describe observations of the same site and reference the same candidate file. The reflection-heavy source analysis reports Incomplete rather than claiming a proof. This case demonstrates why exception disappearance alone is insufficient: the gate preserves a failing behavioral oracle instead of applying an overfitting candidate. No successful upstream repair is claimed.
+
+### Threats to Validity
+
+The two small, purpose-built scenarios are insufficient to establish effectiveness across a population of repositories. The runtime case is an extracted regression, while the synthetic case supplies the desired fallback behavior explicitly. An incomplete oracle can still accept an incorrect patch. Instrumentation is not proved semantics-preserving; matching outcomes on this fixture establish only the observed comparison. Trace values can be incomplete or stringified, and the supported source/model semantics exclude general heap effects, recursive reasoning, concurrency, and other C# features. The supplied-invariant model result is partial correctness, not termination, and the observed-activation result is not causality. The original printed Root rule requires the separate formal amendment; it is not validated by these tests.
+
+The copied validation workspace is filesystem isolation rather than a security sandbox; builds and tests run with the user's privileges. Unit tests, parameter combinations, trace events, and repeated fault observations are not independent repair cases. We report no human study, controlled runtime comparison, industrial deployment, or comparative superiority over other repair systems. The measured results support feasibility within the documented subset and identify broader source semantics, stronger specifications, and independent benchmark evaluation as future work.
+
+### Artifact Availability
+
+The artifact is available at https://github.com/Manish-SDU/Sharper/tree/Sharper. Results can be reproduced from the repository root with `./review/reproduce.ps1 -Output review/rerun`, using a fresh output directory. The package records its exact Git revision in REVIEW_MANIFEST.json and includes source, fixtures, model inputs, traces, TRX outcomes, candidate plans, and source hashes. The final paper should cite that immutable revision in addition to the branch URL.
+"""
 
 
 def verify_outputs(source, output, manifest_path):
@@ -251,13 +355,17 @@ def main():
     records = []
     evidence_paths = {Path(__file__).resolve(), arguments.evidence / "analyzer-suite.trx"}
     evidence_paths.update(arguments.evidence.rglob("*.json"))
+    evidence_paths.update(arguments.evidence.rglob("*.jsonl"))
     evidence_paths.update(arguments.evidence.rglob("*.trx"))
+    evidence_paths.update((ROOT / "Sharper/Step3_Repair/CFGAnalyzer/CFGAnalyzer.Tests/Snapshots").glob("*.verified.json"))
     report = ["# Sharper Manuscript Revision Review", "",
               "Status: author revisions required before submission. The original PDF is unchanged; "
               "the annotated PDF contains proposed edits, not an accepted or submitted paper.", "",
               f"Current analyzer suite: **{passed}/{passed} passed**. Synthetic candidate: AcceptedByTests. "
               "Extracted runtime candidate: Rejected. These results are not a universal correctness proof.", "",
               "## Validated Corrections", "",
+              "- Nested and top-level CFGs now retain their owning relationships. Call discovery includes branch values, "
+              "does not treat delegate creation as invocation, and exports distinct nested-function IDs.",
               "- Repeated loop-local int-array reads now preserve continuation and check later visits; "
               "the safe-first/unsafe-second regression returns Counterexample.",
               "- Validation rejects changes to snapshotted tests and project inputs even when test names remain unchanged.",
@@ -284,8 +392,9 @@ def main():
         document.save(output, garbage=4, deflate=True)
     if digest(source) != original_hash:
         raise ValueError("Original manuscript changed")
+    report.extend([evaluation_section(passed, arguments.evidence), ""])
     report_path = REVIEW / "PAPER_REVIEW.md"
-    report_path.write_text("\n".join(report), encoding="utf-8")
+    report_path.write_text("\n".join(report).rstrip() + "\n", encoding="utf-8")
     evidence_paths.add(report_path)
     manifest = {"original_pdf_sha256": original_hash, "annotated_pdf_sha256": digest(output),
                 "pymupdf_version": fitz.VersionBind, "analyzer_tests_passed": passed,

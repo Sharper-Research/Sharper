@@ -1,5 +1,5 @@
 {
-  "GeneratedAt": "2026-09-29T19:52:54.6984522Z",
+  "GeneratedAt": "2026-09-29T20:12:22.0049696Z",
   "ViolationsFile": "review/fixtures/bounds/violations.json",
   "TotalViolations": 1,
   "ByAction": {
@@ -103,9 +103,9 @@
           "baseline-suite": {
             "ExitCode": 1,
             "Tests": {
+              "FixtureTests.ValidReadsArePreserved(index: 1, expected: 20)": "Passed",
               "FixtureTests.NullArrayReturnsDefault": "Failed",
               "FixtureTests.InvalidReadsReturnDefault": "Failed",
-              "FixtureTests.ValidReadsArePreserved(index: 1, expected: 20)": "Passed",
               "FixtureTests.ValidReadsArePreserved(index: 0, expected: 10)": "Passed"
             },
             "Error": null,
@@ -133,10 +133,10 @@
           "candidate-suite": {
             "ExitCode": 0,
             "Tests": {
-              "FixtureTests.ValidReadsArePreserved(index: 1, expected: 20)": "Passed",
-              "FixtureTests.NullArrayReturnsDefault": "Passed",
               "FixtureTests.InvalidReadsReturnDefault": "Passed",
-              "FixtureTests.ValidReadsArePreserved(index: 0, expected: 10)": "Passed"
+              "FixtureTests.NullArrayReturnsDefault": "Passed",
+              "FixtureTests.ValidReadsArePreserved(index: 0, expected: 10)": "Passed",
+              "FixtureTests.ValidReadsArePreserved(index: 1, expected: 20)": "Passed"
             },
             "Error": null,
             "Passed": true,

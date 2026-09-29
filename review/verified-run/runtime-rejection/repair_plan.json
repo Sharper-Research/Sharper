@@ -1,6 +1,6 @@
 {
-  "GeneratedAt": "2026-09-29T19:53:09.4485879Z",
-  "ViolationsFile": "review/fixtures/runtime/evidence/violations.json",
+  "GeneratedAt": "2026-09-29T20:12:36.5608944Z",
+  "ViolationsFile": "C:\\Users\\manis\\Desktop\\Sharper\\review\\verified-run\\runtime-trace/violations.json",
   "TotalViolations": 2,
   "ByAction": {
     "AutoPatchable": 2
@@ -19,7 +19,7 @@
         "Result": false,
         "File": "MemberMethodResolver.cs",
         "Line": 13,
-        "TraceId": "dd1b1838-22ad-4422-99d4-dd54309e53a4",
+        "TraceId": "f8f5222a-513c-4859-8a48-9bd652b74f5a",
         "ExceptionType": "",
         "Detection": "forward-runtime-signal"
       },
@@ -55,10 +55,10 @@
             "ExitCode": 1,
             "Tests": {
               "CheckShouldPersist_MethodOnSameClass_ReturnsValue": "Passed",
-              "CheckShouldPersist_TrueMethodOnSameClass_PreservesTrue": "Passed",
-              "CheckShouldPersist_MethodOnBaseClassViaBaseInstance_Works": "Passed",
+              "CheckShouldPersist_TrueMethodOnBaseClass_PreservesTrue": "Failed",
               "CheckShouldPersist_MethodOnBaseClass_NullDereference": "Failed",
-              "CheckShouldPersist_TrueMethodOnBaseClass_PreservesTrue": "Failed"
+              "CheckShouldPersist_MethodOnBaseClassViaBaseInstance_Works": "Passed",
+              "CheckShouldPersist_TrueMethodOnSameClass_PreservesTrue": "Passed"
             },
             "Error": null,
             "Passed": false,
@@ -67,11 +67,11 @@
           "baseline-reproducer": {
             "ExitCode": 1,
             "Tests": {
-              "CheckShouldPersist_MethodOnBaseClassViaBaseInstance_Works": "Passed",
-              "CheckShouldPersist_TrueMethodOnSameClass_PreservesTrue": "Passed",
-              "CheckShouldPersist_TrueMethodOnBaseClass_PreservesTrue": "Failed",
               "CheckShouldPersist_MethodOnBaseClass_NullDereference": "Failed",
-              "CheckShouldPersist_MethodOnSameClass_ReturnsValue": "Passed"
+              "CheckShouldPersist_MethodOnBaseClassViaBaseInstance_Works": "Passed",
+              "CheckShouldPersist_MethodOnSameClass_ReturnsValue": "Passed",
+              "CheckShouldPersist_TrueMethodOnBaseClass_PreservesTrue": "Failed",
+              "CheckShouldPersist_TrueMethodOnSameClass_PreservesTrue": "Passed"
             },
             "Error": null,
             "Passed": false,
@@ -80,11 +80,11 @@
           "candidate-reproducer": {
             "ExitCode": 1,
             "Tests": {
+              "CheckShouldPersist_TrueMethodOnSameClass_PreservesTrue": "Passed",
+              "CheckShouldPersist_TrueMethodOnBaseClass_PreservesTrue": "Failed",
               "CheckShouldPersist_MethodOnBaseClass_NullDereference": "Passed",
               "CheckShouldPersist_MethodOnSameClass_ReturnsValue": "Passed",
-              "CheckShouldPersist_MethodOnBaseClassViaBaseInstance_Works": "Passed",
-              "CheckShouldPersist_TrueMethodOnSameClass_PreservesTrue": "Passed",
-              "CheckShouldPersist_TrueMethodOnBaseClass_PreservesTrue": "Failed"
+              "CheckShouldPersist_MethodOnBaseClassViaBaseInstance_Works": "Passed"
             },
             "Error": null,
             "Passed": false,
@@ -93,10 +93,10 @@
           "candidate-suite": {
             "ExitCode": 1,
             "Tests": {
-              "CheckShouldPersist_MethodOnBaseClassViaBaseInstance_Works": "Passed",
-              "CheckShouldPersist_MethodOnSameClass_ReturnsValue": "Passed",
-              "CheckShouldPersist_TrueMethodOnBaseClass_PreservesTrue": "Failed",
               "CheckShouldPersist_MethodOnBaseClass_NullDereference": "Passed",
+              "CheckShouldPersist_TrueMethodOnBaseClass_PreservesTrue": "Failed",
+              "CheckShouldPersist_MethodOnSameClass_ReturnsValue": "Passed",
+              "CheckShouldPersist_MethodOnBaseClassViaBaseInstance_Works": "Passed",
               "CheckShouldPersist_TrueMethodOnSameClass_PreservesTrue": "Passed"
             },
             "Error": null,
@@ -119,7 +119,7 @@
         "Result": false,
         "File": "MemberMethodResolver.cs",
         "Line": 13,
-        "TraceId": "dd1b1838-22ad-4422-99d4-dd54309e53a4",
+        "TraceId": "f8f5222a-513c-4859-8a48-9bd652b74f5a",
         "ExceptionType": "",
         "Detection": "forward-runtime-signal"
       },
@@ -155,10 +155,10 @@
             "ExitCode": 1,
             "Tests": {
               "CheckShouldPersist_MethodOnSameClass_ReturnsValue": "Passed",
-              "CheckShouldPersist_TrueMethodOnSameClass_PreservesTrue": "Passed",
-              "CheckShouldPersist_MethodOnBaseClassViaBaseInstance_Works": "Passed",
+              "CheckShouldPersist_TrueMethodOnBaseClass_PreservesTrue": "Failed",
               "CheckShouldPersist_MethodOnBaseClass_NullDereference": "Failed",
-              "CheckShouldPersist_TrueMethodOnBaseClass_PreservesTrue": "Failed"
+              "CheckShouldPersist_MethodOnBaseClassViaBaseInstance_Works": "Passed",
+              "CheckShouldPersist_TrueMethodOnSameClass_PreservesTrue": "Passed"
             },
             "Error": null,
             "Passed": false,
@@ -167,11 +167,11 @@
           "baseline-reproducer": {
             "ExitCode": 1,
             "Tests": {
-              "CheckShouldPersist_MethodOnBaseClassViaBaseInstance_Works": "Passed",
-              "CheckShouldPersist_TrueMethodOnSameClass_PreservesTrue": "Passed",
-              "CheckShouldPersist_TrueMethodOnBaseClass_PreservesTrue": "Failed",
               "CheckShouldPersist_MethodOnBaseClass_NullDereference": "Failed",
-              "CheckShouldPersist_MethodOnSameClass_ReturnsValue": "Passed"
+              "CheckShouldPersist_MethodOnBaseClassViaBaseInstance_Works": "Passed",
+              "CheckShouldPersist_MethodOnSameClass_ReturnsValue": "Passed",
+              "CheckShouldPersist_TrueMethodOnBaseClass_PreservesTrue": "Failed",
+              "CheckShouldPersist_TrueMethodOnSameClass_PreservesTrue": "Passed"
             },
             "Error": null,
             "Passed": false,
@@ -180,11 +180,11 @@
           "candidate-reproducer": {
             "ExitCode": 1,
             "Tests": {
+              "CheckShouldPersist_TrueMethodOnSameClass_PreservesTrue": "Passed",
+              "CheckShouldPersist_TrueMethodOnBaseClass_PreservesTrue": "Failed",
               "CheckShouldPersist_MethodOnBaseClass_NullDereference": "Passed",
               "CheckShouldPersist_MethodOnSameClass_ReturnsValue": "Passed",
-              "CheckShouldPersist_MethodOnBaseClassViaBaseInstance_Works": "Passed",
-              "CheckShouldPersist_TrueMethodOnSameClass_PreservesTrue": "Passed",
-              "CheckShouldPersist_TrueMethodOnBaseClass_PreservesTrue": "Failed"
+              "CheckShouldPersist_MethodOnBaseClassViaBaseInstance_Works": "Passed"
             },
             "Error": null,
             "Passed": false,
@@ -193,10 +193,10 @@
           "candidate-suite": {
             "ExitCode": 1,
             "Tests": {
-              "CheckShouldPersist_MethodOnBaseClassViaBaseInstance_Works": "Passed",
-              "CheckShouldPersist_MethodOnSameClass_ReturnsValue": "Passed",
-              "CheckShouldPersist_TrueMethodOnBaseClass_PreservesTrue": "Failed",
               "CheckShouldPersist_MethodOnBaseClass_NullDereference": "Passed",
+              "CheckShouldPersist_TrueMethodOnBaseClass_PreservesTrue": "Failed",
+              "CheckShouldPersist_MethodOnSameClass_ReturnsValue": "Passed",
+              "CheckShouldPersist_MethodOnBaseClassViaBaseInstance_Works": "Passed",
               "CheckShouldPersist_TrueMethodOnSameClass_PreservesTrue": "Passed"
             },
             "Error": null,

@@ -2,22 +2,362 @@
   "ProjectName": "DelegateDemo",
   "Nodes": [
     {
-      "Id": "System.Runtime::System.Action.Invoke()",
-      "DisplayName": "System.Action.Invoke()",
-      "MethodName": "Invoke",
-      "ContainingType": "System.Action",
-      "ContainingNamespace": "System",
-      "AssemblyName": "System.Runtime",
-      "Analysis": null
+      "Id": "DelegateDemo::\u003Ctop-level-statements-entry-point\u003E",
+      "DisplayName": "\u003Ctop-level-statements-entry-point\u003E",
+      "MethodName": "\u003CMain\u003E$",
+      "ContainingType": "Program",
+      "ContainingNamespace": "\u003Cglobal namespace\u003E",
+      "AssemblyName": "DelegateDemo",
+      "Analysis": {
+        "PathConstraints": [
+          [
+            "!(useFormal)"
+          ],
+          [
+            "useFormal"
+          ]
+        ],
+        "CallSites": [
+          {
+            "BlockOrdinal": 1,
+            "TargetId": "DelegateDemo::\u003Ctop-level-statements-entry-point\u003E::Greet(string)@3:12",
+            "TargetDisplayName": "Greet(string)",
+            "IsInternal": true,
+            "CallerLineNumber": 8,
+            "CalleeLineNumber": 4
+          },
+          {
+            "BlockOrdinal": 6,
+            "TargetId": "DelegateDemo::\u003Ctop-level-statements-entry-point\u003E::ApplyAndPrint(int, System.Func\u003Cint, int\u003E)@25:12",
+            "TargetDisplayName": "ApplyAndPrint(int, System.Func\u003Cint, int\u003E)",
+            "IsInternal": true,
+            "CallerLineNumber": 24,
+            "CalleeLineNumber": 26
+          },
+          {
+            "BlockOrdinal": 6,
+            "TargetId": "DelegateDemo::\u003Ctop-level-statements-entry-point\u003E::lambda expression@19:25",
+            "TargetDisplayName": "lambda expression",
+            "IsInternal": true,
+            "CallerLineNumber": 21,
+            "CalleeLineNumber": 20
+          },
+          {
+            "BlockOrdinal": 6,
+            "TargetId": "DelegateDemo::TaskRunner.Run()",
+            "TargetDisplayName": "TaskRunner.Run()",
+            "IsInternal": true,
+            "CallerLineNumber": 17,
+            "CalleeLineNumber": 41
+          },
+          {
+            "BlockOrdinal": 6,
+            "TargetId": "DelegateDemo::TaskRunner.TaskRunner()",
+            "TargetDisplayName": "TaskRunner.TaskRunner()",
+            "IsInternal": true,
+            "CallerLineNumber": 16,
+            "CalleeLineNumber": 36
+          },
+          {
+            "BlockOrdinal": 6,
+            "TargetId": "System.Console::System.Console.WriteLine(int)",
+            "TargetDisplayName": "System.Console.WriteLine(int)",
+            "IsInternal": false,
+            "CallerLineNumber": 21,
+            "CalleeLineNumber": null
+          },
+          {
+            "BlockOrdinal": 6,
+            "TargetId": "System.Runtime::System.Action\u003Cstring\u003E.Invoke(string)",
+            "TargetDisplayName": "System.Action\u003Cstring\u003E.Invoke(string)",
+            "IsInternal": false,
+            "CallerLineNumber": 13,
+            "CalleeLineNumber": null
+          }
+        ],
+        "DominatorTree": {
+          "RootOrdinal": 0,
+          "Nodes": [
+            {
+              "BlockOrdinal": 0,
+              "ImmediateDominatorOrdinal": null,
+              "ChildOrdinals": [
+                1
+              ]
+            },
+            {
+              "BlockOrdinal": 1,
+              "ImmediateDominatorOrdinal": 0,
+              "ChildOrdinals": [
+                2
+              ]
+            },
+            {
+              "BlockOrdinal": 2,
+              "ImmediateDominatorOrdinal": 1,
+              "ChildOrdinals": [
+                3,
+                4,
+                5
+              ]
+            },
+            {
+              "BlockOrdinal": 3,
+              "ImmediateDominatorOrdinal": 2,
+              "ChildOrdinals": []
+            },
+            {
+              "BlockOrdinal": 4,
+              "ImmediateDominatorOrdinal": 2,
+              "ChildOrdinals": []
+            },
+            {
+              "BlockOrdinal": 5,
+              "ImmediateDominatorOrdinal": 2,
+              "ChildOrdinals": [
+                6
+              ]
+            },
+            {
+              "BlockOrdinal": 6,
+              "ImmediateDominatorOrdinal": 5,
+              "ChildOrdinals": [
+                7
+              ]
+            },
+            {
+              "BlockOrdinal": 7,
+              "ImmediateDominatorOrdinal": 6,
+              "ChildOrdinals": []
+            }
+          ]
+        }
+      }
     },
     {
-      "Id": "System.Console::System.Console.WriteLine(string?)",
-      "DisplayName": "System.Console.WriteLine(string?)",
-      "MethodName": "WriteLine",
-      "ContainingType": "System.Console",
-      "ContainingNamespace": "System",
-      "AssemblyName": "System.Console",
-      "Analysis": null
+      "Id": "DelegateDemo::\u003Ctop-level-statements-entry-point\u003E::ApplyAndPrint(int, System.Func\u003Cint, int\u003E)@25:12",
+      "DisplayName": "ApplyAndPrint(int, System.Func\u003Cint, int\u003E)",
+      "MethodName": "ApplyAndPrint",
+      "ContainingType": "Program",
+      "ContainingNamespace": "\u003Cglobal namespace\u003E",
+      "AssemblyName": "DelegateDemo",
+      "Analysis": {
+        "PathConstraints": [
+          []
+        ],
+        "CallSites": [
+          {
+            "BlockOrdinal": 1,
+            "TargetId": "System.Console::System.Console.WriteLine(int)",
+            "TargetDisplayName": "System.Console.WriteLine(int)",
+            "IsInternal": false,
+            "CallerLineNumber": 29,
+            "CalleeLineNumber": null
+          },
+          {
+            "BlockOrdinal": 1,
+            "TargetId": "System.Runtime::System.Func\u003Cint, int\u003E.Invoke(int)",
+            "TargetDisplayName": "System.Func\u003Cint, int\u003E.Invoke(int)",
+            "IsInternal": false,
+            "CallerLineNumber": 28,
+            "CalleeLineNumber": null
+          }
+        ],
+        "DominatorTree": {
+          "RootOrdinal": 0,
+          "Nodes": [
+            {
+              "BlockOrdinal": 0,
+              "ImmediateDominatorOrdinal": null,
+              "ChildOrdinals": [
+                1
+              ]
+            },
+            {
+              "BlockOrdinal": 1,
+              "ImmediateDominatorOrdinal": 0,
+              "ChildOrdinals": [
+                2
+              ]
+            },
+            {
+              "BlockOrdinal": 2,
+              "ImmediateDominatorOrdinal": 1,
+              "ChildOrdinals": []
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Id": "DelegateDemo::\u003Ctop-level-statements-entry-point\u003E::Farewell(string)@4:12",
+      "DisplayName": "Farewell(string)",
+      "MethodName": "Farewell",
+      "ContainingType": "Program",
+      "ContainingNamespace": "\u003Cglobal namespace\u003E",
+      "AssemblyName": "DelegateDemo",
+      "Analysis": {
+        "PathConstraints": [
+          []
+        ],
+        "CallSites": [
+          {
+            "BlockOrdinal": 1,
+            "TargetId": "System.Console::System.Console.WriteLine(string?)",
+            "TargetDisplayName": "System.Console.WriteLine(string?)",
+            "IsInternal": false,
+            "CallerLineNumber": 5,
+            "CalleeLineNumber": null
+          }
+        ],
+        "DominatorTree": {
+          "RootOrdinal": 0,
+          "Nodes": [
+            {
+              "BlockOrdinal": 0,
+              "ImmediateDominatorOrdinal": null,
+              "ChildOrdinals": [
+                1
+              ]
+            },
+            {
+              "BlockOrdinal": 1,
+              "ImmediateDominatorOrdinal": 0,
+              "ChildOrdinals": [
+                2
+              ]
+            },
+            {
+              "BlockOrdinal": 2,
+              "ImmediateDominatorOrdinal": 1,
+              "ChildOrdinals": []
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Id": "DelegateDemo::\u003Ctop-level-statements-entry-point\u003E::Greet(string)@3:12",
+      "DisplayName": "Greet(string)",
+      "MethodName": "Greet",
+      "ContainingType": "Program",
+      "ContainingNamespace": "\u003Cglobal namespace\u003E",
+      "AssemblyName": "DelegateDemo",
+      "Analysis": {
+        "PathConstraints": [
+          []
+        ],
+        "CallSites": [
+          {
+            "BlockOrdinal": 1,
+            "TargetId": "System.Console::System.Console.WriteLine(string?)",
+            "TargetDisplayName": "System.Console.WriteLine(string?)",
+            "IsInternal": false,
+            "CallerLineNumber": 4,
+            "CalleeLineNumber": null
+          }
+        ],
+        "DominatorTree": {
+          "RootOrdinal": 0,
+          "Nodes": [
+            {
+              "BlockOrdinal": 0,
+              "ImmediateDominatorOrdinal": null,
+              "ChildOrdinals": [
+                1
+              ]
+            },
+            {
+              "BlockOrdinal": 1,
+              "ImmediateDominatorOrdinal": 0,
+              "ChildOrdinals": [
+                2
+              ]
+            },
+            {
+              "BlockOrdinal": 2,
+              "ImmediateDominatorOrdinal": 1,
+              "ChildOrdinals": []
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Id": "DelegateDemo::\u003Ctop-level-statements-entry-point\u003E::lambda expression@19:25",
+      "DisplayName": "lambda expression",
+      "MethodName": "",
+      "ContainingType": "Program",
+      "ContainingNamespace": "\u003Cglobal namespace\u003E",
+      "AssemblyName": "DelegateDemo",
+      "Analysis": {
+        "PathConstraints": [
+          []
+        ],
+        "CallSites": [],
+        "DominatorTree": {
+          "RootOrdinal": 0,
+          "Nodes": [
+            {
+              "BlockOrdinal": 0,
+              "ImmediateDominatorOrdinal": null,
+              "ChildOrdinals": [
+                1
+              ]
+            },
+            {
+              "BlockOrdinal": 1,
+              "ImmediateDominatorOrdinal": 0,
+              "ChildOrdinals": [
+                2
+              ]
+            },
+            {
+              "BlockOrdinal": 2,
+              "ImmediateDominatorOrdinal": 1,
+              "ChildOrdinals": []
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Id": "DelegateDemo::\u003Ctop-level-statements-entry-point\u003E::lambda expression@23:18",
+      "DisplayName": "lambda expression",
+      "MethodName": "",
+      "ContainingType": "Program",
+      "ContainingNamespace": "\u003Cglobal namespace\u003E",
+      "AssemblyName": "DelegateDemo",
+      "Analysis": {
+        "PathConstraints": [
+          []
+        ],
+        "CallSites": [],
+        "DominatorTree": {
+          "RootOrdinal": 0,
+          "Nodes": [
+            {
+              "BlockOrdinal": 0,
+              "ImmediateDominatorOrdinal": null,
+              "ChildOrdinals": [
+                1
+              ]
+            },
+            {
+              "BlockOrdinal": 1,
+              "ImmediateDominatorOrdinal": 0,
+              "ChildOrdinals": [
+                2
+              ]
+            },
+            {
+              "BlockOrdinal": 2,
+              "ImmediateDominatorOrdinal": 1,
+              "ChildOrdinals": []
+            }
+          ]
+        }
+      }
     },
     {
       "Id": "DelegateDemo::TaskRunner.DoWork()",
@@ -127,14 +467,6 @@
         "CallSites": [
           {
             "BlockOrdinal": 1,
-            "TargetId": "DelegateDemo::TaskRunner.DoWork()",
-            "TargetDisplayName": "TaskRunner.DoWork()",
-            "IsInternal": true,
-            "CallerLineNumber": 38,
-            "CalleeLineNumber": 43
-          },
-          {
-            "BlockOrdinal": 1,
             "TargetId": "System.Runtime::object.Object()",
             "TargetDisplayName": "object.Object()",
             "IsInternal": false,
@@ -169,6 +501,51 @@
       }
     },
     {
+      "Id": "System.Console::System.Console.WriteLine(int)",
+      "DisplayName": "System.Console.WriteLine(int)",
+      "MethodName": "WriteLine",
+      "ContainingType": "System.Console",
+      "ContainingNamespace": "System",
+      "AssemblyName": "System.Console",
+      "Analysis": null
+    },
+    {
+      "Id": "System.Console::System.Console.WriteLine(string?)",
+      "DisplayName": "System.Console.WriteLine(string?)",
+      "MethodName": "WriteLine",
+      "ContainingType": "System.Console",
+      "ContainingNamespace": "System",
+      "AssemblyName": "System.Console",
+      "Analysis": null
+    },
+    {
+      "Id": "System.Runtime::System.Action.Invoke()",
+      "DisplayName": "System.Action.Invoke()",
+      "MethodName": "Invoke",
+      "ContainingType": "System.Action",
+      "ContainingNamespace": "System",
+      "AssemblyName": "System.Runtime",
+      "Analysis": null
+    },
+    {
+      "Id": "System.Runtime::System.Action\u003Cstring\u003E.Invoke(string)",
+      "DisplayName": "System.Action\u003Cstring\u003E.Invoke(string)",
+      "MethodName": "Invoke",
+      "ContainingType": "System.Action\u003Cstring\u003E",
+      "ContainingNamespace": "System",
+      "AssemblyName": "System.Runtime",
+      "Analysis": null
+    },
+    {
+      "Id": "System.Runtime::System.Func\u003Cint, int\u003E.Invoke(int)",
+      "DisplayName": "System.Func\u003Cint, int\u003E.Invoke(int)",
+      "MethodName": "Invoke",
+      "ContainingType": "System.Func\u003Cint, int\u003E",
+      "ContainingNamespace": "System",
+      "AssemblyName": "System.Runtime",
+      "Analysis": null
+    },
+    {
       "Id": "System.Runtime::object.Object()",
       "DisplayName": "object.Object()",
       "MethodName": ".ctor",
@@ -179,6 +556,116 @@
     }
   ],
   "Edges": [
+    {
+      "CallerId": "DelegateDemo::\u003Ctop-level-statements-entry-point\u003E",
+      "CallerDisplayName": "\u003Ctop-level-statements-entry-point\u003E",
+      "CalleeId": "DelegateDemo::\u003Ctop-level-statements-entry-point\u003E::ApplyAndPrint(int, System.Func\u003Cint, int\u003E)@25:12",
+      "CalleeDisplayName": "ApplyAndPrint(int, System.Func\u003Cint, int\u003E)",
+      "BlockOrdinal": 6,
+      "IsInternal": true,
+      "CallerLineNumber": 24,
+      "CalleeLineNumber": 26
+    },
+    {
+      "CallerId": "DelegateDemo::\u003Ctop-level-statements-entry-point\u003E",
+      "CallerDisplayName": "\u003Ctop-level-statements-entry-point\u003E",
+      "CalleeId": "DelegateDemo::\u003Ctop-level-statements-entry-point\u003E::Greet(string)@3:12",
+      "CalleeDisplayName": "Greet(string)",
+      "BlockOrdinal": 1,
+      "IsInternal": true,
+      "CallerLineNumber": 8,
+      "CalleeLineNumber": 4
+    },
+    {
+      "CallerId": "DelegateDemo::\u003Ctop-level-statements-entry-point\u003E",
+      "CallerDisplayName": "\u003Ctop-level-statements-entry-point\u003E",
+      "CalleeId": "DelegateDemo::\u003Ctop-level-statements-entry-point\u003E::lambda expression@19:25",
+      "CalleeDisplayName": "lambda expression",
+      "BlockOrdinal": 6,
+      "IsInternal": true,
+      "CallerLineNumber": 21,
+      "CalleeLineNumber": 20
+    },
+    {
+      "CallerId": "DelegateDemo::\u003Ctop-level-statements-entry-point\u003E",
+      "CallerDisplayName": "\u003Ctop-level-statements-entry-point\u003E",
+      "CalleeId": "DelegateDemo::TaskRunner.Run()",
+      "CalleeDisplayName": "TaskRunner.Run()",
+      "BlockOrdinal": 6,
+      "IsInternal": true,
+      "CallerLineNumber": 17,
+      "CalleeLineNumber": 41
+    },
+    {
+      "CallerId": "DelegateDemo::\u003Ctop-level-statements-entry-point\u003E",
+      "CallerDisplayName": "\u003Ctop-level-statements-entry-point\u003E",
+      "CalleeId": "DelegateDemo::TaskRunner.TaskRunner()",
+      "CalleeDisplayName": "TaskRunner.TaskRunner()",
+      "BlockOrdinal": 6,
+      "IsInternal": true,
+      "CallerLineNumber": 16,
+      "CalleeLineNumber": 36
+    },
+    {
+      "CallerId": "DelegateDemo::\u003Ctop-level-statements-entry-point\u003E",
+      "CallerDisplayName": "\u003Ctop-level-statements-entry-point\u003E",
+      "CalleeId": "System.Console::System.Console.WriteLine(int)",
+      "CalleeDisplayName": "System.Console.WriteLine(int)",
+      "BlockOrdinal": 6,
+      "IsInternal": false,
+      "CallerLineNumber": 21,
+      "CalleeLineNumber": null
+    },
+    {
+      "CallerId": "DelegateDemo::\u003Ctop-level-statements-entry-point\u003E",
+      "CallerDisplayName": "\u003Ctop-level-statements-entry-point\u003E",
+      "CalleeId": "System.Runtime::System.Action\u003Cstring\u003E.Invoke(string)",
+      "CalleeDisplayName": "System.Action\u003Cstring\u003E.Invoke(string)",
+      "BlockOrdinal": 6,
+      "IsInternal": false,
+      "CallerLineNumber": 13,
+      "CalleeLineNumber": null
+    },
+    {
+      "CallerId": "DelegateDemo::\u003Ctop-level-statements-entry-point\u003E::ApplyAndPrint(int, System.Func\u003Cint, int\u003E)@25:12",
+      "CallerDisplayName": "ApplyAndPrint(int, System.Func\u003Cint, int\u003E)",
+      "CalleeId": "System.Console::System.Console.WriteLine(int)",
+      "CalleeDisplayName": "System.Console.WriteLine(int)",
+      "BlockOrdinal": 1,
+      "IsInternal": false,
+      "CallerLineNumber": 29,
+      "CalleeLineNumber": null
+    },
+    {
+      "CallerId": "DelegateDemo::\u003Ctop-level-statements-entry-point\u003E::ApplyAndPrint(int, System.Func\u003Cint, int\u003E)@25:12",
+      "CallerDisplayName": "ApplyAndPrint(int, System.Func\u003Cint, int\u003E)",
+      "CalleeId": "System.Runtime::System.Func\u003Cint, int\u003E.Invoke(int)",
+      "CalleeDisplayName": "System.Func\u003Cint, int\u003E.Invoke(int)",
+      "BlockOrdinal": 1,
+      "IsInternal": false,
+      "CallerLineNumber": 28,
+      "CalleeLineNumber": null
+    },
+    {
+      "CallerId": "DelegateDemo::\u003Ctop-level-statements-entry-point\u003E::Farewell(string)@4:12",
+      "CallerDisplayName": "Farewell(string)",
+      "CalleeId": "System.Console::System.Console.WriteLine(string?)",
+      "CalleeDisplayName": "System.Console.WriteLine(string?)",
+      "BlockOrdinal": 1,
+      "IsInternal": false,
+      "CallerLineNumber": 5,
+      "CalleeLineNumber": null
+    },
+    {
+      "CallerId": "DelegateDemo::\u003Ctop-level-statements-entry-point\u003E::Greet(string)@3:12",
+      "CallerDisplayName": "Greet(string)",
+      "CalleeId": "System.Console::System.Console.WriteLine(string?)",
+      "CalleeDisplayName": "System.Console.WriteLine(string?)",
+      "BlockOrdinal": 1,
+      "IsInternal": false,
+      "CallerLineNumber": 4,
+      "CalleeLineNumber": null
+    },
     {
       "CallerId": "DelegateDemo::TaskRunner.DoWork()",
       "CallerDisplayName": "TaskRunner.DoWork()",
@@ -198,16 +685,6 @@
       "IsInternal": false,
       "CallerLineNumber": 41,
       "CalleeLineNumber": null
-    },
-    {
-      "CallerId": "DelegateDemo::TaskRunner.TaskRunner()",
-      "CallerDisplayName": "TaskRunner.TaskRunner()",
-      "CalleeId": "DelegateDemo::TaskRunner.DoWork()",
-      "CalleeDisplayName": "TaskRunner.DoWork()",
-      "BlockOrdinal": 1,
-      "IsInternal": true,
-      "CallerLineNumber": 38,
-      "CalleeLineNumber": 43
     },
     {
       "CallerId": "DelegateDemo::TaskRunner.TaskRunner()",

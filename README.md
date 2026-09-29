@@ -4,6 +4,8 @@ Research artifact for C# fault detection, predicate propagation, model verificat
 
 Manuscript revisions are marked directly in [review/paper-annotated.pdf](review/paper-annotated.pdf), with proposed wording and evidence in [review/PAPER_REVIEW.md](review/PAPER_REVIEW.md). The annotated copy requires author revisions before submission; it is not a clean final manuscript.
 
+The [evaluation and case studies](review/PAPER_REVIEW.md#paste-ready-evaluation-section) provide paste-ready manuscript text with measured results, two detailed scenarios, and limitations.
+
 ## Reproduce
 
 Requires Windows x64, .NET 10 SDK, PowerShell 5.1+, and NuGet access. Other native Z3 platforms have not been validated.

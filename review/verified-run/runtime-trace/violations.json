@@ -1,0 +1,30 @@
+[
+  {
+    "predicate": "NotNull(dereference.receiver)",
+    "assertion": "dereference receiver is not null",
+    "bindings": {
+      "detection": "forward-runtime-signal",
+      "exception.message": "Object reference not set to an instance of an object.",
+      "null.variable": "method",
+      "null.assigned_at_line": 13
+    },
+    "result": false,
+    "file": "MemberMethodResolver.cs",
+    "line": 13,
+    "traceId": "f8f5222a-513c-4859-8a48-9bd652b74f5a"
+  },
+  {
+    "predicate": "NotNull(dereference.receiver)",
+    "assertion": "dereference receiver is not null",
+    "bindings": {
+      "detection": "forward-runtime-signal",
+      "exception.message": "Object reference not set to an instance of an object.",
+      "null.variable": "method",
+      "null.assigned_at_line": 13
+    },
+    "result": false,
+    "file": "MemberMethodResolver.cs",
+    "line": 13,
+    "traceId": "f8f5222a-513c-4859-8a48-9bd652b74f5a"
+  }
+]

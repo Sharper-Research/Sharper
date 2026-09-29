@@ -151,7 +151,16 @@
         "PathConstraints": [
           []
         ],
-        "CallSites": [],
+        "CallSites": [
+          {
+            "BlockOrdinal": 1,
+            "TargetId": "ExtensionMethodDemo::ExtensionMethodDemo.TextExtensions.Combine(string, string)",
+            "TargetDisplayName": "ExtensionMethodDemo.TextExtensions.Combine(string, string)",
+            "IsInternal": true,
+            "CallerLineNumber": 12,
+            "CalleeLineNumber": 20
+          }
+        ],
         "DominatorTree": {
           "RootOrdinal": 0,
           "Nodes": [
@@ -189,7 +198,16 @@
         "PathConstraints": [
           []
         ],
-        "CallSites": [],
+        "CallSites": [
+          {
+            "BlockOrdinal": 1,
+            "TargetId": "ExtensionMethodDemo::ExtensionMethodDemo.TextExtensions.BuildWrapped(string)",
+            "TargetDisplayName": "ExtensionMethodDemo.TextExtensions.BuildWrapped(string)",
+            "IsInternal": true,
+            "CallerLineNumber": 7,
+            "CalleeLineNumber": 15
+          }
+        ],
         "DominatorTree": {
           "RootOrdinal": 0,
           "Nodes": [
@@ -256,6 +274,26 @@
       "IsInternal": false,
       "CallerLineNumber": 33,
       "CalleeLineNumber": null
+    },
+    {
+      "CallerId": "ExtensionMethodDemo::ExtensionMethodDemo.TextExtensions.Duplicate(string)",
+      "CallerDisplayName": "ExtensionMethodDemo.TextExtensions.Duplicate(string)",
+      "CalleeId": "ExtensionMethodDemo::ExtensionMethodDemo.TextExtensions.Combine(string, string)",
+      "CalleeDisplayName": "ExtensionMethodDemo.TextExtensions.Combine(string, string)",
+      "BlockOrdinal": 1,
+      "IsInternal": true,
+      "CallerLineNumber": 12,
+      "CalleeLineNumber": 20
+    },
+    {
+      "CallerId": "ExtensionMethodDemo::ExtensionMethodDemo.TextExtensions.WrapInBrackets(string)",
+      "CallerDisplayName": "ExtensionMethodDemo.TextExtensions.WrapInBrackets(string)",
+      "CalleeId": "ExtensionMethodDemo::ExtensionMethodDemo.TextExtensions.BuildWrapped(string)",
+      "CalleeDisplayName": "ExtensionMethodDemo.TextExtensions.BuildWrapped(string)",
+      "BlockOrdinal": 1,
+      "IsInternal": true,
+      "CallerLineNumber": 7,
+      "CalleeLineNumber": 15
     }
   ]
 }

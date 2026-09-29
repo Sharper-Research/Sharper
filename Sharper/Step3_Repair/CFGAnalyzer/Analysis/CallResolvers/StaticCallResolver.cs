@@ -22,10 +22,6 @@ public class StaticCallResolver : ICallResolver
             IInvocationOperation inv => inv.TargetMethod,
             IObjectCreationOperation oc => oc.Constructor,
             IPropertyReferenceOperation pr => pr.Property.GetMethod ?? pr.Property.SetMethod,
-            ILocalFunctionOperation lf => lf.Symbol,
-            IAnonymousFunctionOperation af => af.Symbol,
-            IFlowAnonymousFunctionOperation faf => faf.Symbol,
-            IDelegateCreationOperation dc => ResolveDelegateTarget(dc),
             _ => null
         };
 
@@ -36,15 +32,5 @@ public class StaticCallResolver : ICallResolver
         return Task.FromResult(result);
     }
 
-    private static IMethodSymbol? ResolveDelegateTarget(IDelegateCreationOperation delegateCreation)
-    {
-        return delegateCreation.Target switch
-        {
-            IMethodReferenceOperation methodRef => methodRef.Method,
-            IAnonymousFunctionOperation anon => anon.Symbol,
-            IFlowAnonymousFunctionOperation flowAnon => flowAnon.Symbol,
-            _ => null
-        };
-    }
 }
 

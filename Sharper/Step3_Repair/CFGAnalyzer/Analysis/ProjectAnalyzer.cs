@@ -25,6 +25,19 @@ public static class ProjectAnalyzer
         var methodCfgs = new Dictionary<IMethodSymbol, ControlFlowGraph>(SymbolEqualityComparer.Default);
         var methodAnalysisResults = new Dictionary<IMethodSymbol, MethodAnalysisResult>(SymbolEqualityComparer.Default);
 
+        void Register(IMethodSymbol symbol, ControlFlowGraph cfg)
+        {
+            if (!methodCfgs.TryAdd(symbol, cfg)) return;
+            methodAnalysisResults[symbol] = new MethodAnalysisResult(cfg, new List<CallSite>());
+            foreach (var local in cfg.LocalFunctions)
+                Register(local, cfg.GetLocalFunctionControlFlowGraph(local));
+            var operations = cfg.Blocks.SelectMany(block => block.Operations.Concat(
+                block.BranchValue == null ? [] : new[] { block.BranchValue }));
+            foreach (var anonymous in operations.SelectMany(operation => operation.DescendantsAndSelf())
+                         .OfType<IFlowAnonymousFunctionOperation>())
+                Register(anonymous.Symbol, cfg.GetAnonymousFunctionControlFlowGraph(anonymous));
+        }
+
         // 1. Collect all internal CFGs
         foreach (var document in project.Documents)
         {
@@ -33,6 +46,11 @@ public static class ProjectAnalyzer
 
             var semanticModel = compilation.GetSemanticModel(syntaxTree);
             var root = await syntaxTree.GetRootAsync();
+
+            if (root is CompilationUnitSyntax unit && unit.Members.Any(member => member is GlobalStatementSyntax)
+                && semanticModel.GetOperation(unit) is IMethodBodyOperation topLevelBody
+                && compilation.GetEntryPoint(default) is { } entryPoint)
+                Register(entryPoint, ControlFlowGraph.Create(topLevelBody));
 
             var members = root.DescendantNodes().Where(n =>
                 n is MethodDeclarationSyntax or ConstructorDeclarationSyntax or AccessorDeclarationSyntax
@@ -45,7 +63,7 @@ public static class ProjectAnalyzer
                 var symbol = semanticModel.GetDeclaredSymbol(member) as IMethodSymbol;
 
                 // Skip early if there is no symbol (e.g. lambdas) to avoid building a CFG we can't store.
-                if (symbol == null) continue;
+                if (symbol == null || methodCfgs.ContainsKey(symbol) || operation is ILocalFunctionOperation or IAnonymousFunctionOperation) continue;
 
                 ControlFlowGraph? cfg = null;
                 try
@@ -55,8 +73,6 @@ public static class ProjectAnalyzer
                         IBlockOperation blockOp => ControlFlowGraph.Create(blockOp),
                         IMethodBodyOperation mb => ControlFlowGraph.Create(mb),
                         IConstructorBodyOperation cb => ControlFlowGraph.Create(cb),
-                        ILocalFunctionOperation local when local.Body != null => ControlFlowGraph.Create(local.Body),
-                        IAnonymousFunctionOperation anon when anon.Body != null => ControlFlowGraph.Create(anon.Body),
                         _ => cfg
                     };
                 }
@@ -70,8 +86,7 @@ public static class ProjectAnalyzer
                 }
 
                 if (cfg == null) continue;
-                methodCfgs[symbol] = cfg;
-                methodAnalysisResults[symbol] = new MethodAnalysisResult(cfg, new List<CallSite>());
+                Register(symbol, cfg);
             }
         }
 

@@ -43,7 +43,8 @@ public class CallGraphBuilder
         var callSites = new List<CallSite>();
         var targets = new HashSet<IMethodSymbol>(SymbolEqualityComparer.Default);
         foreach (var block in cfg.Blocks)
-        foreach (var descendant in block.Operations.SelectMany(op => op.DescendantsAndSelf()))
+        foreach (var descendant in block.Operations.Concat(block.BranchValue == null ? [] : new[] { block.BranchValue })
+                 .SelectMany(operation => operation.DescendantsAndSelf()))
         {
             targets.Clear();
             foreach (var resolver in _resolvers)

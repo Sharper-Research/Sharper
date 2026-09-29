@@ -44,4 +44,6 @@ One accepted candidate may be applied after its hashes are rechecked. Independen
 
 ## Evaluation Claims
 
+Use the complete [paste-ready Evaluation section](PAPER_REVIEW.md#paste-ready-evaluation-section) for the protocol, research questions, results table, two case-study narratives, and threats to validity. Its generator checks the recorded analyzer results, CFG regressions, fresh runtime detections, and baseline/candidate test counts before producing the text.
+
 The bounds-guard fixture is synthetic and explicitly specifies default-return behavior. The dotnet/runtime fixture is an extracted real-bug detection and rejection case, not a full-repository scan or successful upstream repair. The historical HtmlSanitizer experiment is not a current-version rerun. No human-participant study, universal repair guarantee, or quantitative comparison with other repair systems is established by this artifact.
