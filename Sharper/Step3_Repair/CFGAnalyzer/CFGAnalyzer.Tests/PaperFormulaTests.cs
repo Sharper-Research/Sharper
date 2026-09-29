@@ -437,9 +437,55 @@ public sealed class PaperFormulaTests
             Assert.Equal(0, method.Invoke(null, [new[] { 10, 20 }, 0, 2, true]));
             Assert.Equal(0, method.Invoke(null, [Array.Empty<int>(), 0, -1, true]));
             Assert.Equal(0, method.Invoke(null, [null, 0, 0, true]));
+            var entry = Assert.IsType<PaperExpression>(item.FormulaAnalysis.EntryExpression);
+            var names = entry.FreeVariables();
+            var arrayName = Assert.Single(names, name => name.StartsWith("array@", StringComparison.Ordinal));
+            var nextName = Assert.Single(names, name => name.StartsWith("next@", StringComparison.Ordinal));
+            var conditionName = Assert.Single(names, name => name.StartsWith("condition@", StringComparison.Ordinal));
+            var expectedFormula = $"(({conditionName} && (({nextName} < 0) || ({nextName} >= len({arrayName})))) || (!({conditionName}) && ((0 < 0) || (0 >= len({arrayName})))))";
+            Assert.Equal(expectedFormula, item.FormulaAnalysis.EntryPredicate);
+            var safety = PaperExpression.Apply("!", entry);
+            Assert.Equal(safety.ToString(), item.FormulaAnalysis.ProposedEntryCondition);
+            var originalCompilation = compilation.WithAssemblyName("Original" + Guid.NewGuid().ToString("N"))
+                .RemoveAllSyntaxTrees().AddSyntaxTrees((await document.GetSyntaxTreeAsync())!);
+            using var originalBinary = new MemoryStream();
+            var originalEmitted = originalCompilation.Emit(originalBinary);
+            Assert.True(originalEmitted.Success, string.Join(Environment.NewLine, originalEmitted.Diagnostics));
+            var originalMethod = System.Reflection.Assembly.Load(originalBinary.ToArray()).GetType("Fixture")!.GetMethod("Read",
+                System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic)!;
+            foreach (var length in Enumerable.Range(0, 5))
+            foreach (var next in new[] { int.MinValue, -1, 0, 1, 2, 4, 5, int.MaxValue })
+            foreach (var condition in new[] { false, true })
+            foreach (var initialIndex in new[] { -1, 0, int.MaxValue })
+            {
+                var array = Enumerable.Range(1, length).ToArray();
+                var state = new Dictionary<string, object?>
+                {
+                    [arrayName] = array,
+                    [nextName] = next,
+                    [conditionName] = condition
+                };
+                var observed = Record.Exception(() => originalMethod.Invoke(null, [array, initialIndex, next, condition]));
+                if (observed != null)
+                    Assert.IsType<IndexOutOfRangeException>(Assert.IsType<System.Reflection.TargetInvocationException>(observed).InnerException);
+                var finalIndex = condition ? next : 0;
+                var expectedFailure = finalIndex < 0 || finalIndex >= length;
+                Assert.Equal(expectedFailure, observed != null);
+                var failureValue = PaperEvaluator.Evaluate(entry, state);
+                var safetyValue = PaperEvaluator.Evaluate(safety, state);
+                Assert.True(failureValue.Known, failureValue.Reason);
+                Assert.True(safetyValue.Known, safetyValue.Reason);
+                Assert.Equal(expectedFailure, Assert.IsType<bool>(failureValue.Value));
+                Assert.Equal(!expectedFailure, Assert.IsType<bool>(safetyValue.Value));
+                Assert.Equal(expectedFailure ? 0 : array[finalIndex], method.Invoke(null, [array, initialIndex, next, condition]));
+            }
             using var json = JsonDocument.Parse(await File.ReadAllTextAsync(Path.Combine(output, "repair_plan.json")));
             Assert.Equal("PropagatedSupportedSubset", json.RootElement.GetProperty("Items")[0]
                 .GetProperty("FormulaAnalysis").GetProperty("Status").GetString());
+            Assert.Equal(expectedFormula, json.RootElement.GetProperty("Items")[0]
+                .GetProperty("FormulaAnalysis").GetProperty("EntryPredicate").GetString());
+            Assert.Equal(safety.ToString(), json.RootElement.GetProperty("Items")[0]
+                .GetProperty("FormulaAnalysis").GetProperty("ProposedEntryCondition").GetString());
         }
         finally
         {
