@@ -14,13 +14,13 @@ class Program
 {
     static async Task<int> Main(string[] args)
     {
-        if (args.FirstOrDefault() is "--verify-model" or "--check-activation") return await PaperModelCommand.RunAsync(args);
+        if (args.FirstOrDefault() is "--verify-model" or "--check-root" or "--check-activation") return await PaperModelCommand.RunAsync(args);
         var parseResult = ParseArguments(args);
         if (parseResult == null)
         {
             Console.WriteLine("Usage: CFGAnalyzer <project-or-solution-path> [options]");
             Console.WriteLine("       CFGAnalyzer --verify-model <model.json> [--output <result.json>]");
-            Console.WriteLine("       CFGAnalyzer --check-activation <transition.json> [--output <result.json>]");
+            Console.WriteLine("       CFGAnalyzer --check-root <transition.json> [--output <result.json>] (--check-activation is an alias)");
             Console.WriteLine("Options:");
             Console.WriteLine("  --violations <path>             Drive analysis from violations.json (Step 2 output).");
             Console.WriteLine("  --output-dir <path>             Directory for repair_plan.json + patches/.");

@@ -1,5 +1,5 @@
 {
-  "GeneratedAt": "2026-09-29T21:40:18.7760060Z",
+  "GeneratedAt": "2026-09-29T21:53:36.5629725Z",
   "ViolationsFile": "review/fixtures/listing/violations.json",
   "TotalViolations": 1,
   "ByAction": {
@@ -48,7 +48,9 @@
         ],
         "RelevantLines": [],
         "Reason": "Unknown statement",
-        "RootStatus": "BlockedByPrintedRootDefinition",
+        "RootStatus": "NotEvaluated",
+        "RootRule": "Root-ObservedActivation-v1",
+        "RootScope": "Slice-relevant, validated observed activation of one fixed predicate; not counterfactual causality, uniqueness, minimality, or a repair-synthesis rule",
         "ProposedEntryCondition": "true",
         "ForwardModelCheck": {
           "Status": "Counterexample",
@@ -79,7 +81,9 @@
           ],
           "RelevantLines": [],
           "Reason": "Unknown statement",
-          "RootStatus": "BlockedByPrintedRootDefinition",
+          "RootStatus": "NotEvaluated",
+          "RootRule": "Root-ObservedActivation-v1",
+          "RootScope": "Slice-relevant, validated observed activation of one fixed predicate; not counterfactual causality, uniqueness, minimality, or a repair-synthesis rule",
           "ProposedEntryCondition": null,
           "ForwardModelCheck": null,
           "BackwardAnalysis": null,
@@ -135,10 +139,10 @@
           "baseline-suite": {
             "ExitCode": 1,
             "Tests": {
-              "ListingTests.PaperAssumptionReturnsNormally": "Failed",
-              "ListingTests.NegativeStartStopsBeforeInvalidWrite": "Failed",
               "ListingTests.ExistingValidExecutionIsPreserved": "Passed",
-              "ListingTests.LargeStartStopsBeforeInvalidWrite": "Failed"
+              "ListingTests.LargeStartStopsBeforeInvalidWrite": "Failed",
+              "ListingTests.PaperAssumptionReturnsNormally": "Failed",
+              "ListingTests.NegativeStartStopsBeforeInvalidWrite": "Failed"
             },
             "Error": null,
             "Passed": false,
@@ -165,10 +169,10 @@
           "candidate-suite": {
             "ExitCode": 0,
             "Tests": {
-              "ListingTests.NegativeStartStopsBeforeInvalidWrite": "Passed",
+              "ListingTests.ExistingValidExecutionIsPreserved": "Passed",
               "ListingTests.LargeStartStopsBeforeInvalidWrite": "Passed",
-              "ListingTests.PaperAssumptionReturnsNormally": "Passed",
-              "ListingTests.ExistingValidExecutionIsPreserved": "Passed"
+              "ListingTests.NegativeStartStopsBeforeInvalidWrite": "Passed",
+              "ListingTests.PaperAssumptionReturnsNormally": "Passed"
             },
             "Error": null,
             "Passed": true,

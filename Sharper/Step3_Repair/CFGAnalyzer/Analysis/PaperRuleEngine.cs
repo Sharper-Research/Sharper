@@ -61,7 +61,9 @@ public sealed record PaperPropagationResult(
     IReadOnlyList<int> RelevantLines,
     string? Reason)
 {
-    public string RootStatus => "BlockedByPrintedRootDefinition";
+    public string RootStatus => "NotEvaluated";
+    public string RootRule => PaperEvaluator.RootRule;
+    public string RootScope => PaperEvaluator.RootScope;
     [System.Text.Json.Serialization.JsonIgnore]
     public PaperExpression? EntryExpression { get; init; }
     public string? ProposedEntryCondition { get; init; }

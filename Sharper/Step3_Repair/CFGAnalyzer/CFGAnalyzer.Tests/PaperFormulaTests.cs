@@ -309,14 +309,63 @@ public sealed class PaperFormulaTests
         var statement = new PaperAssignment("index", PaperExpression.Apply("int32.unchecked+", PaperExpression.Variable("index"), PaperExpression.Constant("1")));
         var before = new Dictionary<string, object?> { ["index"] = 4 };
         var after = new Dictionary<string, object?> { ["index"] = 5 };
-        var observed = PaperEvaluator.EvaluateObservedActivation(true, statement, predicate, before, after);
+        var observed = PaperEvaluator.EvaluateRoot(true, statement, predicate, before, after);
         Assert.True(observed.IsCandidate);
-        Assert.Contains("not literal Root", observed.Reason);
-        Assert.False(PaperEvaluator.EvaluateRoot(true, statement, PaperRuleEngine.Transfer(statement, predicate).Predicate, predicate, before, after).IsCandidate);
+        Assert.Equal("Root-ObservedActivation-v1", observed.Rule);
+        Assert.Contains("not counterfactual causality", observed.Scope);
+        Assert.Equal(observed, PaperEvaluator.EvaluateObservedActivation(true, statement, predicate, before, after));
+        var legacy = PaperEvaluator.EvaluatePrintedRoot(true, statement, PaperRuleEngine.Transfer(statement, predicate).Predicate, predicate, before, after);
+        Assert.False(legacy.IsCandidate);
+        Assert.Equal("PrintedRoot-legacy", legacy.Rule);
         Assert.False(PaperEvaluator.EvaluateObservedActivation(false, statement, predicate, before, after).IsCandidate);
         Assert.Equal("Unknown", PaperEvaluator.EvaluateObservedActivation(true, statement, predicate, new Dictionary<string, object?>(), after).Status);
         after["index"] = 6;
         Assert.Equal("InvalidTransition", PaperEvaluator.EvaluateObservedActivation(true, statement, predicate, before, after).Status);
+    }
+
+    [Theory]
+    [InlineData(4, 5, true, true)]
+    [InlineData(5, 6, true, false)]
+    [InlineData(4, 4, true, false)]
+    [InlineData(4, 5, false, false)]
+    [InlineData(6, 4, true, false)]
+    public void RootRequiresFixedPredicateActivation(int beforeValue, int afterValue, bool inSlice, bool expected)
+    {
+        var predicate = PaperExpression.Apply(">=", PaperExpression.Variable("index"), PaperExpression.Constant("5"));
+        var statement = new PaperAssignment("index", PaperExpression.Constant(afterValue.ToString(CultureInfo.InvariantCulture)));
+        var result = PaperEvaluator.EvaluateRoot(inSlice, statement, predicate,
+            new Dictionary<string, object?> { ["index"] = beforeValue },
+            new Dictionary<string, object?> { ["index"] = afterValue });
+        Assert.Equal("Evaluated", result.Status);
+        Assert.Equal(expected, result.IsCandidate);
+        Assert.Equal(PaperEvaluator.RootRule, result.Rule);
+    }
+
+    [Theory]
+    [InlineData("--check-root")]
+    [InlineData("--check-activation")]
+    public async Task RootCommandAndCompatibilityAliasReportCanonicalDefinition(string command)
+    {
+        var directory = Path.Combine(Path.GetTempPath(), "SharperRoot-" + Guid.NewGuid().ToString("N"));
+        Directory.CreateDirectory(directory);
+        try
+        {
+            var input = Path.Combine(directory, "input.json");
+            var output = Path.Combine(directory, "output.json");
+            var request = new PaperActivationRequest(true,
+                new PaperAssignment("index", PaperExpression.Constant("5")),
+                PaperExpression.Apply(">=", PaperExpression.Variable("index"), PaperExpression.Constant("5")),
+                new() { ["index"] = JsonSerializer.SerializeToElement(4) },
+                new() { ["index"] = JsonSerializer.SerializeToElement(5) });
+            await File.WriteAllTextAsync(input, JsonSerializer.Serialize(request));
+            Assert.Equal(0, await PaperModelCommand.RunAsync([command, input, "--output", output]));
+            using var result = JsonDocument.Parse(await File.ReadAllTextAsync(output));
+            Assert.Equal("Root-ObservedActivation-v1", result.RootElement.GetProperty("Rule").GetString());
+            Assert.Equal("Evaluated", result.RootElement.GetProperty("Status").GetString());
+            Assert.True(result.RootElement.GetProperty("IsCandidate").GetBoolean());
+            Assert.Contains("not counterfactual causality", result.RootElement.GetProperty("Scope").GetString());
+        }
+        finally { Directory.Delete(directory, recursive: true); }
     }
 
     [Theory]
@@ -487,18 +536,18 @@ public sealed class PaperFormulaTests
         var pre = PaperRuleEngine.Transfer(statement, post).Predicate;
         var before = new Dictionary<string, object?> { ["index"] = 4 };
         var after = new Dictionary<string, object?> { ["index"] = 5 };
-        var result = PaperEvaluator.EvaluateRoot(true, statement, pre, post, before, after);
+        var result = PaperEvaluator.EvaluatePrintedRoot(true, statement, pre, post, before, after);
         Assert.Equal("Evaluated", result.Status);
         Assert.False(result.IsCandidate);
         after["index"] = 6;
-        Assert.Equal("InvalidTransition", PaperEvaluator.EvaluateRoot(true, statement, pre, post, before, after).Status);
+        Assert.Equal("InvalidTransition", PaperEvaluator.EvaluatePrintedRoot(true, statement, pre, post, before, after).Status);
     }
 
     [Fact]
     public void Figure2_MissingObservationsDoNotBecomeRootCandidates()
     {
         var predicate = PaperExpression.Null(PaperExpression.Variable("value"));
-        var result = PaperEvaluator.EvaluateRoot(true, new PaperFrame([]), predicate, predicate, new Dictionary<string, object?>(), new Dictionary<string, object?>());
+        var result = PaperEvaluator.EvaluateRoot(true, new PaperFrame([]), predicate, new Dictionary<string, object?>(), new Dictionary<string, object?>());
         Assert.Equal("Unknown", result.Status);
         Assert.Null(result.IsCandidate);
     }
@@ -700,7 +749,8 @@ public sealed class PaperFormulaTests
         Assert.Equal("((condition && (null == null)) || (!(condition) && (value == null)))", result.EntryPredicate);
         foreach (var rule in new[] { "Initialize", "Assign", "Frame", "Guard-T", "Guard-F", "Join" })
             Assert.Contains(result.Steps, step => step.Rule == rule);
-        Assert.Equal("BlockedByPrintedRootDefinition", result.RootStatus);
+        Assert.Equal("NotEvaluated", result.RootStatus);
+        Assert.Equal(PaperEvaluator.RootRule, result.RootRule);
         Assert.Equal("NotPerformed", result.ForwardVerificationStatus);
     }
 

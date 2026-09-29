@@ -1,5 +1,5 @@
 {
-  "GeneratedAt": "2026-09-29T21:39:47.1764261Z",
+  "GeneratedAt": "2026-09-29T21:53:05.2967821Z",
   "ViolationsFile": "review/fixtures/bounds/violations.json",
   "TotalViolations": 1,
   "ByAction": {
@@ -81,7 +81,9 @@
           9
         ],
         "Reason": null,
-        "RootStatus": "BlockedByPrintedRootDefinition",
+        "RootStatus": "NotEvaluated",
+        "RootRule": "Root-ObservedActivation-v1",
+        "RootScope": "Slice-relevant, validated observed activation of one fixed predicate; not counterfactual causality, uniqueness, minimality, or a repair-synthesis rule",
         "ProposedEntryCondition": "!(((condition@98 \u0026\u0026 ((next@87 \u003C 0) || (next@87 \u003E= len(array@65)))) || (!(condition@98) \u0026\u0026 ((0 \u003C 0) || (0 \u003E= len(array@65))))))",
         "ForwardModelCheck": {
           "Status": "VerifiedAcyclicModel",
@@ -116,10 +118,10 @@
           "baseline-suite": {
             "ExitCode": 1,
             "Tests": {
-              "FixtureTests.InvalidReadsReturnDefault": "Failed",
               "FixtureTests.ValidReadsArePreserved(index: 1, expected: 20)": "Passed",
               "FixtureTests.ValidReadsArePreserved(index: 0, expected: 10)": "Passed",
-              "FixtureTests.NullArrayReturnsDefault": "Failed"
+              "FixtureTests.NullArrayReturnsDefault": "Failed",
+              "FixtureTests.InvalidReadsReturnDefault": "Failed"
             },
             "Error": null,
             "Passed": false,
@@ -146,9 +148,9 @@
           "candidate-suite": {
             "ExitCode": 0,
             "Tests": {
+              "FixtureTests.ValidReadsArePreserved(index: 1, expected: 20)": "Passed",
               "FixtureTests.NullArrayReturnsDefault": "Passed",
               "FixtureTests.InvalidReadsReturnDefault": "Passed",
-              "FixtureTests.ValidReadsArePreserved(index: 1, expected: 20)": "Passed",
               "FixtureTests.ValidReadsArePreserved(index: 0, expected: 10)": "Passed"
             },
             "Error": null,

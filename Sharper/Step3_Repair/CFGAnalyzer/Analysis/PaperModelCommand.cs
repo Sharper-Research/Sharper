@@ -17,7 +17,7 @@ public static class PaperModelCommand
     {
         if (args.Length is not 2 and not 4 || args.Length == 4 && args[2] != "--output")
         {
-            Console.Error.WriteLine("Usage: --verify-model <model.json> or --check-activation <transition.json>, optionally --output <result.json>");
+            Console.Error.WriteLine("Usage: --verify-model <model.json> or --check-root <transition.json> (--check-activation alias), optionally --output <result.json>");
             return 1;
         }
         try
@@ -30,7 +30,7 @@ public static class PaperModelCommand
             var input = await File.ReadAllTextAsync(args[1]);
             string json;
             int exitCode;
-            if (args[0] == "--check-activation")
+            if (args[0] is "--check-root" or "--check-activation")
             {
                 var request = JsonSerializer.Deserialize<PaperActivationRequest>(input, options) ?? throw new JsonException("Missing transition");
                 if (request.TraceFile != null)
@@ -39,25 +39,26 @@ public static class PaperModelCommand
                     var results = PaperEvaluator.EvaluateTraceActivation(System.IO.File.ReadLines(tracePath),
                         request.File ?? throw new JsonException("Trace activation requires File"), request.Line,
                         request.InSlice, request.Statement, request.Predicate);
-                    json = JsonSerializer.Serialize(new { Rule = "ObservedActivation-v1", Results = results,
-                        Scope = "Automatically reconstructed typed scalar observations for the supplied statement and fixed predicate; requires unambiguous variable names and complete update logging; not causal root localization" }, options);
+                    json = JsonSerializer.Serialize(new { Rule = PaperEvaluator.RootRule, Results = results,
+                        Scope = PaperEvaluator.RootScope,
+                        ObservationRequirements = "Typed scalar updates with unambiguous variable names and complete update logging" }, options);
                     exitCode = results.Count > 0 && results.All(result => result.Result.Status == "Evaluated") ? 0 : 3;
                 }
                 else
                 {
-                object? Value(JsonElement value) => value.ValueKind switch
-                {
-                    JsonValueKind.Null => null,
-                    JsonValueKind.True => true,
-                    JsonValueKind.False => false,
-                    JsonValueKind.Number when value.TryGetInt32(out var integer) => integer,
-                    _ => throw new JsonException("Activation observations must be Int32, boolean or null")
-                };
-                var result = PaperEvaluator.EvaluateObservedActivation(request.InSlice, request.Statement, request.Predicate,
-                    request.Before.ToDictionary(pair => pair.Key, pair => Value(pair.Value), StringComparer.Ordinal),
-                    request.After.ToDictionary(pair => pair.Key, pair => Value(pair.Value), StringComparer.Ordinal));
-                json = JsonSerializer.Serialize(new { Rule = "ObservedActivation-v1", result.Status, result.IsCandidate, result.Reason }, options);
-                exitCode = result.Status == "Evaluated" ? 0 : result.Status == "InvalidTransition" ? 2 : 3;
+                    object? Value(JsonElement value) => value.ValueKind switch
+                    {
+                        JsonValueKind.Null => null,
+                        JsonValueKind.True => true,
+                        JsonValueKind.False => false,
+                        JsonValueKind.Number when value.TryGetInt32(out var integer) => integer,
+                        _ => throw new JsonException("Root observations must be Int32, boolean or null")
+                    };
+                    var result = PaperEvaluator.EvaluateRoot(request.InSlice, request.Statement, request.Predicate,
+                        request.Before.ToDictionary(pair => pair.Key, pair => Value(pair.Value), StringComparer.Ordinal),
+                        request.After.ToDictionary(pair => pair.Key, pair => Value(pair.Value), StringComparer.Ordinal));
+                    json = JsonSerializer.Serialize(result, options);
+                    exitCode = result.Status == "Evaluated" ? 0 : result.Status == "InvalidTransition" ? 2 : 3;
                 }
             }
             else

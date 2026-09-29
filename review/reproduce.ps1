@@ -21,8 +21,14 @@ try {
     Invoke-Dotnet -Arguments @("build", "Sharper.sln", "--verbosity", "minimal")
     Invoke-Dotnet -Arguments @("test", $tests, "--logger", "trx;LogFileName=analyzer-suite.trx", "--results-directory", $Output, "--verbosity", "minimal")
     Invoke-Dotnet -Arguments @("run", "--no-build", "--project", $analyzer, "--", "--verify-model", "review/models/loop-and-call.json", "--output", "$Output/loop-and-call.json")
-    Invoke-Dotnet -Arguments @("run", "--no-build", "--project", $analyzer, "--", "--check-activation", "review/models/activation.json", "--output", "$Output/activation.json")
-    Invoke-Dotnet -Arguments @("run", "--no-build", "--project", $analyzer, "--", "--check-activation", "review/models/trace-activation.json", "--output", "$Output/trace-activation.json")
+    Invoke-Dotnet -Arguments @("run", "--no-build", "--project", $analyzer, "--", "--check-root", "review/models/activation.json", "--output", "$Output/activation.json")
+    Invoke-Dotnet -Arguments @("run", "--no-build", "--project", $analyzer, "--", "--check-root", "review/models/trace-activation.json", "--output", "$Output/trace-activation.json")
+    $rootResult = Get-Content "$Output/activation.json" -Raw | ConvertFrom-Json
+    $traceRoot = Get-Content "$Output/trace-activation.json" -Raw | ConvertFrom-Json
+    if ($rootResult.Rule -ne "Root-ObservedActivation-v1" -or $rootResult.Status -ne "Evaluated" -or !$rootResult.IsCandidate -or
+        $traceRoot.Rule -ne $rootResult.Rule -or $traceRoot.Results.Count -ne 1 -or !$traceRoot.Results[0].Result.IsCandidate) {
+        throw "Canonical Root definition did not reproduce"
+    }
     $runtime = (Resolve-Path "review/fixtures/runtime").Path
     $sandbox = Join-Path ([IO.Path]::GetTempPath()) ("Sharper-trace-review-" + [guid]::NewGuid().ToString("N"))
     $traceDirectory = Join-Path $Output "runtime-trace"

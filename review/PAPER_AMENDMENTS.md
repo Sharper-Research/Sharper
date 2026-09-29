@@ -2,7 +2,9 @@
 
 These are explicit corrections to the supplied manuscript, not a claim that its existing formulas are equivalent. The original PDF remains an input record; no editable manuscript source was supplied.
 
-## Root
+## Root: Implemented Replacement
+
+This is the canonical operational definition in code and the exact replacement for Figure 2's Root rule. `PaperEvaluator.EvaluateRoot` and `--check-root` implement it under the identifier `Root-ObservedActivation-v1`. `EvaluateObservedActivation` and `--check-activation` are compatibility aliases, not alternative definitions.
 
 For an exact deterministic assignment transfer, the printed Assign rule implies
 
@@ -11,18 +13,22 @@ $$
 = \llbracket \Phi' \rrbracket_{\sigma[x\gets\llbracket e\rrbracket_\sigma]}.
 $$
 
-Consequently the printed Root premise, false before and true after under these two predicates, cannot identify that assignment. Retain this as a regression counterexample, not a claimed localization success.
+Consequently the superseded printed Root premise, false before and true after under these two predicates, cannot identify that assignment. `EvaluatePrintedRoot` retains this only as a legacy diagnostic and labels its result `PrintedRoot-legacy`. The obsolete two-predicate overload forwards to that diagnostic; operational code uses the single-predicate overload.
 
-Replace the localization claim with **observed activation candidates** using one fixed, well-defined predicate $Q$:
+Replace the rule and localization paragraph with: **Root denotes a slice-relevant observed activation candidate**, using one fixed, well-defined predicate $Q$. For dynamic event $k$, statement $s_k$, and observed states $\sigma_k,\sigma_{k+1}$, define
 
 $$
-A_Q(\ell,\sigma,\sigma') \iff
-\ell\in S\;\land\;\operatorname{ValidTransition}(s_\ell,\sigma,\sigma')
-\;\land\;\operatorname{Defined}(Q,\sigma)\land\operatorname{Defined}(Q,\sigma')
-\;\land\;\neg\llbracket Q\rrbracket_\sigma\land\llbracket Q\rrbracket_{\sigma'}.
+\operatorname{Root}_Q(k) \iff
+s_k\in S\;\land\;\operatorname{ValidTransition}(s_k,\sigma_k,\sigma_{k+1})
+\;\land\;\operatorname{Defined}(Q,\sigma_k)\land\operatorname{Defined}(Q,\sigma_{k+1})
+\;\land\;\neg\llbracket Q\rrbracket_{\sigma_k}\land\llbracket Q\rrbracket_{\sigma_{k+1}}.
 $$
 
 This differs intentionally from printed Root. It establishes an observed value transition, not counterfactual causality, minimality, or unique root cause. The implementation accepts supplied scalar pairs or automatically reconstructs them from type-tagged trace updates for a supplied assignment, location and fixed predicate. It isolates thread state and clears it at method/control boundaries and unrelated files. Missing or untyped values yield Unknown. This requires complete update logging and unambiguous variable names; it is not arbitrary-trace causal localization. The JSONL activation fixture is synthetic, distinct from the captured runtime trace.
+
+For example, with $Q\equiv index\ge5$, `index = index + 1` and observed `4 -> 5`, the corrected Root result is true. The old substituted predicate is already true at 4, so the printed two-predicate test returns false. The regression suite checks this distinction, unchanged/true-to-true/true-to-false states, slice exclusion, invalid transitions, missing observations and both CLI names. The Assign rule is unchanged.
+
+`Evaluated` means the candidate condition was evaluated, not proved causal. `Unknown` means required observations or semantics are unavailable; `InvalidTransition` means the observations contradict the supported statement semantics. Predicate propagation alone has no observed transition and therefore reports `RootStatus: NotEvaluated`, together with the canonical rule identifier and scope. The old `BlockedByPrintedRootDefinition` status has been removed. The violation-driven repair pipeline does not claim to have evaluated Root merely because it generated a patch.
 
 ## Cyclic Backward Equations
 
@@ -52,6 +58,8 @@ For a selected local initializer reading an `int[]`, source exploration preserve
 
 For supported array writes at the start of while-loop bodies, a bounds template strengthens the loop guard with non-nullness and lower/upper index bounds. Forward counterexample locations guide additional edits, up to eight. This is implemented template refinement, not cyclic backward-precondition inference or automatic causal localization.
 
+The separate synthesis rule is $g_{repair}=g\land a\ne null\land i\ge0\land i<len(a)$, evaluated with C# short-circuit conjunction in that order. It is a guard-construction rule, not a consequence of $\operatorname{Root}_Q$. Root classifies an observed transition; the template constructs a candidate; forward analysis checks candidate safety; tests check the supplied behavioral oracle. None of these steps implies the others.
+
 The two-buffer fixture automatically produces a candidate guarded at both loops. The saved source is reparsed and checked, with `VerifiedExploredModel` reported only after exhaustive feasible-path exploration. The selected failure and lowered Int32 array accesses are checked; functional equivalence and allocation exhaustion are not. The result is bound to a SHA-256 candidate hash. A changed candidate or known candidate counterexample blocks test acceptance.
 
 The candidate's stated policy stops a loop before an invalid write. Its normal-completion tests improve from 1/4 to 4/4; they do not observe the private buffer contents. Separate compiled execution covers 56 boundary inputs. This is an executed source-level safety and test-acceptance result, not a recovered functional specification.
@@ -65,13 +73,14 @@ Every emitted candidate now receives a separate model-check attempt bound to its
 | Table 1 bounds and null templates | Implemented with failure polarity; bounds assume defined length | `Figure2_RepairDriverPropagatesBothCSharpBranches`: 240 compiled-input comparisons |
 | Reference-cast template | Constructed; runtime compatibility is not solver-discharged | Unsupported effects return Incomplete |
 | Initialize, Assign, Assign-Irrel, Guard-T/F, Frame, Join | Implemented for the supported expression/statement domain | `PaperFormulaTests` transfer and branching regressions |
-| Printed Root | NOT equivalent to the implemented observed-activation amendment | Exact-assignment equality above and Root regressions |
-| Fixed-Q observed activation | Implemented for supplied pairs and typed-trace reconstruction | `TraceActivationReconstructsTypedStatesWithoutCrossingBoundaries`; recorded `trace-activation.json` |
+| Corrected Root | Canonical fixed-Q definition implemented by `EvaluateRoot` and `--check-root` | `RootRequiresFixedPredicateActivation`, `RootCommandAndCompatibilityAliasReportCanonicalDefinition`, and recorded activation outputs |
+| Superseded printed Root | Legacy diagnostic only, explicitly labeled `PrintedRoot-legacy` | Exact-assignment equality above and `Figure2_LiteralRootEvaluatesBothPredicatesAndChecksTheTransition` |
+| Root from typed trace updates | Same canonical definition, automatically reconstructed scalar pairs | `TraceActivationReconstructsTypedStatesWithoutCrossingBoundaries`; recorded `trace-activation.json` |
 | Cyclic backward extension | Least fixed point only on solver-proved convergence | `CyclicBackwardPropagationRequiresSemanticConvergence`; source loop/call integration |
 | Loop invariants and procedure bodies | Checked supplied invariants and nonrecursive bodies | Recorded `loop-and-call.json`: VerifiedInductiveModel |
 | Forward patched-program safety | Attempted for every emitted candidate, proved only within supported semantics | Per-candidate status and SHA-256 in all three repair plans |
 
-These correspondences do not make every formula or universal claim in the unchanged original PDF correct. Apply the anchored replacement text and typeset the new cyclic equations in the editable manuscript.
+The code and replacement comment now use the same Root definition. The original PDF is preserved as an input record; its old typeset rule is superseded by the anchored replacement comment. Apply that replacement and the cyclic equations to the editable manuscript when preparing the clean submission PDF.
 
 ## Repair Acceptance
 

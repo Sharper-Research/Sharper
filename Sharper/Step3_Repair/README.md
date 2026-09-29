@@ -9,7 +9,7 @@ The analyzer loads C# projects through Roslyn. Violation-driven analysis emits f
 - The source adapter lowers supported `while`, `for`, and `do` loops, local assignments, increments, `break`/`continue`, and direct static calls with available synchronous bodies.
 - Source exploration starts from all modeled inputs. `VerifiedExploredModel` requires exhausting all feasible paths; a reachable exploration limit returns `Incomplete`. No loop invariant is guessed or assumed.
 - Explicit typed models support checked invariants and isolated procedure frames. A model proof is not a proof of every C# runtime effect.
-- Literal Root and the amended observed-activation rule remain separate. See [the manuscript amendments](../../review/PAPER_AMENDMENTS.md).
+- Root uses one canonical fixed-predicate observed-activation definition. `EvaluatePrintedRoot` preserves the superseded two-predicate rule only as a legacy diagnostic. Propagation without observations reports NotEvaluated. See [the manuscript amendments](../../review/PAPER_AMENDMENTS.md).
 
 ## Commands
 
@@ -17,8 +17,8 @@ From the repository root:
 
 ```powershell
 dotnet run --project Sharper/Step3_Repair/CFGAnalyzer -- --verify-model review/models/loop-and-call.json
-dotnet run --project Sharper/Step3_Repair/CFGAnalyzer -- --check-activation review/models/activation.json
-dotnet run --project Sharper/Step3_Repair/CFGAnalyzer -- --check-activation review/models/trace-activation.json
+dotnet run --project Sharper/Step3_Repair/CFGAnalyzer -- --check-root review/models/activation.json
+dotnet run --project Sharper/Step3_Repair/CFGAnalyzer -- --check-root review/models/trace-activation.json
 .\review\reproduce.ps1 -Output review/rerun
 ```
 

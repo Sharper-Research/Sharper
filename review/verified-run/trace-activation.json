@@ -1,5 +1,5 @@
 {
-  "Rule": "ObservedActivation-v1",
+  "Rule": "Root-ObservedActivation-v1",
   "Results": [
     {
       "EventNumber": 2,
@@ -9,9 +9,12 @@
       "Result": {
         "Status": "Evaluated",
         "IsCandidate": true,
-        "Reason": "Observed fixed-predicate activation; not literal Root or a proof of causality"
+        "Reason": "Evaluated the corrected fixed-predicate Root definition",
+        "Rule": "Root-ObservedActivation-v1",
+        "Scope": "Slice-relevant, validated observed activation of one fixed predicate; not counterfactual causality, uniqueness, minimality, or a repair-synthesis rule"
       }
     }
   ],
-  "Scope": "Automatically reconstructed typed scalar observations for the supplied statement and fixed predicate; requires unambiguous variable names and complete update logging; not causal root localization"
+  "Scope": "Slice-relevant, validated observed activation of one fixed predicate; not counterfactual causality, uniqueness, minimality, or a repair-synthesis rule",
+  "ObservationRequirements": "Typed scalar updates with unambiguous variable names and complete update logging"
 }

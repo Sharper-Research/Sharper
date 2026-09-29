@@ -6,11 +6,18 @@ public sealed record PaperEvaluation(bool Known, object? Value, string? Reason)
     public static PaperEvaluation Unknown(string reason) => new(false, null, reason);
 }
 
-public sealed record PaperRootResult(string Status, bool? IsCandidate, string? Reason);
+public sealed record PaperRootResult(string Status, bool? IsCandidate, string? Reason)
+{
+    public string Rule { get; init; } = PaperEvaluator.RootRule;
+    public string Scope { get; init; } = PaperEvaluator.RootScope;
+}
 public sealed record PaperTraceActivation(int EventNumber, int Thread, string File, int Line, PaperRootResult Result);
 
 public static class PaperEvaluator
 {
+    public const string RootRule = "Root-ObservedActivation-v1";
+    public const string RootScope = "Slice-relevant, validated observed activation of one fixed predicate; not counterfactual causality, uniqueness, minimality, or a repair-synthesis rule";
+
     public static IReadOnlyList<PaperTraceActivation> EvaluateTraceActivation(IEnumerable<string> jsonLines,
         string file, int line, bool inSlice, PaperStatement statement, PaperExpression predicate)
     {
@@ -48,7 +55,7 @@ public static class PaperEvaluator
             else state.Remove(name);
             if (trace.GetProperty("line").GetInt32() == line && statement is PaperAssignment assignment && assignment.Variable == name)
                 results.Add(new(eventNumber, thread, file, line,
-                    EvaluateObservedActivation(inSlice, statement, predicate, before, state)));
+                    EvaluateRoot(inSlice, statement, predicate, before, state)));
         }
         return results;
     }
@@ -56,10 +63,30 @@ public static class PaperEvaluator
     public static PaperRootResult EvaluateObservedActivation(
         bool inSlice, PaperStatement statement, PaperExpression fixedPredicate,
         IReadOnlyDictionary<string, object?> before, IReadOnlyDictionary<string, object?> after)
+        => EvaluateRoot(inSlice, statement, fixedPredicate, before, after);
+
+    public static PaperRootResult EvaluateRoot(
+        bool inSlice, PaperStatement statement, PaperExpression fixedPredicate,
+        IReadOnlyDictionary<string, object?> before, IReadOnlyDictionary<string, object?> after)
     {
-        var result = EvaluateRoot(inSlice, statement, fixedPredicate, fixedPredicate, before, after);
-        return result with { Reason = result.Reason ?? "Observed fixed-predicate activation; not literal Root or a proof of causality" };
+        var result = EvaluateTransition(inSlice, statement, fixedPredicate, fixedPredicate, before, after);
+        return result with { Reason = result.Reason ?? "Evaluated the corrected fixed-predicate Root definition" };
     }
+
+    [Obsolete("The two-predicate rule is a legacy diagnostic. Use the single-predicate EvaluateRoot overload.")]
+    public static PaperRootResult EvaluateRoot(bool inSlice, PaperStatement statement,
+        PaperExpression predecessorPredicate, PaperExpression successorPredicate,
+        IReadOnlyDictionary<string, object?> before, IReadOnlyDictionary<string, object?> after)
+        => EvaluatePrintedRoot(inSlice, statement, predecessorPredicate, successorPredicate, before, after);
+
+    public static PaperRootResult EvaluatePrintedRoot(bool inSlice, PaperStatement statement,
+        PaperExpression predecessorPredicate, PaperExpression successorPredicate,
+        IReadOnlyDictionary<string, object?> before, IReadOnlyDictionary<string, object?> after)
+        => EvaluateTransition(inSlice, statement, predecessorPredicate, successorPredicate, before, after) with
+        {
+            Rule = "PrintedRoot-legacy",
+            Scope = "Diagnostic for the superseded two-predicate manuscript rule; not the operational Root definition"
+        };
 
     public static PaperEvaluation Evaluate(PaperExpression expression, IReadOnlyDictionary<string, object?> state)
     {
@@ -128,8 +155,7 @@ public static class PaperEvaluator
         }
     }
 
-    // Printed Figure 2 Root: evaluate the distinct propagated predicates, not a fixed-predicate heuristic.
-    public static PaperRootResult EvaluateRoot(
+    private static PaperRootResult EvaluateTransition(
         bool inSlice, PaperStatement statement, PaperExpression predecessorPredicate,
         PaperExpression successorPredicate, IReadOnlyDictionary<string, object?> before,
         IReadOnlyDictionary<string, object?> after)
@@ -165,7 +191,7 @@ public static class PaperEvaluator
         var predecessor = Evaluate(predecessorPredicate, before);
         var successor = Evaluate(successorPredicate, after);
         if (!predecessor.Known || !successor.Known || predecessor.Value is not bool wasEnabled || successor.Value is not bool isEnabled)
-            return new("Unknown", null, "A propagated predicate is not a known boolean in the observed state");
+            return new("Unknown", null, "A predicate is not a known boolean in the observed state");
         return new("Evaluated", !wasEnabled && isEnabled, null);
     }
 

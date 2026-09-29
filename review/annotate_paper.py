@@ -94,21 +94,27 @@ COMMENTS = [
      "Checked exceptional paths, general heap mutation, and runtime type compatibility return Incomplete; "
      "a syntactically constructed predicate is not a completed verification result.",
      [ANALYSIS + "PaperSourceAnalysis.cs", ANALYSIS + "PaperForwardVerifier.cs", TESTS]),
-    (4, "root-cause candidate", "Replace Root with the explicit observed-activation definition",
-     "Replace Root and its surrounding paragraph with: Let Q be one fixed failure predicate, S the relevant "
-     "statements, and (sigma, sigma') an observed transition of statement s at event k. Define "
-     "A_Q(k) iff s belongs to S, ValidTransition(s,sigma,sigma'), Defined(Q,sigma), Defined(Q,sigma'), "
-     "not eval(Q,sigma), and eval(Q,sigma'). An event satisfying A_Q is an observed activation candidate. "
-     "Both evaluations use the SAME Q. This definition does not establish counterfactual causality, "
-    "uniqueness, or minimality. The artifact evaluates supplied scalar pairs or reconstructs them from typed "
-    "trace updates for a supplied assignment and fixed predicate. Thread states are separate and cleared at "
-    "boundaries; untyped or missing values report Unknown. Names must be unambiguous and update logging complete.\n\n"
-     "Keep the Assign substitution rule unchanged. Its exact semantics give eval(Phi'[e/x],sigma) = "
-     "eval(Phi',sigma[x := eval(e,sigma)]), so comparing these two propagated predicates cannot produce "
-     "the printed false-to-true transition. This is a mathematical definition correction, not a failing "
-     "implementation to be adjusted until it returns a desired answer. The typeset replacement is in "
-    "PAPER_AMENDMENTS.md. Arbitrary-trace causal root localization remains outside the artifact.",
-     [ANALYSIS + "PaperEvaluation.cs", TESTS, "review/PAPER_AMENDMENTS.md"]),
+        (4, "root-cause candidate", "Root: final implemented replacement for Figure 2",
+         "Replace the Root rule and its explanatory paragraph with the following definition, implemented as "
+         "Root-ObservedActivation-v1 by PaperEvaluator.EvaluateRoot and --check-root:\n\n"
+         "Let Q be one fixed failure predicate, S the relevant statements, and sigma_k, sigma_(k+1) the observed "
+         "states around statement s_k at dynamic event k. Define Root_Q(k) iff s_k belongs to S, "
+         "ValidTransition(s_k,sigma_k,sigma_(k+1)), Defined(Q,sigma_k), Defined(Q,sigma_(k+1)), "
+         "not eval(Q,sigma_k), and eval(Q,sigma_(k+1)). Both evaluations use exactly the SAME Q. "
+         "Root denotes an observed activation candidate, not counterfactual causality, uniqueness or minimality. "
+         "Unknown observations yield Unknown; contradictory observations yield InvalidTransition. "
+         "Predicate propagation without an observed transition reports NotEvaluated, not a Root candidate.\n\n"
+         "For Q = (index >= 5) and the valid update 4 -> 5, corrected Root is true. Keep Assign substitution "
+         "unchanged: eval(Phi'[e/x],sigma) = eval(Phi',sigma[x := eval(e,sigma)]). The old two-predicate Root "
+         "cannot detect that activation and is retained only as the explicitly labeled PrintedRoot-legacy diagnostic. "
+         "Typed-trace reconstruction and supplied pairs use this same canonical definition; complete scalar updates "
+         "and unambiguous names are required. The exact typeset equation is in PAPER_AMENDMENTS.md.\n\n"
+         "Root does not synthesize loop guards. Guard construction is separately g_repair = g && a != null && "
+         "i >= 0 && i < a.Length, followed by forward counterexample refinement and candidate checking. "
+         "Do not describe this guard as causally inferred or derived from Root. The code and this replacement "
+         "comment agree; replace the old typeset rule when rebuilding the clean manuscript.",
+         [ANALYSIS + "PaperEvaluation.cs", ANALYSIS + "PaperRuleEngine.cs", ANALYSIS + "PaperModelCommand.cs",
+            REPAIR + "PatchSynthesizer.cs", TESTS, "review/PAPER_AMENDMENTS.md"]),
     (4, "repair condition", "Define what the forward result actually verifies",
      "Replace with: For acyclic supported source, Sharper negates the propagated failure predicate and "
      "checks that assumption against the selected failure site. This checks source/model safety, not the "
@@ -256,7 +262,8 @@ def load_evidence(directory):
                      "ListingRepairDriverChecksEmittedCandidate", "PaperListingChecksBothArrayWrites",
                      "SourceArraysPreserveHeapSemantics", "CyclicBackwardPropagationRequiresSemanticConvergence",
                      "TraceActivationReconstructsTypedStatesWithoutCrossingBoundaries",
-                     "Section23_GeneratedCandidateDoesNotClaimForwardVerification"]:
+                     "Section23_GeneratedCandidateDoesNotClaimForwardVerification",
+                     "RootRequiresFixedPredicateActivation", "RootCommandAndCompatibilityAliasReportCanonicalDefinition"]:
         if not any(required in name for name in test_names):
             raise ValueError("Missing evaluation regression: " + required)
     if sum("CallGraph_json_matches_snapshot" in name for name in test_names) != 7:
@@ -268,6 +275,9 @@ def load_evidence(directory):
         if not plan["Items"] or any(item["Validation"]["Status"] != status for item in plan["Items"]):
             raise ValueError("Unexpected decision for " + case)
         for item in plan["Items"]:
+            formula = item.get("FormulaAnalysis")
+            if formula and (formula["RootStatus"] != "NotEvaluated" or formula["RootRule"] != "Root-ObservedActivation-v1"):
+                raise ValueError("Propagation must report the canonical but unevaluated Root definition")
             expected_model = {"acceptance": "VerifiedAcyclicModel", "runtime-rejection": "Incomplete", "listing": "VerifiedExploredModel"}[case]
             if item["CandidateModelCheck"]["Status"] != expected_model or not item["CandidateModelSha256"]:
                 raise ValueError("Missing emitted-candidate model outcome for " + case)
@@ -294,8 +304,13 @@ def load_evidence(directory):
     if instrumented is None or tuple(instrumented.get(key) for key in ["total", "passed", "failed"]) != ("5", "3", "2"):
         raise ValueError("Instrumented execution must preserve the expected 3/5 result")
     activation = json.loads((directory / "trace-activation.json").read_text(encoding="utf-8-sig"))
-    if len(activation["Results"]) != 1 or activation["Results"][0]["Result"]["IsCandidate"] is not True:
+    if (activation["Rule"] != "Root-ObservedActivation-v1" or len(activation["Results"]) != 1
+            or activation["Results"][0]["Result"]["Rule"] != activation["Rule"]
+            or activation["Results"][0]["Result"]["IsCandidate"] is not True):
         raise ValueError("Missing automatically reconstructed trace activation")
+    supplied = json.loads((directory / "activation.json").read_text(encoding="utf-8-sig"))
+    if supplied["Rule"] != activation["Rule"] or supplied["Status"] != "Evaluated" or supplied["IsCandidate"] is not True:
+        raise ValueError("Supplied-state Root definition differs from trace-derived Root")
     return int(counters.get("passed"))
 
 
@@ -332,7 +347,7 @@ def render_evidence(directory, passed, annotated_pdf):
             "", "Interpretation",
             "Three purpose-built scenarios demonstrate feasibility, not a population repair rate.",
             "Model safety is not functional equivalence. Test acceptance is not a correctness proof.",
-            "The printed Root rule needs correction. Observed activation does not establish causality.",
+            "Root-ObservedActivation-v1: code and replacement comment agree; activation is not causality.",
             "", "Verify: review/reproduce.ps1 -Output review/rerun",
             "Sources: review/verified-run/ and review/PAPER_AMENDMENTS.md"
         ])
@@ -370,7 +385,7 @@ The recorded environment is {environment['os']} ({environment['architecture']}),
 | Formula/execution matrix | 240/240 combinations agree | Correspondence for the tested source fragment and inputs |
 | CFG tests | 7 snapshots and 3 semantic regressions pass | Tested ownership, call discovery, and export identity properties |
 | Explicit loop/call model | VerifiedInductiveModel; 2 safety locations | Partial correctness of the supplied model |
-| Fixed-predicate transition | ObservedActivation-v1; candidate true | Observed activation, not causal localization |
+| Canonical Root transition | Root-ObservedActivation-v1; candidate true | Same fixed-Q definition in code, CLI, and replacement paper comment |
 | Typed-trace reconstruction | Synthetic JSONL input; event 2 activates Q without supplied state pairs | Conditional on typed, complete and unambiguous scalar observations |
 | Cyclic backward analysis | Convergence and cutoff regressions pass | Least-fixed-point results only after solver-proved equivalence |
 | Synthetic bounds scenario | Baseline 2/4; candidate 4/4; AcceptedByTests | Candidate satisfies this supplied test oracle |
@@ -407,7 +422,7 @@ The generated candidate is saved, reparsed, and checked again. Its model result 
 
 ### Threats to Validity
 
-The three small, purpose-built scenarios are insufficient to establish effectiveness across a population of repositories. The runtime case is extracted; the synthetic bounds and listing cases supply their desired fallback policies explicitly. The listing oracle checks normal completion rather than buffer contents. An incomplete oracle can still accept an incorrect patch. Instrumentation is not proved semantics-preserving; matching outcomes establish only the observed comparison. Trace observations can be incomplete or stringified. Fixed-size Int32 arrays are modeled, but general heap effects, allocation exhaustion, recursive reasoning, concurrency, and other C# features remain outside the supported semantics. Supplied-invariant results establish partial correctness, not termination, and observed activation is not causality. The original printed Root rule requires the separate formal amendment; it is not validated by these tests.
+The three small, purpose-built scenarios are insufficient to establish effectiveness across a population of repositories. The runtime case is extracted; the synthetic bounds and listing cases supply their desired fallback policies explicitly. The listing oracle checks normal completion rather than buffer contents. An incomplete oracle can still accept an incorrect patch. Instrumentation is not proved semantics-preserving; matching outcomes establish only the observed comparison. Trace observations can be incomplete or stringified. Fixed-size Int32 arrays are modeled, but general heap effects, allocation exhaustion, recursive reasoning, concurrency, and other C# features remain outside the supported semantics. Supplied-invariant results establish partial correctness, not termination. We use the corrected fixed-predicate Root definition implemented by Root-ObservedActivation-v1: it identifies observed activation, not causality, and does not derive loop guards. The superseded printed rule is retained only for the explicit regression comparison.
 
 The copied validation workspace is filesystem isolation rather than a security sandbox; builds and tests run with the user's privileges. Unit tests, parameter combinations, trace events, and repeated fault observations are not independent repair cases. We report no human study, controlled runtime comparison, industrial deployment, or comparative superiority over other repair systems. The measured results support feasibility within the documented subset and identify broader source semantics, stronger specifications, and independent benchmark evaluation as future work.
 
@@ -479,7 +494,8 @@ def main():
               "- Repeated loop-local int-array reads now preserve continuation and check later visits; "
               "the safe-first/unsafe-second regression returns Counterexample.",
               "- Validation rejects changes to snapshotted tests and project inputs even when test names remain unchanged.",
-              "- The original Root formula still needs the explicitly different observed-activation amendment.", "",
+              "- Root is now the canonical fixed-predicate definition in code, CLI and the exact Figure 2 replacement comment; "
+              "the superseded two-predicate rule is isolated as a legacy diagnostic.", "",
               "## Required Manuscript Changes", ""]
     with fitz.open(source) as document:
         for number, (page_number, anchor, title, change, evidence) in enumerate(COMMENTS, 1):
@@ -505,7 +521,7 @@ def main():
     evidence_paths.update(render_evidence(arguments.evidence, passed, output))
     report.extend(["## Evidence Images", "", "[Recorded evidence summary](evidence-summary.png). "
                    "[Highlighted original formula page](paper-formulas.png). The summary is rendered from verified outputs; "
-                   "the formula image reproduces the manuscript, whose Root rule still requires the proposed correction.", ""])
+                   "the formula image preserves the original page; the attached Root comment supplies the implemented replacement.", ""])
     report.extend([evaluation_section(passed, arguments.evidence), ""])
     report_path = REVIEW / "PAPER_REVIEW.md"
     report_path.write_text("\n".join(report).rstrip() + "\n", encoding="utf-8")

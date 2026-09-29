@@ -19,7 +19,7 @@ Requires Windows x64, .NET 10 SDK, PowerShell 5.1+, and NuGet access. Other nati
 
 - Backward rules: Initialize, Assign, Assign-Irrel, Guard-T/F, Frame and Join for supported source expressions.
 - Cyclic backward analysis: least-fixed-point iteration with solver-checked convergence; unresolved budgets and unsupported transfers return Incomplete.
-- Root correction: explicit fixed-predicate observed activation, separate from the printed rule. Neither is a proof of causality.
+- Root: one fixed-predicate observed-activation definition in code, CLI (`--check-root`) and the exact paper replacement comment. The printed two-predicate rule is legacy-only; propagation without observations reports NotEvaluated. Root is not a proof of causality or a synthesis rule.
 - Trace activation: automatic scalar-pair reconstruction from type-tagged updates for a supplied statement and fixed predicate; missing observations remain Unknown.
 - Source verification: automatic lowering of supported structured loops and direct static calls; exhaustive symbolic exploration with fail-closed budgets.
 - Paper listing: fixed-size Int32 arrays, alias-visible reads/writes, counterexample-guided loop-bound guards, and a separate hash-bound safety check of the emitted candidate.
