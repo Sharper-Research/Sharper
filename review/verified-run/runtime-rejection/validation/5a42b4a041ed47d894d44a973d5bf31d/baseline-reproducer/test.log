@@ -1,0 +1,29 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  RuntimeCode -> C:\Users\manis\AppData\Local\Temp\Sharper-validation-687cebeec57c4807a69660a9d19eafb8\RuntimeCode\bin\Debug\net10.0\RuntimeCode.dll
+  RuntimeCode.Tests -> C:\Users\manis\AppData\Local\Temp\Sharper-validation-687cebeec57c4807a69660a9d19eafb8\RuntimeCode.Tests\bin\Debug\net10.0\RuntimeCode.Tests.dll
+Test run for C:\Users\manis\AppData\Local\Temp\Sharper-validation-687cebeec57c4807a69660a9d19eafb8\RuntimeCode.Tests\bin\Debug\net10.0\RuntimeCode.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+  Failed CheckShouldPersist_TrueMethodOnBaseClass_PreservesTrue [6 ms]
+  Error Message:
+   Test method RuntimeCode.Tests.MemberMethodResolverTests.CheckShouldPersist_TrueMethodOnBaseClass_PreservesTrue threw exception: 
+System.NullReferenceException: Object reference not set to an instance of an object.
+  Stack Trace:
+      at RuntimeCode.MemberMethodResolver.CheckShouldPersist(Object o, String memberName) in C:\Users\manis\AppData\Local\Temp\Sharper-validation-687cebeec57c4807a69660a9d19eafb8\RuntimeCode\MemberMethodResolver.cs:line 18
+   at RuntimeCode.Tests.MemberMethodResolverTests.CheckShouldPersist_TrueMethodOnBaseClass_PreservesTrue() in C:\Users\manis\AppData\Local\Temp\Sharper-validation-687cebeec57c4807a69660a9d19eafb8\RuntimeCode.Tests\MemberMethodResolverTests.cs:line 41
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+
+  Failed CheckShouldPersist_MethodOnBaseClass_NullDereference [< 1 ms]
+  Error Message:
+   Test method RuntimeCode.Tests.MemberMethodResolverTests.CheckShouldPersist_MethodOnBaseClass_NullDereference threw exception: 
+System.NullReferenceException: Object reference not set to an instance of an object.
+  Stack Trace:
+      at RuntimeCode.MemberMethodResolver.CheckShouldPersist(Object o, String memberName) in C:\Users\manis\AppData\Local\Temp\Sharper-validation-687cebeec57c4807a69660a9d19eafb8\RuntimeCode\MemberMethodResolver.cs:line 18
+   at RuntimeCode.Tests.MemberMethodResolverTests.CheckShouldPersist_MethodOnBaseClass_NullDereference() in C:\Users\manis\AppData\Local\Temp\Sharper-validation-687cebeec57c4807a69660a9d19eafb8\RuntimeCode.Tests\MemberMethodResolverTests.cs:line 64
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+
+Results File: C:\Users\manis\Desktop\Sharper\review\verified-run\runtime-rejection\validation\5a42b4a041ed47d894d44a973d5bf31d\baseline-reproducer\tests.trx
+
+Failed!  - Failed:     2, Passed:     3, Skipped:     0, Total:     5, Duration: 27 ms - RuntimeCode.Tests.dll (net10.0)

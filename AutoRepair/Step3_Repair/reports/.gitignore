@@ -1,9 +1,0 @@
-# Generated outputs from Step 3
-cfg_analyzer.log
-repair_plan.json
-patches/
-targetapp/
-
-# Keep reproducible fixtures
-!fixtures/
-!fixtures/**

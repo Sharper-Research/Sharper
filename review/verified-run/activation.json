@@ -1,0 +1,6 @@
+{
+  "Rule": "ObservedActivation-v1",
+  "Status": "Evaluated",
+  "IsCandidate": true,
+  "Reason": "Observed fixed-predicate activation; not literal Root or a proof of causality"
+}

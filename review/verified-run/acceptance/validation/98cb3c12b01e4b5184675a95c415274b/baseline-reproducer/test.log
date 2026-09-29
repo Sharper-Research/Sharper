@@ -1,0 +1,18 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  Fixture -> C:\Users\manis\AppData\Local\Temp\Sharper-validation-a78934777f744b479759c90981a68a15\bin\Debug\net10.0\Fixture.dll
+  Fixture.Tests -> C:\Users\manis\AppData\Local\Temp\Sharper-validation-a78934777f744b479759c90981a68a15\Fixture.Tests\bin\Debug\net10.0\Fixture.Tests.dll
+Test run for C:\Users\manis\AppData\Local\Temp\Sharper-validation-a78934777f744b479759c90981a68a15\Fixture.Tests\bin\Debug\net10.0\Fixture.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+  Failed FixtureTests.InvalidReadsReturnDefault [2 ms]
+  Error Message:
+   System.IndexOutOfRangeException : Index was outside the bounds of the array.
+  Stack Trace:
+     at Fixture.Read(Int32[] array, Int32 index, Int32 next, Boolean condition) in C:\Users\manis\AppData\Local\Temp\Sharper-validation-a78934777f744b479759c90981a68a15\Fixture.cs:line 9
+   at FixtureTests.InvalidReadsReturnDefault() in C:\Users\manis\AppData\Local\Temp\Sharper-validation-a78934777f744b479759c90981a68a15\Fixture.Tests\FixtureTests.cs:line 14
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+Results File: C:\Users\manis\Desktop\Sharper\review\verified-run\acceptance\validation\98cb3c12b01e4b5184675a95c415274b\baseline-reproducer\tests.trx
+
+Failed!  - Failed:     1, Passed:     0, Skipped:     0, Total:     1, Duration: 2 ms - Fixture.Tests.dll (net10.0)
+[xUnit.net 00:00:00.15]     FixtureTests.InvalidReadsReturnDefault [FAIL]

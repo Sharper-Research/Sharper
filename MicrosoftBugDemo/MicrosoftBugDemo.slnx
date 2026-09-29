@@ -1,4 +1,0 @@
-<Solution>
-  <Project Path="RuntimeCode.Tests/RuntimeCode.Tests.csproj" />
-  <Project Path="RuntimeCode/RuntimeCode.csproj" />
-</Solution>
