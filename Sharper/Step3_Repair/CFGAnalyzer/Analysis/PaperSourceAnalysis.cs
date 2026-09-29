@@ -9,7 +9,8 @@ namespace Sharper.CFGAnalyzer.Analysis;
 
 public static class PaperSourceAnalysis
 {
-    public static async Task<PaperPropagationResult> AnalyzeAsync(Document document, Violation violation)
+    public static async Task<PaperPropagationResult> AnalyzeAsync(Document document, Violation violation,
+        bool verifyCandidate = false, int? selectedStatementStart = null)
     {
         var root = await document.GetSyntaxRootAsync();
         var model = await document.GetSemanticModelAsync();
@@ -17,7 +18,9 @@ public static class PaperSourceAnalysis
         try
         {
             var lineStatements = root.DescendantNodes().OfType<StatementSyntax>()
-                .Where(statement => statement is not BlockSyntax && statement.GetLocation().GetLineSpan().StartLinePosition.Line + 1 == violation.Line)
+                .Where(statement => statement is not BlockSyntax && (selectedStatementStart.HasValue
+                    ? statement.SpanStart == selectedStatementStart.Value
+                    : statement.GetLocation().GetLineSpan().StartLinePosition.Line + 1 == violation.Line))
                 .ToArray();
             if (lineStatements.Length != 1) return Incomplete("Failure line must identify exactly one statement");
             var failureStatement = lineStatements[0];
@@ -39,7 +42,9 @@ public static class PaperSourceAnalysis
             if (failingExpression == null) return Incomplete("Failure must be a direct return, single local initializer, or array write");
             var operation = model.GetOperation(failingExpression);
             var initial = Initialize(operation, violation.Predicate);
-            if (failureStatement is ExpressionStatementSyntax || method.DescendantNodes().Any(node => node is
+            if (verifyCandidate && operation is IArrayElementReferenceOperation arrayAccess)
+                initial = PaperExpression.Apply("||", PaperExpression.Null(Expression(arrayAccess.ArrayReference)), initial);
+            if (verifyCandidate || failureStatement is ExpressionStatementSyntax || method.DescendantNodes().Any(node => node is
                 WhileStatementSyntax or ForStatementSyntax or DoStatementSyntax or InvocationExpressionSyntax or ArrayCreationExpressionSyntax))
                 return PaperSourceModel.Analyze(model, method, failureStatement, initial);
             var nodes = new List<PaperNode> { new("exit", 0, []), new("failure", violation.Line, []) };
@@ -177,6 +182,11 @@ public static class PaperSourceAnalysis
         }
         return operation switch
         {
+            IDefaultValueOperation { Type.SpecialType: SpecialType.System_Int32 } => PaperExpression.Constant("0"),
+            IDefaultValueOperation { Type.SpecialType: SpecialType.System_Boolean } => PaperExpression.Constant("false"),
+            IDefaultValueOperation { Type.IsReferenceType: true } => PaperExpression.Constant("null"),
+            IIsPatternOperation { Value.Type.IsReferenceType: true, Pattern: IConstantPatternOperation { Value.ConstantValue: { HasValue: true, Value: null } } } pattern =>
+                PaperExpression.Null(Expression(pattern.Value)),
             ILocalReferenceOperation local => PaperExpression.Variable(Identity(local.Local)),
             IParameterReferenceOperation parameter => PaperExpression.Variable(Identity(parameter.Parameter)),
             IPropertyReferenceOperation { Property.Name: "Length", Instance.Type: IArrayTypeSymbol { Rank: 1 } } length =>

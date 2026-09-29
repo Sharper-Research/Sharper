@@ -6,7 +6,9 @@ Read [PAPER_AMENDMENTS.md](PAPER_AMENDMENTS.md) first. It corrects the Root defi
 
 [paper-annotated.pdf](paper-annotated.pdf) contains 19 highlighted comments with proposed replacement wording and implementation evidence. [PAPER_REVIEW.md](PAPER_REVIEW.md) contains the same comments as a readable checklist. The original [paper.pdf](paper.pdf) is unchanged. This is an author revision copy, not a clean submission manuscript or a claim of publication acceptance.
 
-The [paste-ready Evaluation section](PAPER_REVIEW.md#paste-ready-evaluation-section) includes research questions, the measured results table, three case studies, and threats to validity. It distinguishes 240 formula/execution combinations, 56 listing-candidate execution inputs, 112 analyzer tests, and three repair scenarios; none of these counts is substituted for another.
+The [paste-ready Evaluation section](PAPER_REVIEW.md#paste-ready-evaluation-section) includes research questions, the measured results table, three case studies, and threats to validity. It distinguishes 240 formula/execution combinations, 56 listing-candidate execution inputs, 121 analyzer tests, and three repair scenarios; none of these counts is substituted for another.
+
+Images: [recorded evidence summary](evidence-summary.png) and [highlighted formula page](paper-formulas.png). The summary is rendered from validated TRX and JSON outcomes, not a terminal screenshot. The formula page reproduces the original manuscript; apply the Root correction in the [formula correspondence matrix](PAPER_AMENDMENTS.md#formula-correspondence) before submission.
 
 After applying the comments to the editable manuscript, rebuild and review the final PDF, confirm author approval, licensing and venue requirements, and cite the exact artifact commit. No manuscript source or submission-portal access is included in this workspace.
 
@@ -32,15 +34,17 @@ The script builds the solution, runs the analyzer tests, verifies a model contai
 
 | Check | Expected result |
 | --- | --- |
-| Analyzer unit suite | 112/112 pass; no skipped tests or prior local-function CFG warnings |
+| Analyzer unit suite | 121/121 pass; no skipped tests or prior local-function CFG warnings |
+| Cyclic backward propagation | Solver-checked least fixed point; iteration cutoff returns Incomplete |
+| Typed-trace activation | Event 2 activates fixed Q without supplied state pairs; synthetic trace fixture |
 | CFG ownership and invocation | Top-level/nested bodies retained; condition/return calls discovered; no declaration-only call edges; distinct lambda IDs |
 | Formula/execution correspondence | 240 boundary-input combinations agree with emitted predicates and compiled C# behavior |
 | Repeated loop-local array access | Later failing visit produces Counterexample; safe repeated access verifies |
 | Validation input integrity | Modified test/project inputs are rejected even with unchanged test identities |
 | Loop and call model | VerifiedInductiveModel; two safety locations checked |
 | Fixed-predicate activation | ObservedActivation-v1; candidate true |
-| Synthetic guard | Baseline 2/4 pass; candidate 4/4 pass; AcceptedByTests |
-| Extracted runtime bug | Baseline 3/5 pass; candidate 4/5 pass; Rejected |
+| Synthetic guard | Emitted candidate VerifiedAcyclicModel; baseline 2/4, candidate 4/4; AcceptedByTests |
+| Extracted runtime bug | Emitted candidate Incomplete; baseline 3/5, candidate 4/5; Rejected |
 | Paper Listing 1.1 | Two counterexample stages; emitted candidate VerifiedExploredModel; baseline 1/4, candidate 4/4; AcceptedByTests |
 | Candidate model integrity | Stale candidate hashes and known safety counterexamples block test acceptance |
 | Fresh runtime trace | Instrumented 3/5; two null-dereference observations at one site |
@@ -61,6 +65,10 @@ The deliberately faulty target projects are not expected to pass their original 
 | Hash-checked application | [PatchSynthesizer.cs](../Sharper/Step3_Repair/CFGAnalyzer/Repair/PatchSynthesizer.cs) |
 
 ## Boundaries
+
+Every emitted candidate receives its own saved-byte model check. This means an attempted check for every patch, not a proof for every patch. Cyclic source backward analysis separately iterates from false for up to 16 rounds, requiring solver-proved equivalence at all graph nodes before reporting convergence. It does not replace the loop-guard bounds template or infer invariants. Typed trace reconstruction requires complete scalar updates and unambiguous names; it is not arbitrary-trace causal localization.
+
+The three cases support prototype feasibility and worked-example claims. Broad effectiveness claims need independent real defects, explicit selection criteria and denominators, stronger output oracles, comparative or ablation experiments, and repeatable cost measurements. Neither passing this protocol nor producing screenshots guarantees reviewer acceptance.
 
 The listing path supports fixed-size one-dimensional Int32 array allocation, zero initialization, alias-visible stores and checked element accesses. It refines eligible while-loop guards up to eight times and reparses the emitted candidate for a separate, hash-bound model check. The generated policy stops loops before invalid writes; the fixture tests normal completion, not private buffer contents or functional equivalence. Dynamic-size allocation, general heap effects and allocation exhaustion remain outside this result.
 

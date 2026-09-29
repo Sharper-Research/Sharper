@@ -11,6 +11,57 @@ namespace Sharper.CFGAnalyzer.Tests;
 
 public sealed class PaperFormulaTests
 {
+    [Theory]
+    [InlineData("System.Int32", 1, "Variable Update", "Evaluated", true)]
+    [InlineData("System.String", 1, "Variable Update", "Unknown", null)]
+    [InlineData(null, 1, "Variable Update", "Unknown", null)]
+    [InlineData("System.Int32", 2, "Variable Update", "Unknown", null)]
+    [InlineData("System.Int32", 1, "Return", "Unknown", null)]
+    public void TraceActivationReconstructsTypedStatesWithoutCrossingBoundaries(string? type, int thread,
+        string message, string status, bool? candidate)
+    {
+        string Event(int atLine, string value, int eventThread, string eventMessage) => JsonSerializer.Serialize(new
+        {
+            tid = eventThread, file = "Fixture.cs", line = atLine, msg = eventMessage, valueType = type,
+            @var = new { name = "index", val = value }
+        });
+        var index = PaperExpression.Variable("index");
+        var results = PaperEvaluator.EvaluateTraceActivation([
+            Event(1, "4", thread, message), Event(2, "5", 1, "Variable Update")], "Fixture.cs", 2, true,
+            new PaperAssignment("index", PaperExpression.Apply("int32.unchecked+", index, PaperExpression.Constant("1"))),
+            PaperExpression.Apply(">=", index, PaperExpression.Constant("5")));
+        var result = Assert.Single(results);
+        Assert.Equal(2, result.EventNumber);
+        Assert.Equal(status, result.Result.Status);
+        Assert.Equal(candidate, result.Result.IsCandidate);
+    }
+
+    [Theory]
+    [InlineData(0, 64, "PropagatedCyclicFixedPoint", false)]
+    [InlineData(4, 64, "PropagatedCyclicFixedPoint", true)]
+    [InlineData(0, 1, "Incomplete", false)]
+    public void CyclicBackwardPropagationRequiresSemanticConvergence(int start, int budget, string status, bool unsafeEntry)
+    {
+        var index = PaperExpression.Variable("index");
+        var guard = PaperExpression.Apply("<", index, PaperExpression.Constant("3"));
+        PaperNode[] nodes = [
+            new("entry", 1, [new("head", new PaperAssignment("index", PaperExpression.Constant(start.ToString(CultureInfo.InvariantCulture))))]),
+            new("head", 2, [new("body", new PaperGuard(guard, true)), new("failure", new PaperGuard(guard, false))]),
+            new("body", 3, [new("head", new PaperAssignment("index", PaperExpression.Apply("int32.unchecked+", index, PaperExpression.Constant("1"))))]),
+            new("failure", 4, [])];
+        var result = PaperRuleEngine.PropagateCyclic(nodes, "entry", "failure",
+            PaperExpression.Apply("!=", index, PaperExpression.Constant("3")),
+            new Dictionary<string, PaperSort> { ["index"] = PaperSort.Int32 }, budget);
+        Assert.True(result.Status == status, result.Reason);
+        if (status == "Incomplete") Assert.Null(result.EntryExpression);
+        else
+        {
+            var value = PaperEvaluator.Evaluate(result.EntryExpression!, new Dictionary<string, object?>());
+            Assert.True(value.Known, value.Reason);
+            Assert.Equal(unsafeEntry, value.Value);
+        }
+    }
+
     [Fact]
     public async Task ListingRepairDriverChecksEmittedCandidate()
     {
@@ -100,7 +151,7 @@ public sealed class PaperFormulaTests
             + "while (" + secondGuard + ") {\nbuf2[i] = i + 1;\n--i;\n}\n} }";
         var result = await PaperSourceAnalysis.AnalyzeAsync(project.AddDocument("Listing.cs", source),
             new Violation("BufferInBounds(buf1,i)", "safe", new(), false, "Listing.cs", 4, "paper-listing"));
-        Assert.True(result.Status == "ForwardOnlySupportedSource", result.Reason);
+        Assert.NotNull(result.BackwardAnalysis);
         Assert.Equal(expected, result.ForwardModelCheck?.Status);
         if (expected == "Counterexample" && firstGuard != "i < check")
             Assert.Equal(8, result.ForwardModelCheck?.CounterexampleLine);
@@ -137,6 +188,7 @@ public sealed class PaperFormulaTests
 
     [Theory]
     [InlineData("while (index < 3) { index++; }", "VerifiedExploredModel")]
+    [InlineData("while (index < 0) { index = 0; }", "VerifiedAcyclicModel")]
     [InlineData("for (index = 0; index < 3; index++) { }", "VerifiedExploredModel")]
     [InlineData("do { index++; } while (index < 3);", "VerifiedExploredModel")]
     [InlineData("index = Count(3);", "VerifiedExploredModel")]
@@ -153,7 +205,9 @@ public sealed class PaperFormulaTests
         var document = project.AddDocument("Fixture.cs", source);
         var result = await PaperSourceAnalysis.AnalyzeAsync(document,
             new Violation("BufferInBounds(array,index)", "safe", new(), false, "Fixture.cs", 5, "trace"));
-        Assert.True(result.Status == "ForwardOnlySupportedSource", result.Reason);
+        Assert.NotNull(result.BackwardAnalysis);
+        if (computation.Contains("index = 0;", StringComparison.Ordinal) && computation.StartsWith("while", StringComparison.Ordinal))
+            Assert.True(result.BackwardAnalysis.Status == "PropagatedCyclicFixedPoint", result.BackwardAnalysis.Reason);
         Assert.Equal(expected, result.ForwardModelCheck?.Status);
     }
 
@@ -500,6 +554,7 @@ public sealed class PaperFormulaTests
     {
         using var workspace = new Microsoft.CodeAnalysis.AdhocWorkspace();
         var project = workspace.AddProject("FormulaIntegration", Microsoft.CodeAnalysis.LanguageNames.CSharp)
+            .WithCompilationOptions(new Microsoft.CodeAnalysis.CSharp.CSharpCompilationOptions(Microsoft.CodeAnalysis.OutputKind.DynamicallyLinkedLibrary))
             .AddMetadataReference(Microsoft.CodeAnalysis.MetadataReference.CreateFromFile(typeof(object).Assembly.Location));
         var document = project.AddDocument("Fixture.cs", """
             class Fixture
@@ -534,6 +589,8 @@ public sealed class PaperFormulaTests
             Assert.Equal("NotPerformed", plan.VerificationStatus);
             Assert.NotNull(item.PatchedFilePath);
             Assert.Contains("Unverified predicate-guard", item.ActionReason);
+            Assert.True(item.CandidateModelCheck?.Status == "VerifiedAcyclicModel", item.CandidateModelCheck?.Reason);
+            Assert.Equal(CandidateValidator.HashFile(item.PatchedFilePath!), item.CandidateModelSha256);
             var candidate = await File.ReadAllTextAsync(item.PatchedFilePath);
             Assert.Contains("array is null || index < 0 || index >= array.Length", candidate);
             Assert.DoesNotContain("catch", candidate);
@@ -772,9 +829,12 @@ public sealed class PaperFormulaTests
     public async Task Section23_GeneratedCandidateDoesNotClaimForwardVerification()
     {
         using var workspace = new Microsoft.CodeAnalysis.AdhocWorkspace();
-        var project = workspace.AddProject("FormulaFixture", Microsoft.CodeAnalysis.LanguageNames.CSharp);
-        var document = workspace.AddDocument(project.Id, "Fixture.cs", Microsoft.CodeAnalysis.Text.SourceText.From(
-            "class Fixture { public static int Read(string value) { return value.Length; } }"));
+        var project = workspace.AddProject("FormulaFixture", Microsoft.CodeAnalysis.LanguageNames.CSharp)
+            .WithCompilationOptions(new Microsoft.CodeAnalysis.CSharp.CSharpCompilationOptions(Microsoft.CodeAnalysis.OutputKind.DynamicallyLinkedLibrary))
+            .AddMetadataReference(Microsoft.CodeAnalysis.MetadataReference.CreateFromFile(typeof(object).Assembly.Location));
+        var document = project.AddDocument("Fixture.cs",
+            "class Fixture { public static int Read(string value) {\nreturn value.Length;\n} }",
+            filePath: Path.Combine(Path.GetTempPath(), "Fixture.cs"));
         var root = await document.GetSyntaxRootAsync();
         var statement = Assert.Single(root!.DescendantNodes()
             .OfType<Microsoft.CodeAnalysis.CSharp.Syntax.ReturnStatementSyntax>());
@@ -787,6 +847,15 @@ public sealed class PaperFormulaTests
             var candidate = await File.ReadAllTextAsync(patchedFile);
             Assert.Contains("Unverified catch-based candidate", candidate);
             Assert.DoesNotContain("Forward-propagated", candidate);
+            var violationsPath = Path.Combine(output, "violations.json");
+            await File.WriteAllTextAsync(violationsPath, JsonSerializer.Serialize(new[]
+            {
+                new Violation("NotNull(value)", "safe", new(), false, "Fixture.cs", 2, "trace")
+            }));
+            var plan = await ViolationDrivenRepair.RunAsync(document.Project.Solution, violationsPath, output);
+            var item = Assert.Single(plan.Items);
+            Assert.Equal("Incomplete", item.CandidateModelCheck?.Status);
+            Assert.Equal(CandidateValidator.HashFile(item.PatchedFilePath!), item.CandidateModelSha256);
         }
         finally
         {

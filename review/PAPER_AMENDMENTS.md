@@ -22,7 +22,19 @@ A_Q(\ell,\sigma,\sigma') \iff
 \;\land\;\neg\llbracket Q\rrbracket_\sigma\land\llbracket Q\rrbracket_{\sigma'}.
 $$
 
-This differs intentionally from printed Root. It establishes an observed value transition, not counterfactual causality, minimality, or unique root cause. The implementation accepts supplied scalar state pairs and validates assignments/guards; missing observations yield Unknown. Automatic extraction of these states from general execution traces is not implemented.
+This differs intentionally from printed Root. It establishes an observed value transition, not counterfactual causality, minimality, or unique root cause. The implementation accepts supplied scalar pairs or automatically reconstructs them from type-tagged trace updates for a supplied assignment, location and fixed predicate. It isolates thread state and clears it at method/control boundaries and unrelated files. Missing or untyped values yield Unknown. This requires complete update logging and unambiguous variable names; it is not arbitrary-trace causal localization. The JSONL activation fixture is synthetic, distinct from the captured runtime trace.
+
+## Cyclic Backward Equations
+
+For the supported scalar graph, let $B_v$ be the selected failure predicate at its location and false elsewhere. Starting with $F_v^0=\bot$, iterate
+
+$$
+F_v^{n+1}=B_v\lor\bigvee_{(v,s,u)\in E}\operatorname{pre}_s(F_u^n).
+$$
+
+Assignments use substitution, guards use conjunction, and joins use disjunction. Sharper reports `PropagatedCyclicFixedPoint` only when Z3 proves $\bigvee_v(F_v^{n+1}\ne F_v^n)$ unsatisfiable over the declared modeled inputs. Starting from false and applying monotone predecessor equations establishes the least fixed point for reachable selected failures in the supported normal-transition semantics. It does not establish termination or every possible exception's absence. Source analysis allows 16 iterations; the direct API defaults to 64. Expressions exceeding 20000 nodes, unsupported transfers, and unresolved solver queries return `Incomplete`, with no completed entry predicate. Heap transfers are not generally supported by this backward algorithm.
+
+Source analysis reports this result separately from forward array-safety exploration. In particular, a guarded first listing access can be backward-safe while a later access still produces a forward counterexample. Loop-guard edits remain bounds-template synthesis plus forward refinement; implementing cyclic analysis does not make those edits backward-derived.
 
 ## Loops and Calls
 
@@ -42,7 +54,24 @@ For supported array writes at the start of while-loop bodies, a bounds template 
 
 The two-buffer fixture automatically produces a candidate guarded at both loops. The saved source is reparsed and checked, with `VerifiedExploredModel` reported only after exhaustive feasible-path exploration. The selected failure and lowered Int32 array accesses are checked; functional equivalence and allocation exhaustion are not. The result is bound to a SHA-256 candidate hash. A changed candidate or known candidate counterexample blocks test acceptance.
 
-The candidate's stated policy stops a loop before an invalid write. Its normal-completion tests improve from 1/4 to 4/4; they do not observe the private buffer contents. Separate compiled execution covers 56 boundary inputs. This is an executed source-level safety and test-acceptance result, not a recovered functional specification. Other repair paths must not inherit its emitted-candidate verification claim.
+The candidate's stated policy stops a loop before an invalid write. Its normal-completion tests improve from 1/4 to 4/4; they do not observe the private buffer contents. Separate compiled execution covers 56 boundary inputs. This is an executed source-level safety and test-acceptance result, not a recovered functional specification.
+
+Every emitted candidate now receives a separate model-check attempt bound to its saved bytes. Direct-return guards are checked from true, including nullness, and the bounds fixture reports `VerifiedAcyclicModel`. Catch-based candidates report `Incomplete` because their effects are unsupported. An attempted check is not necessarily a completed proof; each patch retains its own outcome. `Incomplete` may proceed to tests, while a known counterexample blocks acceptance.
+
+## Formula Correspondence
+
+| Manuscript element | Current correspondence | Verification evidence |
+| --- | --- | --- |
+| Table 1 bounds and null templates | Implemented with failure polarity; bounds assume defined length | `Figure2_RepairDriverPropagatesBothCSharpBranches`: 240 compiled-input comparisons |
+| Reference-cast template | Constructed; runtime compatibility is not solver-discharged | Unsupported effects return Incomplete |
+| Initialize, Assign, Assign-Irrel, Guard-T/F, Frame, Join | Implemented for the supported expression/statement domain | `PaperFormulaTests` transfer and branching regressions |
+| Printed Root | NOT equivalent to the implemented observed-activation amendment | Exact-assignment equality above and Root regressions |
+| Fixed-Q observed activation | Implemented for supplied pairs and typed-trace reconstruction | `TraceActivationReconstructsTypedStatesWithoutCrossingBoundaries`; recorded `trace-activation.json` |
+| Cyclic backward extension | Least fixed point only on solver-proved convergence | `CyclicBackwardPropagationRequiresSemanticConvergence`; source loop/call integration |
+| Loop invariants and procedure bodies | Checked supplied invariants and nonrecursive bodies | Recorded `loop-and-call.json`: VerifiedInductiveModel |
+| Forward patched-program safety | Attempted for every emitted candidate, proved only within supported semantics | Per-candidate status and SHA-256 in all three repair plans |
+
+These correspondences do not make every formula or universal claim in the unchanged original PDF correct. Apply the anchored replacement text and typeset the new cyclic equations in the editable manuscript.
 
 ## Repair Acceptance
 
@@ -55,3 +84,5 @@ One accepted candidate may be applied after its hashes are rechecked. Independen
 Use the complete [paste-ready Evaluation section](PAPER_REVIEW.md#paste-ready-evaluation-section) for the protocol, research questions, results table, three case-study narratives, and threats to validity. Its generator checks the recorded analyzer results, CFG regressions, fresh runtime detections, listing refinement, candidate hash, and baseline/candidate test counts before producing the text.
 
 The bounds-guard fixture is synthetic and explicitly specifies default-return behavior. The dotnet/runtime fixture is an extracted real-bug detection and rejection case, not a full-repository scan or successful upstream repair. The historical HtmlSanitizer experiment is not a current-version rerun. No human-participant study, universal repair guarantee, or quantitative comparison with other repair systems is established by this artifact.
+
+For reviewers, these cases are suitable as worked examples and prototype-feasibility evidence. They are not sufficient to support broad repair effectiveness or superiority claims. A stronger effectiveness evaluation needs independent real defects with explicit selection criteria, meaningful output oracles, failure/unsupported denominators, comparison or ablation experiments, and repeatable cost measurements. Reviewer acceptance also depends on the venue and novelty; it cannot be guaranteed by an artifact check.

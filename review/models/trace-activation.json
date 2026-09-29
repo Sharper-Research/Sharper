@@ -1,0 +1,17 @@
+{
+  "InSlice": true,
+  "TraceFile": "trace-activation.jsonl",
+  "File": "Fixture.cs",
+  "Line": 2,
+  "Statement": {
+    "kind": "assign", "Variable": "index",
+    "Value": { "Operator": "int32.unchecked+", "Operands": [
+      { "Operator": "variable", "Atom": "index", "Operands": [] },
+      { "Operator": "constant", "Atom": "1", "Operands": [] }
+    ] }
+  },
+  "Predicate": { "Operator": ">=", "Operands": [
+    { "Operator": "variable", "Atom": "index", "Operands": [] },
+    { "Operator": "constant", "Atom": "5", "Operands": [] }
+  ] }
+}

@@ -27,9 +27,13 @@ internal sealed class PaperSourceModel
             var result = PaperForwardVerifier.Verify(builder.nodes, entry,
                 new Dictionary<string, PaperExpression> { ["failure"] = predicate },
                 PaperExpression.Constant("true"), builder.variables, exploreCycles: true);
-            return new("ForwardOnlySupportedSource", null, [], [], "Exact source exploration; no cyclic backward predicate claimed")
+            var backward = PaperRuleEngine.PropagateCyclic(builder.nodes, entry, "failure", predicate, builder.variables, maxIterations: 16);
+            return new(backward.EntryExpression == null ? "ForwardOnlySupportedSource" : "ForwardAndBackwardSupportedSource",
+                backward.EntryPredicate, backward.Steps, backward.RelevantLines, backward.Reason)
             {
                 ProposedEntryCondition = "true",
+                EntryExpression = backward.EntryExpression,
+                BackwardAnalysis = backward,
                 ForwardModelCheck = result,
                 ForwardVerificationScope = "Selected failure and all lowered Int32 array element accesses in supported source; not generated-patch correctness, functional equivalence, or resource-exhaustion safety"
             };

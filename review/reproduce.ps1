@@ -22,6 +22,7 @@ try {
     Invoke-Dotnet -Arguments @("test", $tests, "--logger", "trx;LogFileName=analyzer-suite.trx", "--results-directory", $Output, "--verbosity", "minimal")
     Invoke-Dotnet -Arguments @("run", "--no-build", "--project", $analyzer, "--", "--verify-model", "review/models/loop-and-call.json", "--output", "$Output/loop-and-call.json")
     Invoke-Dotnet -Arguments @("run", "--no-build", "--project", $analyzer, "--", "--check-activation", "review/models/activation.json", "--output", "$Output/activation.json")
+    Invoke-Dotnet -Arguments @("run", "--no-build", "--project", $analyzer, "--", "--check-activation", "review/models/trace-activation.json", "--output", "$Output/trace-activation.json")
     $runtime = (Resolve-Path "review/fixtures/runtime").Path
     $sandbox = Join-Path ([IO.Path]::GetTempPath()) ("Sharper-trace-review-" + [guid]::NewGuid().ToString("N"))
     $traceDirectory = Join-Path $Output "runtime-trace"
@@ -69,6 +70,8 @@ try {
     $positive = Get-Content "$Output/acceptance/repair_plan.json" -Raw | ConvertFrom-Json
     $negative = Get-Content "$Output/runtime-rejection/repair_plan.json" -Raw | ConvertFrom-Json
     if ($positive.Items[0].Validation.Status -ne "AcceptedByTests") { throw "Positive gate did not accept" }
+    if ($positive.Items[0].CandidateModelCheck.Status -ne "VerifiedAcyclicModel") { throw "Saved direct-return guard did not verify" }
+    if (@($negative.Items | Where-Object { $_.CandidateModelCheck.Status -ne "Incomplete" }).Count) { throw "Unsupported runtime candidates must report Incomplete" }
     if (@($negative.Items | Where-Object { $_.Validation.Status -ne "Rejected" }).Count) { throw "Negative gate did not reject" }
     $hashes | ConvertTo-Json | Set-Content "$Output/original-source-sha256.json" -Encoding UTF8
     $elapsed.Stop()

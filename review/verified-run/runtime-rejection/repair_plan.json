@@ -1,5 +1,5 @@
 {
-  "GeneratedAt": "2026-09-29T21:14:42.0888658Z",
+  "GeneratedAt": "2026-09-29T21:40:01.7973681Z",
   "ViolationsFile": "C:\\Users\\manis\\Desktop\\Sharper\\review\\verified-run\\runtime-trace/violations.json",
   "TotalViolations": 2,
   "ByAction": {
@@ -19,7 +19,7 @@
         "Result": false,
         "File": "MemberMethodResolver.cs",
         "Line": 13,
-        "TraceId": "8402d20c-568b-41c4-a06d-804c1aef44e4",
+        "TraceId": "f5d08479-ec21-4365-b717-3a78b87264e1",
         "ExceptionType": "",
         "Detection": "forward-runtime-signal"
       },
@@ -41,13 +41,21 @@
         "RootStatus": "BlockedByPrintedRootDefinition",
         "ProposedEntryCondition": null,
         "ForwardModelCheck": null,
+        "BackwardAnalysis": null,
         "ForwardVerificationStatus": "NotPerformed",
         "ForwardVerificationScope": "Selected failure site in the supported source/model semantics, not the generated patch or whole method"
       },
-      "CandidateModelCheck": null,
-      "CandidateModelSha256": null,
+      "CandidateModelCheck": {
+        "Status": "Incomplete",
+        "CheckedLocations": 0,
+        "CounterexampleNode": null,
+        "Counterexample": null,
+        "Reason": "No supported Table 1 template at this exact expression",
+        "CounterexampleLine": null
+      },
+      "CandidateModelSha256": "D2550F7FD6FF905454A113878549653AB97700FF599B4F1EB945DFFD53B10E1C",
       "CandidateRefinementChecks": null,
-      "CandidateVerificationScope": null,
+      "CandidateVerificationScope": "Reparsed emitted candidate: selected failure and lowered Int32 array element accesses; no functional-equivalence or resource-exhaustion proof",
       "SourceSha256": "0772EAE5A20F24CD0F48AABF9716262B668A71EA21D345064B9FBAB9391D1257",
       "Validation": {
         "Status": "Rejected",
@@ -58,11 +66,11 @@
           "baseline-suite": {
             "ExitCode": 1,
             "Tests": {
-              "CheckShouldPersist_TrueMethodOnSameClass_PreservesTrue": "Passed",
               "CheckShouldPersist_MethodOnBaseClass_NullDereference": "Failed",
-              "CheckShouldPersist_MethodOnBaseClassViaBaseInstance_Works": "Passed",
+              "CheckShouldPersist_TrueMethodOnSameClass_PreservesTrue": "Passed",
               "CheckShouldPersist_MethodOnSameClass_ReturnsValue": "Passed",
-              "CheckShouldPersist_TrueMethodOnBaseClass_PreservesTrue": "Failed"
+              "CheckShouldPersist_TrueMethodOnBaseClass_PreservesTrue": "Failed",
+              "CheckShouldPersist_MethodOnBaseClassViaBaseInstance_Works": "Passed"
             },
             "Error": null,
             "Passed": false,
@@ -71,10 +79,10 @@
           "baseline-reproducer": {
             "ExitCode": 1,
             "Tests": {
-              "CheckShouldPersist_MethodOnSameClass_ReturnsValue": "Passed",
+              "CheckShouldPersist_MethodOnBaseClassViaBaseInstance_Works": "Passed",
               "CheckShouldPersist_TrueMethodOnSameClass_PreservesTrue": "Passed",
               "CheckShouldPersist_TrueMethodOnBaseClass_PreservesTrue": "Failed",
-              "CheckShouldPersist_MethodOnBaseClassViaBaseInstance_Works": "Passed",
+              "CheckShouldPersist_MethodOnSameClass_ReturnsValue": "Passed",
               "CheckShouldPersist_MethodOnBaseClass_NullDereference": "Failed"
             },
             "Error": null,
@@ -84,11 +92,11 @@
           "candidate-reproducer": {
             "ExitCode": 1,
             "Tests": {
-              "CheckShouldPersist_TrueMethodOnSameClass_PreservesTrue": "Passed",
               "CheckShouldPersist_MethodOnSameClass_ReturnsValue": "Passed",
+              "CheckShouldPersist_TrueMethodOnSameClass_PreservesTrue": "Passed",
               "CheckShouldPersist_MethodOnBaseClassViaBaseInstance_Works": "Passed",
-              "CheckShouldPersist_TrueMethodOnBaseClass_PreservesTrue": "Failed",
-              "CheckShouldPersist_MethodOnBaseClass_NullDereference": "Passed"
+              "CheckShouldPersist_MethodOnBaseClass_NullDereference": "Passed",
+              "CheckShouldPersist_TrueMethodOnBaseClass_PreservesTrue": "Failed"
             },
             "Error": null,
             "Passed": false,
@@ -97,11 +105,11 @@
           "candidate-suite": {
             "ExitCode": 1,
             "Tests": {
-              "CheckShouldPersist_MethodOnBaseClass_NullDereference": "Passed",
+              "CheckShouldPersist_TrueMethodOnSameClass_PreservesTrue": "Passed",
               "CheckShouldPersist_MethodOnBaseClassViaBaseInstance_Works": "Passed",
               "CheckShouldPersist_MethodOnSameClass_ReturnsValue": "Passed",
-              "CheckShouldPersist_TrueMethodOnSameClass_PreservesTrue": "Passed",
-              "CheckShouldPersist_TrueMethodOnBaseClass_PreservesTrue": "Failed"
+              "CheckShouldPersist_TrueMethodOnBaseClass_PreservesTrue": "Failed",
+              "CheckShouldPersist_MethodOnBaseClass_NullDereference": "Passed"
             },
             "Error": null,
             "Passed": false,
@@ -123,7 +131,7 @@
         "Result": false,
         "File": "MemberMethodResolver.cs",
         "Line": 13,
-        "TraceId": "8402d20c-568b-41c4-a06d-804c1aef44e4",
+        "TraceId": "f5d08479-ec21-4365-b717-3a78b87264e1",
         "ExceptionType": "",
         "Detection": "forward-runtime-signal"
       },
@@ -145,13 +153,21 @@
         "RootStatus": "BlockedByPrintedRootDefinition",
         "ProposedEntryCondition": null,
         "ForwardModelCheck": null,
+        "BackwardAnalysis": null,
         "ForwardVerificationStatus": "NotPerformed",
         "ForwardVerificationScope": "Selected failure site in the supported source/model semantics, not the generated patch or whole method"
       },
-      "CandidateModelCheck": null,
-      "CandidateModelSha256": null,
+      "CandidateModelCheck": {
+        "Status": "Incomplete",
+        "CheckedLocations": 0,
+        "CounterexampleNode": null,
+        "Counterexample": null,
+        "Reason": "No supported Table 1 template at this exact expression",
+        "CounterexampleLine": null
+      },
+      "CandidateModelSha256": "D2550F7FD6FF905454A113878549653AB97700FF599B4F1EB945DFFD53B10E1C",
       "CandidateRefinementChecks": null,
-      "CandidateVerificationScope": null,
+      "CandidateVerificationScope": "Reparsed emitted candidate: selected failure and lowered Int32 array element accesses; no functional-equivalence or resource-exhaustion proof",
       "SourceSha256": "0772EAE5A20F24CD0F48AABF9716262B668A71EA21D345064B9FBAB9391D1257",
       "Validation": {
         "Status": "Rejected",
@@ -162,11 +178,11 @@
           "baseline-suite": {
             "ExitCode": 1,
             "Tests": {
-              "CheckShouldPersist_TrueMethodOnSameClass_PreservesTrue": "Passed",
               "CheckShouldPersist_MethodOnBaseClass_NullDereference": "Failed",
-              "CheckShouldPersist_MethodOnBaseClassViaBaseInstance_Works": "Passed",
+              "CheckShouldPersist_TrueMethodOnSameClass_PreservesTrue": "Passed",
               "CheckShouldPersist_MethodOnSameClass_ReturnsValue": "Passed",
-              "CheckShouldPersist_TrueMethodOnBaseClass_PreservesTrue": "Failed"
+              "CheckShouldPersist_TrueMethodOnBaseClass_PreservesTrue": "Failed",
+              "CheckShouldPersist_MethodOnBaseClassViaBaseInstance_Works": "Passed"
             },
             "Error": null,
             "Passed": false,
@@ -175,10 +191,10 @@
           "baseline-reproducer": {
             "ExitCode": 1,
             "Tests": {
-              "CheckShouldPersist_MethodOnSameClass_ReturnsValue": "Passed",
+              "CheckShouldPersist_MethodOnBaseClassViaBaseInstance_Works": "Passed",
               "CheckShouldPersist_TrueMethodOnSameClass_PreservesTrue": "Passed",
               "CheckShouldPersist_TrueMethodOnBaseClass_PreservesTrue": "Failed",
-              "CheckShouldPersist_MethodOnBaseClassViaBaseInstance_Works": "Passed",
+              "CheckShouldPersist_MethodOnSameClass_ReturnsValue": "Passed",
               "CheckShouldPersist_MethodOnBaseClass_NullDereference": "Failed"
             },
             "Error": null,
@@ -188,11 +204,11 @@
           "candidate-reproducer": {
             "ExitCode": 1,
             "Tests": {
-              "CheckShouldPersist_TrueMethodOnSameClass_PreservesTrue": "Passed",
               "CheckShouldPersist_MethodOnSameClass_ReturnsValue": "Passed",
+              "CheckShouldPersist_TrueMethodOnSameClass_PreservesTrue": "Passed",
               "CheckShouldPersist_MethodOnBaseClassViaBaseInstance_Works": "Passed",
-              "CheckShouldPersist_TrueMethodOnBaseClass_PreservesTrue": "Failed",
-              "CheckShouldPersist_MethodOnBaseClass_NullDereference": "Passed"
+              "CheckShouldPersist_MethodOnBaseClass_NullDereference": "Passed",
+              "CheckShouldPersist_TrueMethodOnBaseClass_PreservesTrue": "Failed"
             },
             "Error": null,
             "Passed": false,
@@ -201,11 +217,11 @@
           "candidate-suite": {
             "ExitCode": 1,
             "Tests": {
-              "CheckShouldPersist_MethodOnBaseClass_NullDereference": "Passed",
+              "CheckShouldPersist_TrueMethodOnSameClass_PreservesTrue": "Passed",
               "CheckShouldPersist_MethodOnBaseClassViaBaseInstance_Works": "Passed",
               "CheckShouldPersist_MethodOnSameClass_ReturnsValue": "Passed",
-              "CheckShouldPersist_TrueMethodOnSameClass_PreservesTrue": "Passed",
-              "CheckShouldPersist_TrueMethodOnBaseClass_PreservesTrue": "Failed"
+              "CheckShouldPersist_TrueMethodOnBaseClass_PreservesTrue": "Failed",
+              "CheckShouldPersist_MethodOnBaseClass_NullDereference": "Passed"
             },
             "Error": null,
             "Passed": false,

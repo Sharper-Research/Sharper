@@ -7,9 +7,52 @@ public sealed record PaperEvaluation(bool Known, object? Value, string? Reason)
 }
 
 public sealed record PaperRootResult(string Status, bool? IsCandidate, string? Reason);
+public sealed record PaperTraceActivation(int EventNumber, int Thread, string File, int Line, PaperRootResult Result);
 
 public static class PaperEvaluator
 {
+    public static IReadOnlyList<PaperTraceActivation> EvaluateTraceActivation(IEnumerable<string> jsonLines,
+        string file, int line, bool inSlice, PaperStatement statement, PaperExpression predicate)
+    {
+        var states = new Dictionary<int, Dictionary<string, object?>>();
+        var results = new List<PaperTraceActivation>();
+        var eventNumber = 0;
+        foreach (var json in jsonLines)
+        {
+            eventNumber++;
+            using var document = System.Text.Json.JsonDocument.Parse(json);
+            var trace = document.RootElement;
+            var thread = trace.GetProperty("tid").GetInt32();
+            if (!states.TryGetValue(thread, out var state)) states[thread] = state = new(StringComparer.Ordinal);
+            if (trace.GetProperty("file").GetString() != file || trace.GetProperty("msg").GetString() != "Variable Update")
+            {
+                state.Clear();
+                continue;
+            }
+            var payload = trace.GetProperty("var");
+            if (payload.ValueKind != System.Text.Json.JsonValueKind.Object)
+            {
+                state.Clear();
+                continue;
+            }
+            var name = payload.GetProperty("name").GetString() ?? throw new System.Text.Json.JsonException("Missing variable name");
+            var value = payload.GetProperty("val");
+            var type = trace.TryGetProperty("valueType", out var tag) ? tag.GetString() : null;
+            var before = new Dictionary<string, object?>(state, StringComparer.Ordinal);
+            if (type == "null" && value.ValueKind == System.Text.Json.JsonValueKind.Null) state[name] = null;
+            else if (type == "System.Int32" && value.ValueKind == System.Text.Json.JsonValueKind.String
+                && int.TryParse(value.GetString(), System.Globalization.NumberStyles.Integer,
+                    System.Globalization.CultureInfo.InvariantCulture, out var integer)) state[name] = integer;
+            else if (type == "System.Boolean" && value.ValueKind == System.Text.Json.JsonValueKind.String
+                && bool.TryParse(value.GetString(), out var boolean)) state[name] = boolean;
+            else state.Remove(name);
+            if (trace.GetProperty("line").GetInt32() == line && statement is PaperAssignment assignment && assignment.Variable == name)
+                results.Add(new(eventNumber, thread, file, line,
+                    EvaluateObservedActivation(inSlice, statement, predicate, before, state)));
+        }
+        return results;
+    }
+
     public static PaperRootResult EvaluateObservedActivation(
         bool inSlice, PaperStatement statement, PaperExpression fixedPredicate,
         IReadOnlyDictionary<string, object?> before, IReadOnlyDictionary<string, object?> after)

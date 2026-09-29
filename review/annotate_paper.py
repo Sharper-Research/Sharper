@@ -51,8 +51,8 @@ COMMENTS = [
     (2, "Verified Program", "Figure 1: label outputs by their actual assurance",
      "Replace 'Verified Program' with 'Test-accepted candidate'. Replace 'Constraint-satisfying patch' with "
      "'Candidate patch'. Show model checking as a separate result attached to the supported source/model "
-    "analysis. The loop-guard path additionally checks the emitted candidate and reports a separate, hash-bound "
-    "array-safety result; other paths must not inherit that claim. Add outcome branches for Counterexample, Incomplete, and "
+    "analysis. Every emitted candidate receives a separate hash-bound model-check outcome. Supported direct-return "
+    "and loop guards verify; unsupported catch semantics report Incomplete. Add outcome branches for Counterexample, Incomplete, and "
      "Rejected. The failing test is an observed failure, not a formal proof of the entire specification.",
      [REPAIR + "ViolationDrivenRepair.cs", ANALYSIS + "PaperRuleEngine.cs"]),
     (2, "Currently", "State implementation and reproducibility scope",
@@ -100,20 +100,21 @@ COMMENTS = [
      "A_Q(k) iff s belongs to S, ValidTransition(s,sigma,sigma'), Defined(Q,sigma), Defined(Q,sigma'), "
      "not eval(Q,sigma), and eval(Q,sigma'). An event satisfying A_Q is an observed activation candidate. "
      "Both evaluations use the SAME Q. This definition does not establish counterfactual causality, "
-     "uniqueness, or minimality. The artifact evaluates supplied scalar state pairs and reports Unknown "
-     "when the required observations are missing.\n\n"
+    "uniqueness, or minimality. The artifact evaluates supplied scalar pairs or reconstructs them from typed "
+    "trace updates for a supplied assignment and fixed predicate. Thread states are separate and cleared at "
+    "boundaries; untyped or missing values report Unknown. Names must be unambiguous and update logging complete.\n\n"
      "Keep the Assign substitution rule unchanged. Its exact semantics give eval(Phi'[e/x],sigma) = "
      "eval(Phi',sigma[x := eval(e,sigma)]), so comparing these two propagated predicates cannot produce "
      "the printed false-to-true transition. This is a mathematical definition correction, not a failing "
      "implementation to be adjusted until it returns a desired answer. The typeset replacement is in "
-     "PAPER_AMENDMENTS.md. Automatic state-pair extraction from arbitrary traces remains outside the artifact.",
+    "PAPER_AMENDMENTS.md. Arbitrary-trace causal root localization remains outside the artifact.",
      [ANALYSIS + "PaperEvaluation.cs", TESTS, "review/PAPER_AMENDMENTS.md"]),
     (4, "repair condition", "Define what the forward result actually verifies",
      "Replace with: For acyclic supported source, Sharper negates the propagated failure predicate and "
      "checks that assumption against the selected failure site. This checks source/model safety, not the "
      "generated patched program. Source loop/call analysis instead explores the supported graph from true "
-    "and reports Counterexample, Incomplete, or exhaustive success. The loop-guard repair path separately "
-    "reparses the saved candidate and checks its selected failure and lowered Int32 array accesses. The "
+    "and reports Counterexample, Incomplete, or exhaustive success. Every repair path separately "
+    "reparses its saved candidate and attempts an all-input check of the selected failure and lowered Int32 array accesses. Unsupported effects report Incomplete. The "
     "candidate result is bound to its SHA-256 hash; it is not a functional-equivalence proof. Explicit models may supply multiple "
      "obligations and inductive invariants. State the quantified inputs, selected obligations, and scope "
      "with every result. An infeasible assumption is not a proof of a useful repair.",
@@ -126,7 +127,12 @@ COMMENTS = [
          "unsupported location, solver uncertainty, or exploration cutoff does not establish safety. A "
          "recorded candidate counterexample blocks test acceptance. This is template-based refinement, "
          "not unrestricted synthesis or a consequence of the original Root rule. The 1000-state exploration "
-         "budget and five-second query timeout remain fail-closed. Explicit invariants are supplied and checked, not inferred.",
+         "budget and five-second query timeout remain fail-closed. Explicit invariants are supplied and checked, not inferred. "
+         "Separately, source graphs receive least-fixed-point backward iteration from false: F_v(next) is the "
+         "local failure predicate OR the disjunction of predecessor transfers of successor predicates. A result "
+         "is complete only when Z3 proves all node equations unchanged. Automatic source analysis allows 16 "
+         "iterations; the expression budget is 20000 nodes. Limits and unsupported transfers report Incomplete. "
+         "This cyclic analysis does not make loop-guard synthesis non-template-based.",
          [ANALYSIS + "PaperForwardVerifier.cs", REPAIR + "PatchSynthesizer.cs", REPAIR + "CandidateValidator.cs", TESTS]),
         (5, "Listing 1.1", "Report the executed source-level running example",
          "Replace the listing caption with 'Executed two-buffer source-level repair example'. Add: Sharper "
@@ -145,7 +151,7 @@ COMMENTS = [
      "Replace with: For each eligible violation location, Sharper produces a source-level candidate. "
      "Supported direct array returns use a null/bounds guard and a default return; other eligible "
     "statements may use a catch/default template. Supported while-loop writes additionally use bounded "
-    "guard refinement and separate emitted-candidate model checking. A candidate counterexample or changed "
+    "guard refinement. All emitted candidates receive a model-check attempt and explicit outcome. A candidate counterexample or changed "
     "candidate bytes invalidate acceptance. Root candidates are not automatically feeding this "
      "pipeline. Default-return behavior requires an API-specific oracle and can be wrong. A candidate "
      "is not applied merely because it removes the exception. Validation requires baseline failures, "
@@ -162,14 +168,15 @@ COMMENTS = [
      "completed exploration. The original, intermediate and final source variants are compiled and "
      "executed at check = 6, i = 0; the generated candidate is also executed on 56 boundary inputs. "
      "The guard is generated by a bounds template and checked forward, not derived by an implemented "
-     "cyclic backward-precondition algorithm. The candidate implements a loop-stopping policy rather "
+    "cyclic backward-precondition algorithm. A separate cyclic fixed-point analysis is now implemented, with "
+    "solver-checked convergence and fail-closed limits; it does not derive these guard edits. The candidate implements a loop-stopping policy rather "
      "than an inferred functional specification.",
      [TESTS, REPAIR + "PatchSynthesizer.cs", "review/verified-run/listing/repair_plan.json", "review/PAPER_AMENDMENTS.md"]),
     (6, "In contrast", "Narrow the related-work comparison to demonstrated behavior",
      "Replace the claims of generator independence, patched-program verification, complete dynamic "
      "slicing, and path witnesses with: Sharper combines trace-derived violation candidates, restricted "
      "predicate propagation, supported model checks, and isolated test validation in a C# prototype. "
-    "The supported loop-guard path additionally rechecks emitted candidates for modeled array safety. "
+    "Every emitted candidate receives a separate model-check outcome, including Incomplete for unsupported effects. "
      "Z3 may return a model at a violating node; this is not a replayable concrete path witness, and "
      "invariant abstraction can produce unreachable counterexamples. The artifact does not establish "
      "comparative superiority or a general external patch-generator interface. Preserve related-work "
@@ -225,7 +232,7 @@ COMMENTS = [
 
 def digest(path):
     data = path.read_bytes()
-    if path.suffix.lower() != ".pdf":
+    if path.suffix.lower() not in {".pdf", ".png"}:
         data = data.replace(b"\r\n", b"\n")  # Git may convert text line endings per checkout
     return hashlib.sha256(data).hexdigest()
 
@@ -247,7 +254,9 @@ def load_evidence(directory):
                      "NestedFunctionsHaveOwnedControlFlowGraphs",
                      "BranchAndReturnCallsAreDiscoveredWithoutInvokingDelegateDeclarations",
                      "ListingRepairDriverChecksEmittedCandidate", "PaperListingChecksBothArrayWrites",
-                     "SourceArraysPreserveHeapSemantics"]:
+                     "SourceArraysPreserveHeapSemantics", "CyclicBackwardPropagationRequiresSemanticConvergence",
+                     "TraceActivationReconstructsTypedStatesWithoutCrossingBoundaries",
+                     "Section23_GeneratedCandidateDoesNotClaimForwardVerification"]:
         if not any(required in name for name in test_names):
             raise ValueError("Missing evaluation regression: " + required)
     if sum("CallGraph_json_matches_snapshot" in name for name in test_names) != 7:
@@ -259,6 +268,9 @@ def load_evidence(directory):
         if not plan["Items"] or any(item["Validation"]["Status"] != status for item in plan["Items"]):
             raise ValueError("Unexpected decision for " + case)
         for item in plan["Items"]:
+            expected_model = {"acceptance": "VerifiedAcyclicModel", "runtime-rejection": "Incomplete", "listing": "VerifiedExploredModel"}[case]
+            if item["CandidateModelCheck"]["Status"] != expected_model or not item["CandidateModelSha256"]:
+                raise ValueError("Missing emitted-candidate model outcome for " + case)
             for run, expected in [("baseline-suite", before), ("candidate-suite", after)]:
                 outcomes = item["Validation"]["Runs"][run]["Tests"]
                 if len(outcomes) != total or sum(value == "Passed" for value in outcomes.values()) != expected:
@@ -281,7 +293,56 @@ def load_evidence(directory):
     instrumented = ET.parse(directory / "runtime-trace/instrumented.trx").find(".//{*}Counters")
     if instrumented is None or tuple(instrumented.get(key) for key in ["total", "passed", "failed"]) != ("5", "3", "2"):
         raise ValueError("Instrumented execution must preserve the expected 3/5 result")
+    activation = json.loads((directory / "trace-activation.json").read_text(encoding="utf-8-sig"))
+    if len(activation["Results"]) != 1 or activation["Results"][0]["Result"]["IsCandidate"] is not True:
+        raise ValueError("Missing automatically reconstructed trace activation")
     return int(counters.get("passed"))
+
+
+def render_evidence(directory, passed, annotated_pdf):
+    image = REVIEW / "evidence-summary.png"
+    formulas = REVIEW / "paper-formulas.png"
+    with fitz.open() as document:
+        page = document.new_page(width=1100, height=760)
+        page.draw_rect(page.rect, color=None, fill=(0.98, 0.99, 0.98))
+        page.insert_text((42, 65), "Sharper | Reproducible Evidence", fontsize=28, color=(0.08, 0.22, 0.17))
+        page.insert_text((42, 100), f"Analyzer suite: {passed}/{passed} passed, no skips", fontsize=18)
+        page.insert_text((42, 127), "Rendered from recorded JSON plans and TRX results. Not a terminal capture.", fontsize=11)
+        columns = [42, 295, 415, 535, 800]
+        for position, text in zip(columns, ["Scenario", "Baseline", "Candidate", "Candidate model", "Test gate"]):
+            page.insert_text((position, 180), text, fontsize=13, fontname="hebo")
+        for row, (case, label) in enumerate([("acceptance", "Synthetic bounds"),
+                                            ("runtime-rejection", "Extracted runtime"), ("listing", "Paper Listing 1.1")]):
+            item = json.loads((directory / case / "repair_plan.json").read_text(encoding="utf-8-sig"))["Items"][0]
+            counts = []
+            for run in ["baseline-suite", "candidate-suite"]:
+                tests = item["Validation"]["Runs"][run]["Tests"]
+                counts.append(f"{sum(value == 'Passed' for value in tests.values())}/{len(tests)}")
+            values = [label, *counts, item["CandidateModelCheck"]["Status"], item["Validation"]["Status"]]
+            height = 218 + row * 49
+            page.draw_line((42, height + 15), (1050, height + 15), color=(0.78, 0.82, 0.80))
+            for position, text in zip(columns, values):
+                page.insert_text((position, height), text, fontsize=12)
+        text = "\n".join([
+            "Formula checks: 240 input combinations agree with compiled C# execution.",
+            "Cyclic backward analysis: least-fixed-point convergence is solver checked; cutoffs are Incomplete.",
+            "Typed-trace activation: event 2 activates the fixed predicate; no supplied state pairs.",
+            "Listing: two counterexamples, then VerifiedExploredModel; 56 concrete boundary inputs complete.",
+            "Candidate model results are bound to the analyzed bytes by SHA-256.",
+            "", "Interpretation",
+            "Three purpose-built scenarios demonstrate feasibility, not a population repair rate.",
+            "Model safety is not functional equivalence. Test acceptance is not a correctness proof.",
+            "The printed Root rule needs correction. Observed activation does not establish causality.",
+            "", "Verify: review/reproduce.ps1 -Output review/rerun",
+            "Sources: review/verified-run/ and review/PAPER_AMENDMENTS.md"
+        ])
+        remaining = page.insert_textbox(fitz.Rect(42, 390, 1050, 735), text, fontsize=13, lineheight=1.5)
+        if remaining < 0:
+            raise ValueError("Evidence image text exceeds its page")
+        page.get_pixmap(matrix=fitz.Matrix(1.5, 1.5)).save(image)
+    with fitz.open(annotated_pdf) as document:
+        document[3].get_pixmap(matrix=fitz.Matrix(2, 2), annots=True).save(formulas)
+    return [image, formulas]
 
 
 def evaluation_section(passed, directory):
@@ -310,6 +371,8 @@ The recorded environment is {environment['os']} ({environment['architecture']}),
 | CFG tests | 7 snapshots and 3 semantic regressions pass | Tested ownership, call discovery, and export identity properties |
 | Explicit loop/call model | VerifiedInductiveModel; 2 safety locations | Partial correctness of the supplied model |
 | Fixed-predicate transition | ObservedActivation-v1; candidate true | Observed activation, not causal localization |
+| Typed-trace reconstruction | Synthetic JSONL input; event 2 activates Q without supplied state pairs | Conditional on typed, complete and unambiguous scalar observations |
+| Cyclic backward analysis | Convergence and cutoff regressions pass | Least-fixed-point results only after solver-proved equivalence |
 | Synthetic bounds scenario | Baseline 2/4; candidate 4/4; AcceptedByTests | Candidate satisfies this supplied test oracle |
 | Extracted runtime scenario | Baseline 3/5; candidate 4/5; Rejected | Gate rejects the overfitting candidate |
 | Paper listing scenario | Baseline 1/4; candidate 4/4; AcceptedByTests | Supplied normal-completion oracle |
@@ -326,7 +389,7 @@ For RQ3, two scenarios are accepted and one is rejected. We do not turn this res
 
 The synthetic method selects an index by a Boolean branch and returns the selected array element. Its tests require ordinary reads to retain their values and invalid or null-array reads to return zero. Before repair, two valid-read tests pass while the invalid-read and null-array tests fail. Sharper propagates the selected bounds-failure predicate backward through both assignments and branch guards, joining alternatives with disjunction. The proposed entry condition is the negation of that predicate. The selected source/model check reports VerifiedAcyclicModel; its scope is the original supported source under that condition, not proof of the generated patch.
 
-The generated candidate guards the direct array return with a null check and lower/upper bounds checks and returns the default value on failure. The isolated reproducer passes, and all four regression tests pass with unchanged test identities and snapshotted inputs. The gate reports AcceptedByTests. Returning zero is justified here by the explicitly supplied contract; it is not a generally valid repair for arbitrary array-access APIs. This case demonstrates candidate generation and contract-supported test acceptance, not recovery of an unknown specification.
+The generated candidate guards the direct array return with a null check and lower/upper bounds checks and returns the default value on failure. The saved candidate is now also reparsed and checked from true, including receiver nullness; its separate hash-bound result is VerifiedAcyclicModel. The isolated reproducer passes, and all four regression tests pass with unchanged test identities and snapshotted inputs. The gate reports AcceptedByTests. Returning zero is justified here by the explicitly supplied contract; it is not a generally valid repair for arbitrary array-access APIs. This case demonstrates candidate generation and contract-supported test acceptance, not recovery of an unknown specification.
 
 ### Case Study 2: Rejecting an Overfitting Runtime Candidate
 
@@ -439,6 +502,10 @@ def main():
         document.save(output, garbage=4, deflate=True)
     if digest(source) != original_hash:
         raise ValueError("Original manuscript changed")
+    evidence_paths.update(render_evidence(arguments.evidence, passed, output))
+    report.extend(["## Evidence Images", "", "[Recorded evidence summary](evidence-summary.png). "
+                   "[Highlighted original formula page](paper-formulas.png). The summary is rendered from verified outputs; "
+                   "the formula image reproduces the manuscript, whose Root rule still requires the proposed correction.", ""])
     report.extend([evaluation_section(passed, arguments.evidence), ""])
     report_path = REVIEW / "PAPER_REVIEW.md"
     report_path.write_text("\n".join(report).rstrip() + "\n", encoding="utf-8")

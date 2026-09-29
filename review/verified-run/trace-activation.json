@@ -1,0 +1,17 @@
+{
+  "Rule": "ObservedActivation-v1",
+  "Results": [
+    {
+      "EventNumber": 2,
+      "Thread": 1,
+      "File": "Fixture.cs",
+      "Line": 2,
+      "Result": {
+        "Status": "Evaluated",
+        "IsCandidate": true,
+        "Reason": "Observed fixed-predicate activation; not literal Root or a proof of causality"
+      }
+    }
+  ],
+  "Scope": "Automatically reconstructed typed scalar observations for the supplied statement and fixed predicate; requires unambiguous variable names and complete update logging; not causal root localization"
+}

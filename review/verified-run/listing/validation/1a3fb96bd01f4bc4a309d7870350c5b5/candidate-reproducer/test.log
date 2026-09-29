@@ -1,9 +1,0 @@
-  Determining projects to restore...
-  All projects are up-to-date for restore.
-  Listing -> C:\Users\manis\AppData\Local\Temp\Sharper-validation-b6a6f8873686428085c5542595ce3b79\bin\Debug\net10.0\Listing.dll
-  Listing.Tests -> C:\Users\manis\AppData\Local\Temp\Sharper-validation-b6a6f8873686428085c5542595ce3b79\Listing.Tests\bin\Debug\net10.0\Listing.Tests.dll
-Test run for C:\Users\manis\AppData\Local\Temp\Sharper-validation-b6a6f8873686428085c5542595ce3b79\Listing.Tests\bin\Debug\net10.0\Listing.Tests.dll (.NETCoreApp,Version=v10.0)
-A total of 1 test files matched the specified pattern.
-Results File: C:\Users\manis\Desktop\Sharper\review\verified-run\listing\validation\1a3fb96bd01f4bc4a309d7870350c5b5\candidate-reproducer\tests.trx
-
-Passed!  - Failed:     0, Passed:     1, Skipped:     0, Total:     1, Duration: 19 ms - Listing.Tests.dll (net10.0)

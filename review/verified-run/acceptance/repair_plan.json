@@ -1,5 +1,5 @@
 {
-  "GeneratedAt": "2026-09-29T21:14:28.1541132Z",
+  "GeneratedAt": "2026-09-29T21:39:47.1764261Z",
   "ViolationsFile": "review/fixtures/bounds/violations.json",
   "TotalViolations": 1,
   "ByAction": {
@@ -91,13 +91,21 @@
           "Reason": "All supplied safety obligations hold in the model; checked invariants establish partial correctness, not termination or full C# correctness",
           "CounterexampleLine": null
         },
+        "BackwardAnalysis": null,
         "ForwardVerificationStatus": "VerifiedAcyclicModel",
         "ForwardVerificationScope": "Selected failure site in the supported source/model semantics, not the generated patch or whole method"
       },
-      "CandidateModelCheck": null,
-      "CandidateModelSha256": null,
+      "CandidateModelCheck": {
+        "Status": "VerifiedAcyclicModel",
+        "CheckedLocations": 2,
+        "CounterexampleNode": null,
+        "Counterexample": null,
+        "Reason": "All supplied safety obligations hold in the model; checked invariants establish partial correctness, not termination or full C# correctness",
+        "CounterexampleLine": null
+      },
+      "CandidateModelSha256": "E48B50CD076A15FA8854E0A3652F5B4DB4F74F871EFD3E50C23987068EACB6E3",
       "CandidateRefinementChecks": null,
-      "CandidateVerificationScope": null,
+      "CandidateVerificationScope": "Reparsed emitted candidate: selected failure and lowered Int32 array element accesses; no functional-equivalence or resource-exhaustion proof",
       "SourceSha256": "649A84EA4E74992F039D14537304F29D0AAC218863F12A8F086D6D61DFED1006",
       "Validation": {
         "Status": "AcceptedByTests",
@@ -108,10 +116,10 @@
           "baseline-suite": {
             "ExitCode": 1,
             "Tests": {
-              "FixtureTests.NullArrayReturnsDefault": "Failed",
               "FixtureTests.InvalidReadsReturnDefault": "Failed",
+              "FixtureTests.ValidReadsArePreserved(index: 1, expected: 20)": "Passed",
               "FixtureTests.ValidReadsArePreserved(index: 0, expected: 10)": "Passed",
-              "FixtureTests.ValidReadsArePreserved(index: 1, expected: 20)": "Passed"
+              "FixtureTests.NullArrayReturnsDefault": "Failed"
             },
             "Error": null,
             "Passed": false,
@@ -139,8 +147,8 @@
             "ExitCode": 0,
             "Tests": {
               "FixtureTests.NullArrayReturnsDefault": "Passed",
-              "FixtureTests.ValidReadsArePreserved(index: 1, expected: 20)": "Passed",
               "FixtureTests.InvalidReadsReturnDefault": "Passed",
+              "FixtureTests.ValidReadsArePreserved(index: 1, expected: 20)": "Passed",
               "FixtureTests.ValidReadsArePreserved(index: 0, expected: 10)": "Passed"
             },
             "Error": null,

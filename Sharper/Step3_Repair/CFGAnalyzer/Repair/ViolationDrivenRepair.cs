@@ -239,6 +239,32 @@ public static class ViolationDrivenRepair
         var formulaAnalysis = await PaperSourceAnalysis.AnalyzeAsync(doc, v);
         var pathConstraints = new List<string>();
 
+        async Task<RepairItem> CheckCandidateAsync(RepairItem item)
+        {
+            if (item.PatchedFilePath == null || item.CandidateModelCheck != null) return item;
+            var bytes = await File.ReadAllBytesAsync(item.PatchedFilePath);
+            using var stream = new MemoryStream(bytes);
+            var candidate = doc.WithText(SourceText.From(stream));
+            var candidateRoot = await candidate.GetSyntaxRootAsync();
+            var matches = candidateRoot?.DescendantNodes().OfType<StatementSyntax>()
+                .Where(selected => SyntaxFactory.AreEquivalent(statement, selected)).Take(2).ToArray() ?? [];
+            PaperForwardResult check;
+            if (matches.Length != 1)
+                check = new("Incomplete", 0, null, null, "Cannot uniquely relocate the selected statement in the emitted candidate");
+            else
+            {
+                var relocated = v with { Line = matches[0].GetLocation().GetLineSpan().StartLinePosition.Line + 1 };
+                var analysis = await PaperSourceAnalysis.AnalyzeAsync(candidate, relocated,
+                    verifyCandidate: true, selectedStatementStart: matches[0].SpanStart);
+                check = analysis.ForwardModelCheck ?? new("Incomplete", 0, null, null, analysis.Reason);
+            }
+            return item with
+            {
+                CandidateModelCheck = check,
+                CandidateModelSha256 = Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(bytes))
+            };
+        }
+
         if (action == RepairAction.AutoPatchable && statement is ExpressionStatementSyntax
             && v.Predicate.StartsWith("BufferInBounds(", StringComparison.Ordinal)
             && formulaAnalysis.Status == "ForwardOnlySupportedSource")
@@ -271,10 +297,10 @@ public static class ViolationDrivenRepair
                 $"{arrayName} is null || {indexName} < 0 || {indexName} >= {arrayName}.Length");
             var (guardedPath, guardedDiff) = await PatchSynthesizer.WritePatchAsync(
                 doc, statement, "System.IndexOutOfRangeException", patchesDir, failureGuard: guard);
-            return new RepairItem(v, memberName, doc.FilePath ?? v.File, stmtStart, stmtEnd,
+            return await CheckCandidateAsync(new RepairItem(v, memberName, doc.FilePath ?? v.File, stmtStart, stmtEnd,
                 RepairAction.AutoPatchable,
                 "Unverified predicate-guard candidate for a direct array return; default fallback requires contract validation",
-                pathConstraints, guardedPath, guardedDiff) { FormulaAnalysis = formulaAnalysis };
+                pathConstraints, guardedPath, guardedDiff) { FormulaAnalysis = formulaAnalysis });
         }
 
         if (action != RepairAction.AutoPatchable || statement == null || member == null)
@@ -292,9 +318,9 @@ public static class ViolationDrivenRepair
         var (patchedPath, diffPath) = await PatchSynthesizer.WritePatchAsync(
             doc, statement, catchType, patchesDir, wrapRemainingBlock);
 
-        return new RepairItem(v, memberName, doc.FilePath ?? v.File,
+        return await CheckCandidateAsync(new RepairItem(v, memberName, doc.FilePath ?? v.File,
             stmtStart, stmtEnd, action, reason, pathConstraints, patchedPath, diffPath)
-        { FormulaAnalysis = formulaAnalysis };
+        { FormulaAnalysis = formulaAnalysis });
     }
 
     private static (RepairAction action, string reason) Classify(

@@ -36,6 +36,7 @@ try {
     $files = @($directories | ForEach-Object { Get-ChildItem -LiteralPath $_ -File -Recurse })
     $files += @(Get-Item "README.md", "Sharper.sln", ".gitignore", ".gitattributes", "review/paper.pdf", "Sharper/run_all.ps1", "Sharper/Step3_Repair/README.md")
     $files += @(Get-Item "review/paper-annotated.pdf", "review/paper-review-manifest.json")
+    $files += @(Get-Item "review/evidence-summary.png", "review/paper-formulas.png")
     $files += @(Get-ChildItem review -File | Where-Object { $_.Extension -in @(".md", ".ps1", ".py", ".txt") })
     New-Item -ItemType Directory -Path $staging | Out-Null
     $hashes = [ordered]@{}
@@ -44,7 +45,7 @@ try {
         if ($relative -match '(^|/)(bin|obj|\.git|\.idea|\.vs|reports|TestResults|__pycache__)/' -or
             $relative.StartsWith("review/fixtures/bounds/results/") -or
             $file.Name -in @("AGENTS.md", ".env") -or $file.Name -like "*.bak" -or
-            $file.Name -like '~$*' -or $file.Extension -in @(".zip", ".png", ".pdb", ".dll")) { continue }
+            $file.Name -like '~$*' -or $file.Extension -in @(".zip", ".pdb", ".dll")) { continue }
         $destination = Join-Path $staging $relative
         New-Item -ItemType Directory -Path (Split-Path $destination -Parent) -Force | Out-Null
         Copy-Item -LiteralPath $file.FullName -Destination $destination
