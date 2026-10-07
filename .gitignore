@@ -23,4 +23,5 @@ Sharper/Step2_Constraints/reports/
 Sharper/Step3_Repair/reports/
 review/*.zip
 review/rerun*/
+review/jsonconverter-run/
 !review/verified-run/**/*.log

@@ -1,11 +1,11 @@
 param(
-    [string]$Output = "review/Sharper-review.zip",
+    [string]$Output = "review/Sharper-tool-artifact.zip",
     [string]$Evidence = "review/verified-run"
 )
 $ErrorActionPreference = "Stop"
 $root = Split-Path $PSScriptRoot -Parent
 Push-Location $root
-$staging = Join-Path ([IO.Path]::GetTempPath()) ("Sharper-package-" + [guid]::NewGuid().ToString("N"))
+$staging = Join-Path ([IO.Path]::GetTempPath()) ("Sharper-artifact-" + [guid]::NewGuid().ToString("N"))
 try {
     if (![IO.Path]::IsPathRooted($Output)) { $Output = Join-Path $root $Output }
     $Output = [IO.Path]::GetFullPath($Output)
@@ -30,14 +30,12 @@ try {
     }
     $directories = @(
         "Sharper/Step1_Tracing", "Sharper/Step2_Constraints", "Sharper/Step3_Repair/CFGAnalyzer",
-        "review/fixtures",
-        "review/models", $Evidence
+        "review/fixtures", "review/models", $Evidence
     )
+    if (Test-Path "review/jsonconverter-run") { $directories += "review/jsonconverter-run" }
     $files = @($directories | ForEach-Object { Get-ChildItem -LiteralPath $_ -File -Recurse })
-    $files += @(Get-Item "README.md", "Sharper.sln", ".gitignore", ".gitattributes", "review/paper.pdf", "Sharper/run_all.ps1", "Sharper/Step3_Repair/README.md")
-    $files += @(Get-Item "review/paper-annotated.pdf", "review/paper-review-manifest.json")
-    $files += @(Get-Item "review/evidence-summary.png", "review/paper-formulas.png")
-    $files += @(Get-ChildItem review -File | Where-Object { $_.Extension -in @(".md", ".ps1", ".py", ".txt") })
+    $files += @(Get-Item "README.md", "Sharper.sln", ".gitignore", ".gitattributes", "Sharper/run_all.ps1",
+        "review/README.md", "review/reproduce.ps1", "review/package.ps1", "review/verify-jsonconverter.ps1")
     New-Item -ItemType Directory -Path $staging | Out-Null
     $hashes = [ordered]@{}
     foreach ($file in ($files | Sort-Object FullName -Unique)) {
@@ -59,7 +57,7 @@ try {
         $commit = (& git rev-parse HEAD | Out-String).Trim()
         $dirty = [bool]((& git status --porcelain | Out-String).Trim())
     }
-    $manifest = [ordered]@{
+    [ordered]@{
         created_utc = [DateTime]::UtcNow.ToString("o")
         branch = $branch
         base_commit = $commit
@@ -67,8 +65,7 @@ try {
         analyzer_tests_passed = [int]$counters.passed
         evidence = $Evidence
         files = $hashes
-    }
-    $manifest | ConvertTo-Json -Depth 5 | Set-Content (Join-Path $staging "REVIEW_MANIFEST.json") -Encoding UTF8
+    } | ConvertTo-Json -Depth 5 | Set-Content (Join-Path $staging "ARTIFACT_MANIFEST.json") -Encoding UTF8
     Add-Type -AssemblyName System.IO.Compression.FileSystem
     New-Item -ItemType Directory -Path (Split-Path $Output -Parent) -Force | Out-Null
     [IO.Compression.ZipFile]::CreateFromDirectory($staging, $Output)
