@@ -1,4 +1,4 @@
-﻿# Step 1: Tracing
+# Step 1: Tracing
 
 > **Status: Complete.** The instrumenter works end-to-end. Outputs feed into [Step 2 (Constraints)](../Step2_Constraints/README.md).
 
@@ -82,7 +82,21 @@ Always run this before committing or re-running instrumentation to avoid stackin
 }
 ```
 
-**Event categories** (`msg` values): `Enter Method`, `Variable Update`, `While Loop`, `If Branch`, `Switch Case`, `Break`, `Continue`, `Return`, `Heap State`, `Array Parameter`, `Array Argument Alias`, `Overflow`, `Cast Attempt`, `Invalid Cast`, `Exception Caught`, `Exception Type`, `Exception Stack`, and more.
+**Event categories** (`msg` values): `Enter Method`, `Exit Method`, `Variable Update`, `While Loop`, `If Branch`, `Switch Case`, `Break`, `Continue`, `Return`, `Heap State`, `Array Parameter`, `Array Argument Alias`, `Overflow`, `Cast Attempt`, `Invalid Cast`, `Exception Caught`, `Exception Type`, `Exception Stack`, and more.
+
+**Method entry and exit are always paired.** `Enter Method 'M'` is emitted on the way in;
+`Exit Method 'M' [normal]` or `Exit Method 'M' [exception]` is emitted on the way out from a
+`finally`, so it fires on every exit path - explicit `return`, falling off the end of a `void`
+method, and an exception propagating out. `[exception]` means the method was left by a
+propagating exception, not that one was handled inside it. Both events carry the per-thread
+`call.depth`, so a trace can be folded back into a call tree; entry and exit of the same
+invocation share the same depth.
+
+Two kinds of member are deliberately left unpaired, and log neither event: `ref`-returning
+methods (`return ref x;` is illegal inside a `try`) and any file the instrumenter skipped
+because rewriting it introduced syntax errors. Iterator methods (`yield`) are paired, but
+their reason is always `[normal]` - C# forbids a `catch` clause in a `try` containing `yield`,
+so there is no handler to observe an exception from.
 
 > **Tip:** `trace_logs.txt` captures stdout. Unhandled exceptions print to stderr and appear in the terminal. To pinpoint a crash, match the **last JSONL entry's** `file`/`line` to the stack trace.
 

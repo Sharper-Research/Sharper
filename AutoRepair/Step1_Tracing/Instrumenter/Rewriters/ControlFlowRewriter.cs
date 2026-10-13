@@ -17,6 +17,7 @@ namespace Instrumenter.Rewriters
                 CreateLogStatement($"Enter Method '{name}'", line)
             };
             inserts.AddRange(CreateParameterArrayLogs(parameters, line, name));
+            MarkAsPreamble(inserts);
             return body.WithStatements(body.Statements.InsertRange(0, inserts));
         }
 
@@ -27,6 +28,7 @@ namespace Instrumenter.Rewriters
                 CreateLogStatement($"Enter Method '{name}'", line)
             };
             statements.AddRange(CreateParameterArrayLogs(parameters, line, name));
+            MarkAsPreamble(statements);
             StatementSyntax tail = returnsVoid
                 ? SyntaxFactory.ExpressionStatement(expression)
                 : SyntaxFactory.ReturnStatement(
@@ -36,6 +38,22 @@ namespace Instrumenter.Rewriters
                     SyntaxFactory.Token(SyntaxKind.SemicolonToken));
             statements.Add(tail);
             return SyntaxFactory.Block(statements);
+        }
+
+        // Tag the entry + parameter logs so MethodExitRewriter (which runs last) leaves them
+        // outside the try/finally it wraps the body in. The first statement is always the
+        // "Enter Method" log, which that rewriter later upgrades to the depth-tracking call.
+        private static void MarkAsPreamble(List<StatementSyntax> statements)
+        {
+            for (int i = 0; i < statements.Count; i++)
+            {
+                statements[i] = statements[i].WithAdditionalAnnotations(MethodPreamble);
+            }
+
+            if (statements.Count > 0)
+            {
+                statements[0] = statements[0].WithAdditionalAnnotations(MethodEntryLog);
+            }
         }
 
         // 1. Method Entry

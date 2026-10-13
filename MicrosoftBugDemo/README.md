@@ -10,7 +10,7 @@ From the repo root (`Patching/`):
 
 ```powershell
 # Step 1: Instrument & trace
-.\AutoRepair\Step1_Tracing\generate_trace.ps1 -TargetSourceDir "MicrosoftBugDemo\RuntimeCode" -DriverProject "MicrosoftBugDemo\RuntimeCode.Tests\RuntimeCode.Tests.csproj"
+.\AutoRepair\Step1_Tracing\generate_trace.ps1 -TargetSourceDir "MicrosoftBugDemo\RuntimeCode" -TestProject "MicrosoftBugDemo\RuntimeCode.Tests\RuntimeCode.Tests.csproj"
 
 # Step 2: Analyze trace & detect violations
 .\AutoRepair\Step2_Constraints\analyze_trace.ps1

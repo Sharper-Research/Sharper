@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Concurrent;
 using System.IO;
 using System.Linq;
@@ -138,6 +138,8 @@ namespace Instrumenter
                 ("HeapRewriter", node => new HeapRewriter { TargetFileName = relPath }.Visit(node)),
                 ("CastingRewriter", node => new CastingRewriter { TargetFileName = relPath }.Visit(node)),
                 ("OverflowRewriter", node => new OverflowRewriter { TargetFileName = relPath }.Visit(node)),
+                // LAST: see the comment on step 7 in InstrumentFile.
+                ("MethodExitRewriter", node => new MethodExitRewriter { TargetFileName = relPath }.Visit(node)),
             };
 
             foreach (var (name, apply) in rewriters)
@@ -254,7 +256,14 @@ namespace Instrumenter
                 var rewriter6 = new OverflowRewriter { TargetFileName = GetRelativePath(filePath, rootPath) };
                 var root6 = rewriter6.Visit(root5);
 
-                string newCode = root6.ToFullString();
+                // 7. Method exit (LAST - wraps each body in try/finally so entry always has a
+                //    matching exit event). This has to run after every other rewriter: otherwise
+                //    they would instrument the handler injected here and emit events describing
+                //    the instrumenter rather than the program under test.
+                var rewriter7 = new MethodExitRewriter { TargetFileName = GetRelativePath(filePath, rootPath) };
+                var root7 = rewriter7.Visit(root6);
+
+                string newCode = root7.ToFullString();
 
                 // Validate: re-parse and check for NEW syntax errors introduced by rewriting.
                 var newTree = CSharpSyntaxTree.ParseText(newCode);
@@ -359,6 +368,26 @@ namespace Instrumenter
                 "                lock (LogJsonPath) { System.IO.File.AppendAllText(LogJsonPath, j + System.Environment.NewLine); }",
                 "            }",
                 "            catch {}",
+                "        }",
+                "",
+                "        // Per-thread call depth, so a trace can be folded back into a call tree.",
+                "        // Only LogEnter increments and only LogExit decrements, and the instrumenter",
+                "        // emits them as a pair or not at all, so the counter cannot drift.",
+                "        [System.ThreadStatic] private static int CallDepth;",
+                "",
+                "        public static void LogEnter(string uniqueId, string file, int line, string methodName)",
+                "        {",
+                "            CallDepth++;",
+                "            Log(uniqueId, file, line, " + Q + "Enter Method '" + Q + " + methodName + " + Q + "'" + Q + ", CallDepth, " + Q + "call.depth" + Q + ");",
+                "        }",
+                "",
+                "        // reason is " + Q + "normal" + Q + " (returned or fell off the end) or " + Q + "exception" + Q + " (left by a",
+                "        // propagating exception). Logged before the decrement so entry and exit of the same",
+                "        // invocation carry the same depth.",
+                "        public static void LogExit(string uniqueId, string file, int line, string methodName, string reason)",
+                "        {",
+                "            Log(uniqueId, file, line, " + Q + "Exit Method '" + Q + " + methodName + " + Q + "' [" + Q + " + reason + " + Q + "]" + Q + ", CallDepth, " + Q + "call.depth" + Q + ");",
+                "            if (CallDepth > 0) CallDepth--;",
                 "        }",
                 "",
                 "        public static T LogValue<T>(string uniqueId, string file, int line, string message, T value, string variableName = null)",
