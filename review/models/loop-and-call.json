@@ -1,0 +1,33 @@
+{
+  "Entry": "entry",
+  "Variables": { "value": "Int32", "answer": "Int32" },
+  "Condition": { "Operator": "==", "Operands": [ { "Operator": "variable", "Atom": "value", "Operands": [] }, { "Operator": "constant", "Atom": "4", "Operands": [] } ] },
+  "Nodes": [
+    { "Id": "entry", "Line": 1, "Successors": [ { "Target": "done", "Statement": { "kind": "call", "Procedure": "Count", "Result": "answer", "Arguments": [ { "Operator": "variable", "Atom": "value", "Operands": [] } ] } } ] },
+    { "Id": "done", "Line": 2, "Successors": [] }
+  ],
+  "Failures": { "done": { "Operator": "!=", "Operands": [ { "Operator": "variable", "Atom": "answer", "Operands": [] }, { "Operator": "constant", "Atom": "4", "Operands": [] } ] } },
+  "Invariants": {},
+  "Procedures": [ {
+    "Name": "Count", "Entry": "start", "Exit": "return", "Parameters": [ "limit" ],
+    "Variables": { "limit": "Int32", "count": "Int32" },
+    "Nodes": [
+      { "Id": "start", "Line": 4, "Successors": [ { "Target": "head", "Statement": { "kind": "assign", "Variable": "count", "Value": { "Operator": "constant", "Atom": "0", "Operands": [] } } } ] },
+      { "Id": "head", "Line": 5, "Successors": [
+        { "Target": "body", "Statement": { "kind": "guard", "Taken": true, "Condition": { "Operator": "<", "Operands": [ { "Operator": "variable", "Atom": "count", "Operands": [] }, { "Operator": "variable", "Atom": "limit", "Operands": [] } ] } } },
+        { "Target": "return", "Statement": { "kind": "guard", "Taken": false, "Condition": { "Operator": "<", "Operands": [ { "Operator": "variable", "Atom": "count", "Operands": [] }, { "Operator": "variable", "Atom": "limit", "Operands": [] } ] } } }
+      ] },
+      { "Id": "body", "Line": 6, "Successors": [ { "Target": "head", "Statement": { "kind": "assign", "Variable": "count", "Value": { "Operator": "int32.unchecked+", "Operands": [ { "Operator": "variable", "Atom": "count", "Operands": [] }, { "Operator": "constant", "Atom": "1", "Operands": [] } ] } } } ] },
+      { "Id": "return", "Line": 8, "Successors": [] }
+    ],
+    "ReturnValue": { "Operator": "variable", "Atom": "count", "Operands": [] },
+    "Failures": { "body": { "Operator": ">=", "Operands": [ { "Operator": "variable", "Atom": "count", "Operands": [] }, { "Operator": "variable", "Atom": "limit", "Operands": [] } ] } },
+    "Invariants": { "head": { "Operator": "&&", "Operands": [
+      { "Operator": "==", "Operands": [ { "Operator": "variable", "Atom": "limit", "Operands": [] }, { "Operator": "constant", "Atom": "4", "Operands": [] } ] },
+      { "Operator": "&&", "Operands": [
+        { "Operator": ">=", "Operands": [ { "Operator": "variable", "Atom": "count", "Operands": [] }, { "Operator": "constant", "Atom": "0", "Operands": [] } ] },
+        { "Operator": "<=", "Operands": [ { "Operator": "variable", "Atom": "count", "Operands": [] }, { "Operator": "variable", "Atom": "limit", "Operands": [] } ] }
+      ] }
+    ] } }
+  } ]
+}

@@ -1,113 +1,35 @@
-# Patching / AutoRepair
+# Sharper
 
-Automated C# program repair: runtime tracing + constraint solving + CFG-based
-path-condition analysis.
+Sharper is a C# research prototype for trace-guided fault analysis and repair candidates. It uses Roslyn to inspect C# projects, records runtime traces, detects selected violations, propagates predicates, checks supported safety models with Z3, and validates repair candidates against tests.
 
-The pipeline runs end-to-end on `ThrottleDebounce` (110-test xUnit suite) and
-on real external repos mined via PRHunter - validated on `WordNinjaSharp#3`
-(ArgumentOutOfRangeException, patch generated) and `AngleSharp.Css#183`
-(934 ValidCast violations detected). The Instrumenter is now compatible with
-net6 / net8 / net10 target frameworks.
+## Quick start
 
-## Pipeline Status
-
-![Pipeline Status](AutoRepair/pipeline_status.png)
-
-## Step Status
-
-| Step | Module                                                       | State        | Description |
-| :--: | :----------------------------------------------------------- | :----------- | :---------- |
-| 1    | [Tracing](AutoRepair/Step1_Tracing/README.md)                | Done         | Roslyn instrumenter injects logging into any C# project; produces a structured JSONL execution trace. Compatible with net6/net8/net10; handles loop safety, exception catch, cast instrumentation, overflow and variable tracking. |
-| 2    | [Constraints](AutoRepair/Step2_Constraints/README.md)        | Done         | Rule engine reads the trace and emits `violations.json` (buffer-bounds, exceptions, invalid casts, integer overflow, null deref). Malformed JSON lines are skipped safely. |
-| 3    | [Repair / CFGAnalyzer](AutoRepair/Step3_Repair/README.md)    | Done (partial patch coverage) | Builds Roslyn CFG + interprocedural call graph + path conditions (by **@jpksh90**), classifies violations (`AutoPatchable`, `IntentionalValidator`, `DocumentedCancellation`, `TestFixtureException`, `UnsupportedPredicate`), and synthesises `try/catch` patches as `.diff` + `.patched.cs` for `NoUnhandledException` violations. `ValidCast` violations are detected but patch synthesis not yet implemented. |
-
-Auxiliary tooling:
-
-* [`PRHunter/`](PRHunter/README.md): mines GitHub for failed C# bug-fix
-  attempts (rejected / reverted PRs that left an open issue) and drives the
-  AutoRepair pipeline against each candidate. Used for external validation,
-  not part of the core repair loop.
-* [`Research/CompetitorTools/`](Research/CompetitorTools): setup notes for
-  SonarQube, CodeQL, Semgrep, and InferSharp (used to compare against
-  AutoRepair findings).
-
-## Quick Start
-
-Run the full pipeline (Step 1 -> Step 2 -> restore -> Step 3) against
-ThrottleDebounce:
+Requirements: Windows x64, .NET 10 SDK, PowerShell 5.1 or later, and NuGet access.
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File AutoRepair\run_all.ps1
+dotnet build .\Sharper.sln
+dotnet test .\Sharper\Step3_Repair\CFGAnalyzer\CFGAnalyzer.Tests\CFGAnalyzer.Tests.csproj
+dotnet run --project .\Sharper\Step3_Repair\CFGAnalyzer\CFGAnalyzer.csproj -- --help
 ```
 
-Or run the steps individually:
+For the reproducible end-to-end demonstration, start with [the artifact guide](review/README.md). It includes a trace fixture, model-checking examples, accepted and rejected repair candidates, and a script that checks the recorded outcomes.
 
-```powershell
-# 1. Instrument & trace
-.\AutoRepair\Step1_Tracing\generate_trace.ps1
+## How it works
 
-# 2. Analyze the trace for constraint violations
-.\AutoRepair\Step2_Constraints\analyze_trace.ps1
+1. **Trace:** the Roslyn instrumenter records selected execution events from a failing test.
+2. **Detect:** the constraint analyzer reports supported bounds, null, cast, overflow, and exception violations.
+3. **Analyze and repair:** the Roslyn analyzer builds control-flow and call graphs, propagates predicates, explores supported models with Z3, and emits candidate patches.
+4. **Validate:** the candidate gate runs the reproducer and regression suite against baseline and candidate copies. Test acceptance is not a proof of semantic correctness.
 
-# 3. Restore the target project to its original state
-.\AutoRepair\Step1_Tracing\restore_project.ps1
+## Scope
 
-# 4. Run the CFG analyzer (Step 3)
-dotnet run --project AutoRepair\Step3_Repair\CFGAnalyzer\CFGAnalyzer.csproj `
-  -- ThrottleDebounce\ThrottleDebounce\ThrottleDebounce.csproj
-```
+The verifier supports a restricted C# subset and reports unsupported effects, unresolved queries, and exploration cutoffs as incomplete. Z3 checks the supported symbolic obligations; it does not verify arbitrary C# programs. The trace instrumenter temporarily rewrites source files, so use a disposable checkout for manual tracing. See the artifact guide for reproducible commands and limitations.
 
-## Pipeline overview
+## Project authors and contributors
 
-```
-+---------------+     +-------------------+     +--------------------+
-| Step 1: Trace | --> | Step 2: Constraints| --> | Step 3: CFGAnalyzer|
-| (Instrumenter)|     | (Rule engine)      |     | (Roslyn CFG+paths) |
-+---------------+     +-------------------+     +--------------------+
-        |                    |                          |
-trace_logs.jsonl       violations.json           cfg_analyzer.log
-```
-
-Step 3 reads `violations.json` (when present), classifies each violation, and
-emits side-by-side patched files plus unified diffs in
-`AutoRepair/Step3_Repair/reports/patches/`. It only edits source in-place when
-`run_all.ps1 -ApplyPatches` is passed.
-
-## Repository layout
-
-```
-Patching/
-|-- AutoRepair/
-|   |-- Step1_Tracing/          (Instrumenter + generate_trace.ps1)
-|   |-- Step2_Constraints/      (Constraints analyzer + analyze_trace.ps1)
-|   |-- Step3_Repair/           (CFGAnalyzer + reports/cfg_analyzer.log)
-|   |   `-- CFGAnalyzer/        (Step 3 implementation, by @jpksh90)
-|   `-- run_all.ps1             (Orchestrator: Step1 -> 2 -> restore -> 3)
-|
-|-- ThrottleDebounce/           (Primary integration target; 110 xUnit tests)
-|-- TargetApp/                  (Tiny demo app with deliberate bugs)
-|-- MicrosoftBugDemo/           (dotnet/runtime#120561 reproduction)
-|
-|-- PRHunter/                   (GitHub miner + e2e demo orchestrator)
-|-- Research/
-|   `-- CompetitorTools/        (SonarQube, CodeQL, Semgrep, InferSharp setup)
-|
-`-- Patching.sln
-```
-
-## Targets
-
-| Target                                | Role                       | Notes |
-| :------------------------------------ | :------------------------- | :---- |
-| `ThrottleDebounce`                    | Primary integration target | Real rate-limiting library, 110-test xUnit suite. Pipeline instruments it, runs the tests, derives violations, then runs the CFG analyzer and emits patches. |
-| `PRHunter/e2e/cases/01` - `WordNinjaSharp#3` | External validation | ArgumentOutOfRangeException. 123,947 trace events, 2 violations, 1 AutoPatchable patch generated (`WordNinja.cs:172` dictionary-load guard). |
-| `PRHunter/e2e/cases/02` - `AngleSharp.Css#183` | External validation | 934 ValidCast violations detected at `DeclarationInfo.cs:30`. Detection confirmed; patch synthesis for ValidCast is the next work item. |
-| `TargetApp`                           | Smoke test                 | Tiny app with deliberate buffer overflows / casts / overflows; used during early development of the Instrumenter. |
-| `MicrosoftBugDemo/`                   | Real-world repro           | Reproduces dotnet/runtime#120561 (NRE in `ReflectionXmlSerializationWriter`). |
-| `AutoRepair/Step3_Repair/CFGAnalyzer/samples/` | CFG analyzer fixtures | Small projects validating the Step 3 call-graph resolvers. |
-
-## Prerequisites
-
-* [.NET 10 SDK](https://dotnet.microsoft.com/download) (preview).
-* Windows PowerShell 5.1+ (ships with Windows). PowerShell 7 also works.
-* Python 3.10+ if you want to use PRHunter.
+- Jyoti Prakash
+- Manish Raj Moriche
+- Sahal Abdullah
+- Dimitrios Dafnis
+- Adam Alami
+- Abhishek Tiwari

@@ -1,86 +1,27 @@
-# Build folders
 [Bb]in/
 [Oo]bj/
-
-# Visual Studio
 .vs/
+.idea/
+.claude/
+__pycache__/
+TestResults/
 *.user
 *.suo
 *.userprefs
-.claude/
-
-# Diagrams (local only - export as PNG instead)
-*.puml
-*.jar
-
-# Generated traces
-trace_logs.jsonl
-trace_logs.txt
-trace_logs_full_test_run.jsonl
-trace_logs_full_test_run.txt
-violations.json
-violations_full_test_run.json
-
-# Generated source files (Artifacts from Instrumentation)
-Program_Instrumented.cs
-TraceLogger.cs
 *.bak
-
-# Temporary & System Files
-*.log
 *.tmp
-*.yaml
-thumbs.db
-desktop.ini
-.DS_Store
-
-# Local-only sandbox folders / artifacts (not part of the repo)
-SharpZipLib/
-AutoRepair/pipeline_diagram.mmd
-AutoRepair/pipeline_diagram.png
-AutoRepair/plantuml.jar
-
-# PRHunter generated CSVs
-PRHunter/output/
-PRHunter/__pycache__/
-# PRHunter e2e demo: ignore cloned repos + per-case build artifacts,
-# but allow the small report files to be force-added when ready.
-PRHunter/e2e/cases/*/repo/
-PRHunter/e2e/cases/*/autorepair.log
-
-# SonarQube
-.sonarqube/
-.sonar/
-.scannerwork/
-
-# PVS-Studio output
-pvs-results.plog
-pvs-results.plog.html
-pvs-results.json
-pvs-report.html
-
-# Semgrep output
-semgrep-results.json
-
-# Competitor tool result files (keep YAML rules, ignore raw output)
-*-results.json
-*-results.sarif
-*-report.html
-
-# Environment / secrets
+*.log
 .env
-
-# Multi-repo workspace: keep per-case artefacts (trace_logs.jsonl,
-# violations.json, repair_plan.json, patches/) but never commit the
-# cloned upstream sources or build output. The negations below override
-# the global trace_logs.jsonl rule above so per-case traces survive.
-AutoRepair/multi_repo_workspace/cases/*/repo/
-AutoRepair/multi_repo_workspace/run.log
-!AutoRepair/multi_repo_workspace/cases/*/trace_logs.jsonl
-
-# New-repo false-positive validation: keep the evidence (violations.json,
-# repair_plan.json, trace_logs.jsonl, logs) but never commit the cloned
-# upstream source.
-AutoRepair/new_repo_validation/*/repo/
-!AutoRepair/new_repo_validation/*/trace_logs.jsonl
-
+.env.*
+~$*
+Thumbs.db
+.DS_Store
+TraceLogger.cs
+Program_Instrumented.cs
+Sharper/Step1_Tracing/trace_logs*
+Sharper/Step2_Constraints/reports/
+Sharper/Step3_Repair/reports/
+review/*.zip
+review/rerun*/
+review/jsonconverter-run/
+!review/verified-run/**/*.log

@@ -1,0 +1,817 @@
+{
+  "ProjectName": "OperatorOverloadDemo",
+  "Nodes": [
+    {
+      "Id": "OperatorOverloadDemo::OperatorOverloadDemo.Money.Amount.get",
+      "DisplayName": "OperatorOverloadDemo.Money.Amount.get",
+      "MethodName": "get_Amount",
+      "ContainingType": "OperatorOverloadDemo.Money",
+      "ContainingNamespace": "OperatorOverloadDemo",
+      "AssemblyName": "OperatorOverloadDemo",
+      "Analysis": null
+    },
+    {
+      "Id": "OperatorOverloadDemo::OperatorOverloadDemo.Money.Equals(object?)",
+      "DisplayName": "OperatorOverloadDemo.Money.Equals(object?)",
+      "MethodName": "Equals",
+      "ContainingType": "OperatorOverloadDemo.Money",
+      "ContainingNamespace": "OperatorOverloadDemo",
+      "AssemblyName": "OperatorOverloadDemo",
+      "Analysis": {
+        "PathConstraints": [
+          [
+            "!(obj is Money other)"
+          ],
+          [
+            "obj is Money other"
+          ]
+        ],
+        "CallSites": [
+          {
+            "BlockOrdinal": 2,
+            "TargetId": "OperatorOverloadDemo::OperatorOverloadDemo.Money.operator ==(OperatorOverloadDemo.Money, OperatorOverloadDemo.Money)",
+            "TargetDisplayName": "OperatorOverloadDemo.Money.operator ==(OperatorOverloadDemo.Money, OperatorOverloadDemo.Money)",
+            "IsInternal": true,
+            "CallerLineNumber": 44,
+            "CalleeLineNumber": 22
+          }
+        ],
+        "DominatorTree": {
+          "RootOrdinal": 0,
+          "Nodes": [
+            {
+              "BlockOrdinal": 0,
+              "ImmediateDominatorOrdinal": null,
+              "ChildOrdinals": [
+                1
+              ]
+            },
+            {
+              "BlockOrdinal": 1,
+              "ImmediateDominatorOrdinal": 0,
+              "ChildOrdinals": [
+                2,
+                3,
+                4
+              ]
+            },
+            {
+              "BlockOrdinal": 2,
+              "ImmediateDominatorOrdinal": 1,
+              "ChildOrdinals": []
+            },
+            {
+              "BlockOrdinal": 3,
+              "ImmediateDominatorOrdinal": 1,
+              "ChildOrdinals": []
+            },
+            {
+              "BlockOrdinal": 4,
+              "ImmediateDominatorOrdinal": 1,
+              "ChildOrdinals": [
+                5
+              ]
+            },
+            {
+              "BlockOrdinal": 5,
+              "ImmediateDominatorOrdinal": 4,
+              "ChildOrdinals": []
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Id": "OperatorOverloadDemo::OperatorOverloadDemo.Money.GetHashCode()",
+      "DisplayName": "OperatorOverloadDemo.Money.GetHashCode()",
+      "MethodName": "GetHashCode",
+      "ContainingType": "OperatorOverloadDemo.Money",
+      "ContainingNamespace": "OperatorOverloadDemo",
+      "AssemblyName": "OperatorOverloadDemo",
+      "Analysis": {
+        "PathConstraints": [
+          []
+        ],
+        "CallSites": [
+          {
+            "BlockOrdinal": 1,
+            "TargetId": "OperatorOverloadDemo::OperatorOverloadDemo.Money.Amount.get",
+            "TargetDisplayName": "OperatorOverloadDemo.Money.Amount.get",
+            "IsInternal": false,
+            "CallerLineNumber": 49,
+            "CalleeLineNumber": 10
+          }
+        ],
+        "DominatorTree": {
+          "RootOrdinal": 0,
+          "Nodes": [
+            {
+              "BlockOrdinal": 0,
+              "ImmediateDominatorOrdinal": null,
+              "ChildOrdinals": [
+                1
+              ]
+            },
+            {
+              "BlockOrdinal": 1,
+              "ImmediateDominatorOrdinal": 0,
+              "ChildOrdinals": [
+                2
+              ]
+            },
+            {
+              "BlockOrdinal": 2,
+              "ImmediateDominatorOrdinal": 1,
+              "ChildOrdinals": []
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Id": "OperatorOverloadDemo::OperatorOverloadDemo.Money.Money(int)",
+      "DisplayName": "OperatorOverloadDemo.Money.Money(int)",
+      "MethodName": ".ctor",
+      "ContainingType": "OperatorOverloadDemo.Money",
+      "ContainingNamespace": "OperatorOverloadDemo",
+      "AssemblyName": "OperatorOverloadDemo",
+      "Analysis": {
+        "PathConstraints": [
+          []
+        ],
+        "CallSites": [
+          {
+            "BlockOrdinal": 1,
+            "TargetId": "OperatorOverloadDemo::OperatorOverloadDemo.Money.Amount.get",
+            "TargetDisplayName": "OperatorOverloadDemo.Money.Amount.get",
+            "IsInternal": false,
+            "CallerLineNumber": 7,
+            "CalleeLineNumber": 10
+          }
+        ],
+        "DominatorTree": {
+          "RootOrdinal": 0,
+          "Nodes": [
+            {
+              "BlockOrdinal": 0,
+              "ImmediateDominatorOrdinal": null,
+              "ChildOrdinals": [
+                1
+              ]
+            },
+            {
+              "BlockOrdinal": 1,
+              "ImmediateDominatorOrdinal": 0,
+              "ChildOrdinals": [
+                2
+              ]
+            },
+            {
+              "BlockOrdinal": 2,
+              "ImmediateDominatorOrdinal": 1,
+              "ChildOrdinals": []
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Id": "OperatorOverloadDemo::OperatorOverloadDemo.Money.explicit operator int(OperatorOverloadDemo.Money)",
+      "DisplayName": "OperatorOverloadDemo.Money.explicit operator int(OperatorOverloadDemo.Money)",
+      "MethodName": "op_Explicit",
+      "ContainingType": "OperatorOverloadDemo.Money",
+      "ContainingNamespace": "OperatorOverloadDemo",
+      "AssemblyName": "OperatorOverloadDemo",
+      "Analysis": {
+        "PathConstraints": [
+          []
+        ],
+        "CallSites": [
+          {
+            "BlockOrdinal": 1,
+            "TargetId": "OperatorOverloadDemo::OperatorOverloadDemo.Money.Amount.get",
+            "TargetDisplayName": "OperatorOverloadDemo.Money.Amount.get",
+            "IsInternal": false,
+            "CallerLineNumber": 39,
+            "CalleeLineNumber": 10
+          }
+        ],
+        "DominatorTree": {
+          "RootOrdinal": 0,
+          "Nodes": [
+            {
+              "BlockOrdinal": 0,
+              "ImmediateDominatorOrdinal": null,
+              "ChildOrdinals": [
+                1
+              ]
+            },
+            {
+              "BlockOrdinal": 1,
+              "ImmediateDominatorOrdinal": 0,
+              "ChildOrdinals": [
+                2
+              ]
+            },
+            {
+              "BlockOrdinal": 2,
+              "ImmediateDominatorOrdinal": 1,
+              "ChildOrdinals": []
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Id": "OperatorOverloadDemo::OperatorOverloadDemo.Money.implicit operator OperatorOverloadDemo.Money(int)",
+      "DisplayName": "OperatorOverloadDemo.Money.implicit operator OperatorOverloadDemo.Money(int)",
+      "MethodName": "op_Implicit",
+      "ContainingType": "OperatorOverloadDemo.Money",
+      "ContainingNamespace": "OperatorOverloadDemo",
+      "AssemblyName": "OperatorOverloadDemo",
+      "Analysis": {
+        "PathConstraints": [
+          []
+        ],
+        "CallSites": [
+          {
+            "BlockOrdinal": 1,
+            "TargetId": "OperatorOverloadDemo::OperatorOverloadDemo.Money.Money(int)",
+            "TargetDisplayName": "OperatorOverloadDemo.Money.Money(int)",
+            "IsInternal": true,
+            "CallerLineNumber": 34,
+            "CalleeLineNumber": 5
+          }
+        ],
+        "DominatorTree": {
+          "RootOrdinal": 0,
+          "Nodes": [
+            {
+              "BlockOrdinal": 0,
+              "ImmediateDominatorOrdinal": null,
+              "ChildOrdinals": [
+                1
+              ]
+            },
+            {
+              "BlockOrdinal": 1,
+              "ImmediateDominatorOrdinal": 0,
+              "ChildOrdinals": [
+                2
+              ]
+            },
+            {
+              "BlockOrdinal": 2,
+              "ImmediateDominatorOrdinal": 1,
+              "ChildOrdinals": []
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Id": "OperatorOverloadDemo::OperatorOverloadDemo.Money.operator !=(OperatorOverloadDemo.Money, OperatorOverloadDemo.Money)",
+      "DisplayName": "OperatorOverloadDemo.Money.operator !=(OperatorOverloadDemo.Money, OperatorOverloadDemo.Money)",
+      "MethodName": "op_Inequality",
+      "ContainingType": "OperatorOverloadDemo.Money",
+      "ContainingNamespace": "OperatorOverloadDemo",
+      "AssemblyName": "OperatorOverloadDemo",
+      "Analysis": {
+        "PathConstraints": [
+          []
+        ],
+        "CallSites": [
+          {
+            "BlockOrdinal": 1,
+            "TargetId": "OperatorOverloadDemo::OperatorOverloadDemo.Money.operator ==(OperatorOverloadDemo.Money, OperatorOverloadDemo.Money)",
+            "TargetDisplayName": "OperatorOverloadDemo.Money.operator ==(OperatorOverloadDemo.Money, OperatorOverloadDemo.Money)",
+            "IsInternal": true,
+            "CallerLineNumber": 29,
+            "CalleeLineNumber": 22
+          }
+        ],
+        "DominatorTree": {
+          "RootOrdinal": 0,
+          "Nodes": [
+            {
+              "BlockOrdinal": 0,
+              "ImmediateDominatorOrdinal": null,
+              "ChildOrdinals": [
+                1
+              ]
+            },
+            {
+              "BlockOrdinal": 1,
+              "ImmediateDominatorOrdinal": 0,
+              "ChildOrdinals": [
+                2
+              ]
+            },
+            {
+              "BlockOrdinal": 2,
+              "ImmediateDominatorOrdinal": 1,
+              "ChildOrdinals": []
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Id": "OperatorOverloadDemo::OperatorOverloadDemo.Money.operator \u002B(OperatorOverloadDemo.Money, OperatorOverloadDemo.Money)",
+      "DisplayName": "OperatorOverloadDemo.Money.operator \u002B(OperatorOverloadDemo.Money, OperatorOverloadDemo.Money)",
+      "MethodName": "op_Addition",
+      "ContainingType": "OperatorOverloadDemo.Money",
+      "ContainingNamespace": "OperatorOverloadDemo",
+      "AssemblyName": "OperatorOverloadDemo",
+      "Analysis": {
+        "PathConstraints": [
+          []
+        ],
+        "CallSites": [
+          {
+            "BlockOrdinal": 1,
+            "TargetId": "OperatorOverloadDemo::OperatorOverloadDemo.Money.Amount.get",
+            "TargetDisplayName": "OperatorOverloadDemo.Money.Amount.get",
+            "IsInternal": false,
+            "CallerLineNumber": 14,
+            "CalleeLineNumber": 10
+          },
+          {
+            "BlockOrdinal": 1,
+            "TargetId": "OperatorOverloadDemo::OperatorOverloadDemo.Money.Amount.get",
+            "TargetDisplayName": "OperatorOverloadDemo.Money.Amount.get",
+            "IsInternal": false,
+            "CallerLineNumber": 14,
+            "CalleeLineNumber": 10
+          },
+          {
+            "BlockOrdinal": 1,
+            "TargetId": "OperatorOverloadDemo::OperatorOverloadDemo.Money.Money(int)",
+            "TargetDisplayName": "OperatorOverloadDemo.Money.Money(int)",
+            "IsInternal": true,
+            "CallerLineNumber": 14,
+            "CalleeLineNumber": 5
+          }
+        ],
+        "DominatorTree": {
+          "RootOrdinal": 0,
+          "Nodes": [
+            {
+              "BlockOrdinal": 0,
+              "ImmediateDominatorOrdinal": null,
+              "ChildOrdinals": [
+                1
+              ]
+            },
+            {
+              "BlockOrdinal": 1,
+              "ImmediateDominatorOrdinal": 0,
+              "ChildOrdinals": [
+                2
+              ]
+            },
+            {
+              "BlockOrdinal": 2,
+              "ImmediateDominatorOrdinal": 1,
+              "ChildOrdinals": []
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Id": "OperatorOverloadDemo::OperatorOverloadDemo.Money.operator -(OperatorOverloadDemo.Money)",
+      "DisplayName": "OperatorOverloadDemo.Money.operator -(OperatorOverloadDemo.Money)",
+      "MethodName": "op_UnaryNegation",
+      "ContainingType": "OperatorOverloadDemo.Money",
+      "ContainingNamespace": "OperatorOverloadDemo",
+      "AssemblyName": "OperatorOverloadDemo",
+      "Analysis": {
+        "PathConstraints": [
+          []
+        ],
+        "CallSites": [
+          {
+            "BlockOrdinal": 1,
+            "TargetId": "OperatorOverloadDemo::OperatorOverloadDemo.Money.Amount.get",
+            "TargetDisplayName": "OperatorOverloadDemo.Money.Amount.get",
+            "IsInternal": false,
+            "CallerLineNumber": 19,
+            "CalleeLineNumber": 10
+          },
+          {
+            "BlockOrdinal": 1,
+            "TargetId": "OperatorOverloadDemo::OperatorOverloadDemo.Money.Money(int)",
+            "TargetDisplayName": "OperatorOverloadDemo.Money.Money(int)",
+            "IsInternal": true,
+            "CallerLineNumber": 19,
+            "CalleeLineNumber": 5
+          }
+        ],
+        "DominatorTree": {
+          "RootOrdinal": 0,
+          "Nodes": [
+            {
+              "BlockOrdinal": 0,
+              "ImmediateDominatorOrdinal": null,
+              "ChildOrdinals": [
+                1
+              ]
+            },
+            {
+              "BlockOrdinal": 1,
+              "ImmediateDominatorOrdinal": 0,
+              "ChildOrdinals": [
+                2
+              ]
+            },
+            {
+              "BlockOrdinal": 2,
+              "ImmediateDominatorOrdinal": 1,
+              "ChildOrdinals": []
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Id": "OperatorOverloadDemo::OperatorOverloadDemo.Money.operator ==(OperatorOverloadDemo.Money, OperatorOverloadDemo.Money)",
+      "DisplayName": "OperatorOverloadDemo.Money.operator ==(OperatorOverloadDemo.Money, OperatorOverloadDemo.Money)",
+      "MethodName": "op_Equality",
+      "ContainingType": "OperatorOverloadDemo.Money",
+      "ContainingNamespace": "OperatorOverloadDemo",
+      "AssemblyName": "OperatorOverloadDemo",
+      "Analysis": {
+        "PathConstraints": [
+          []
+        ],
+        "CallSites": [
+          {
+            "BlockOrdinal": 1,
+            "TargetId": "OperatorOverloadDemo::OperatorOverloadDemo.Money.Amount.get",
+            "TargetDisplayName": "OperatorOverloadDemo.Money.Amount.get",
+            "IsInternal": false,
+            "CallerLineNumber": 24,
+            "CalleeLineNumber": 10
+          },
+          {
+            "BlockOrdinal": 1,
+            "TargetId": "OperatorOverloadDemo::OperatorOverloadDemo.Money.Amount.get",
+            "TargetDisplayName": "OperatorOverloadDemo.Money.Amount.get",
+            "IsInternal": false,
+            "CallerLineNumber": 24,
+            "CalleeLineNumber": 10
+          }
+        ],
+        "DominatorTree": {
+          "RootOrdinal": 0,
+          "Nodes": [
+            {
+              "BlockOrdinal": 0,
+              "ImmediateDominatorOrdinal": null,
+              "ChildOrdinals": [
+                1
+              ]
+            },
+            {
+              "BlockOrdinal": 1,
+              "ImmediateDominatorOrdinal": 0,
+              "ChildOrdinals": [
+                2
+              ]
+            },
+            {
+              "BlockOrdinal": 2,
+              "ImmediateDominatorOrdinal": 1,
+              "ChildOrdinals": []
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Id": "OperatorOverloadDemo::OperatorOverloadDemo.Program.Main()",
+      "DisplayName": "OperatorOverloadDemo.Program.Main()",
+      "MethodName": "Main",
+      "ContainingType": "OperatorOverloadDemo.Program",
+      "ContainingNamespace": "OperatorOverloadDemo",
+      "AssemblyName": "OperatorOverloadDemo",
+      "Analysis": {
+        "PathConstraints": [
+          []
+        ],
+        "CallSites": [
+          {
+            "BlockOrdinal": 1,
+            "TargetId": "OperatorOverloadDemo::OperatorOverloadDemo.Money.explicit operator int(OperatorOverloadDemo.Money)",
+            "TargetDisplayName": "OperatorOverloadDemo.Money.explicit operator int(OperatorOverloadDemo.Money)",
+            "IsInternal": true,
+            "CallerLineNumber": 64,
+            "CalleeLineNumber": 37
+          },
+          {
+            "BlockOrdinal": 1,
+            "TargetId": "OperatorOverloadDemo::OperatorOverloadDemo.Money.implicit operator OperatorOverloadDemo.Money(int)",
+            "TargetDisplayName": "OperatorOverloadDemo.Money.implicit operator OperatorOverloadDemo.Money(int)",
+            "IsInternal": true,
+            "CallerLineNumber": 57,
+            "CalleeLineNumber": 32
+          },
+          {
+            "BlockOrdinal": 1,
+            "TargetId": "OperatorOverloadDemo::OperatorOverloadDemo.Money.implicit operator OperatorOverloadDemo.Money(int)",
+            "TargetDisplayName": "OperatorOverloadDemo.Money.implicit operator OperatorOverloadDemo.Money(int)",
+            "IsInternal": true,
+            "CallerLineNumber": 58,
+            "CalleeLineNumber": 32
+          },
+          {
+            "BlockOrdinal": 1,
+            "TargetId": "OperatorOverloadDemo::OperatorOverloadDemo.Money.operator !=(OperatorOverloadDemo.Money, OperatorOverloadDemo.Money)",
+            "TargetDisplayName": "OperatorOverloadDemo.Money.operator !=(OperatorOverloadDemo.Money, OperatorOverloadDemo.Money)",
+            "IsInternal": true,
+            "CallerLineNumber": 63,
+            "CalleeLineNumber": 27
+          },
+          {
+            "BlockOrdinal": 1,
+            "TargetId": "OperatorOverloadDemo::OperatorOverloadDemo.Money.operator \u002B(OperatorOverloadDemo.Money, OperatorOverloadDemo.Money)",
+            "TargetDisplayName": "OperatorOverloadDemo.Money.operator \u002B(OperatorOverloadDemo.Money, OperatorOverloadDemo.Money)",
+            "IsInternal": true,
+            "CallerLineNumber": 60,
+            "CalleeLineNumber": 12
+          },
+          {
+            "BlockOrdinal": 1,
+            "TargetId": "OperatorOverloadDemo::OperatorOverloadDemo.Money.operator -(OperatorOverloadDemo.Money)",
+            "TargetDisplayName": "OperatorOverloadDemo.Money.operator -(OperatorOverloadDemo.Money)",
+            "IsInternal": true,
+            "CallerLineNumber": 61,
+            "CalleeLineNumber": 17
+          },
+          {
+            "BlockOrdinal": 1,
+            "TargetId": "OperatorOverloadDemo::OperatorOverloadDemo.Money.operator ==(OperatorOverloadDemo.Money, OperatorOverloadDemo.Money)",
+            "TargetDisplayName": "OperatorOverloadDemo.Money.operator ==(OperatorOverloadDemo.Money, OperatorOverloadDemo.Money)",
+            "IsInternal": true,
+            "CallerLineNumber": 62,
+            "CalleeLineNumber": 22
+          },
+          {
+            "BlockOrdinal": 1,
+            "TargetId": "System.Console::System.Console.WriteLine(string?)",
+            "TargetDisplayName": "System.Console.WriteLine(string?)",
+            "IsInternal": false,
+            "CallerLineNumber": 67,
+            "CalleeLineNumber": null
+          }
+        ],
+        "DominatorTree": {
+          "RootOrdinal": 0,
+          "Nodes": [
+            {
+              "BlockOrdinal": 0,
+              "ImmediateDominatorOrdinal": null,
+              "ChildOrdinals": [
+                1
+              ]
+            },
+            {
+              "BlockOrdinal": 1,
+              "ImmediateDominatorOrdinal": 0,
+              "ChildOrdinals": [
+                2
+              ]
+            },
+            {
+              "BlockOrdinal": 2,
+              "ImmediateDominatorOrdinal": 1,
+              "ChildOrdinals": []
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Id": "System.Console::System.Console.WriteLine(string?)",
+      "DisplayName": "System.Console.WriteLine(string?)",
+      "MethodName": "WriteLine",
+      "ContainingType": "System.Console",
+      "ContainingNamespace": "System",
+      "AssemblyName": "System.Console",
+      "Analysis": null
+    }
+  ],
+  "Edges": [
+    {
+      "CallerId": "OperatorOverloadDemo::OperatorOverloadDemo.Money.Equals(object?)",
+      "CallerDisplayName": "OperatorOverloadDemo.Money.Equals(object?)",
+      "CalleeId": "OperatorOverloadDemo::OperatorOverloadDemo.Money.operator ==(OperatorOverloadDemo.Money, OperatorOverloadDemo.Money)",
+      "CalleeDisplayName": "OperatorOverloadDemo.Money.operator ==(OperatorOverloadDemo.Money, OperatorOverloadDemo.Money)",
+      "BlockOrdinal": 2,
+      "IsInternal": true,
+      "CallerLineNumber": 44,
+      "CalleeLineNumber": 22
+    },
+    {
+      "CallerId": "OperatorOverloadDemo::OperatorOverloadDemo.Money.GetHashCode()",
+      "CallerDisplayName": "OperatorOverloadDemo.Money.GetHashCode()",
+      "CalleeId": "OperatorOverloadDemo::OperatorOverloadDemo.Money.Amount.get",
+      "CalleeDisplayName": "OperatorOverloadDemo.Money.Amount.get",
+      "BlockOrdinal": 1,
+      "IsInternal": false,
+      "CallerLineNumber": 49,
+      "CalleeLineNumber": 10
+    },
+    {
+      "CallerId": "OperatorOverloadDemo::OperatorOverloadDemo.Money.Money(int)",
+      "CallerDisplayName": "OperatorOverloadDemo.Money.Money(int)",
+      "CalleeId": "OperatorOverloadDemo::OperatorOverloadDemo.Money.Amount.get",
+      "CalleeDisplayName": "OperatorOverloadDemo.Money.Amount.get",
+      "BlockOrdinal": 1,
+      "IsInternal": false,
+      "CallerLineNumber": 7,
+      "CalleeLineNumber": 10
+    },
+    {
+      "CallerId": "OperatorOverloadDemo::OperatorOverloadDemo.Money.explicit operator int(OperatorOverloadDemo.Money)",
+      "CallerDisplayName": "OperatorOverloadDemo.Money.explicit operator int(OperatorOverloadDemo.Money)",
+      "CalleeId": "OperatorOverloadDemo::OperatorOverloadDemo.Money.Amount.get",
+      "CalleeDisplayName": "OperatorOverloadDemo.Money.Amount.get",
+      "BlockOrdinal": 1,
+      "IsInternal": false,
+      "CallerLineNumber": 39,
+      "CalleeLineNumber": 10
+    },
+    {
+      "CallerId": "OperatorOverloadDemo::OperatorOverloadDemo.Money.implicit operator OperatorOverloadDemo.Money(int)",
+      "CallerDisplayName": "OperatorOverloadDemo.Money.implicit operator OperatorOverloadDemo.Money(int)",
+      "CalleeId": "OperatorOverloadDemo::OperatorOverloadDemo.Money.Money(int)",
+      "CalleeDisplayName": "OperatorOverloadDemo.Money.Money(int)",
+      "BlockOrdinal": 1,
+      "IsInternal": true,
+      "CallerLineNumber": 34,
+      "CalleeLineNumber": 5
+    },
+    {
+      "CallerId": "OperatorOverloadDemo::OperatorOverloadDemo.Money.operator !=(OperatorOverloadDemo.Money, OperatorOverloadDemo.Money)",
+      "CallerDisplayName": "OperatorOverloadDemo.Money.operator !=(OperatorOverloadDemo.Money, OperatorOverloadDemo.Money)",
+      "CalleeId": "OperatorOverloadDemo::OperatorOverloadDemo.Money.operator ==(OperatorOverloadDemo.Money, OperatorOverloadDemo.Money)",
+      "CalleeDisplayName": "OperatorOverloadDemo.Money.operator ==(OperatorOverloadDemo.Money, OperatorOverloadDemo.Money)",
+      "BlockOrdinal": 1,
+      "IsInternal": true,
+      "CallerLineNumber": 29,
+      "CalleeLineNumber": 22
+    },
+    {
+      "CallerId": "OperatorOverloadDemo::OperatorOverloadDemo.Money.operator \u002B(OperatorOverloadDemo.Money, OperatorOverloadDemo.Money)",
+      "CallerDisplayName": "OperatorOverloadDemo.Money.operator \u002B(OperatorOverloadDemo.Money, OperatorOverloadDemo.Money)",
+      "CalleeId": "OperatorOverloadDemo::OperatorOverloadDemo.Money.Amount.get",
+      "CalleeDisplayName": "OperatorOverloadDemo.Money.Amount.get",
+      "BlockOrdinal": 1,
+      "IsInternal": false,
+      "CallerLineNumber": 14,
+      "CalleeLineNumber": 10
+    },
+    {
+      "CallerId": "OperatorOverloadDemo::OperatorOverloadDemo.Money.operator \u002B(OperatorOverloadDemo.Money, OperatorOverloadDemo.Money)",
+      "CallerDisplayName": "OperatorOverloadDemo.Money.operator \u002B(OperatorOverloadDemo.Money, OperatorOverloadDemo.Money)",
+      "CalleeId": "OperatorOverloadDemo::OperatorOverloadDemo.Money.Amount.get",
+      "CalleeDisplayName": "OperatorOverloadDemo.Money.Amount.get",
+      "BlockOrdinal": 1,
+      "IsInternal": false,
+      "CallerLineNumber": 14,
+      "CalleeLineNumber": 10
+    },
+    {
+      "CallerId": "OperatorOverloadDemo::OperatorOverloadDemo.Money.operator \u002B(OperatorOverloadDemo.Money, OperatorOverloadDemo.Money)",
+      "CallerDisplayName": "OperatorOverloadDemo.Money.operator \u002B(OperatorOverloadDemo.Money, OperatorOverloadDemo.Money)",
+      "CalleeId": "OperatorOverloadDemo::OperatorOverloadDemo.Money.Money(int)",
+      "CalleeDisplayName": "OperatorOverloadDemo.Money.Money(int)",
+      "BlockOrdinal": 1,
+      "IsInternal": true,
+      "CallerLineNumber": 14,
+      "CalleeLineNumber": 5
+    },
+    {
+      "CallerId": "OperatorOverloadDemo::OperatorOverloadDemo.Money.operator -(OperatorOverloadDemo.Money)",
+      "CallerDisplayName": "OperatorOverloadDemo.Money.operator -(OperatorOverloadDemo.Money)",
+      "CalleeId": "OperatorOverloadDemo::OperatorOverloadDemo.Money.Amount.get",
+      "CalleeDisplayName": "OperatorOverloadDemo.Money.Amount.get",
+      "BlockOrdinal": 1,
+      "IsInternal": false,
+      "CallerLineNumber": 19,
+      "CalleeLineNumber": 10
+    },
+    {
+      "CallerId": "OperatorOverloadDemo::OperatorOverloadDemo.Money.operator -(OperatorOverloadDemo.Money)",
+      "CallerDisplayName": "OperatorOverloadDemo.Money.operator -(OperatorOverloadDemo.Money)",
+      "CalleeId": "OperatorOverloadDemo::OperatorOverloadDemo.Money.Money(int)",
+      "CalleeDisplayName": "OperatorOverloadDemo.Money.Money(int)",
+      "BlockOrdinal": 1,
+      "IsInternal": true,
+      "CallerLineNumber": 19,
+      "CalleeLineNumber": 5
+    },
+    {
+      "CallerId": "OperatorOverloadDemo::OperatorOverloadDemo.Money.operator ==(OperatorOverloadDemo.Money, OperatorOverloadDemo.Money)",
+      "CallerDisplayName": "OperatorOverloadDemo.Money.operator ==(OperatorOverloadDemo.Money, OperatorOverloadDemo.Money)",
+      "CalleeId": "OperatorOverloadDemo::OperatorOverloadDemo.Money.Amount.get",
+      "CalleeDisplayName": "OperatorOverloadDemo.Money.Amount.get",
+      "BlockOrdinal": 1,
+      "IsInternal": false,
+      "CallerLineNumber": 24,
+      "CalleeLineNumber": 10
+    },
+    {
+      "CallerId": "OperatorOverloadDemo::OperatorOverloadDemo.Money.operator ==(OperatorOverloadDemo.Money, OperatorOverloadDemo.Money)",
+      "CallerDisplayName": "OperatorOverloadDemo.Money.operator ==(OperatorOverloadDemo.Money, OperatorOverloadDemo.Money)",
+      "CalleeId": "OperatorOverloadDemo::OperatorOverloadDemo.Money.Amount.get",
+      "CalleeDisplayName": "OperatorOverloadDemo.Money.Amount.get",
+      "BlockOrdinal": 1,
+      "IsInternal": false,
+      "CallerLineNumber": 24,
+      "CalleeLineNumber": 10
+    },
+    {
+      "CallerId": "OperatorOverloadDemo::OperatorOverloadDemo.Program.Main()",
+      "CallerDisplayName": "OperatorOverloadDemo.Program.Main()",
+      "CalleeId": "OperatorOverloadDemo::OperatorOverloadDemo.Money.explicit operator int(OperatorOverloadDemo.Money)",
+      "CalleeDisplayName": "OperatorOverloadDemo.Money.explicit operator int(OperatorOverloadDemo.Money)",
+      "BlockOrdinal": 1,
+      "IsInternal": true,
+      "CallerLineNumber": 64,
+      "CalleeLineNumber": 37
+    },
+    {
+      "CallerId": "OperatorOverloadDemo::OperatorOverloadDemo.Program.Main()",
+      "CallerDisplayName": "OperatorOverloadDemo.Program.Main()",
+      "CalleeId": "OperatorOverloadDemo::OperatorOverloadDemo.Money.implicit operator OperatorOverloadDemo.Money(int)",
+      "CalleeDisplayName": "OperatorOverloadDemo.Money.implicit operator OperatorOverloadDemo.Money(int)",
+      "BlockOrdinal": 1,
+      "IsInternal": true,
+      "CallerLineNumber": 57,
+      "CalleeLineNumber": 32
+    },
+    {
+      "CallerId": "OperatorOverloadDemo::OperatorOverloadDemo.Program.Main()",
+      "CallerDisplayName": "OperatorOverloadDemo.Program.Main()",
+      "CalleeId": "OperatorOverloadDemo::OperatorOverloadDemo.Money.implicit operator OperatorOverloadDemo.Money(int)",
+      "CalleeDisplayName": "OperatorOverloadDemo.Money.implicit operator OperatorOverloadDemo.Money(int)",
+      "BlockOrdinal": 1,
+      "IsInternal": true,
+      "CallerLineNumber": 58,
+      "CalleeLineNumber": 32
+    },
+    {
+      "CallerId": "OperatorOverloadDemo::OperatorOverloadDemo.Program.Main()",
+      "CallerDisplayName": "OperatorOverloadDemo.Program.Main()",
+      "CalleeId": "OperatorOverloadDemo::OperatorOverloadDemo.Money.operator !=(OperatorOverloadDemo.Money, OperatorOverloadDemo.Money)",
+      "CalleeDisplayName": "OperatorOverloadDemo.Money.operator !=(OperatorOverloadDemo.Money, OperatorOverloadDemo.Money)",
+      "BlockOrdinal": 1,
+      "IsInternal": true,
+      "CallerLineNumber": 63,
+      "CalleeLineNumber": 27
+    },
+    {
+      "CallerId": "OperatorOverloadDemo::OperatorOverloadDemo.Program.Main()",
+      "CallerDisplayName": "OperatorOverloadDemo.Program.Main()",
+      "CalleeId": "OperatorOverloadDemo::OperatorOverloadDemo.Money.operator \u002B(OperatorOverloadDemo.Money, OperatorOverloadDemo.Money)",
+      "CalleeDisplayName": "OperatorOverloadDemo.Money.operator \u002B(OperatorOverloadDemo.Money, OperatorOverloadDemo.Money)",
+      "BlockOrdinal": 1,
+      "IsInternal": true,
+      "CallerLineNumber": 60,
+      "CalleeLineNumber": 12
+    },
+    {
+      "CallerId": "OperatorOverloadDemo::OperatorOverloadDemo.Program.Main()",
+      "CallerDisplayName": "OperatorOverloadDemo.Program.Main()",
+      "CalleeId": "OperatorOverloadDemo::OperatorOverloadDemo.Money.operator -(OperatorOverloadDemo.Money)",
+      "CalleeDisplayName": "OperatorOverloadDemo.Money.operator -(OperatorOverloadDemo.Money)",
+      "BlockOrdinal": 1,
+      "IsInternal": true,
+      "CallerLineNumber": 61,
+      "CalleeLineNumber": 17
+    },
+    {
+      "CallerId": "OperatorOverloadDemo::OperatorOverloadDemo.Program.Main()",
+      "CallerDisplayName": "OperatorOverloadDemo.Program.Main()",
+      "CalleeId": "OperatorOverloadDemo::OperatorOverloadDemo.Money.operator ==(OperatorOverloadDemo.Money, OperatorOverloadDemo.Money)",
+      "CalleeDisplayName": "OperatorOverloadDemo.Money.operator ==(OperatorOverloadDemo.Money, OperatorOverloadDemo.Money)",
+      "BlockOrdinal": 1,
+      "IsInternal": true,
+      "CallerLineNumber": 62,
+      "CalleeLineNumber": 22
+    },
+    {
+      "CallerId": "OperatorOverloadDemo::OperatorOverloadDemo.Program.Main()",
+      "CallerDisplayName": "OperatorOverloadDemo.Program.Main()",
+      "CalleeId": "System.Console::System.Console.WriteLine(string?)",
+      "CalleeDisplayName": "System.Console.WriteLine(string?)",
+      "BlockOrdinal": 1,
+      "IsInternal": false,
+      "CallerLineNumber": 67,
+      "CalleeLineNumber": null
+    }
+  ]
+}

@@ -1,0 +1,299 @@
+{
+  "ProjectName": "ExtensionMethodDemo",
+  "Nodes": [
+    {
+      "Id": "ExtensionMethodDemo::ExtensionMethodDemo.Program.Main()",
+      "DisplayName": "ExtensionMethodDemo.Program.Main()",
+      "MethodName": "Main",
+      "ContainingType": "ExtensionMethodDemo.Program",
+      "ContainingNamespace": "ExtensionMethodDemo",
+      "AssemblyName": "ExtensionMethodDemo",
+      "Analysis": {
+        "PathConstraints": [
+          []
+        ],
+        "CallSites": [
+          {
+            "BlockOrdinal": 1,
+            "TargetId": "ExtensionMethodDemo::ExtensionMethodDemo.TextExtensions.Duplicate(string)",
+            "TargetDisplayName": "ExtensionMethodDemo.TextExtensions.Duplicate(string)",
+            "IsInternal": true,
+            "CallerLineNumber": 32,
+            "CalleeLineNumber": 10
+          },
+          {
+            "BlockOrdinal": 1,
+            "TargetId": "ExtensionMethodDemo::ExtensionMethodDemo.TextExtensions.WrapInBrackets(string)",
+            "TargetDisplayName": "ExtensionMethodDemo.TextExtensions.WrapInBrackets(string)",
+            "IsInternal": true,
+            "CallerLineNumber": 31,
+            "CalleeLineNumber": 5
+          },
+          {
+            "BlockOrdinal": 1,
+            "TargetId": "System.Console::System.Console.WriteLine(string?)",
+            "TargetDisplayName": "System.Console.WriteLine(string?)",
+            "IsInternal": false,
+            "CallerLineNumber": 33,
+            "CalleeLineNumber": null
+          }
+        ],
+        "DominatorTree": {
+          "RootOrdinal": 0,
+          "Nodes": [
+            {
+              "BlockOrdinal": 0,
+              "ImmediateDominatorOrdinal": null,
+              "ChildOrdinals": [
+                1
+              ]
+            },
+            {
+              "BlockOrdinal": 1,
+              "ImmediateDominatorOrdinal": 0,
+              "ChildOrdinals": [
+                2
+              ]
+            },
+            {
+              "BlockOrdinal": 2,
+              "ImmediateDominatorOrdinal": 1,
+              "ChildOrdinals": []
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Id": "ExtensionMethodDemo::ExtensionMethodDemo.TextExtensions.BuildWrapped(string)",
+      "DisplayName": "ExtensionMethodDemo.TextExtensions.BuildWrapped(string)",
+      "MethodName": "BuildWrapped",
+      "ContainingType": "ExtensionMethodDemo.TextExtensions",
+      "ContainingNamespace": "ExtensionMethodDemo",
+      "AssemblyName": "ExtensionMethodDemo",
+      "Analysis": {
+        "PathConstraints": [
+          []
+        ],
+        "CallSites": [],
+        "DominatorTree": {
+          "RootOrdinal": 0,
+          "Nodes": [
+            {
+              "BlockOrdinal": 0,
+              "ImmediateDominatorOrdinal": null,
+              "ChildOrdinals": [
+                1
+              ]
+            },
+            {
+              "BlockOrdinal": 1,
+              "ImmediateDominatorOrdinal": 0,
+              "ChildOrdinals": [
+                2
+              ]
+            },
+            {
+              "BlockOrdinal": 2,
+              "ImmediateDominatorOrdinal": 1,
+              "ChildOrdinals": []
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Id": "ExtensionMethodDemo::ExtensionMethodDemo.TextExtensions.Combine(string, string)",
+      "DisplayName": "ExtensionMethodDemo.TextExtensions.Combine(string, string)",
+      "MethodName": "Combine",
+      "ContainingType": "ExtensionMethodDemo.TextExtensions",
+      "ContainingNamespace": "ExtensionMethodDemo",
+      "AssemblyName": "ExtensionMethodDemo",
+      "Analysis": {
+        "PathConstraints": [
+          []
+        ],
+        "CallSites": [],
+        "DominatorTree": {
+          "RootOrdinal": 0,
+          "Nodes": [
+            {
+              "BlockOrdinal": 0,
+              "ImmediateDominatorOrdinal": null,
+              "ChildOrdinals": [
+                1
+              ]
+            },
+            {
+              "BlockOrdinal": 1,
+              "ImmediateDominatorOrdinal": 0,
+              "ChildOrdinals": [
+                2
+              ]
+            },
+            {
+              "BlockOrdinal": 2,
+              "ImmediateDominatorOrdinal": 1,
+              "ChildOrdinals": []
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Id": "ExtensionMethodDemo::ExtensionMethodDemo.TextExtensions.Duplicate(string)",
+      "DisplayName": "ExtensionMethodDemo.TextExtensions.Duplicate(string)",
+      "MethodName": "Duplicate",
+      "ContainingType": "ExtensionMethodDemo.TextExtensions",
+      "ContainingNamespace": "ExtensionMethodDemo",
+      "AssemblyName": "ExtensionMethodDemo",
+      "Analysis": {
+        "PathConstraints": [
+          []
+        ],
+        "CallSites": [
+          {
+            "BlockOrdinal": 1,
+            "TargetId": "ExtensionMethodDemo::ExtensionMethodDemo.TextExtensions.Combine(string, string)",
+            "TargetDisplayName": "ExtensionMethodDemo.TextExtensions.Combine(string, string)",
+            "IsInternal": true,
+            "CallerLineNumber": 12,
+            "CalleeLineNumber": 20
+          }
+        ],
+        "DominatorTree": {
+          "RootOrdinal": 0,
+          "Nodes": [
+            {
+              "BlockOrdinal": 0,
+              "ImmediateDominatorOrdinal": null,
+              "ChildOrdinals": [
+                1
+              ]
+            },
+            {
+              "BlockOrdinal": 1,
+              "ImmediateDominatorOrdinal": 0,
+              "ChildOrdinals": [
+                2
+              ]
+            },
+            {
+              "BlockOrdinal": 2,
+              "ImmediateDominatorOrdinal": 1,
+              "ChildOrdinals": []
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Id": "ExtensionMethodDemo::ExtensionMethodDemo.TextExtensions.WrapInBrackets(string)",
+      "DisplayName": "ExtensionMethodDemo.TextExtensions.WrapInBrackets(string)",
+      "MethodName": "WrapInBrackets",
+      "ContainingType": "ExtensionMethodDemo.TextExtensions",
+      "ContainingNamespace": "ExtensionMethodDemo",
+      "AssemblyName": "ExtensionMethodDemo",
+      "Analysis": {
+        "PathConstraints": [
+          []
+        ],
+        "CallSites": [
+          {
+            "BlockOrdinal": 1,
+            "TargetId": "ExtensionMethodDemo::ExtensionMethodDemo.TextExtensions.BuildWrapped(string)",
+            "TargetDisplayName": "ExtensionMethodDemo.TextExtensions.BuildWrapped(string)",
+            "IsInternal": true,
+            "CallerLineNumber": 7,
+            "CalleeLineNumber": 15
+          }
+        ],
+        "DominatorTree": {
+          "RootOrdinal": 0,
+          "Nodes": [
+            {
+              "BlockOrdinal": 0,
+              "ImmediateDominatorOrdinal": null,
+              "ChildOrdinals": [
+                1
+              ]
+            },
+            {
+              "BlockOrdinal": 1,
+              "ImmediateDominatorOrdinal": 0,
+              "ChildOrdinals": [
+                2
+              ]
+            },
+            {
+              "BlockOrdinal": 2,
+              "ImmediateDominatorOrdinal": 1,
+              "ChildOrdinals": []
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Id": "System.Console::System.Console.WriteLine(string?)",
+      "DisplayName": "System.Console.WriteLine(string?)",
+      "MethodName": "WriteLine",
+      "ContainingType": "System.Console",
+      "ContainingNamespace": "System",
+      "AssemblyName": "System.Console",
+      "Analysis": null
+    }
+  ],
+  "Edges": [
+    {
+      "CallerId": "ExtensionMethodDemo::ExtensionMethodDemo.Program.Main()",
+      "CallerDisplayName": "ExtensionMethodDemo.Program.Main()",
+      "CalleeId": "ExtensionMethodDemo::ExtensionMethodDemo.TextExtensions.Duplicate(string)",
+      "CalleeDisplayName": "ExtensionMethodDemo.TextExtensions.Duplicate(string)",
+      "BlockOrdinal": 1,
+      "IsInternal": true,
+      "CallerLineNumber": 32,
+      "CalleeLineNumber": 10
+    },
+    {
+      "CallerId": "ExtensionMethodDemo::ExtensionMethodDemo.Program.Main()",
+      "CallerDisplayName": "ExtensionMethodDemo.Program.Main()",
+      "CalleeId": "ExtensionMethodDemo::ExtensionMethodDemo.TextExtensions.WrapInBrackets(string)",
+      "CalleeDisplayName": "ExtensionMethodDemo.TextExtensions.WrapInBrackets(string)",
+      "BlockOrdinal": 1,
+      "IsInternal": true,
+      "CallerLineNumber": 31,
+      "CalleeLineNumber": 5
+    },
+    {
+      "CallerId": "ExtensionMethodDemo::ExtensionMethodDemo.Program.Main()",
+      "CallerDisplayName": "ExtensionMethodDemo.Program.Main()",
+      "CalleeId": "System.Console::System.Console.WriteLine(string?)",
+      "CalleeDisplayName": "System.Console.WriteLine(string?)",
+      "BlockOrdinal": 1,
+      "IsInternal": false,
+      "CallerLineNumber": 33,
+      "CalleeLineNumber": null
+    },
+    {
+      "CallerId": "ExtensionMethodDemo::ExtensionMethodDemo.TextExtensions.Duplicate(string)",
+      "CallerDisplayName": "ExtensionMethodDemo.TextExtensions.Duplicate(string)",
+      "CalleeId": "ExtensionMethodDemo::ExtensionMethodDemo.TextExtensions.Combine(string, string)",
+      "CalleeDisplayName": "ExtensionMethodDemo.TextExtensions.Combine(string, string)",
+      "BlockOrdinal": 1,
+      "IsInternal": true,
+      "CallerLineNumber": 12,
+      "CalleeLineNumber": 20
+    },
+    {
+      "CallerId": "ExtensionMethodDemo::ExtensionMethodDemo.TextExtensions.WrapInBrackets(string)",
+      "CallerDisplayName": "ExtensionMethodDemo.TextExtensions.WrapInBrackets(string)",
+      "CalleeId": "ExtensionMethodDemo::ExtensionMethodDemo.TextExtensions.BuildWrapped(string)",
+      "CalleeDisplayName": "ExtensionMethodDemo.TextExtensions.BuildWrapped(string)",
+      "BlockOrdinal": 1,
+      "IsInternal": true,
+      "CallerLineNumber": 7,
+      "CalleeLineNumber": 15
+    }
+  ]
+}

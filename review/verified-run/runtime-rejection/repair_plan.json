@@ -1,0 +1,239 @@
+{
+  "GeneratedAt": "2026-09-29T21:53:19.7968077Z",
+  "ViolationsFile": "C:\\Users\\manis\\Desktop\\Sharper\\review\\verified-run\\runtime-trace/violations.json",
+  "TotalViolations": 2,
+  "ByAction": {
+    "AutoPatchable": 2
+  },
+  "Items": [
+    {
+      "Violation": {
+        "Predicate": "NotNull(dereference.receiver)",
+        "Assertion": "dereference receiver is not null",
+        "Bindings": {
+          "detection": "forward-runtime-signal",
+          "exception.message": "Object reference not set to an instance of an object.",
+          "null.variable": "method",
+          "null.assigned_at_line": 13
+        },
+        "Result": false,
+        "File": "MemberMethodResolver.cs",
+        "Line": 13,
+        "TraceId": "1376c65a-7c81-427d-b6fa-e4ae65328a36",
+        "ExceptionType": "",
+        "Detection": "forward-runtime-signal"
+      },
+      "ContainingMember": "CheckShouldPersist",
+      "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Sharper\\review\\fixtures\\runtime\\RuntimeCode\\MemberMethodResolver.cs",
+      "StatementStartLine": 13,
+      "StatementEndLine": 17,
+      "Action": "AutoPatchable",
+      "ActionReason": "Unverified catch-based candidate for NotNull(dereference.receiver)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\manis\\Desktop\\Sharper\\review\\verified-run/runtime-rejection\\patches\\MemberMethodResolver.L13.patched.cs",
+      "DiffPath": "C:\\Users\\manis\\Desktop\\Sharper\\review\\verified-run/runtime-rejection\\patches\\MemberMethodResolver.L13.diff",
+      "FormulaAnalysis": {
+        "Status": "Incomplete",
+        "EntryPredicate": null,
+        "Steps": [],
+        "RelevantLines": [],
+        "Reason": "No supported Table 1 template at this exact expression",
+        "RootStatus": "NotEvaluated",
+        "RootRule": "Root-ObservedActivation-v1",
+        "RootScope": "Slice-relevant, validated observed activation of one fixed predicate; not counterfactual causality, uniqueness, minimality, or a repair-synthesis rule",
+        "ProposedEntryCondition": null,
+        "ForwardModelCheck": null,
+        "BackwardAnalysis": null,
+        "ForwardVerificationStatus": "NotPerformed",
+        "ForwardVerificationScope": "Selected failure site in the supported source/model semantics, not the generated patch or whole method"
+      },
+      "CandidateModelCheck": {
+        "Status": "Incomplete",
+        "CheckedLocations": 0,
+        "CounterexampleNode": null,
+        "Counterexample": null,
+        "Reason": "No supported Table 1 template at this exact expression",
+        "CounterexampleLine": null
+      },
+      "CandidateModelSha256": "D2550F7FD6FF905454A113878549653AB97700FF599B4F1EB945DFFD53B10E1C",
+      "CandidateRefinementChecks": null,
+      "CandidateVerificationScope": "Reparsed emitted candidate: selected failure and lowered Int32 array element accesses; no functional-equivalence or resource-exhaustion proof",
+      "SourceSha256": "0772EAE5A20F24CD0F48AABF9716262B668A71EA21D345064B9FBAB9391D1257",
+      "Validation": {
+        "Status": "Rejected",
+        "SourceSha256": "0772EAE5A20F24CD0F48AABF9716262B668A71EA21D345064B9FBAB9391D1257",
+        "CandidateSha256": "D2550F7FD6FF905454A113878549653AB97700FF599B4F1EB945DFFD53B10E1C",
+        "Reason": "Candidate failed or skipped reproducer/regression tests, produced no tests, or did not build",
+        "Runs": {
+          "baseline-suite": {
+            "ExitCode": 1,
+            "Tests": {
+              "CheckShouldPersist_TrueMethodOnBaseClass_PreservesTrue": "Failed",
+              "CheckShouldPersist_MethodOnSameClass_ReturnsValue": "Passed",
+              "CheckShouldPersist_MethodOnBaseClass_NullDereference": "Failed",
+              "CheckShouldPersist_MethodOnBaseClassViaBaseInstance_Works": "Passed",
+              "CheckShouldPersist_TrueMethodOnSameClass_PreservesTrue": "Passed"
+            },
+            "Error": null,
+            "Passed": false,
+            "Reproduced": true
+          },
+          "baseline-reproducer": {
+            "ExitCode": 1,
+            "Tests": {
+              "CheckShouldPersist_MethodOnBaseClassViaBaseInstance_Works": "Passed",
+              "CheckShouldPersist_MethodOnBaseClass_NullDereference": "Failed",
+              "CheckShouldPersist_MethodOnSameClass_ReturnsValue": "Passed",
+              "CheckShouldPersist_TrueMethodOnSameClass_PreservesTrue": "Passed",
+              "CheckShouldPersist_TrueMethodOnBaseClass_PreservesTrue": "Failed"
+            },
+            "Error": null,
+            "Passed": false,
+            "Reproduced": true
+          },
+          "candidate-reproducer": {
+            "ExitCode": 1,
+            "Tests": {
+              "CheckShouldPersist_TrueMethodOnSameClass_PreservesTrue": "Passed",
+              "CheckShouldPersist_MethodOnBaseClass_NullDereference": "Passed",
+              "CheckShouldPersist_MethodOnSameClass_ReturnsValue": "Passed",
+              "CheckShouldPersist_MethodOnBaseClassViaBaseInstance_Works": "Passed",
+              "CheckShouldPersist_TrueMethodOnBaseClass_PreservesTrue": "Failed"
+            },
+            "Error": null,
+            "Passed": false,
+            "Reproduced": true
+          },
+          "candidate-suite": {
+            "ExitCode": 1,
+            "Tests": {
+              "CheckShouldPersist_TrueMethodOnBaseClass_PreservesTrue": "Failed",
+              "CheckShouldPersist_TrueMethodOnSameClass_PreservesTrue": "Passed",
+              "CheckShouldPersist_MethodOnBaseClass_NullDereference": "Passed",
+              "CheckShouldPersist_MethodOnSameClass_ReturnsValue": "Passed",
+              "CheckShouldPersist_MethodOnBaseClassViaBaseInstance_Works": "Passed"
+            },
+            "Error": null,
+            "Passed": false,
+            "Reproduced": true
+          }
+        }
+      }
+    },
+    {
+      "Violation": {
+        "Predicate": "NotNull(dereference.receiver)",
+        "Assertion": "dereference receiver is not null",
+        "Bindings": {
+          "detection": "forward-runtime-signal",
+          "exception.message": "Object reference not set to an instance of an object.",
+          "null.variable": "method",
+          "null.assigned_at_line": 13
+        },
+        "Result": false,
+        "File": "MemberMethodResolver.cs",
+        "Line": 13,
+        "TraceId": "1376c65a-7c81-427d-b6fa-e4ae65328a36",
+        "ExceptionType": "",
+        "Detection": "forward-runtime-signal"
+      },
+      "ContainingMember": "CheckShouldPersist",
+      "ContainingFilePath": "C:\\Users\\manis\\Desktop\\Sharper\\review\\fixtures\\runtime\\RuntimeCode\\MemberMethodResolver.cs",
+      "StatementStartLine": 13,
+      "StatementEndLine": 17,
+      "Action": "AutoPatchable",
+      "ActionReason": "Unverified catch-based candidate for NotNull(dereference.receiver)",
+      "PathConstraints": [],
+      "PatchedFilePath": "C:\\Users\\manis\\Desktop\\Sharper\\review\\verified-run/runtime-rejection\\patches\\MemberMethodResolver.L13.patched.cs",
+      "DiffPath": "C:\\Users\\manis\\Desktop\\Sharper\\review\\verified-run/runtime-rejection\\patches\\MemberMethodResolver.L13.diff",
+      "FormulaAnalysis": {
+        "Status": "Incomplete",
+        "EntryPredicate": null,
+        "Steps": [],
+        "RelevantLines": [],
+        "Reason": "No supported Table 1 template at this exact expression",
+        "RootStatus": "NotEvaluated",
+        "RootRule": "Root-ObservedActivation-v1",
+        "RootScope": "Slice-relevant, validated observed activation of one fixed predicate; not counterfactual causality, uniqueness, minimality, or a repair-synthesis rule",
+        "ProposedEntryCondition": null,
+        "ForwardModelCheck": null,
+        "BackwardAnalysis": null,
+        "ForwardVerificationStatus": "NotPerformed",
+        "ForwardVerificationScope": "Selected failure site in the supported source/model semantics, not the generated patch or whole method"
+      },
+      "CandidateModelCheck": {
+        "Status": "Incomplete",
+        "CheckedLocations": 0,
+        "CounterexampleNode": null,
+        "Counterexample": null,
+        "Reason": "No supported Table 1 template at this exact expression",
+        "CounterexampleLine": null
+      },
+      "CandidateModelSha256": "D2550F7FD6FF905454A113878549653AB97700FF599B4F1EB945DFFD53B10E1C",
+      "CandidateRefinementChecks": null,
+      "CandidateVerificationScope": "Reparsed emitted candidate: selected failure and lowered Int32 array element accesses; no functional-equivalence or resource-exhaustion proof",
+      "SourceSha256": "0772EAE5A20F24CD0F48AABF9716262B668A71EA21D345064B9FBAB9391D1257",
+      "Validation": {
+        "Status": "Rejected",
+        "SourceSha256": "0772EAE5A20F24CD0F48AABF9716262B668A71EA21D345064B9FBAB9391D1257",
+        "CandidateSha256": "D2550F7FD6FF905454A113878549653AB97700FF599B4F1EB945DFFD53B10E1C",
+        "Reason": "Candidate failed or skipped reproducer/regression tests, produced no tests, or did not build",
+        "Runs": {
+          "baseline-suite": {
+            "ExitCode": 1,
+            "Tests": {
+              "CheckShouldPersist_TrueMethodOnBaseClass_PreservesTrue": "Failed",
+              "CheckShouldPersist_MethodOnSameClass_ReturnsValue": "Passed",
+              "CheckShouldPersist_MethodOnBaseClass_NullDereference": "Failed",
+              "CheckShouldPersist_MethodOnBaseClassViaBaseInstance_Works": "Passed",
+              "CheckShouldPersist_TrueMethodOnSameClass_PreservesTrue": "Passed"
+            },
+            "Error": null,
+            "Passed": false,
+            "Reproduced": true
+          },
+          "baseline-reproducer": {
+            "ExitCode": 1,
+            "Tests": {
+              "CheckShouldPersist_MethodOnBaseClassViaBaseInstance_Works": "Passed",
+              "CheckShouldPersist_MethodOnBaseClass_NullDereference": "Failed",
+              "CheckShouldPersist_MethodOnSameClass_ReturnsValue": "Passed",
+              "CheckShouldPersist_TrueMethodOnSameClass_PreservesTrue": "Passed",
+              "CheckShouldPersist_TrueMethodOnBaseClass_PreservesTrue": "Failed"
+            },
+            "Error": null,
+            "Passed": false,
+            "Reproduced": true
+          },
+          "candidate-reproducer": {
+            "ExitCode": 1,
+            "Tests": {
+              "CheckShouldPersist_TrueMethodOnSameClass_PreservesTrue": "Passed",
+              "CheckShouldPersist_MethodOnBaseClass_NullDereference": "Passed",
+              "CheckShouldPersist_MethodOnSameClass_ReturnsValue": "Passed",
+              "CheckShouldPersist_MethodOnBaseClassViaBaseInstance_Works": "Passed",
+              "CheckShouldPersist_TrueMethodOnBaseClass_PreservesTrue": "Failed"
+            },
+            "Error": null,
+            "Passed": false,
+            "Reproduced": true
+          },
+          "candidate-suite": {
+            "ExitCode": 1,
+            "Tests": {
+              "CheckShouldPersist_TrueMethodOnBaseClass_PreservesTrue": "Failed",
+              "CheckShouldPersist_TrueMethodOnSameClass_PreservesTrue": "Passed",
+              "CheckShouldPersist_MethodOnBaseClass_NullDereference": "Passed",
+              "CheckShouldPersist_MethodOnSameClass_ReturnsValue": "Passed",
+              "CheckShouldPersist_MethodOnBaseClassViaBaseInstance_Works": "Passed"
+            },
+            "Error": null,
+            "Passed": false,
+            "Reproduced": true
+          }
+        }
+      }
+    }
+  ],
+  "VerificationStatus": "TestGatePerformed"
+}
