@@ -141,7 +141,7 @@ namespace Instrumenter.Rewriters
         {
             var escapedFileName = TargetFileName.Replace("\\", "\\\\");
             return SyntaxFactory.ParseStatement(
-                $"global::AutoRepairTracing.TraceLogger.LogEnter(\"{Guid.NewGuid()}\", \"{escapedFileName}\", {line}, \"{EscapeLiteral(methodName)}\");\n");
+                $"global::SharperTracing.TraceLogger.LogEnter(\"{Guid.NewGuid()}\", \"{escapedFileName}\", {line}, \"{EscapeLiteral(methodName)}\");\n");
         }
 
         // reasonExpr is either a quoted literal or the name of the reason local.
@@ -149,7 +149,7 @@ namespace Instrumenter.Rewriters
         {
             var escapedFileName = TargetFileName.Replace("\\", "\\\\");
             return SyntaxFactory.ParseStatement(
-                $"global::AutoRepairTracing.TraceLogger.LogExit(\"{Guid.NewGuid()}\", \"{escapedFileName}\", {line}, \"{EscapeLiteral(methodName)}\", {reasonExpr});\n");
+                $"global::SharperTracing.TraceLogger.LogExit(\"{Guid.NewGuid()}\", \"{escapedFileName}\", {line}, \"{EscapeLiteral(methodName)}\", {reasonExpr});\n");
         }
 
         private static string EscapeLiteral(string text)

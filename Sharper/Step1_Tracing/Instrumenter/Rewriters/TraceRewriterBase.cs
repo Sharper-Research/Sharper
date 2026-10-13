@@ -20,13 +20,13 @@ namespace Instrumenter.Rewriters
         // injects at the top of a method body. MethodExitRewriter (which runs last) keeps these
         // outside the try/finally it wraps the body in, so the entry event is recorded even if the
         // body throws before reaching the first real statement.
-        protected static readonly SyntaxAnnotation MethodPreamble = new SyntaxAnnotation("AutoRepair.MethodPreamble");
+        protected static readonly SyntaxAnnotation MethodPreamble = new SyntaxAnnotation("Sharper.MethodPreamble");
 
         // Narrower marker for the single "Enter Method" log inside that preamble.
         // MethodExitRewriter swaps this statement for the depth-tracking LogEnter call, but only
         // when it has successfully installed the matching exit log - so an entry event that
         // increments the call-depth counter always has an exit event that decrements it.
-        protected static readonly SyntaxAnnotation MethodEntryLog = new SyntaxAnnotation("AutoRepair.MethodEntryLog");
+        protected static readonly SyntaxAnnotation MethodEntryLog = new SyntaxAnnotation("Sharper.MethodEntryLog");
 
         public string TargetFileName { get; set; } = "UnknownFile.cs";
 

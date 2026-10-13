@@ -10,6 +10,8 @@ TestResults/
 *.userprefs
 *.bak
 *.tmp
+*.json
+*.jsonl
 *.log
 .env
 .env.*
