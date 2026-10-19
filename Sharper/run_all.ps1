@@ -4,124 +4,70 @@ param(
     [string]$Solution = "",
     [string]$ValidationRoot = "",
     [string]$ReproducerFilter = "",
+    [string]$TestFilter = "",
     [string]$OutputDir = "",
     [switch]$ApplyPatches,
     [switch]$RestorePatches
 )
 
 $ErrorActionPreference = "Stop"
-$runStart = Get-Date
+$repoRoot = (Resolve-Path (Join-Path $PSScriptRoot "..")).Path
+$step1Script = Join-Path $PSScriptRoot "Step1_Tracing/generate_trace.ps1"
+$restoreScript = Join-Path $PSScriptRoot "Step1_Tracing/restore_project.ps1"
+$step2Script = Join-Path $PSScriptRoot "Step2_Constraints/analyze_trace.ps1"
+$cfgAnalyzerProj = Join-Path $PSScriptRoot "Step3_Repair/CFGAnalyzer/CFGAnalyzer.csproj"
 
-$repoRoot        = Resolve-Path (Join-Path $PSScriptRoot "..")
-$step1Script      = Join-Path $repoRoot "Sharper\Step1_Tracing\generate_trace.ps1"
-$restoreScript    = Join-Path $repoRoot "Sharper\Step1_Tracing\restore_project.ps1"
-$step2Script      = Join-Path $repoRoot "Sharper\Step2_Constraints\analyze_trace.ps1"
-$cfgAnalyzerProj  = Join-Path $repoRoot "Sharper\Step3_Repair\CFGAnalyzer\CFGAnalyzer.csproj"
-$cfgReportDir     = Join-Path $repoRoot "Sharper\Step3_Repair\reports"
-$cfgReportLog     = Join-Path $cfgReportDir "cfg_analyzer.log"
-$violationsPath   = Join-Path $repoRoot "Sharper\Step2_Constraints\reports\violations.json"
-
-if (-not $SourceDir)     { $SourceDir     = Join-Path $repoRoot "review\fixtures\runtime\RuntimeCode" }
-if (-not $DriverProject) { $DriverProject = Join-Path $repoRoot "review\fixtures\runtime\RuntimeCode.Tests\RuntimeCode.Tests.csproj" }
-if (-not $Solution)      { $Solution      = Join-Path $repoRoot "review\fixtures\runtime\RuntimeCode\RuntimeCode.csproj" }
+if (-not $SourceDir) { $SourceDir = Join-Path $repoRoot "benchmarks/MicrosoftBugDemo/RuntimeCode" }
+if (-not $DriverProject) { $DriverProject = Join-Path $repoRoot "benchmarks/MicrosoftBugDemo/RuntimeCode.Tests/RuntimeCode.Tests.csproj" }
+if (-not $Solution) { $Solution = Join-Path $repoRoot "benchmarks/MicrosoftBugDemo/RuntimeCode/RuntimeCode.csproj" }
 if (($ValidationRoot -and -not $ReproducerFilter) -or ($ReproducerFilter -and -not $ValidationRoot) -or
     ($ApplyPatches -and -not $ValidationRoot) -or ($ApplyPatches -and $RestorePatches)) {
     throw "ValidationRoot and ReproducerFilter must be supplied together; ApplyPatches requires validation and cannot be combined with RestorePatches."
 }
 
-if (-not (Test-Path $cfgReportDir)) { New-Item -ItemType Directory -Path $cfgReportDir | Out-Null }
-
-Write-Host "=============================================" -ForegroundColor Magenta
-Write-Host "   Sharper: Proactive Repair from One Fault"-ForegroundColor Magenta
-Write-Host "   Target source : $SourceDir"                 -ForegroundColor Magenta
-Write-Host "   Test driver   : $DriverProject"             -ForegroundColor Magenta
-Write-Host "   CFG solution  : $Solution"                  -ForegroundColor Magenta
-Write-Host "=============================================" -ForegroundColor Magenta
-Write-Host ""
-
-#--- STEP 1: Concrete execution - capture trace + state from the test suite
-Write-Host ">>> STEP 1: Instrument + Trace <<<" -ForegroundColor Cyan
-if ($DriverProject) {
-    & $step1Script -TargetSourceDir $SourceDir -TestProject $DriverProject
-} else {
-    & $step1Script -TargetSourceDir $SourceDir
+if (-not $OutputDir) {
+    $OutputDir = "results/run-{0}-{1}" -f (Get-Date).ToString("yyyyMMdd-HHmmss"), (Split-Path $SourceDir -Leaf)
 }
-if ($LASTEXITCODE -ne 0) { Write-Host "Step 1 failed!" -ForegroundColor Red; exit 1 }
-Write-Host ""
+if (-not [IO.Path]::IsPathRooted($OutputDir)) { $OutputDir = Join-Path $repoRoot $OutputDir }
+$OutputDir = [IO.Path]::GetFullPath($OutputDir)
+$step1Out = Join-Path $OutputDir "step1_traces"
+$step2Out = Join-Path $OutputDir "step2_constraints"
+$step3Out = Join-Path $OutputDir "step3_repairs"
+foreach ($dir in @($step1Out, $step2Out, $step3Out)) {
+    if (Test-Path $dir) { throw "Use a fresh output directory; previous step outputs exist at $dir" }
+    New-Item -ItemType Directory -Path $dir -Force | Out-Null
+}
+$tracePath = Join-Path $step1Out "trace_logs.jsonl"
+$violationsPath = Join-Path $step2Out "violations.json"
+$cfgReportLog = Join-Path $step3Out "cfg_analyzer.log"
 
-#--- STEP 2: Derive constraints from trace via typing rules
-Write-Host ">>> STEP 2: Derive Repair Constraints from Trace <<<" -ForegroundColor Cyan
-& $step2Script
-if ($LASTEXITCODE -ne 0) { Write-Host "Step 2 failed!" -ForegroundColor Red; exit 1 }
-Write-Host ""
+Write-Host "Sharper target: $SourceDir" -ForegroundColor Magenta
+Write-Host "Results: $OutputDir" -ForegroundColor Magenta
+try {
+    Write-Host ">>> STEP 1: Instrument + Trace <<<" -ForegroundColor Cyan
+    & $step1Script -TargetSourceDir $SourceDir -TestProject $DriverProject `
+        -TraceLogPath $tracePath -TestResultsDirectory $step1Out -TestFilter $TestFilter
+    if ($LASTEXITCODE -ne 0) { throw "Step 1 failed (exit $LASTEXITCODE)." }
 
-#--- Restore original source before static CFG analysis
-Write-Host "Restoring original (uninstrumented) source for static analysis..." -ForegroundColor Yellow
-& $restoreScript $SourceDir | Out-Null
-Write-Host ""
-
-#--- STEP 3: Build CFG + call graph + path conditions (CFGAnalyzer by jpksh90)
-Write-Host ">>> STEP 3: Build CFG and Path Conditions (CFGAnalyzer) <<<" -ForegroundColor Cyan
-Write-Host "Building CFGAnalyzer..." -ForegroundColor Gray
-dotnet build $cfgAnalyzerProj | Out-Null
-if ($LASTEXITCODE -ne 0) { Write-Host "CFGAnalyzer build failed!" -ForegroundColor Red; exit 1 }
-
-Write-Host "Running CFGAnalyzer on $Solution" -ForegroundColor Gray
-Write-Host "(output captured to $cfgReportLog)" -ForegroundColor Gray
-
-$cfgArgs = @("$Solution")
-if (Test-Path $violationsPath) {
-    Write-Host "Driving CFGAnalyzer from violations: $violationsPath" -ForegroundColor Gray
-    $cfgArgs += @("--violations", $violationsPath, "--output-dir", $cfgReportDir)
-    if ($ValidationRoot) { $cfgArgs += @("--validation-root", $ValidationRoot, "--test-project", $DriverProject, "--reproducer-filter", $ReproducerFilter) }
-    if ($ApplyPatches)   { $cfgArgs += "--apply-patches" }
-    if ($RestorePatches) { $cfgArgs += "--restore" }
+    Write-Host ">>> STEP 2: Derive Repair Constraints from Trace <<<" -ForegroundColor Cyan
+    & $step2Script -TracePath $tracePath -OutputDir $step2Out
+    if ($LASTEXITCODE -ne 0) { throw "Step 2 failed (exit $LASTEXITCODE)." }
+} finally {
+    & $restoreScript $SourceDir | Out-Null
 }
 
-$cfgOutput = & dotnet run --project $cfgAnalyzerProj --no-build -- @cfgArgs 2>&1
-$cfgExit = $LASTEXITCODE
-$cfgOutput | Tee-Object -FilePath $cfgReportLog
-if ($cfgExit -ne 0) { Write-Host "CFGAnalyzer run failed (exit $cfgExit)!" -ForegroundColor Red; exit 1 }
-
-Write-Host ""
-Write-Host "=============================================" -ForegroundColor Green
-Write-Host "   Full Pipeline Complete!"                    -ForegroundColor Green
-Write-Host "=============================================" -ForegroundColor Green
-Write-Host ""
-Write-Host "Outputs:" -ForegroundColor Yellow
-Write-Host "  Trace (Step 1):       Sharper\Step1_Tracing\trace_logs.jsonl"
-Write-Host "  Constraints (Step 2): Sharper\Step2_Constraints\reports\violations.json"
-Write-Host "  CFG (Step 3):         Sharper\Step3_Repair\reports\cfg_analyzer.log"
-Write-Host "  Repair plan (Step 3): Sharper\Step3_Repair\reports\repair_plan.json"
-Write-Host "  Patches (Step 3):     Sharper\Step3_Repair\reports\patches\"
-
-#--- Collect this run's outputs into results\run-<timestamp>-<target>\
-if ($OutputDir) {
-    $resultsDir = if ([IO.Path]::IsPathRooted($OutputDir)) { $OutputDir } else { Join-Path $repoRoot $OutputDir }
-} else {
-    $resultsDir = Join-Path $repoRoot ("results\run-{0}-{1}" -f $runStart.ToString("yyyyMMdd-HHmmss"), (Split-Path $SourceDir -Leaf))
+Write-Host ">>> STEP 3: Build CFG and Path Conditions <<<" -ForegroundColor Cyan
+dotnet build $cfgAnalyzerProj --verbosity minimal
+if ($LASTEXITCODE -ne 0) { throw "CFGAnalyzer build failed." }
+$cfgArgs = @($Solution, "--violations", $violationsPath, "--output-dir", $step3Out)
+if ($ValidationRoot) {
+    $cfgArgs += @("--validation-root", $ValidationRoot, "--test-project", $DriverProject, "--reproducer-filter", $ReproducerFilter)
 }
-
-function Copy-RunOutputs([string]$From, [string]$To) {
-    # Only files written during this run, so leftovers from earlier runs are not mixed in.
-    if (-not (Test-Path $From)) { return }
-    $fromRoot = (Resolve-Path $From).Path
-    Get-ChildItem -Path $fromRoot -Recurse -File | Where-Object { $_.LastWriteTime -ge $runStart } | ForEach-Object {
-        $target = Join-Path $To $_.FullName.Substring($fromRoot.Length).TrimStart('\')
-        New-Item -ItemType Directory -Path (Split-Path $target) -Force | Out-Null
-        Copy-Item $_.FullName $target -Force
-    }
-}
-
-New-Item -ItemType Directory -Path $resultsDir -Force | Out-Null
-$step1Out = Join-Path $resultsDir "step1_traces"
-New-Item -ItemType Directory -Path $step1Out -Force | Out-Null
-Copy-Item (Join-Path $repoRoot "Sharper\Step1_Tracing\trace_logs.jsonl") $step1Out -ErrorAction SilentlyContinue
-Copy-RunOutputs (Join-Path $repoRoot "Sharper\Step2_Constraints\reports") (Join-Path $resultsDir "step2_constraints")
-Copy-RunOutputs $cfgReportDir (Join-Path $resultsDir "step3_repairs")
-
-Write-Host ""
-Write-Host "Results collected in: $resultsDir" -ForegroundColor Green
-Write-Host "  step1_traces\       trace_logs.jsonl"
-Write-Host "  step2_constraints\  violations.json"
-Write-Host "  step3_repairs\      cfg_analyzer.log, repair_plan.json, patches\"
+if ($ApplyPatches) { $cfgArgs += "--apply-patches" }
+if ($RestorePatches) { $cfgArgs += "--restore" }
+& dotnet run --project $cfgAnalyzerProj --no-build -- @cfgArgs |
+    Tee-Object -FilePath $cfgReportLog
+if ($LASTEXITCODE -ne 0) { throw "CFGAnalyzer failed (exit $LASTEXITCODE). See $cfgReportLog" }
+if (-not (Test-Path (Join-Path $step3Out "repair_plan.json"))) { throw "CFGAnalyzer produced no repair plan." }
+Write-Host "Full pipeline complete. Results: $OutputDir" -ForegroundColor Green
+exit 0

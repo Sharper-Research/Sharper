@@ -4,7 +4,7 @@ Sharper is a C# research prototype for trace-guided fault analysis and repair ca
 
 ## Quick start
 
-Requirements: Windows x64, .NET 10 SDK, PowerShell, and NuGet access. From the repository root:
+Requirements for the native route: Windows x64, .NET 10 SDK, PowerShell, and NuGet access (or use [Docker](#kick-the-tires-about-2-minutes) on any OS). From the repository root:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\run_quick_test.ps1    # one benchmark, prints QUICK TEST PASSED
@@ -22,8 +22,10 @@ Both scripts run the full pipeline (trace, detect, analyze and repair) and write
 | Windows 10/11 x64 | Sharper's scripts and the Z3 native library target Windows x64. |
 | .NET 10 SDK | `dotnet --list-sdks` should show a `10.0.x` entry. |
 | PowerShell | Windows PowerShell 5.1 (built into Windows) or PowerShell 7. |
+| Visual C++ 2015-2022 Redistributable, x64 | Required by Z3's native DLL. [Microsoft installer](https://aka.ms/vs/17/release/vc_redist.x64.exe); `Dockerfile.windows` installs it automatically. |
 | NuGet access | Packages are restored on the first build. |
-| Docker Desktop in **Windows containers** mode | Only for the Docker route. Windows containers need Windows 10/11 Pro, Enterprise, or Education, or Windows Server 2022. Docker Desktop on Windows Home runs Linux containers only and cannot build this image. |
+| Docker (Linux containers) | Only for the Docker route; replaces all requirements above. Works with Docker on Linux, macOS, and Windows (Docker Desktop's default Linux-containers mode). |
+| Docker in **Windows containers** mode | Only for the optional `Dockerfile.windows` route. Needs Windows 10/11 Pro, Enterprise, or Education (with the Hyper-V and Containers features enabled) or Windows Server 2022. |
 
 ### Kick the tires (about 2 minutes)
 
@@ -35,20 +37,36 @@ The quick test runs the whole pipeline on the `MicrosoftBugDemo` benchmark and c
 powershell -ExecutionPolicy Bypass -File .\run_quick_test.ps1
 ```
 
-**Docker** (Windows containers mode):
+**Docker** (Linux containers; any OS):
 
-```powershell
+```sh
 docker build -t sharper-artifact .
 docker run --rm sharper-artifact
 ```
 
-To keep the container's results on the host, mount the `results` folder:
+To keep the container's results on the host, mount the `results` folder
+(PowerShell: use `"${PWD}/results:/sharper/results"`):
 
-```powershell
-docker run --rm -v "${PWD}\results:C:\sharper\results" sharper-artifact
+```sh
+docker run --rm -v "$PWD/results:/sharper/results" sharper-artifact
 ```
 
-The image is based on `mcr.microsoft.com/dotnet/sdk:10.0-windowsservercore-ltsc2022`, installs the Visual C++ runtime required by Z3, builds `Sharper.sln`, and runs `run_quick_test.ps1` by default.
+The image is based on `mcr.microsoft.com/dotnet/sdk:10.0` (Ubuntu, includes `pwsh`) for `linux/amd64`.
+Because the Microsoft.Z3 NuGet package has no Linux native library, the image downloads the
+official Z3 4.12.2 Linux build (SHA-256 checked) and its OpenMP runtime. It then builds
+`Sharper.sln` and runs `run_quick_test.ps1` by default. On Apple silicon, Docker runs the
+image under amd64 emulation, which is slower.
+The solution includes all four benchmark libraries and test drivers, so their
+packages are restored during the image build.
+
+**Docker** (Windows containers mode, optional):
+
+```powershell
+docker build -f Dockerfile.windows -t sharper-artifact-win .
+docker run --rm -v "${PWD}\results:C:\sharper\results" sharper-artifact-win
+```
+
+`Dockerfile.windows` is based on `mcr.microsoft.com/dotnet/sdk:10.0-windowsservercore-ltsc2022` and installs the Visual C++ runtime required by Z3.
 
 ### Reproduce the evaluation
 
@@ -57,20 +75,50 @@ powershell -ExecutionPolicy Bypass -File .\run_experiments.ps1
 powershell -ExecutionPolicy Bypass -File .\run_experiments.ps1 -Only MicrosoftBugDemo   # selected benchmarks only
 ```
 
+To run all four benchmarks in Docker and retain the results:
+
+```sh
+mkdir -p results
+docker run --rm -v "$PWD/results:/sharper/results" sharper-artifact ./run_experiments.ps1
+```
+
 The script runs the pipeline on every folder in `benchmarks\`, starting with `MicrosoftBugDemo`. For each benchmark it writes:
 
 ```
 results\experiments\
 ├── summary.csv                       one row per benchmark: status, violations, repair items, patches
+├── environment.json                  OS, architecture, SDK and PowerShell versions
 └── <BenchmarkName>\
+    ├── original-source-sha256.json    source hashes checked after restoring instrumentation
     ├── pipeline.log                  full console output of the run
-    ├── step1_traces\                 trace_logs.jsonl (recorded execution events)
+    ├── baseline\                     baseline.trx (original, uninstrumented tests)
+    ├── step1_traces\                 trace_logs.jsonl and instrumented.trx
     ├── step2_constraints\            violations.json (detected violations and their predicates)
     └── step3_repairs\                cfg_analyzer.log, repair_plan.json (model checks, candidate status)
         └── patches\                  generated *.diff and *.patched.cs files
 ```
 
 The script exits with code 1 if any benchmark fails. A failing benchmark does not stop the others.
+
+Expected `summary.csv` (identical on Windows and in the Linux Docker image; the full run takes a few minutes):
+
+| Benchmark | Status | Baseline passed / failed | Violations | Repair items | Patches |
+|---|---|---|---:|---:|---:|
+| MicrosoftBugDemo | Passed | 2 / 1 | 1 | 1 | 1 |
+| HtmlSanitizer | Passed | 198 / 0 | 2 | 2 | 2 |
+| PaperArrayBounds | Passed | 1 / 3 | 4 | 4 | 3 |
+| ThrottleDebounce | Passed | 110 / 0 | 10 | 10 | 0 |
+
+It rejects unknown benchmark names, missing/empty traces, missing reports, and
+unexpected baseline test failures. `Passed` means that the benchmark's artifact
+checks completed, not that the faulty baseline passed its tests or that every
+candidate is correct. The summary records baseline passing/failing test counts.
+The array example additionally requires a model-checked, test-accepted candidate.
+ThrottleDebounce is a negative control: its expected outcome is intentional
+exception classifications and zero patches, not a fabricated repair.
+All outputs are written directly beneath the selected results directory, including
+partial evidence from a failed pipeline; no intermediate reports are written into
+the tool's source directories.
 
 ### Benchmark mapping
 
@@ -79,6 +127,18 @@ Benchmarks live under `benchmarks/`, one folder per benchmark. For each folder, 
 | Benchmark | Library under repair | Test driver | Fault exercised |
 |---|---|---|---|
 | `benchmarks/MicrosoftBugDemo` | `RuntimeCode/RuntimeCode.csproj` | `RuntimeCode.Tests/RuntimeCode.Tests.csproj` | Null dereference in `MemberMethodResolver.CheckShouldPersist` when the `ShouldSerialize*` method is declared on a base class |
+| `benchmarks/HtmlSanitizer` | `src/HtmlSanitizer/HtmlSanitizer.csproj` | `test/HtmlSanitizer.Tests/HtmlSanitizer.Tests.csproj` | Historical sanitizer exception-trace case; upstream tests include intentionally thrown exceptions |
+| `benchmarks/ThrottleDebounce` | `ThrottleDebounce/ThrottleDebounce.csproj` | `Tests/Tests.csproj` | Negative control: intentional argument checks, test-fixture exceptions, and documented cancellation must not be patched |
+| `benchmarks/PaperArrayBounds` | `Listing.csproj` | `Listing.Tests/Listing.Tests.csproj` | Paper's two-loop, fixed-size array example; out-of-bounds writes in both loops |
+
+See [benchmark provenance and expected behavior](benchmarks/README.md) for exact
+historical commits, local project adaptations, licensing, and interpretation.
+The sanitizer and throttle/debounce cases are not claims of verified upstream
+bugs or repairs. Their original tests must pass before instrumentation.
+HtmlSanitizer runs all 198 tests in the clean baseline; its instrumented run
+excludes only the 16,000-invocation `ThreadTest` stress harness (197 tests traced).
+Tracing still takes longer than ordinary test execution and can produce roughly
+100 MB for this benchmark; allow several minutes for the full evaluation.
 
 Generated patches and logs land under `results/<run-id>/step3_repairs/patches`, where `<run-id>` is:
 
@@ -89,6 +149,8 @@ Generated patches and logs land under `results/<run-id>/step3_repairs/patches`, 
 | `Sharper/run_all.ps1` called directly | `run-<yyyyMMdd-HHmmss>-<source folder>` |
 
 Each folder has the same `step1_traces`, `step2_constraints`, and `step3_repairs` layout. Fixed run IDs are cleared before each run. The contents of `results/` are git-ignored.
+Copy the desired results into the submission archive explicitly if saved evidence
+is required; a source checkout alone does not include ignored results.
 
 The instrumenter temporarily rewrites benchmark source files. Both scripts restore the original sources (`*.cs.bak` back to `*.cs`, generated `TraceLogger.cs` removed) before and after every run, including runs that fail or are interrupted.
 
@@ -109,6 +171,7 @@ To run the pipeline on a project of your own, call `Sharper\run_all.ps1` directl
 ```
 
 Optional parameters: `-OutputDir <folder>` to choose the results folder, and `-ValidationRoot <folder> -ReproducerFilter <test filter>` together to validate candidates against tests.
+`-TestFilter <VSTest filter>` limits only the instrumented trace-driving tests.
 
 ## Repository layout
 
@@ -117,9 +180,27 @@ Optional parameters: `-OutputDir <folder>` to choose the results folder, and `-V
 | `Sharper/` | Pipeline implementation: `Step1_Tracing` (instrumenter), `Step2_Constraints` (violation detection), `Step3_Repair/CFGAnalyzer` (Roslyn analysis, Z3 checks, patch generation and validation), `run_all.ps1` |
 | `benchmarks/` | Programs under evaluation |
 | `results/` | Run outputs (git-ignored) |
-| `review/` | Fixtures, models, and saved evidence from an earlier recorded artifact run |
 | `run_quick_test.ps1`, `run_experiments.ps1` | Entry points for artifact evaluation |
-| `Dockerfile` | Windows container image for the quick test |
+| `Dockerfile` | Linux container image (default Docker route) |
+| `Dockerfile.windows` | Windows container image (optional Docker route) |
+
+The paper's array-bounds example lives in `benchmarks/PaperArrayBounds`.
+
+### Submission checks
+
+```powershell
+dotnet build .\Sharper.sln
+dotnet test .\Sharper\Step3_Repair\CFGAnalyzer\CFGAnalyzer.Tests\CFGAnalyzer.Tests.csproj `
+  --logger "trx;LogFileName=analyzer-suite.trx" --results-directory .\results\tool-tests
+powershell -ExecutionPolicy Bypass -File .\run_quick_test.ps1
+powershell -ExecutionPolicy Bypass -File .\run_experiments.ps1
+```
+
+Do not use `dotnet test Sharper.sln` as a success check: the Microsoft and array
+benchmarks intentionally contain failing baseline regression tests. Inspect
+`results/experiments/summary.csv`, the TRX reports, and candidate model/validation
+statuses. Keep build and run evidence with the submission. Restoring historical benchmarks can report NuGet advisories;
+their pinned dependencies are retained for research reproducibility.
 
 ## Scope
 

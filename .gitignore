@@ -23,10 +23,6 @@ Program_Instrumented.cs
 Sharper/Step1_Tracing/trace_logs*
 Sharper/Step2_Constraints/reports/
 Sharper/Step3_Repair/reports/
-review/*.zip
-review/rerun*/
-review/jsonconverter-run/
-!review/verified-run/**/*.log
 
-# Sharper run outputs (Sharper/run_test_case.ps1)
+# Sharper run outputs
 results/*

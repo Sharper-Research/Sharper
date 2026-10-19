@@ -1,7 +1,0 @@
-{
-  "Status": "Evaluated",
-  "IsCandidate": true,
-  "Reason": "Evaluated the corrected fixed-predicate Root definition",
-  "Rule": "Root-ObservedActivation-v1",
-  "Scope": "Slice-relevant, validated observed activation of one fixed predicate; not counterfactual causality, uniqueness, minimality, or a repair-synthesis rule"
-}

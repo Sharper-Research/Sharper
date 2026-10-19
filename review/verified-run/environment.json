@@ -1,9 +1,0 @@
-﻿{
-    "captured_utc":  "2026-09-29T21:53:46.3579178Z",
-    "os":  "Microsoft Windows NT 10.0.26200.0",
-    "architecture":  "AMD64",
-    "dotnet_sdk":  "10.0.401",
-    "powershell":  "5.1.26100.9549",
-    "elapsed_seconds":  78.352,
-    "timing_scope":  "Single local reproduction including build, tests, tracing, solver checks and acceptance gates; not a benchmark"
-}

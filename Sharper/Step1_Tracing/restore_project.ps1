@@ -3,7 +3,7 @@ param([string]$targetDir)
 $ErrorActionPreference = "Stop"
 
 if ([string]::IsNullOrEmpty($targetDir)) {
-    $targetDir = Join-Path $PSScriptRoot "..\..\review\fixtures\runtime\RuntimeCode"
+    $targetDir = Join-Path $PSScriptRoot "../../benchmarks/MicrosoftBugDemo/RuntimeCode"
 }
 
 if (!(Test-Path $targetDir)) {
@@ -36,3 +36,5 @@ foreach ($bak in $bakFiles) {
 }
 
 Write-Host "=== Restoration Complete ===" -ForegroundColor Green
+# Callers check $LASTEXITCODE; set it explicitly so a stale code from an earlier command is not reported.
+exit 0

@@ -10,6 +10,7 @@
 
 # Not needed in the image
 AutoRepair/
+.venv/
 
 # Run outputs and leftover instrumentation (generated inside the container)
 results/*
@@ -19,6 +20,3 @@ Sharper/Step2_Constraints/reports/
 Sharper/Step3_Repair/reports/
 **/*.cs.bak
 **/TraceLogger.cs
-review/rerun*/
-review/jsonconverter-run/
-review/*.zip
