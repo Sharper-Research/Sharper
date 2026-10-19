@@ -1,0 +1,27 @@
+# escape=`
+# Windows container for Sharper. Requires Docker in Windows-containers mode.
+#   docker build -t sharper .
+#   docker run --rm sharper                                         (runs run_quick_test.ps1)
+#   docker run --rm -v "${PWD}\results:C:\sharper\results" sharper  (keeps results on the host)
+FROM mcr.microsoft.com/dotnet/sdk:10.0-windowsservercore-ltsc2022
+
+SHELL ["powershell", "-NoProfile", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
+
+# Microsoft.Z3's native libz3.dll imports VCRUNTIME140/MSVCP140, which Server Core does not ship.
+RUN Invoke-WebRequest https://aka.ms/vs/17/release/vc_redist.x64.exe -OutFile C:\vc_redist.x64.exe; `
+    $p = Start-Process C:\vc_redist.x64.exe -ArgumentList '/install', '/quiet', '/norestart' -Wait -PassThru; `
+    Remove-Item C:\vc_redist.x64.exe; `
+    if ($p.ExitCode -notin 0, 3010) { throw "vc_redist failed with exit code $($p.ExitCode)" }
+
+ENV DOTNET_CLI_TELEMETRY_OPTOUT=1 `
+    DOTNET_NOLOGO=1
+
+WORKDIR C:\sharper
+COPY . .
+
+# Restore and build Sharper, and restore the benchmark test projects that the pipeline runs.
+RUN dotnet restore Sharper.sln
+RUN dotnet restore benchmarks\MicrosoftBugDemo\MicrosoftBugDemo.slnx
+RUN dotnet build Sharper.sln --no-restore
+
+ENTRYPOINT ["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-File", ".\\run_quick_test.ps1"]

@@ -4,13 +4,15 @@ param(
     [string]$Solution = "",
     [string]$ValidationRoot = "",
     [string]$ReproducerFilter = "",
+    [string]$OutputDir = "",
     [switch]$ApplyPatches,
     [switch]$RestorePatches
 )
 
 $ErrorActionPreference = "Stop"
+$runStart = Get-Date
 
-$repoRoot         = Resolve-Path (Join-Path $PSScriptRoot "..")
+$repoRoot        = Resolve-Path (Join-Path $PSScriptRoot "..")
 $step1Script      = Join-Path $repoRoot "Sharper\Step1_Tracing\generate_trace.ps1"
 $restoreScript    = Join-Path $repoRoot "Sharper\Step1_Tracing\restore_project.ps1"
 $step2Script      = Join-Path $repoRoot "Sharper\Step2_Constraints\analyze_trace.ps1"
@@ -92,3 +94,34 @@ Write-Host "  Constraints (Step 2): Sharper\Step2_Constraints\reports\violations
 Write-Host "  CFG (Step 3):         Sharper\Step3_Repair\reports\cfg_analyzer.log"
 Write-Host "  Repair plan (Step 3): Sharper\Step3_Repair\reports\repair_plan.json"
 Write-Host "  Patches (Step 3):     Sharper\Step3_Repair\reports\patches\"
+
+#--- Collect this run's outputs into results\run-<timestamp>-<target>\
+if ($OutputDir) {
+    $resultsDir = if ([IO.Path]::IsPathRooted($OutputDir)) { $OutputDir } else { Join-Path $repoRoot $OutputDir }
+} else {
+    $resultsDir = Join-Path $repoRoot ("results\run-{0}-{1}" -f $runStart.ToString("yyyyMMdd-HHmmss"), (Split-Path $SourceDir -Leaf))
+}
+
+function Copy-RunOutputs([string]$From, [string]$To) {
+    # Only files written during this run, so leftovers from earlier runs are not mixed in.
+    if (-not (Test-Path $From)) { return }
+    $fromRoot = (Resolve-Path $From).Path
+    Get-ChildItem -Path $fromRoot -Recurse -File | Where-Object { $_.LastWriteTime -ge $runStart } | ForEach-Object {
+        $target = Join-Path $To $_.FullName.Substring($fromRoot.Length).TrimStart('\')
+        New-Item -ItemType Directory -Path (Split-Path $target) -Force | Out-Null
+        Copy-Item $_.FullName $target -Force
+    }
+}
+
+New-Item -ItemType Directory -Path $resultsDir -Force | Out-Null
+$step1Out = Join-Path $resultsDir "step1_traces"
+New-Item -ItemType Directory -Path $step1Out -Force | Out-Null
+Copy-Item (Join-Path $repoRoot "Sharper\Step1_Tracing\trace_logs.jsonl") $step1Out -ErrorAction SilentlyContinue
+Copy-RunOutputs (Join-Path $repoRoot "Sharper\Step2_Constraints\reports") (Join-Path $resultsDir "step2_constraints")
+Copy-RunOutputs $cfgReportDir (Join-Path $resultsDir "step3_repairs")
+
+Write-Host ""
+Write-Host "Results collected in: $resultsDir" -ForegroundColor Green
+Write-Host "  step1_traces\       trace_logs.jsonl"
+Write-Host "  step2_constraints\  violations.json"
+Write-Host "  step3_repairs\      cfg_analyzer.log, repair_plan.json, patches\"

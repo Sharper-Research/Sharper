@@ -27,3 +27,6 @@ review/*.zip
 review/rerun*/
 review/jsonconverter-run/
 !review/verified-run/**/*.log
+
+# Sharper run outputs (Sharper/run_test_case.ps1)
+results/*
