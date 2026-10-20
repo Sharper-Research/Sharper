@@ -1,3 +1,4 @@
+#Requires -Version 5.1
 # Quick smoke test: runs the full Sharper pipeline on the MicrosoftBugDemo benchmark
 # and passes if Step 3 produced candidate patches.
 $ErrorActionPreference = "Stop"

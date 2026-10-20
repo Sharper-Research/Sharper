@@ -1,3 +1,4 @@
+#Requires -Version 5.1
 param(
     [string]$SourceDir = "",
     [string]$DriverProject = "",

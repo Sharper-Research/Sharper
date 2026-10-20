@@ -1,3 +1,4 @@
+#Requires -Version 5.1
 # Runs the full Sharper pipeline on every folder in .\benchmarks\ (MicrosoftBugDemo first)
 # and saves each run under .\results\experiments\<BenchmarkName>\.
 param(
@@ -43,14 +44,15 @@ foreach ($name in $Only) {
     if ($benchmarks.Name -notcontains $name) { throw "Unknown benchmark: $name" }
 }
 New-Item -ItemType Directory -Path $experimentsDir -Force | Out-Null
-$sdk = (& dotnet --version | Out-String).Trim()
+$sdk = ([string](& dotnet --version | Out-String)).Trim()
 if ($LASTEXITCODE -ne 0) { throw "Could not identify the .NET SDK." }
+# Cast to [string] rather than calling .ToString(): a null here must not abort the whole run.
 [ordered]@{
-    CapturedUtc = [DateTime]::UtcNow.ToString("o")
-    OS = [Runtime.InteropServices.RuntimeInformation]::OSDescription
-    Architecture = [Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString()
+    CapturedUtc = (Get-Date).ToUniversalTime().ToString("o")
+    OS = [string][Environment]::OSVersion.VersionString
+    Architecture = if ([Environment]::Is64BitOperatingSystem) { "x64" } else { "x86" }
     DotnetSdk = $sdk
-    PowerShell = $PSVersionTable.PSVersion.ToString()
+    PowerShell = [string]$PSVersionTable.PSVersion
 } | ConvertTo-Json | Set-Content (Join-Path $experimentsDir "environment.json") -Encoding UTF8
 $expectedFailures = @{ MicrosoftBugDemo = 1; HtmlSanitizer = 0; ThrottleDebounce = 0; PaperArrayBounds = 3 }
 
