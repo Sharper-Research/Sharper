@@ -1,0 +1,17 @@
+using System;
+class Program
+{
+    static void ProcessBuffers(int check, int i) {
+        Span<int> buf1 = stackalloc int[5]; Span<int> buf2 = stackalloc int[2];
+
+        while (i < check) {
+            buf1[i] = i + 1;
+            ++i;
+        }
+        // ....
+        while (i >= 0) {
+            buf2[i] = i + 1;
+            --i;
+        }
+    }
+}

@@ -129,7 +129,7 @@ Benchmarks live under `benchmarks/`, one folder per benchmark. For each folder, 
 | `benchmarks/MicrosoftBugDemo` | `RuntimeCode/RuntimeCode.csproj` | `RuntimeCode.Tests/RuntimeCode.Tests.csproj` | Null dereference in `MemberMethodResolver.CheckShouldPersist` when the `ShouldSerialize*` method is declared on a base class |
 | `benchmarks/HtmlSanitizer` | `src/HtmlSanitizer/HtmlSanitizer.csproj` | `test/HtmlSanitizer.Tests/HtmlSanitizer.Tests.csproj` | Historical sanitizer exception-trace case; upstream tests include intentionally thrown exceptions |
 | `benchmarks/ThrottleDebounce` | `ThrottleDebounce/ThrottleDebounce.csproj` | `Tests/Tests.csproj` | Negative control: intentional argument checks, test-fixture exceptions, and documented cancellation must not be patched |
-| `benchmarks/PaperArrayBounds` | `Listing.csproj` | `Listing.Tests/Listing.Tests.csproj` | Paper's two-loop, fixed-size array example; out-of-bounds writes in both loops |
+| `benchmarks/PaperArrayBounds` | `Listing.csproj` | `Listing.Tests/Listing.Tests.csproj` | Runnable `int[]` adaptation of paper Listing 1.1; out-of-bounds writes in both loops |
 
 See [benchmark provenance and expected behavior](benchmarks/README.md) for exact
 historical commits, local project adaptations, licensing, and interpretation.
@@ -184,7 +184,14 @@ Optional parameters: `-OutputDir <folder>` to choose the results folder, and `-V
 | `Dockerfile` | Linux container image (default Docker route) |
 | `Dockerfile.windows` | Windows container image (optional Docker route) |
 
-The paper's array-bounds example lives in `benchmarks/PaperArrayBounds`.
+The original paper Listing 1.1 is included as
+[Listing.paper.cs.txt](benchmarks/PaperArrayBounds/Listing.paper.cs.txt), a reference
+file excluded from compilation and instrumentation. It uses `Span<int>` with
+`stackalloc`; the runnable [Listing.cs](benchmarks/PaperArrayBounds/Listing.cs)
+uses `int[]` instead. The source model supports fixed-size `Int32` arrays, not
+span/stack-allocation semantics. Reported test and model-check results apply only
+to the array adaptation. See the [benchmark notes](benchmarks/README.md#paper-example)
+for the exact differences.
 
 ### Submission checks
 

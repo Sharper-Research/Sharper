@@ -9,7 +9,7 @@ project files target .NET 10 so the artifact needs only one SDK/runtime.
 | `MicrosoftBugDemo` | Existing extracted .NET reflection regression in this repository | 2 tests pass; 1 fails with a null dereference when a method is inherited. |
 | `HtmlSanitizer` | [mganss/HtmlSanitizer](https://github.com/mganss/HtmlSanitizer/tree/7417120cfabea9f359b56f8de6f492adbb0e57da), commit `7417120cfabea9f359b56f8de6f492adbb0e57da`; recovered from `AutoRepair/multi_repo_workspace/summary.json` in Sharper commit `1a0e4b364^` | Upstream tests should pass. Deliberate exceptions exercised by these tests are not evidence of an upstream bug. |
 | `ThrottleDebounce` | Original source/tests from Sharper demo branch commit `750c82385c83dc03283692f3b33ce7b25e832852`, directory `ThrottleDebounce`; upstream [Aldaviva/ThrottleDebounce](https://github.com/Aldaviva/ThrottleDebounce) | All 110 tests should pass. Invalid-argument, fixture, and cancellation exceptions must be classified as intentional and produce **no patches**. |
-| `PaperArrayBounds` | Former `review/fixtures/listing` in this repository | Of 4 tests, 1 passes and 3 fail before repair. The tests express the desired repaired behavior, not expected-exception assertions. |
+| `PaperArrayBounds` | Array adaptation of paper Listing 1.1 (former `review/fixtures/listing`); original listing included separately | Of 4 tests, 1 passes and 3 fail before repair. The tests express the desired repaired behavior, not expected-exception assertions. |
 
 ## Local project adaptations
 
@@ -31,7 +31,21 @@ project files target .NET 10 so the artifact needs only one SDK/runtime.
 
 ## Paper example
 
-`PaperArrayBounds/Listing.cs` allocates buffers of lengths 5 and 2. With `check = 6`
+[Listing.paper.cs.txt](PaperArrayBounds/Listing.paper.cs.txt) reproduces the C# code
+in the submitted paper's Listing 1.1, without its printed line numbers. It uses
+`Span<int>` and `stackalloc`. The `.cs.txt` extension keeps this reference listing
+out of compilation and instrumentation; the experiment runner does not execute it.
+
+[Listing.cs](PaperArrayBounds/Listing.cs) is the runnable adaptation, not the exact
+paper listing. It replaces the stack-allocated spans with heap-allocated `int[]`
+buffers and makes the class and method public for the test project. The loop
+conditions, writes, increments/decrements, and buffer lengths are retained.
+The source model supports fixed-size `Int32` arrays, not `Span<int>`/`stackalloc`.
+Consequently, the artifact's model-check and test results below apply to the array
+adaptation only; they do not verify the original listing's span or stack-allocation
+semantics.
+
+The adaptation allocates buffers of lengths 5 and 2. With `check = 6`
 and `i = 0`, the first loop attempts `buf1[5]`. Fixing only that loop still leaves
 the second loop capable of indexing beyond `buf2.Length`. The regression tests
 also cover a negative initial index, an oversized initial index, and a valid
