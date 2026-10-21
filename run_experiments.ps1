@@ -45,66 +45,42 @@ function Get-TrxCounters([string]$trxPath) {
     }
 }
 
-function Assert-JsonConverterClaims($target, [string]$outputDir, $violations, $plan) {
-    # Checks each JsonConverter claim of the paper's Section 3 and records the evidence in paper-claims.json.
+function Assert-JsonConverterRegression([string]$outputDir, [int]$violationCount, [int]$repairCount, [int]$patchCount) {
     $baseline = Get-TrxCounters (Join-Path $outputDir "baseline/baseline.trx")
-    if ($baseline.Passed -ne 174 -or $baseline.Skipped -ne 6 -or $baseline.Failed -ne 0) {
+    if ($baseline.Total -ne 180 -or $baseline.Passed -ne 174 -or $baseline.Skipped -ne 6 -or $baseline.Failed -ne 0) {
         throw "Clean JsonConverter suite should give 174 passed / 6 skipped; got $($baseline.Passed) / $($baseline.Skipped)."
     }
-
+    $traced = Get-TrxCounters (Join-Path $outputDir "step1_traces/instrumented.trx")
+    foreach ($counter in $baseline.Keys) {
+        if ($traced[$counter] -ne $baseline[$counter]) {
+            throw "JsonConverter instrumentation changed $counter from $($baseline[$counter]) to $($traced[$counter])."
+        }
+    }
+    [xml]$clean = Get-Content (Join-Path $outputDir "baseline/baseline.trx") -Raw
     [xml]$instrumented = Get-Content (Join-Path $outputDir "step1_traces/instrumented.trx") -Raw
-    $failure = @($instrumented.SelectNodes("//*[local-name()='UnitTestResult']") | Where-Object {
-        $_.testName -eq "ArrayAndListDeserializationTests" -and $_.outcome -eq "Failed" -and $_.InnerXml -match "IndexOutOfRangeException" })
-    if ($failure.Count -eq 0) { throw "Recorded run did not report ArrayAndListDeserializationTests failing with IndexOutOfRangeException." }
-
-    $boundsViolation = @($violations | Where-Object {
-        $_.predicate -like "BufferInBounds*" -and $_.file -eq "PocoJsonSerializerStrategy.cs" -and
-        $_.bindings.'index:list' -eq 3 -and $_.bindings.'heap.size(list)' -eq 2 -and
-        (@($_.bindings.'list.contents') -join ",") -eq "null,English" }) | Select-Object -First 1
-    if (-not $boundsViolation) { throw "Trace did not show the array [null, English] of length 2 written at index 3." }
-
-    $sourceFile = Join-Path $target.SourceDir "PocoJsonSerializerStrategy.cs"
-    $writeLine = (Get-Content $sourceFile)[$boundsViolation.line - 1]
-    if ($writeLine -notmatch 'list\[i\+\+\]\s*=') { throw "Violation line $($boundsViolation.line) is not the list[i++] write." }
-
-    # The method-level candidate: the body of DeserializeObject wrapped in try/catch that logs and returns default.
-    $methodGuard = '(?s)DeserializeObject\(object\? value, Type type\)\s*\{\s*//[^\n]*\n\s*try\s*\{.*' +
-        'catch \(System\.IndexOutOfRangeException (\w+)\)\s*\{\s*System\.Diagnostics\.Debug\.WriteLine\([^;]*\1\);\s*return default!;'
-    $candidate = @($plan.Items | Where-Object { $_.PatchedFilePath -and (Test-Path $_.PatchedFilePath) -and
-        (Get-Content $_.PatchedFilePath -Raw) -match $methodGuard }) | Select-Object -First 1
-    if (-not $candidate) { throw "No candidate wraps the DeserializeObject body in a logging try/catch that returns default." }
-
-    # Apply that candidate to an isolated copy of the unmodified benchmark and run the full suite.
-    $benchmarkRoot = Split-Path (Split-Path $target.SourceDir)
-    $sandbox = Join-Path ([IO.Path]::GetTempPath()) ("Sharper-jsonconverter-" + [guid]::NewGuid().ToString("N"))
-    try {
-        Copy-Item $benchmarkRoot $sandbox -Recurse
-        Get-ChildItem $sandbox -Recurse -Directory -Include bin, obj | Remove-Item -Recurse -Force
-        $relativeSource = $sourceFile.Substring($benchmarkRoot.Length).TrimStart('\', '/')
-        $relativeTest = $target.DriverProject.Substring($benchmarkRoot.Length).TrimStart('\', '/')
-        Copy-Item $candidate.PatchedFilePath (Join-Path $sandbox $relativeSource) -Force
-        $patchedDir = Join-Path $outputDir "patched-suite"
-        & dotnet test (Join-Path $sandbox $relativeTest) --verbosity minimal --logger "trx;LogFileName=patched.trx" `
-            --results-directory $patchedDir | Out-Host
-        if ($LASTEXITCODE -ne 0) { throw "Patched JsonConverter suite failed (exit $LASTEXITCODE)." }
-        $patched = Get-TrxCounters (Join-Path $patchedDir "patched.trx")
-    } finally {
-        if (Test-Path $sandbox) { Remove-Item $sandbox -Recurse -Force }
+    $cleanResults = @($clean.SelectNodes("//*[local-name()='UnitTestResult']") |
+        ForEach-Object { "$($_.testId):$($_.testName):$($_.outcome)" } | Sort-Object)
+    $tracedResults = @($instrumented.SelectNodes("//*[local-name()='UnitTestResult']") |
+        ForEach-Object { "$($_.testId):$($_.testName):$($_.outcome)" } | Sort-Object)
+    if (@(Compare-Object $cleanResults $tracedResults).Count -ne 0) {
+        throw "JsonConverter clean and instrumented test identities/outcomes differ."
     }
-    if ($patched.Passed -ne 174 -or $patched.Skipped -ne 6 -or $patched.Failed -ne 0) {
-        throw "Patched JsonConverter suite should give 174 passed / 6 skipped; got $($patched.Passed) / $($patched.Skipped)."
+    $arrayTest = @($instrumented.SelectNodes("//*[local-name()='UnitTestResult']") | Where-Object {
+        $_.testName -eq "ArrayAndListDeserializationTests" -and $_.outcome -eq "Passed" })
+    if ($arrayTest.Count -ne 1) { throw "The paper's ArrayAndListDeserializationTests must execute and pass unchanged." }
+    if ($violationCount -ne 0 -or $repairCount -ne 0 -or $patchCount -ne 0) {
+        throw "JsonConverter must not produce spurious violations or repair candidates after fixing index tracing."
     }
-
     [ordered]@{
-        RecordedFailure = [ordered]@{ Test = "ArrayAndListDeserializationTests"; Exception = "System.IndexOutOfRangeException" }
-        ArrayWrite = [ordered]@{ File = $boundsViolation.file; Line = $boundsViolation.line; Statement = $writeLine.Trim()
-            Contents = @($boundsViolation.bindings.'list.contents'); Length = $boundsViolation.bindings.'heap.size(list)'
-            Index = $boundsViolation.bindings.'index:list'; Predicate = $boundsViolation.predicate }
-        MethodGuardPatch = $candidate.DiffPath
         CleanSuite = $baseline
-        PatchedSuite = $patched
-    } | ConvertTo-Json -Depth 5 | Set-Content (Join-Path $outputDir "paper-claims.json") -Encoding UTF8
-    Write-Host "JsonConverter: all Section 3 claims reproduced (see paper-claims.json)" -ForegroundColor Green
+        InstrumentedSuite = $traced
+        ArrayAndListDeserializationTests = "Passed"
+        TestIdentitiesAndOutcomesUnchanged = $true
+        Violations = 0
+        Patches = 0
+        PaperSection3 = "Not reproduced after correcting instrumentation: the historical exception was introduced by repeated evaluation of i++ in trace logging, not demonstrated in the unchanged library."
+    } | ConvertTo-Json -Depth 5 | Set-Content (Join-Path $outputDir "regression-check.json") -Encoding UTF8
+    Write-Host "JsonConverter regression passed; the paper's historical repair claim is not reproduced." -ForegroundColor Yellow
 }
 
 $benchmarks = Get-ChildItem (Join-Path $root "benchmarks") -Directory |
@@ -187,7 +163,11 @@ foreach ($benchmark in $benchmarks) {
         $violationCount = @($violations).Count
         $repairCount = @($plan.Items).Count
         $patchCount = @(Get-ChildItem (Join-Path $outputDir "step3_repairs/patches") -Filter *.diff -ErrorAction SilentlyContinue).Count
-        if ($violationCount -eq 0 -or $repairCount -eq 0) { throw "No violations or repair items were produced." }
+        if ($benchmark.Name -eq "JsonConverter") {
+            Assert-JsonConverterRegression $outputDir $violationCount $repairCount $patchCount
+        } elseif ($violationCount -eq 0 -or $repairCount -eq 0) {
+            throw "No violations or repair items were produced."
+        }
         if ($benchmark.Name -eq "ThrottleDebounce") {
             $expectedActions = @("IntentionalValidator", "TestFixtureException", "DocumentedCancellation")
             if ($patchCount -ne 0 -or @($plan.Items | Where-Object { $_.Action -notin $expectedActions }).Count -gt 0) {
@@ -198,13 +178,14 @@ foreach ($benchmark in $benchmarks) {
                     throw "ThrottleDebounce did not exercise the expected $action classification."
                 }
             }
-        } elseif ($patchCount -eq 0) { throw "No candidate diff files were produced." }
+        } elseif ($benchmark.Name -ne "JsonConverter" -and $patchCount -eq 0) {
+            throw "No candidate diff files were produced."
+        }
         if ($benchmark.Name -eq "PaperArrayBounds" -and
             @($plan.Items | Where-Object { $_.Validation.Status -eq "AcceptedByTests" -and
                 $_.CandidateModelCheck.Status -eq "VerifiedExploredModel" }).Count -eq 0) {
             throw "Paper example did not produce a model-checked, test-accepted candidate."
         }
-        if ($benchmark.Name -eq "JsonConverter") { Assert-JsonConverterClaims $target $outputDir $violations $plan }
     } catch {
         $status = "Failed"; $message = $_.Exception.Message
         Write-Host "Benchmark $($benchmark.Name) failed: $message" -ForegroundColor Red

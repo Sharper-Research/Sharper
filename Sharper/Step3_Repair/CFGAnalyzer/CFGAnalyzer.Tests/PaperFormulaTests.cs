@@ -896,6 +896,8 @@ public sealed class PaperFormulaTests
                 document, statement, "System.NullReferenceException", output);
             var candidate = await File.ReadAllTextAsync(patchedFile);
             Assert.Contains("Unverified catch-based candidate", candidate);
+            Assert.Contains("System.Diagnostics.Debug.WriteLine(", candidate);
+            Assert.Contains("return default!;", candidate);
             Assert.DoesNotContain("Forward-propagated", candidate);
             var violationsPath = Path.Combine(output, "violations.json");
             await File.WriteAllTextAsync(violationsPath, JsonSerializer.Serialize(new[]
@@ -911,6 +913,43 @@ public sealed class PaperFormulaTests
         {
             Directory.Delete(output, recursive: true);
         }
+    }
+
+    [Fact]
+    public async Task CatchDiagnosticDoesNotCollideWithExistingLocals()
+    {
+        using var workspace = new Microsoft.CodeAnalysis.AdhocWorkspace();
+        var project = workspace.AddProject("CatchFixture", Microsoft.CodeAnalysis.LanguageNames.CSharp);
+        var document = project.AddDocument("Fixture.cs", """
+            class Fixture
+            {
+                public static int Read(string value)
+                {
+                    int sharperGuardedException = 1;
+                    int sharperGuardedException1 = 2;
+                    return value.Length + sharperGuardedException + sharperGuardedException1;
+                }
+            }
+            """, filePath: Path.Combine(Path.GetTempPath(), "Fixture.cs"));
+        var root = await document.GetSyntaxRootAsync();
+        var statement = Assert.Single(root!.DescendantNodes()
+            .OfType<Microsoft.CodeAnalysis.CSharp.Syntax.ReturnStatementSyntax>());
+        var output = Path.Combine(Path.GetTempPath(), "SharperCatch-" + Guid.NewGuid().ToString("N"));
+        Directory.CreateDirectory(output);
+        try
+        {
+            var (path, _) = await PatchSynthesizer.WritePatchAsync(document, statement, "System.NullReferenceException", output);
+            var candidate = await File.ReadAllTextAsync(path);
+            Assert.Contains("catch (System.NullReferenceException sharperGuardedException2)", candidate);
+            Assert.Contains("\" + sharperGuardedException2)", candidate);
+            var references = ((string)AppContext.GetData("TRUSTED_PLATFORM_ASSEMBLIES")!)
+                .Split(Path.PathSeparator).Select(path => Microsoft.CodeAnalysis.MetadataReference.CreateFromFile(path));
+            var compilation = Microsoft.CodeAnalysis.CSharp.CSharpCompilation.Create("CatchFixture",
+                new[] { Microsoft.CodeAnalysis.CSharp.CSharpSyntaxTree.ParseText(candidate) }, references,
+                new Microsoft.CodeAnalysis.CSharp.CSharpCompilationOptions(Microsoft.CodeAnalysis.OutputKind.DynamicallyLinkedLibrary));
+            Assert.Empty(compilation.GetDiagnostics().Where(diagnostic => diagnostic.Severity == Microsoft.CodeAnalysis.DiagnosticSeverity.Error));
+        }
+        finally { Directory.Delete(output, recursive: true); }
     }
 
     [Fact]

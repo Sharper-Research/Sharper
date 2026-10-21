@@ -3,7 +3,7 @@
 #   docker run --rm sharper-artifact                                                    (runs run_quick_test.ps1)
 #   docker run --rm -v "$PWD/results:/sharper/results" sharper-artifact ./run_experiments.ps1
 # For a Windows-containers host, use Dockerfile.windows instead.
-FROM --platform=linux/amd64 mcr.microsoft.com/dotnet/sdk:10.0
+FROM --platform=linux/amd64 mcr.microsoft.com/dotnet/sdk:10.0@sha256:3a48280a9a7c6276c3eeaba1efa6a08820f18c84fb9e6274c187719ecfaf9fbc
 
 # Microsoft.Z3 4.12.2 (NuGet) ships native binaries only for Windows and macOS, so install the
 # matching official Z3 4.12.2 Linux build. libgomp1 is the OpenMP runtime that libz3.so loads.

@@ -8,7 +8,7 @@ project files target .NET 10 so the artifact needs only one SDK/runtime.
 |---|---|---|
 | `MicrosoftBugDemo` | Existing extracted .NET reflection regression in this repository | 2 tests pass; 1 fails with a null dereference when a method is inherited. |
 | `HtmlSanitizer` | [mganss/HtmlSanitizer](https://github.com/mganss/HtmlSanitizer/tree/7417120cfabea9f359b56f8de6f492adbb0e57da), commit `7417120cfabea9f359b56f8de6f492adbb0e57da`; recovered from `AutoRepair/multi_repo_workspace/summary.json` in Sharper commit `1a0e4b364^` | Upstream tests should pass. Deliberate exceptions exercised by these tests are not evidence of an upstream bug. |
-| `JsonConverter` | [StefH/JsonConverter](https://github.com/StefH/JsonConverter/tree/564788f264dd63d7c7628dbd3de393cd2b64d007), commit `564788f264dd63d7c7628dbd3de393cd2b64d007` (release 0.13.0), the commit evaluated in the paper's Section 3; only the `JsonConverter.SimpleJson` and `JsonConverter.Abstractions` libraries and the `SimpleJson.Tests` project are included | Clean suite: 174 pass, 6 skipped, 0 fail. The recorded run must report `ArrayAndListDeserializationTests` failing with `IndexOutOfRangeException`, and the method-level guard must keep the suite at 174 passed / 6 skipped. |
+| `JsonConverter` | [StefH/JsonConverter](https://github.com/StefH/JsonConverter/tree/564788f264dd63d7c7628dbd3de393cd2b64d007), commit `564788f264dd63d7c7628dbd3de393cd2b64d007` (release 0.13.0), the pinned case from the historical reproduction; only the `JsonConverter.SimpleJson` and `JsonConverter.Abstractions` libraries and the `SimpleJson.Tests` project are included | Clean and traced suites: 174 pass, 6 skipped, 0 fail, with identical test identities/outcomes. No violations or patches. The paper's named array test must pass. |
 | `ThrottleDebounce` | Original source/tests from Sharper demo branch commit `750c82385c83dc03283692f3b33ce7b25e832852`, directory `ThrottleDebounce`; upstream [Aldaviva/ThrottleDebounce](https://github.com/Aldaviva/ThrottleDebounce) | All 110 tests should pass. Invalid-argument, fixture, and cancellation exceptions must be classified as intentional and produce **no patches**. |
 | `PaperArrayBounds` | Array adaptation of paper Listing 1.1 (former `review/fixtures/listing`); original listing included separately | Of 4 tests, 1 passes and 3 fail before repair. The tests express the desired repaired behavior, not expected-exception assertions. |
 
@@ -66,13 +66,13 @@ and successful pipeline execution must not be described as verified upstream fix
 
 ## JsonConverter (paper Section 3)
 
-The runner checks every Section 3 claim (see *Paper claims* in the top-level
-README) and records the evidence in `results/experiments/JsonConverter/paper-claims.json`.
-The `IndexOutOfRangeException` occurs in the recorded, instrumented run: when it
-logs the index of `list[i++]`, the trace logger evaluates `i++` again, so the array
-`[null, English]` of length 2 is written at index 3. The uninstrumented suite passes.
-The method-level guard (`PocoJsonSerializerStrategy.L102.diff`) wraps the body of
-`DeserializeObject` in a `try/catch` that logs the exception and returns `default`,
-as in upstream pull request [StefH/JsonConverter#27](https://github.com/StefH/JsonConverter/pull/27).
-The runner applies it to an isolated copy of the benchmark and requires 174 passed /
-6 skipped. Its model check is `Incomplete`.
+The exception in the historical run was introduced by repeated evaluation of the
+side-effecting index `i++` in the old instrumenter's logs. It is not demonstrated
+in the unchanged library. After fixing tracing, both suites pass (174 passed /
+6 skipped), and no repair is generated. The runner checks these outcomes and
+writes `results/experiments/JsonConverter/regression-check.json`.
+
+Passing a catch-patched clean build does not demonstrate repair, because the
+clean baseline already passes. Upstream pull request
+[StefH/JsonConverter#27](https://github.com/StefH/JsonConverter/pull/27) is historical
+context only. See the top-level README's *Paper discrepancy* section.

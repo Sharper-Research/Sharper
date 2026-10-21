@@ -30,9 +30,9 @@ Both scripts run the full pipeline (trace, detect, analyze and repair) and write
 
 ### Artifact information
 
-- **Artifact:** <https://github.com/Sharper-Research/Sharper> (archived on Zenodo; the DOI is given in the submission form).
-- **Paper:** *Sharper: Towards an Automated Verified Repair Tool for C#* (TACAS 2027 tool paper). The artifact reproduces the evaluation in Section 3 (JsonConverter) and the running example (Listing 1.1).
-- **Badges applied for:** Available, Functional, and Reusable (see [Run Sharper on your own repository](#run-sharper-on-your-own-repository)).
+- **Artifact source:** <https://github.com/Sharper-Research/Sharper>. Permanent archive (Zenodo DOI): **TODO-DOI**.
+- **Paper:** *Sharper: Towards an Automated Verified Repair Tool for C#* (TACAS 2027 tool paper). The JsonConverter failure described in Section 3 came from a tracing bug that has since been fixed; this artifact runs JsonConverter as a regression check (see [Paper discrepancy](#paper-discrepancy-section-3-jsonconverter)). Listing 1.1 is included as a reference, with a runnable array adaptation; the original span semantics are not verified.
+- **Intended badge applications:** Available, Functional, and Reusable (see [Run Sharper on your own repository](#run-sharper-on-your-own-repository)).
 - **Hardware:** x64 (amd64) CPU, 8 GB RAM, about 5 GB free disk space for the Docker image (about 15 GB for the Windows container image). No GPU or special hardware is needed. Internet access is needed to restore pinned NuGet packages (and, for Docker, the base image and Z3).
 - **Time:** quick test about 2 minutes; all benchmarks about 5 minutes after the first build; first Docker build about 5 minutes (Linux) or 10 minutes (Windows containers).
 
@@ -42,9 +42,9 @@ Tested platforms:
 |---|---|---|
 | Native | Windows 11 x64 | .NET SDK 10.0.401, Windows PowerShell 5.1 |
 | Docker (`Dockerfile`) | Linux container, `linux/amd64` (Ubuntu 24.04) on Docker Desktop, Windows 11 x64 host | .NET SDK 10.0, PowerShell 7 |
-| Docker (`Dockerfile.windows`) | Windows Server 2022 container on Windows 11 x64 | .NET SDK 10.0, Windows PowerShell 5.1 |
+| Docker (`Dockerfile.windows`, historical validation only) | Windows Server 2022 container on Windows 11 x64 | .NET SDK 10.0, Windows PowerShell 5.1; the tracing correction has not been revalidated on this optional route |
 
-All three routes give the same `summary.csv`. On arm64 hosts (for example Apple silicon) Docker runs the amd64 image under emulation, which is slower; this was not tested.
+The current native and Linux-container checks are described below; do not infer validation of the corrected Windows-container route from earlier runs. On arm64 hosts (for example Apple silicon) Docker runs the amd64 image under emulation, which is slower; this was not tested.
 
 ### Kick the tires (about 2 minutes)
 
@@ -83,7 +83,7 @@ To keep the container's results on the host, mount the `results` folder
 docker run --rm -v "$PWD/results:/sharper/results" sharper-artifact
 ```
 
-The image is based on `mcr.microsoft.com/dotnet/sdk:10.0` (Ubuntu, includes `pwsh`) for `linux/amd64`.
+The image is based on `mcr.microsoft.com/dotnet/sdk:10.0` (Ubuntu, includes `pwsh`) for `linux/amd64`, pinned by its manifest SHA-256 in `Dockerfile`.
 Because the Microsoft.Z3 NuGet package has no Linux native library, the image downloads the
 official Z3 4.12.2 Linux build (SHA-256 checked) and its OpenMP runtime. It then builds
 `Sharper.sln` and runs `run_quick_test.ps1` by default. On Apple silicon, Docker runs the
@@ -100,7 +100,10 @@ docker run --rm -v "${PWD}\results:C:\sharper\results" sharper-artifact-win
 
 `Dockerfile.windows` is based on `mcr.microsoft.com/dotnet/sdk:10.0-windowsservercore-ltsc2022` and installs the Visual C++ runtime required by Z3.
 
-### Reproduce the evaluation
+### Run the benchmark checks
+
+These commands run the current tool and its regression checks. They do not reproduce
+the JsonConverter repair claimed in the submitted paper; see the discrepancy below.
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\run_experiments.ps1
@@ -138,7 +141,7 @@ Expected `summary.csv` (identical on Windows and in the Linux Docker image; the 
 |---|---|---|---:|---:|---:|
 | MicrosoftBugDemo | Passed | 2 / 1 | 1 | 1 | 1 |
 | HtmlSanitizer | Passed | 198 / 0 | 2 | 2 | 2 |
-| JsonConverter | Passed | 174 / 0 (6 skipped) | 3 | 3 | 2 |
+| JsonConverter | Passed | 174 / 0 (6 skipped) | 0 | 0 | 0 |
 | PaperArrayBounds | Passed | 1 / 3 | 4 | 4 | 3 |
 | ThrottleDebounce | Passed | 110 / 0 | 10 | 10 | 0 |
 
@@ -147,28 +150,36 @@ unexpected baseline test failures. `Passed` means that the benchmark's artifact
 checks completed, not that the faulty baseline passed its tests or that every
 candidate is correct. The summary records baseline passing/failing test counts.
 The array example additionally requires a model-checked, test-accepted candidate.
-JsonConverter additionally checks every Section 3 claim of the paper (see
-[Paper claims](#paper-claims-section-3-jsonconverter)).
+JsonConverter requires identical test identities and outcomes before and after
+instrumentation (174 passed, 6 skipped), including the paper's named array test,
+with zero violations and zero patches. This is a tracing regression check, not a repair result.
 ThrottleDebounce is a negative control: its expected outcome is intentional
 exception classifications and zero patches, not a fabricated repair.
 All outputs are written directly beneath the selected results directory, including
 partial evidence from a failed pipeline; no intermediate reports are written into
 the tool's source directories.
 
-### Paper claims (Section 3, JsonConverter)
+### Paper discrepancy (Section 3, JsonConverter)
 
-`benchmarks/JsonConverter` is StefH/JsonConverter at the commit evaluated in the paper. `run_experiments.ps1` checks each claim of Section 3 and writes the evidence to `results/experiments/JsonConverter/paper-claims.json`; the benchmark fails if any claim does not hold.
+`benchmarks/JsonConverter` retains the pinned library and test sources unchanged.
+Section 3 of the submitted PDF describes an `IndexOutOfRangeException` in
+`ArrayAndListDeserializationTests`, an array `[null, English]` of length 2 with a
+write index of 3, and a catch-based repair. Investigation showed that the old
+instrumenter evaluated `i++` multiple times when tracing `list[i++]`. It created
+the failing execution; the original library's tests already passed.
 
-| Claim in the paper | Evidence in `results/experiments/JsonConverter/` |
-|---|---|
-| The recorded run reports that `ArrayAndListDeserializationTests` throws an `IndexOutOfRangeException` | `step1_traces/instrumented.trx` |
-| The exception is raised by the array write `list[i++]` in the `type.IsArray` branch of `PocoJsonSerializerStrategy.DeserializeObject` | `step2_constraints/violations.json` (line 235) |
-| The trace shows the destination array `[null, English]` of length 2 and write index 3, violating the array-bounds predicate | `step2_constraints/violations.json` (`BufferInBounds`, `index:list` = 3, `heap.size(list)` = 2) |
-| Sharper synthesises a guard that wraps the method body in a `try/catch` for `IndexOutOfRangeException`, logs the exception, and returns `default` | `step3_repairs/patches/PocoJsonSerializerStrategy.L102.diff` |
-| With this patch the full test suite passes (174 passed, 6 skipped) | `patched-suite/patched.trx` (patch applied to an isolated copy of the benchmark) |
-| The patch was submitted upstream | [StefH/JsonConverter#27](https://github.com/StefH/JsonConverter/pull/27) (pull request from commit `e0a064c` of jim-daf/JsonConverter) |
+The corrected instrumenter logs each index inline and uses a non-evaluated
+assignment label, so the index expression runs once, in its original position.
+Both clean and instrumented suites now give 174 passed / 6 skipped, with no
+violations or patches. `regression-check.json` records this comparison alongside
+`baseline/baseline.trx` and `step1_traces/instrumented.trx`.
 
-The exception occurs in the recorded run, that is, in the instrumented build that Sharper traces. The uninstrumented suite already passes (the `174 / 0` baseline above): when it logs the index of `list[i++]`, the trace logger evaluates `i++` again, so the recorded execution writes beyond the array. The candidate's model check is reported as `Incomplete`; the 174/6 result is a test result, not a proof.
+Therefore the historical trace and the passing tests of a catch-patched clean
+build are not evidence of a real library fault or successful repair. The generated
+catch candidates now include a `Debug.WriteLine` diagnostic before returning
+(debug-build logging, not a production logging guarantee); that does not validate
+the historical JsonConverter repair. [StefH/JsonConverter#27](https://github.com/StefH/JsonConverter/pull/27)
+is historical context, not proof of correctness or maintainer acceptance.
 
 ### Benchmark mapping
 
@@ -178,7 +189,7 @@ Benchmarks live under `benchmarks/`, one folder per benchmark. For each folder, 
 |---|---|---|---|
 | `benchmarks/MicrosoftBugDemo` | `RuntimeCode/RuntimeCode.csproj` | `RuntimeCode.Tests/RuntimeCode.Tests.csproj` | Null dereference in `MemberMethodResolver.CheckShouldPersist` when the `ShouldSerialize*` method is declared on a base class |
 | `benchmarks/HtmlSanitizer` | `src/HtmlSanitizer/HtmlSanitizer.csproj` | `test/HtmlSanitizer.Tests/HtmlSanitizer.Tests.csproj` | Historical sanitizer exception-trace case; upstream tests include intentionally thrown exceptions |
-| `benchmarks/JsonConverter` | `src/JsonConverter.SimpleJson/JsonConverter.SimpleJson.csproj` | `tests/SimpleJson.Tests/SimpleJson.Tests.csproj` | Paper Section 3: `IndexOutOfRangeException` at the array write `list[i++]` in `PocoJsonSerializerStrategy.DeserializeObject` |
+| `benchmarks/JsonConverter` | `src/JsonConverter.SimpleJson/JsonConverter.SimpleJson.csproj` | `tests/SimpleJson.Tests/SimpleJson.Tests.csproj` | Regression: tracing `list[i++]` must not introduce the array exception reported in paper Section 3 |
 | `benchmarks/ThrottleDebounce` | `ThrottleDebounce/ThrottleDebounce.csproj` | `Tests/Tests.csproj` | Negative control: intentional argument checks, test-fixture exceptions, and documented cancellation must not be patched |
 | `benchmarks/PaperArrayBounds` | `Listing.csproj` | `Listing.Tests/Listing.Tests.csproj` | Runnable `int[]` adaptation of paper Listing 1.1; out-of-bounds writes in both loops |
 
@@ -207,7 +218,7 @@ The instrumenter temporarily rewrites benchmark source files. Both scripts resto
 
 ### Run Sharper on your own repository
 
-Sharper can analyze any C# library that has a test project. The Docker image provides the whole environment (.NET 10 SDK, PowerShell 7, Z3), so only Docker and git are needed on the host.
+Sharper can analyze supported C# libraries with a test project; arbitrary C# semantics are not supported (see [Scope](#scope)). The Docker image provides the environment (.NET 10 SDK, PowerShell 7, Z3), so only Docker and git are needed on the host.
 
 **1. Get Sharper and build the image** (once):
 

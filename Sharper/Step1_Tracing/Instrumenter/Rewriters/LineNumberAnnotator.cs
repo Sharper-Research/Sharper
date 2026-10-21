@@ -14,7 +14,7 @@ namespace Instrumenter.Rewriters
         public static SyntaxNode Annotate(SyntaxNode root)
         {
             var nodesToAnnotate = root.DescendantNodes()
-                .Where(n => n is StatementSyntax || n is MethodDeclarationSyntax);
+                .Where(n => n is StatementSyntax || n is MethodDeclarationSyntax || n is ExpressionSyntax);
 
             return root.ReplaceNodes(nodesToAnnotate, (original, rewritten) =>
             {
