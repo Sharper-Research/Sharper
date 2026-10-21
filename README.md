@@ -154,6 +154,78 @@ is required; a source checkout alone does not include ignored results.
 
 The instrumenter temporarily rewrites benchmark source files. Both scripts restore the original sources (`*.cs.bak` back to `*.cs`, generated `TraceLogger.cs` removed) before and after every run, including runs that fail or are interrupted.
 
+### Run Sharper on your own repository
+
+Sharper can analyze any C# library that has a test project. The Docker image provides the whole environment (.NET 10 SDK, PowerShell 7, Z3), so only Docker and git are needed on the host.
+
+**1. Get Sharper and build the image** (once):
+
+```sh
+git clone https://github.com/Manish-SDU/Patching.git
+cd Patching
+docker build -t sharper-artifact .
+```
+
+**2. Clone the repository to analyze** into a separate folder. Sharper temporarily rewrites its source files, so use a fresh clone, not a working copy with uncommitted changes. This example uses a small Roman-numeral converter:
+
+```sh
+mkdir -p ../sharper-targets
+git clone https://github.com/deinacademy/tdd_roman_csharp.git ../sharper-targets/tdd_roman_csharp
+```
+
+**3. Identify three paths** in the cloned repository:
+
+| Parameter | What to pass | Example |
+|---|---|---|
+| `-SourceDir` | Folder of the library under analysis | `Number` |
+| `-DriverProject` | Test project (`.csproj`) whose tests drive the trace | `Number.Tests/Number.Tests.csproj` |
+| `-Solution` | The library's `.csproj` | `Number/Number.csproj` |
+
+**4. Run the pipeline** from the Sharper folder. The target folder is mounted at `/work` and the results folder at `/sharper/results`:
+
+```sh
+docker run --rm \
+  -e DOTNET_ROLL_FORWARD=Major -e LangVersion=latest \
+  -v "$PWD/../sharper-targets:/work" \
+  -v "$PWD/results:/sharper/results" \
+  sharper-artifact ./Sharper/run_all.ps1 \
+  -SourceDir     /work/tdd_roman_csharp/Number \
+  -DriverProject /work/tdd_roman_csharp/Number.Tests/Number.Tests.csproj \
+  -Solution      /work/tdd_roman_csharp/Number/Number.csproj \
+  -OutputDir     results/tdd_roman_csharp
+```
+
+In Windows PowerShell, end lines with a backtick (`` ` ``) instead of `\` and write the mounts as `"${PWD}/../sharper-targets:/work"` and `"${PWD}/results:/sharper/results"`.
+
+The two environment variables let older projects run in the image without editing them:
+
+- `DOTNET_ROLL_FORWARD=Major` runs test projects that target an older .NET (for example `netcoreapp2.0`) on the image's .NET 10 runtime.
+- `LangVersion=latest` lets the generated trace logger compile in projects that default to C# 7.3 (`netstandard2.0` and .NET Framework). Without it, Step 1 fails with `error CS8370: Feature 'nullable reference types' is not available in C# 7.3`.
+
+**5. Read the results** in `results/tdd_roman_csharp/`. The layout is the same as for the benchmarks: `step1_traces/`, `step2_constraints/violations.json`, and `step3_repairs/` (with `patches/` if candidates were generated). Use a new `-OutputDir` for each run; Sharper refuses to overwrite earlier step outputs.
+
+For this example, the expected outcome is 17 passing tests, about 1,500 trace events, and one violation: the `ArgumentException` that `ConvertToRoman` deliberately throws for inputs it cannot convert. Sharper classifies it as `IntentionalValidator` and generates no patch, because the exception is intended input validation that a test expects.
+
+The cloned repository is restored to its original sources after the run (`git status` in the clone shows no changes).
+
+**Requirements for the target repository:**
+
+- A test project that references `Microsoft.NET.Test.Sdk` (xUnit, MSTest, or NUnit) and builds with the .NET 10 SDK.
+- Tests that run on Linux, because the image is Linux-based. Projects that only build for .NET Framework or Windows desktop (WPF, WinForms) need the native Windows route instead.
+- The library's tests should pass, or fail only in the tests that exercise the fault under study.
+
+**Native alternative (Windows):** run the same command without Docker, using local paths:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\Sharper\run_all.ps1 `
+  -SourceDir     ..\sharper-targets\tdd_roman_csharp\Number `
+  -DriverProject ..\sharper-targets\tdd_roman_csharp\Number.Tests\Number.Tests.csproj `
+  -Solution      ..\sharper-targets\tdd_roman_csharp\Number\Number.csproj `
+  -OutputDir     results\tdd_roman_csharp
+```
+
+This needs the native requirements listed above. Set `$env:LangVersion = "latest"` first for C# 7.3 projects, and `$env:DOTNET_ROLL_FORWARD = "Major"` for test projects that target an older .NET.
+
 ## How it works
 
 1. **Trace:** the Roslyn instrumenter records selected execution events from a failing test.
