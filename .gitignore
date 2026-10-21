@@ -26,3 +26,6 @@ Sharper/Step3_Repair/reports/
 
 # Sharper run outputs
 results/*
+
+# Temporary downloads from setup.ps1
+.setup-downloads/

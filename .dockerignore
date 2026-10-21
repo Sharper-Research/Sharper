@@ -20,3 +20,5 @@ Sharper/Step2_Constraints/reports/
 Sharper/Step3_Repair/reports/
 **/*.cs.bak
 **/TraceLogger.cs
+
+.setup-downloads/

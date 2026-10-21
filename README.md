@@ -4,9 +4,10 @@ Sharper is a C# research prototype for trace-guided fault analysis and repair ca
 
 ## Quick start
 
-Requirements for the native route: Windows x64, .NET 10 SDK, PowerShell, and NuGet access (or use [Docker](#kick-the-tires-about-2-minutes) on any OS). From the repository root:
+Requirements for the native route: Windows x64, .NET 10 SDK, PowerShell, and NuGet access (or use [Docker](#kick-the-tires-about-2-minutes) on any OS). `setup.ps1` installs the .NET SDK and Visual C++ runtime if they are missing. From the repository root:
 
 ```powershell
+powershell -ExecutionPolicy Bypass -File .\setup.ps1             # install what is missing, build, then call run_quick_test.ps1
 powershell -ExecutionPolicy Bypass -File .\run_quick_test.ps1    # one benchmark, prints QUICK TEST PASSED
 powershell -ExecutionPolicy Bypass -File .\run_experiments.ps1   # every benchmark in benchmarks\
 ```
@@ -20,9 +21,9 @@ Both scripts run the full pipeline (trace, detect, analyze and repair) and write
 | Requirement | Notes |
 |---|---|
 | Windows 10/11 x64 | Sharper's scripts and the Z3 native library target Windows x64. |
-| .NET 10 SDK | `dotnet --list-sdks` should show a `10.0.x` entry. |
+| .NET 10 SDK | `dotnet --list-sdks` should show a `10.0.x` entry. `setup.ps1` installs it per user if missing. |
 | PowerShell | Windows PowerShell 5.1 (built into Windows) or PowerShell 7. |
-| Visual C++ 2015-2022 Redistributable, x64 | Required by Z3's native DLL. [Microsoft installer](https://aka.ms/vs/17/release/vc_redist.x64.exe); `Dockerfile.windows` installs it automatically. |
+| Visual C++ 2015-2022 Redistributable, x64 | Required by Z3's native DLL. `setup.ps1` and `Dockerfile.windows` install it if missing; [Microsoft installer](https://aka.ms/vs/17/release/vc_redist.x64.exe). |
 | NuGet access | Packages are restored on the first build. |
 | Docker (Linux containers) | Only for the Docker route; replaces all requirements above. Works with Docker on Linux, macOS, and Windows (Docker Desktop's default Linux-containers mode). |
 | Docker in **Windows containers** mode | Only for the optional `Dockerfile.windows` route. Needs Windows 10/11 Pro, Enterprise, or Education (with the Hyper-V and Containers features enabled) or Windows Server 2022. |
@@ -31,7 +32,20 @@ Both scripts run the full pipeline (trace, detect, analyze and repair) and write
 
 The quick test runs the whole pipeline on the `MicrosoftBugDemo` benchmark and checks that Step 3 produced candidate patches. It prints `QUICK TEST PASSED` and exits with code 0 on success. The first run takes longer while NuGet packages are restored.
 
-**Native:**
+**Native (Windows), one command:**
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\setup.ps1
+```
+
+`setup.ps1` prepares a Windows x64 machine and then calls `run_quick_test.ps1`:
+
+1. Installs the .NET 10 SDK into `%LOCALAPPDATA%\Microsoft\dotnet` if no 10.0 SDK is found (per user, no administrator rights) and adds it to the user `PATH`.
+2. Installs the Visual C++ 2015-2022 x64 runtime if it is missing. This is the only step that asks for administrator permission.
+3. Restores NuGet packages and builds `Sharper.sln`.
+4. Runs `run_quick_test.ps1` and exits with its code.
+
+Steps that are already satisfied are skipped, so it is safe to run again. Options: `-NoPersistPath` (do not change the user `PATH`), `-DotnetInstallDir <folder>`. If the tools are already installed, the quick test can also be run on its own:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\run_quick_test.ps1
@@ -252,6 +266,7 @@ Optional parameters: `-OutputDir <folder>` to choose the results folder, and `-V
 | `Sharper/` | Pipeline implementation: `Step1_Tracing` (instrumenter), `Step2_Constraints` (violation detection), `Step3_Repair/CFGAnalyzer` (Roslyn analysis, Z3 checks, patch generation and validation), `run_all.ps1` |
 | `benchmarks/` | Programs under evaluation |
 | `results/` | Run outputs (git-ignored) |
+| `setup.ps1` | One-command Windows setup: installs missing tools, builds, then calls `run_quick_test.ps1` |
 | `run_quick_test.ps1`, `run_experiments.ps1` | Entry points for artifact evaluation |
 | `Dockerfile` | Linux container image (default Docker route) |
 | `Dockerfile.windows` | Windows container image (optional Docker route) |
