@@ -161,6 +161,9 @@ public static class PatchSynthesizer
         return restored;
     }
 
+    // Unusual name so the catch variable cannot clash with a local in the enclosing scope (CS0136).
+    private const string CaughtExceptionName = "sharperGuardedException";
+
     private static StatementSyntax WrapInTryCatch(
         IReadOnlyList<StatementSyntax> statements,
         string exceptionType)
@@ -175,14 +178,20 @@ public static class PatchSynthesizer
         var commentTrivia = SyntaxFactory.Comment(
             $"// [Sharper Step 3] Unverified catch-based candidate for {exceptionType}");
 
-        var catchStatements = CreateCatchStatements(statements[0]);
+        // Log the swallowed exception so the guarded failure stays observable, then degrade gracefully.
+        var logStatement = SyntaxFactory.ParseStatement(
+            $"System.Diagnostics.Debug.WriteLine(\"[Sharper] Guarded {exceptionType}: \" + {CaughtExceptionName});")
+            .WithTrailingTrivia(SyntaxFactory.ElasticCarriageReturnLineFeed);
+        var catchStatements = CreateCatchStatements(statements[0]).Insert(0, logStatement);
 
         var tryStmt = SyntaxFactory.TryStatement(
             tryKeyword: SyntaxFactory.Token(SyntaxKind.TryKeyword),
             block: SyntaxFactory.Block(withoutLeading),
             catches: SyntaxFactory.SingletonList(
                 SyntaxFactory.CatchClause(
-                    SyntaxFactory.CatchDeclaration(SyntaxFactory.ParseTypeName(exceptionType)),
+                    SyntaxFactory.CatchDeclaration(
+                        SyntaxFactory.ParseTypeName(exceptionType),
+                        SyntaxFactory.Identifier(CaughtExceptionName)),
                     null,
                     SyntaxFactory.Block(catchStatements))),
             @finally: null);

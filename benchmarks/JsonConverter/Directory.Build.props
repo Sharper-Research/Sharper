@@ -1,0 +1,11 @@
+﻿<Project>
+	<PropertyGroup>
+		<VersionPrefix>0.13.0</VersionPrefix>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<LangVersion>12</LangVersion>
+		<Nullable>enable</Nullable>
+		<GlobalUsings>false</GlobalUsings>
+		<Authors>Stef Heyenrath</Authors>
+		<Copyright>Copyright © Stef Heyenrath</Copyright>
+	</PropertyGroup>
+</Project>
