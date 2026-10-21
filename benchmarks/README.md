@@ -8,7 +8,7 @@ project files target .NET 10 so the artifact needs only one SDK/runtime.
 |---|---|---|
 | `MicrosoftBugDemo` | Existing extracted .NET reflection regression in this repository | 2 tests pass; 1 fails with a null dereference when a method is inherited. |
 | `HtmlSanitizer` | [mganss/HtmlSanitizer](https://github.com/mganss/HtmlSanitizer/tree/7417120cfabea9f359b56f8de6f492adbb0e57da), commit `7417120cfabea9f359b56f8de6f492adbb0e57da`; recovered from `AutoRepair/multi_repo_workspace/summary.json` in Sharper commit `1a0e4b364^` | Upstream tests should pass. Deliberate exceptions exercised by these tests are not evidence of an upstream bug. |
-| `JsonConverter` | [StefH/JsonConverter](https://github.com/StefH/JsonConverter/tree/564788f264dd63d7c7628dbd3de393cd2b64d007), commit `564788f264dd63d7c7628dbd3de393cd2b64d007` (release 0.13.0), the commit evaluated in the paper's Section 3; only the `JsonConverter.SimpleJson` and `JsonConverter.Abstractions` libraries and the `SimpleJson.Tests` project are included | Paper Section 3 (traced with `SHARPER_TRACING=paper`): `ArrayAndListDeserializationTests` fails with `IndexOutOfRangeException` at `list[i++]`; the method guard passes 174, 6 skipped. |
+| `JsonConverter` | [StefH/JsonConverter](https://github.com/StefH/JsonConverter/tree/564788f264dd63d7c7628dbd3de393cd2b64d007), commit `564788f264dd63d7c7628dbd3de393cd2b64d007` (release 0.13.0), the commit evaluated in the paper's Section 3; only the `JsonConverter.SimpleJson` and `JsonConverter.Abstractions` libraries and the `SimpleJson.Tests` project are included | Paper Section 3 (traced with `SHARPER_TRACING=legacy`): `ArrayAndListDeserializationTests` fails with `IndexOutOfRangeException` at `list[i++]`; the method guard passes 174, 6 skipped. |
 | `ThrottleDebounce` | Original source/tests from Sharper demo branch commit `750c82385c83dc03283692f3b33ce7b25e832852`, directory `ThrottleDebounce`; upstream [Aldaviva/ThrottleDebounce](https://github.com/Aldaviva/ThrottleDebounce) | All 110 tests should pass. Invalid-argument, fixture, and cancellation exceptions must be classified as intentional and produce **no patches**. |
 | `PaperArrayBounds` | Array adaptation of paper Listing 1.1 (former `review/fixtures/listing`); original listing included separately | Of 4 tests, 1 passes and 3 fail before repair. The tests express the desired repaired behavior, not expected-exception assertions. |
 
@@ -66,14 +66,10 @@ and successful pipeline execution must not be described as verified upstream fix
 
 ## JsonConverter (paper Section 3)
 
-The runner reproduces the paper's Section 3 run with the paper's variable tracer
-(`SHARPER_TRACING=paper`), checks every claim, and writes the evidence to
-`results/experiments/JsonConverter/paper-claims.json`. The `IndexOutOfRangeException`
-occurs in the recorded, instrumented run: when it logs the index of `list[i++]`, the
-paper tracer evaluates `i++` again, so the array `[null, English]` of length 2 is
-written at index 3. The uninstrumented suite passes. The method-level guard
-(`PocoJsonSerializerStrategy.L102.diff`) wraps the body of `DeserializeObject` in a
-`try/catch` that logs the exception and returns `default`, as in upstream pull request
-[StefH/JsonConverter#27](https://github.com/StefH/JsonConverter/pull/27). The runner
-applies it to an isolated copy of the benchmark and requires 174 passed / 6 skipped.
-Sharper's default tracer evaluates each index once and reports no violation here.
+The runner traces JsonConverter with the legacy variable tracer
+(`SHARPER_TRACING=legacy`), checks every Section 3 claim, and writes the evidence to
+`results/experiments/JsonConverter/paper-claims.json`. The legacy tracer re-evaluates
+the index of `list[i++]` when logging it; the uninstrumented suite passes. The
+method-level guard (`PocoJsonSerializerStrategy.L102.diff`) is applied to an isolated
+copy of the benchmark, which must give 174 passed / 6 skipped, as in upstream pull request
+[StefH/JsonConverter#27](https://github.com/StefH/JsonConverter/pull/27).

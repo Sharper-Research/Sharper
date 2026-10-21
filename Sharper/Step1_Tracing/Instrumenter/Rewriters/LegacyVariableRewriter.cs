@@ -6,10 +6,10 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Instrumenter.Rewriters
 {
-        // Tracer as used for the paper's Section 3 run (SHARPER_TRACING=paper). Unlike VariableRewriter,
+        // Legacy variable tracer (SHARPER_TRACING=legacy). Unlike VariableRewriter,
     // it re-evaluates index expressions when logging them, so list[i++] increments i more than once.
     // Traces: assignments, ++/--, locals, index access, denominators.
-    public class PaperVariableRewriter : TraceRewriterBase
+    public class LegacyVariableRewriter : TraceRewriterBase
     {
         private ExpressionSyntax CreateValueLogExpression(string varName, ExpressionSyntax valueExpr, int line)
         {

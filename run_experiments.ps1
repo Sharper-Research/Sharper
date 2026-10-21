@@ -174,8 +174,8 @@ foreach ($benchmark in $benchmarks) {
             if ($benchmark.Name -eq "PaperArrayBounds") {
                 $validationArgs += @("-ValidationRoot", $benchmark.FullName, "-ReproducerFilter", "FullyQualifiedName~PaperAssumptionReturnsNormally")
             }
-            # JsonConverter reproduces the paper's Section 3 run, which used the paper's variable tracer.
-            $env:SHARPER_TRACING = if ($benchmark.Name -eq "JsonConverter") { "paper" } else { $null }
+            # JsonConverter is traced with the legacy variable tracer, as in the paper's Section 3 run.
+            $env:SHARPER_TRACING = if ($benchmark.Name -eq "JsonConverter") { "legacy" } else { $null }
             & $powershell -NoProfile -ExecutionPolicy Bypass -File $runAll `
                 -SourceDir $target.SourceDir -DriverProject $target.DriverProject `
                 -Solution $target.Solution -OutputDir $outputDir @validationArgs 2>&1 |

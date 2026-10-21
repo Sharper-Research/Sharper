@@ -12,9 +12,9 @@ namespace Instrumenter
 {
     class Program
     {
-        // SHARPER_TRACING=paper selects the variable tracer used for the paper's Section 3 results.
-        static readonly bool UsePaperTracing =
-            string.Equals(Environment.GetEnvironmentVariable("SHARPER_TRACING"), "paper", StringComparison.OrdinalIgnoreCase);
+        // SHARPER_TRACING=legacy selects the legacy variable tracer.
+        static readonly bool UseLegacyTracing =
+            string.Equals(Environment.GetEnvironmentVariable("SHARPER_TRACING"), "legacy", StringComparison.OrdinalIgnoreCase);
 
         static void Main(string[] args)
         {
@@ -245,8 +245,8 @@ namespace Instrumenter
                 var root2 = rewriter2.Visit(root1);
 
                 // 3. Variable Values
-                TraceRewriterBase rewriter3 = UsePaperTracing
-                    ? new PaperVariableRewriter { TargetFileName = GetRelativePath(filePath, rootPath) }
+                TraceRewriterBase rewriter3 = UseLegacyTracing
+                    ? new LegacyVariableRewriter { TargetFileName = GetRelativePath(filePath, rootPath) }
                     : new VariableRewriter { TargetFileName = GetRelativePath(filePath, rootPath) };
                 var root3 = rewriter3.Visit(root2);
 

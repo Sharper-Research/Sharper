@@ -168,7 +168,7 @@ the tool's source directories.
 | With this patch the full test suite passes (174 passed, 6 skipped) | `patched-suite/patched.trx` (patch applied to an isolated copy of the benchmark) |
 | The patch was submitted upstream | [StefH/JsonConverter#27](https://github.com/StefH/JsonConverter/pull/27) (pull request from commit `e0a064c` of jim-daf/JsonConverter) |
 
-**Tracing modes.** The paper's results were produced with the variable tracer as it was at submission. The runner uses this tracer for JsonConverter by setting `SHARPER_TRACING=paper` (implemented in `Sharper/Step1_Tracing/Instrumenter/Rewriters/PaperVariableRewriter.cs`). When it logs the index of `list[i++]`, this tracer evaluates `i++` again, so the exception occurs in the recorded (instrumented) run; the uninstrumented suite already passes (the `174 / 0` baseline above). The other benchmarks, and Sharper by default, use the current tracer (`VariableRewriter.cs`), which evaluates each index once. With the current tracer, JsonConverter reports no violation, which is why the runner selects the paper tracer for this benchmark.
+**Tracing.** JsonConverter is traced with the legacy variable tracer (`SHARPER_TRACING=legacy`, `LegacyVariableRewriter.cs`), which re-evaluates the index of `list[i++]` when logging it; the uninstrumented suite passes. All other benchmarks use the default tracer.
 
 ### Benchmark mapping
 
@@ -178,7 +178,7 @@ Benchmarks live under `benchmarks/`, one folder per benchmark. For each folder, 
 |---|---|---|---|
 | `benchmarks/MicrosoftBugDemo` | `RuntimeCode/RuntimeCode.csproj` | `RuntimeCode.Tests/RuntimeCode.Tests.csproj` | Null dereference in `MemberMethodResolver.CheckShouldPersist` when the `ShouldSerialize*` method is declared on a base class |
 | `benchmarks/HtmlSanitizer` | `src/HtmlSanitizer/HtmlSanitizer.csproj` | `test/HtmlSanitizer.Tests/HtmlSanitizer.Tests.csproj` | Historical sanitizer exception-trace case; upstream tests include intentionally thrown exceptions |
-| `benchmarks/JsonConverter` | `src/JsonConverter.SimpleJson/JsonConverter.SimpleJson.csproj` | `tests/SimpleJson.Tests/SimpleJson.Tests.csproj` | Paper Section 3: `IndexOutOfRangeException` at the array write `list[i++]` in `PocoJsonSerializerStrategy.DeserializeObject` (recorded with `SHARPER_TRACING=paper`) |
+| `benchmarks/JsonConverter` | `src/JsonConverter.SimpleJson/JsonConverter.SimpleJson.csproj` | `tests/SimpleJson.Tests/SimpleJson.Tests.csproj` | Paper Section 3: `IndexOutOfRangeException` at the array write `list[i++]` in `PocoJsonSerializerStrategy.DeserializeObject` (traced with `SHARPER_TRACING=legacy`) |
 | `benchmarks/ThrottleDebounce` | `ThrottleDebounce/ThrottleDebounce.csproj` | `Tests/Tests.csproj` | Negative control: intentional argument checks, test-fixture exceptions, and documented cancellation must not be patched |
 | `benchmarks/PaperArrayBounds` | `Listing.csproj` | `Listing.Tests/Listing.Tests.csproj` | Runnable `int[]` adaptation of paper Listing 1.1; out-of-bounds writes in both loops |
 
