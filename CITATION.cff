@@ -3,6 +3,8 @@ message: "If you use this artifact, please cite it as below."
 title: "Sharper: Towards an Automated Verified Repair Tool for C# (TACAS 2027 Artifact)"
 type: software
 license: MIT
+doi: "10.5281/zenodo.23674754"
+version: "v1.0.0-tacas27"
 repository-code: "https://github.com/Sharper-Research/Sharper"
 keywords:
   - program repair

@@ -1,5 +1,7 @@
 # Sharper
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23674754.svg)](https://doi.org/10.5281/zenodo.23674754)
+
 Sharper is a C# research prototype for trace-guided fault analysis and repair candidates. It uses Roslyn to inspect C# projects, records runtime traces, detects selected violations, propagates predicates, checks supported safety models with Z3, and validates repair candidates against tests.
 
 ## Quick start
@@ -30,7 +32,7 @@ Both scripts run the full pipeline (trace, detect, analyze and repair) and write
 
 ### Artifact information
 
-- **Artifact source:** <https://github.com/Sharper-Research/Sharper>. Permanent archive: Zenodo (the DOI is listed in OpenReview and in [CITATION.cff](CITATION.cff) / [.zenodo.json](.zenodo.json) metadata on the repository page).
+- **Artifact source:** <https://github.com/Sharper-Research/Sharper>. Permanent archive (Zenodo, release `v1.0.0-tacas27` with the videos): <https://doi.org/10.5281/zenodo.23674754>.
 - **Paper:** *Sharper: Towards an Automated Verified Repair Tool for C#* (TACAS 2027 tool paper). `run_experiments.ps1` reproduces the JsonConverter results of Section 3 (see [Paper claims](#paper-claims-section-3-jsonconverter)). Listing 1.1 is included as a reference, with a runnable array adaptation; the original span semantics are not verified.
 - **Intended badge applications:** Available, Functional, and Reusable (see [Run Sharper on your own repository](#run-sharper-on-your-own-repository)).
 - **Hardware:** x64 (amd64) CPU, 8 GB RAM, about 5 GB free disk space for the Docker image (about 15 GB for the Windows container image). No GPU or special hardware is needed. Internet access is needed to restore pinned NuGet packages (and, for Docker, the base image and Z3).
@@ -48,7 +50,7 @@ The current native and Linux-container checks are described below; do not infer 
 
 ### Video walkthroughs
 
-Silent screen recordings in [`videos/`](videos/) show the evaluation end to end. They are included in the Zenodo archive.
+Silent screen recordings in [`videos/`](videos/) show the evaluation end to end. They are also attached as separate files to the [Zenodo record](https://doi.org/10.5281/zenodo.23674754).
 
 | Video | Length | Route | What it shows |
 |---|---|---|---|
