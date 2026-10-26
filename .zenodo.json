@@ -1,0 +1,54 @@
+{
+  "title": "Sharper: Towards an Automated Verified Repair Tool for C# (TACAS 2027 Artifact)",
+  "upload_type": "software",
+  "description": "<p>Artifact for the TACAS 2027 tool paper <em>Sharper: Towards an Automated Verified Repair Tool for C#</em>.</p><p>Sharper is a C# research prototype for trace-guided fault analysis and repair candidates. It uses Roslyn to inspect C# projects, records runtime traces, detects selected violations, propagates predicates, checks supported safety models with Z3, and validates repair candidates against tests.</p><p>The archive contains the tool source, five benchmarks (including the JsonConverter case study of Section 3), scripts to reproduce the evaluation natively on Windows (<code>setup.ps1</code>, <code>run_quick_test.ps1</code>, <code>run_experiments.ps1</code>) or in Docker (<code>Dockerfile</code>), and screen-recorded walkthroughs of the evaluation in <code>videos/</code>. See <code>README.md</code> for step-by-step instructions.</p>",
+  "creators": [
+    {
+      "name": "Prakash, Jyoti",
+      "affiliation": "SDU Software Engineering, University of Southern Denmark",
+      "orcid": "0000-0002-2974-4308"
+    },
+    {
+      "name": "Moriche, Manish Raj",
+      "affiliation": "Center for Industrial Software, University of Southern Denmark",
+      "orcid": "0009-0000-6766-3712"
+    },
+    {
+      "name": "Abdullah, Sahal",
+      "affiliation": "SDU Software Engineering, University of Southern Denmark"
+    },
+    {
+      "name": "Dafnis, Dimitrios",
+      "affiliation": "SDU Software Engineering, University of Southern Denmark",
+      "orcid": "0009-0002-6926-7320"
+    },
+    {
+      "name": "Alami, Adam",
+      "affiliation": "Center for Industrial Software, University of Southern Denmark",
+      "orcid": "0000-0003-4483-0105"
+    },
+    {
+      "name": "Tiwari, Abhishek",
+      "affiliation": "SDU Software Engineering, University of Southern Denmark",
+      "orcid": "0000-0001-8415-5410"
+    }
+  ],
+  "license": "MIT",
+  "access_right": "open",
+  "keywords": [
+    "program repair",
+    "patch correctness",
+    "C#",
+    "Roslyn",
+    "Z3",
+    "TACAS 2027",
+    "artifact"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/Sharper-Research/Sharper",
+      "relation": "isSupplementTo",
+      "resource_type": "software"
+    }
+  ]
+}

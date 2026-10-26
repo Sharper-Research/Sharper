@@ -1,0 +1,35 @@
+cff-version: 1.2.0
+message: "If you use this artifact, please cite it as below."
+title: "Sharper: Towards an Automated Verified Repair Tool for C# (TACAS 2027 Artifact)"
+type: software
+license: MIT
+repository-code: "https://github.com/Sharper-Research/Sharper"
+keywords:
+  - program repair
+  - patch correctness
+  - C#
+  - TACAS 2027
+authors:
+  - family-names: Prakash
+    given-names: Jyoti
+    affiliation: "SDU Software Engineering, University of Southern Denmark"
+    orcid: "https://orcid.org/0000-0002-2974-4308"
+  - family-names: Moriche
+    given-names: Manish Raj
+    affiliation: "Center for Industrial Software, University of Southern Denmark"
+    orcid: "https://orcid.org/0009-0000-6766-3712"
+  - family-names: Abdullah
+    given-names: Sahal
+    affiliation: "SDU Software Engineering, University of Southern Denmark"
+  - family-names: Dafnis
+    given-names: Dimitrios
+    affiliation: "SDU Software Engineering, University of Southern Denmark"
+    orcid: "https://orcid.org/0009-0002-6926-7320"
+  - family-names: Alami
+    given-names: Adam
+    affiliation: "Center for Industrial Software, University of Southern Denmark"
+    orcid: "https://orcid.org/0000-0003-4483-0105"
+  - family-names: Tiwari
+    given-names: Abhishek
+    affiliation: "SDU Software Engineering, University of Southern Denmark"
+    orcid: "https://orcid.org/0000-0001-8415-5410"

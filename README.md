@@ -30,7 +30,7 @@ Both scripts run the full pipeline (trace, detect, analyze and repair) and write
 
 ### Artifact information
 
-- **Artifact source:** <https://github.com/Sharper-Research/Sharper>. Permanent archive (Zenodo DOI): **TODO-DOI**.
+- **Artifact source:** <https://github.com/Sharper-Research/Sharper>. Permanent archive: Zenodo (the DOI is listed in OpenReview and in [CITATION.cff](CITATION.cff) / [.zenodo.json](.zenodo.json) metadata on the repository page).
 - **Paper:** *Sharper: Towards an Automated Verified Repair Tool for C#* (TACAS 2027 tool paper). `run_experiments.ps1` reproduces the JsonConverter results of Section 3 (see [Paper claims](#paper-claims-section-3-jsonconverter)). Listing 1.1 is included as a reference, with a runnable array adaptation; the original span semantics are not verified.
 - **Intended badge applications:** Available, Functional, and Reusable (see [Run Sharper on your own repository](#run-sharper-on-your-own-repository)).
 - **Hardware:** x64 (amd64) CPU, 8 GB RAM, about 5 GB free disk space for the Docker image (about 15 GB for the Windows container image). No GPU or special hardware is needed. Internet access is needed to restore pinned NuGet packages (and, for Docker, the base image and Z3).
@@ -45,6 +45,16 @@ Tested platforms:
 | Docker (`Dockerfile.windows`, optional) | Windows Server 2022 container on Windows 11 x64 | .NET SDK 10.0, Windows PowerShell 5.1; not re-run for the current revision |
 
 The current native and Linux-container checks are described below; do not infer validation of the corrected Windows-container route from earlier runs. On arm64 hosts (for example Apple silicon) Docker runs the amd64 image under emulation, which is slower; this was not tested.
+
+### Video walkthroughs
+
+Silent screen recordings in [`videos/`](videos/) show the evaluation end to end. They are included in the Zenodo archive.
+
+| Video | Length | Route | What it shows |
+|---|---|---|---|
+| [01-quick-test-native-windows.mp4](videos/01-quick-test-native-windows.mp4) | 1:09 | Native Windows | [Kick the tires](#kick-the-tires-about-2-minutes): `setup.ps1` checks the platform, .NET SDK and Visual C++ runtime, builds `Sharper.sln`, and runs the quick test. It then opens `step1_traces/trace_logs.jsonl`, `step2_constraints/violations.json` (null dereference at `MemberMethodResolver.cs:13`) and the generated patch `MemberMethodResolver.L13.diff`, ending with `QUICK TEST PASSED`. |
+| [02-full-evaluation-docker-linux.mp4](videos/02-full-evaluation-docker-linux.mp4) | 8:13 | Docker (Linux) | [Reproduce the evaluation](#reproduce-the-evaluation): walks through the README and `Dockerfile`, runs `docker build --no-cache -t sharper-artifact .`, then `run_experiments.ps1` inside the container on all five benchmarks. It inspects `summary.csv` and the JsonConverter patch `PocoJsonSerializerStrategy.L102.diff`; the final summary matches the [expected table](#reproduce-the-evaluation) and exits with code 0. |
+| [03-full-evaluation-native-windows-earlier-revision.mp4](videos/03-full-evaluation-native-windows-earlier-revision.mp4) | 6:25 | Native Windows | `run_quick_test.ps1` followed by `run_experiments.ps1`, browsing patches (`MemberMethodResolver`, `Listing.cs`) and traces as each benchmark finishes. **Recorded on an earlier revision, before the JsonConverter benchmark was added**, so its summary lists four benchmarks; the other four rows match the current expected results. |
 
 ### Kick the tires (about 2 minutes)
 
@@ -307,6 +317,8 @@ Optional parameters: `-OutputDir <folder>` to choose the results folder, and `-V
 | `run_quick_test.ps1`, `run_experiments.ps1` | Entry points for artifact evaluation |
 | `Dockerfile` | Linux container image (default Docker route) |
 | `Dockerfile.windows` | Windows container image (optional Docker route) |
+| `videos/` | Screen-recorded [walkthroughs](#video-walkthroughs) of the quick test and the full evaluation |
+| `CITATION.cff`, `.zenodo.json` | Citation and Zenodo archive metadata |
 
 The original paper Listing 1.1 is included as
 [Listing.paper.cs.txt](benchmarks/PaperArrayBounds/Listing.paper.cs.txt), a reference
@@ -345,9 +357,9 @@ Benchmark programs under `benchmarks/` keep their original licenses. For example
 
 ## Project authors and contributors
 
-- Jyoti Prakash
-- Manish Raj Moriche
-- Sahal Abdullah
-- Dimitrios Dafnis
-- Adam Alami
-- Abhishek Tiwari
+- Jyoti Prakash ([ORCID](https://orcid.org/0000-0002-2974-4308)), SDU Software Engineering, University of Southern Denmark
+- Manish Raj Moriche ([ORCID](https://orcid.org/0009-0000-6766-3712)), Center for Industrial Software, University of Southern Denmark
+- Sahal Abdullah, SDU Software Engineering, University of Southern Denmark
+- Dimitrios Dafnis ([ORCID](https://orcid.org/0009-0002-6926-7320)), SDU Software Engineering, University of Southern Denmark
+- Adam Alami ([ORCID](https://orcid.org/0000-0003-4483-0105)), Center for Industrial Software, University of Southern Denmark
+- Abhishek Tiwari ([ORCID](https://orcid.org/0000-0001-8415-5410)), SDU Software Engineering, University of Southern Denmark
